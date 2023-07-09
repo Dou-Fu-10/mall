@@ -1,12 +1,25 @@
 package org.example.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
+import org.example.config.AuthUser;
+import org.example.config.JwtUser;
 import org.example.modules.system.entity.UserEntity;
 import org.example.modules.system.entity.dto.UserDto;
 import org.example.modules.system.mapper.UserMapper;
+import org.example.modules.system.service.AdminLoginLogService;
 import org.example.modules.system.service.UserService;
+import org.example.security.utils.JwtTokenUtil;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -19,7 +32,16 @@ import java.util.Objects;
  * @Description 后台用户表(User)表服务实现类
  */
 @Service("userService")
+@Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> implements UserService {
+    @Resource
+    private PasswordEncoder passwordEncoder;
+    @Resource
+    private JwtTokenUtil jwtTokenUtil;
+    @Resource
+    private AuthenticationManager authenticationManager;
+    @Resource
+    private AdminLoginLogService adminLoginLogService;
 
     @Override
     public UserEntity getByEmail(String email) {
@@ -27,8 +49,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public String login(String username, String password) {
-        return null;
+    public String login(AuthUser authUser, HttpServletRequest request) {
+        String token = null;
+        //密码需要客户端加密后传递
+        try {
+            // 调用 UserDetailsServiceImpl 获取身份信息
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(authUser.getUsername(), authUser.getPassword());
+            // 对身份进行验证
+            Authentication authentication = authenticationManager.authenticate(authenticationToken);
+            // 判断是否认证通过
+            if (Objects.isNull(authentication)) {
+                throw new BaseRequestException("用户名或者密码错误");
+            }
+            // 放入 SecurityContextHolder
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            // 获取到用户信息
+            final JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+            token = jwtTokenUtil.generateToken(jwtUser);
+            // 记录登录 信息
+            adminLoginLogService.insertLoginLog(authUser.getUsername(), request);
+        } catch (AuthenticationException e) {
+            log.warn("登录异常:{}", e.getMessage());
+        }
+        return token;
     }
 
     @Override

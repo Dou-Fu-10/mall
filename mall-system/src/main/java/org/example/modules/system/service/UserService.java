@@ -1,6 +1,8 @@
 package org.example.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.servlet.http.HttpServletRequest;
+import org.example.config.AuthUser;
 import org.example.modules.system.entity.UserEntity;
 import org.example.modules.system.entity.dto.UserDto;
 
@@ -49,9 +51,10 @@ public interface UserService extends IService<UserEntity> {
     /**
      * 用户登录
      *
-     * @param username 用户名
-     * @param password 密码
+     * @param authUser 用户信息
+     * @param request  Http Servlet请求
      * @return token
      */
-    String login(String username, String password);
+    String login(AuthUser authUser, HttpServletRequest request);
+
 }

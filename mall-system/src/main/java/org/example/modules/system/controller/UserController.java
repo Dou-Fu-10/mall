@@ -3,12 +3,14 @@ package org.example.modules.system.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.common.redis.service.RedisService;
+import org.example.config.AuthUser;
 import org.example.modules.system.entity.UserEntity;
-import org.example.modules.system.entity.dto.AuthUserDto;
 import org.example.modules.system.entity.dto.UserDto;
 import org.example.modules.system.entity.vo.UserVo;
 import org.example.modules.system.service.UserService;
@@ -115,12 +117,18 @@ public class UserController {
     /**
      * 登录以后返回token
      *
-     * @param resources 登录用户
+     * @param authUser 登录用户
+     * @param request  Http Servlet请求
      * @return token
      */
+    @Operation(
+            summary = "Get user by ID",
+            description = "Retrieve user information by their ID"
+    )
     @PostMapping(value = "/login")
-    public ResponseEntity<Map<String, String>> login(@Validated @RequestBody AuthUserDto resources) {
-        String token = userService.login(resources.getUsername(), resources.getPassword());
+    public ResponseEntity<Map<String, String>> login(@Validated @RequestBody AuthUser authUser, HttpServletRequest request) {
+        // 获取 token
+        String token = userService.login(authUser, request);
         if (token == null) {
             throw new BaseRequestException("用户名或密码错误");
         }

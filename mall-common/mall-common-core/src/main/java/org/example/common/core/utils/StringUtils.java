@@ -154,6 +154,9 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         return null;
     }
 
+    /**
+     * 获取浏览器信息
+     */
     public static String getBrowser(HttpServletRequest request) {
         UserAgent ua = UserAgentUtil.parse(request.getHeader("User-Agent"));
         String browser = ua.getBrowser().toString() + " " + ua.getVersion();

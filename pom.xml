@@ -42,6 +42,7 @@
         <redisson.version>3.21.3</redisson.version>
         <lock4j.version>2.2.4</lock4j.version>
         <openapi.version>2.0.4</openapi.version>
+        <jjwt.version>0.9.1</jjwt.version>
     </properties>
 
     <dependencies>
@@ -149,6 +150,12 @@
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
                 <version>${openapi.version}</version>
+            </dependency>
+            <!--JWT(Json Web Token)登录支持-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

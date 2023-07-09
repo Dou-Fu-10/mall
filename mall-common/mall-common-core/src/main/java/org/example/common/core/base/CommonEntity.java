@@ -42,4 +42,5 @@ public abstract class CommonEntity<T extends Model<?>> extends Model<T> implemen
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
+
 }
