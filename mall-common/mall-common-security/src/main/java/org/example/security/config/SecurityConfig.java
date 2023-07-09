@@ -38,10 +38,11 @@ import java.util.*;
 @EnableGlobalAuthentication
 public class SecurityConfig {
 
-//    private final CorsFilter corsFilter;
+    //    private final CorsFilter corsFilter;
     private final JwtAuthenticationEntryPoint authenticationErrorHandler;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final ApplicationContext applicationContext;
+
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

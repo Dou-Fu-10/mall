@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisService {
     private static final Logger log = LoggerFactory.getLogger(RedisService.class);
     private final RedisTemplate<Object, Object> redisTemplate;
+
     public RedisService(RedisTemplate<Object, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }

@@ -33,6 +33,7 @@ public class MallAdminApplication {
     public SpringContextHolder springContextHolder() {
         return new SpringContextHolder();
     }
+
     /**
      * 访问首页提示
      *

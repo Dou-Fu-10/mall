@@ -13,13 +13,11 @@ import org.example.modules.system.entity.dto.UserDto;
 import org.example.modules.system.entity.vo.UserVo;
 import org.example.modules.system.service.UserService;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.cache.annotation.CacheKey;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +41,7 @@ public class UserController {
     private UserService userService;
     @Resource
     private RedisService redisService;
+
     /**
      * 分页查询所有数据
      *
@@ -52,7 +51,7 @@ public class UserController {
      */
     @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<UserEntity> page, UserEntity user) {
-        redisService.set("111",12241241);
+        redisService.set("111", 12241241);
         redisService.get("111");
         return new ResponseEntity<>(this.userService.page(page, new QueryWrapper<>(user)), HttpStatus.OK);
     }
