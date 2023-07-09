@@ -5,6 +5,8 @@ spring:
     name: mall-admin
   profiles:
     active: dev #默认为开发环境
+  cache:
+    type: redis
   servlet:
     multipart:
       enabled: true #开启文件上传
