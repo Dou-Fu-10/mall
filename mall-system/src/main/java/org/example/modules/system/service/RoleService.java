@@ -1,7 +1,12 @@
 package org.example.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.config.Authority;
 import org.example.modules.system.entity.RoleEntity;
+import org.example.modules.system.entity.UserEntity;
+import org.springframework.cache.annotation.Cacheable;
+
+import java.util.List;
 
 
 /**
@@ -13,4 +18,10 @@ import org.example.modules.system.entity.RoleEntity;
  */
 public interface RoleService extends IService<RoleEntity> {
 
+    /**
+     * 获取用户权限信息
+     * @param user
+     * @return
+     */
+    List<Authority> mapToGrantedAuthorities(UserEntity user);
 }

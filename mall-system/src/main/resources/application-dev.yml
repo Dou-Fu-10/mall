@@ -56,7 +56,14 @@ spring:
           config:
             multi-statement-allow: true
 
-
+# 登录相关配置
+login:
+  #  是否限制单用户登录
+  single-login: false
+  # Redis用户登录缓存配置
+  user-cache:
+    # 存活时间/秒
+    idle-time: 21600
 
 mybatis-plus:
   configuration:

@@ -59,7 +59,7 @@ public class UserEntity extends CommonEntity<UserEntity> implements Serializable
      * 是否为admin账号
      */
     @Schema(name = "isAdmin", description = "是否为admin账号")
-    private Integer isAdmin;
+    private Boolean isAdmin;
     /**
      * 邮箱
      */

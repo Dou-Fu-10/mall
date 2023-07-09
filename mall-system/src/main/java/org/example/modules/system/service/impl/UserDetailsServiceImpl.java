@@ -47,7 +47,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 // 将权限信息放入 jwtUserDto 中
                 jwtUser = new JwtUser(
                         user,
-                        dataService.getDeptIds(user),
+//                        dataService.getDeptIds(user),
                         roleService.mapToGrantedAuthorities(user)
                 );
                 // 添加缓存数据

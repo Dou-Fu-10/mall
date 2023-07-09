@@ -3,6 +3,7 @@ package org.example.config;
 import com.alibaba.fastjson2.annotation.JSONField;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.example.modules.system.entity.UserEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class JwtUser implements UserDetails {
 
     private final UserEntity user;
 
-    private final List<Long> dataScopes;
+//    private final List<Long> dataScopes;
 
     private final List<Authority> authorities;
 
