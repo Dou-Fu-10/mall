@@ -195,15 +195,7 @@ public class SecurityConfig {
                             "/webSocket/**"
                     ).permitAll()
                     // swagger 文档
-                    .requestMatchers("/swagger-ui.html").permitAll()
-                    .requestMatchers("/swagger-resources/**").permitAll()
-                    .requestMatchers("/webjars/**").permitAll()
-                    .requestMatchers("/*/api-docs").permitAll()
-                    // 文件
-                    .requestMatchers("/avatar/**").permitAll()
-                    .requestMatchers("/file/**").permitAll()
-                    // 阿里巴巴 druid
-                    .requestMatchers("/druid/**").permitAll()
+                    .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                     // 放行OPTIONS请求
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     // 自定义匿名访问所有url放行：允许匿名和带Token访问，细腻化到每个 Request 类型
@@ -213,8 +205,6 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, anonymousUrls.get(RequestMethodEnum.POST.getType()).toArray(new String[0])).permitAll()
                     // PUT
                     .requestMatchers(HttpMethod.PUT, anonymousUrls.get(RequestMethodEnum.PUT.getType()).toArray(new String[0])).permitAll()
-                    // PATCH
-                    .requestMatchers(HttpMethod.PATCH, anonymousUrls.get(RequestMethodEnum.PATCH.getType()).toArray(new String[0])).permitAll()
                     // DELETE
                     .requestMatchers(HttpMethod.DELETE, anonymousUrls.get(RequestMethodEnum.DELETE.getType()).toArray(new String[0])).permitAll()
                     // 所有类型的接口都放行
