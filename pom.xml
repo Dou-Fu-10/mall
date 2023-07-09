@@ -41,6 +41,7 @@
         <xercesImpl.version>2.12.2</xercesImpl.version>
         <redisson.version>3.21.3</redisson.version>
         <lock4j.version>2.2.4</lock4j.version>
+        <openapi.version>2.0.4</openapi.version>
     </properties>
 
     <dependencies>
@@ -143,6 +144,11 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>lock4j-redisson-spring-boot-starter</artifactId>
                 <version>${lock4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${openapi.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

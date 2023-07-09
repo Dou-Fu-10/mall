@@ -50,7 +50,8 @@ public class UserController {
      */
     @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<UserEntity> page, UserEntity user) {
-        redisService.set("111",111);
+        redisService.set("111",12241241);
+        redisService.get("111");
         return new ResponseEntity<>(this.userService.page(page, new QueryWrapper<>(user)), HttpStatus.OK);
     }
 
