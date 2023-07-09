@@ -20,6 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
@@ -36,11 +38,22 @@ import java.util.*;
 @EnableGlobalAuthentication
 public class SecurityConfig {
 
-    private final CorsFilter corsFilter;
+//    private final CorsFilter corsFilter;
     private final JwtAuthenticationEntryPoint authenticationErrorHandler;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final ApplicationContext applicationContext;
-
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        // 配置 CorsConfiguration 对象
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(Collections.singletonList("*"));
+        config.setAllowedMethods(Collections.singletonList("*"));
+        config.setAllowedHeaders(Collections.singletonList("*"));
+        config.setAllowCredentials(true);
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -53,8 +66,8 @@ public class SecurityConfig {
         httpSecurity
                 // 禁用 CSRF
                 .csrf(csrfCustomizer())
-                // 添加过滤器
-                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+                // CorsFilter 就会被添加到 Spring Security 过滤器链中，并在 UsernamePasswordAuthenticationFilter 之前执行。
+                .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
                 // 异常处理定制器
                 .exceptionHandling(exceptionHandlingCustomizer())
                 // 防止 iframe 造成跨域

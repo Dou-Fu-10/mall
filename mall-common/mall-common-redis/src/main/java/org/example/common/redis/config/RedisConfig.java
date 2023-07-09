@@ -21,7 +21,7 @@ import java.util.Map;
 
 /**
  * @author PanShiFu
- * @date 2023-07-07
+ * @date 2023-07-08
  * @Description redis配置
  */
 @Configuration

@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
+import org.example.common.redis.service.RedisService;
 import org.example.modules.system.entity.UserEntity;
 import org.example.modules.system.entity.dto.AuthUserDto;
 import org.example.modules.system.entity.dto.UserDto;
 import org.example.modules.system.entity.vo.UserVo;
 import org.example.modules.system.service.UserService;
+import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -37,7 +39,8 @@ public class UserController {
      */
     @Resource
     private UserService userService;
-
+    @Resource
+    private RedisService redisService;
     /**
      * 分页查询所有数据
      *
@@ -45,8 +48,9 @@ public class UserController {
      * @param user 查询实体
      * @return 所有数据
      */
-    @GetMapping
+    @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<UserEntity> page, UserEntity user) {
+        redisService.set("111",111);
         return new ResponseEntity<>(this.userService.page(page, new QueryWrapper<>(user)), HttpStatus.OK);
     }
 

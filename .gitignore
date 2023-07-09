@@ -1,0 +1,36 @@
+# 常规忽略
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDE 文件
+    .classpath
+    .project
+    .settings/
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# 依赖目录
+/mvn
+target/
+# 测试报告
+/test-output/
+
+# 日志文件
+/logs/
+
+# 已经构建的 JAR 文件
+*.jar
+
+# 已经构建的 WAR 文件
+*.war
+
+# 忽略已生成的应用程序
+/application-*.properties
+
+# IDE 工作目录
+    .vscode/
+
+# IDE 工作目录（IntelliJ IDEA）
+/.idea/
