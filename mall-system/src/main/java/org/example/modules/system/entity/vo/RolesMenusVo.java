@@ -17,6 +17,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RolesMenusVo {
     /**
+     * ID
+     */
+    private Long id;
+    /**
      * 菜单ID
      */
     private Long menuId;

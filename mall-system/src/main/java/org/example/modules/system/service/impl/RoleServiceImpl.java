@@ -9,6 +9,7 @@ import org.example.modules.system.entity.RoleEntity;
 import org.example.modules.system.entity.UserEntity;
 import org.example.modules.system.mapper.RoleMapper;
 import org.example.modules.system.service.RoleService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +32,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     private RoleMapper roleMapper;
 
     @Override
-    @Cacheable(key = "'auth:' + #p0.id")
-    public List<Authority> mapToGrantedAuthorities(UserEntity user) {
+    @Cacheable(value = "authorityCache", key = "'auth:' + #p0.id")
+    public List<Authority> mapToGrantedAuthorities(@NotNull UserEntity user) {
         // 获取权限信息
         Set<String> permissions = new HashSet<>();
         // 如果是管理员直接返回

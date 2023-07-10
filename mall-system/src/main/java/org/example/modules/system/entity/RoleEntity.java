@@ -1,5 +1,6 @@
 package org.example.modules.system.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Created by PanShiFu 2023-07-09 18:50:38
@@ -28,6 +30,14 @@ public class RoleEntity extends CommonEntity<RoleEntity> implements Serializable
      */
     @TableId
     private Long id;
+
+    @TableField(exist = false)
+    @Schema(name = "users", description = "用户", hidden = true)
+    private Set<UserEntity> users;
+
+    @TableField(exist = false)
+    @Schema(name = "menus", description = "菜单", hidden = true)
+    private Set<MenuEntity> menus;
 
     /**
      * 名称

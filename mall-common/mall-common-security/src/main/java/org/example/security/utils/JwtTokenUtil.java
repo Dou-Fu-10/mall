@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,6 +49,7 @@ public class JwtTokenUtil {
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
+
 
     /**
      * 从token中获取JWT中的负载

@@ -14,8 +14,8 @@ import org.example.modules.system.mapper.UserMapper;
 import org.example.modules.system.service.AdminLoginLogService;
 import org.example.modules.system.service.UserService;
 import org.example.security.utils.JwtTokenUtil;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,7 +39,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     @Resource
     private JwtTokenUtil jwtTokenUtil;
     @Resource
-    private AuthenticationManager authenticationManager;
+    private AuthenticationManagerBuilder authenticationManagerBuilder;
     @Resource
     private AdminLoginLogService adminLoginLogService;
 
@@ -57,7 +57,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(authUser.getUsername(), authUser.getPassword());
             // 对身份进行验证
-            Authentication authentication = authenticationManager.authenticate(authenticationToken);
+            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
             // 判断是否认证通过
             if (Objects.isNull(authentication)) {
                 throw new BaseRequestException("用户名或者密码错误");

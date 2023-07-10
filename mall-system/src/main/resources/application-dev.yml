@@ -81,4 +81,4 @@ minio:
   # 最大上传文件
   maxSize: 20485760
   # 图片大小限制
-  imagesMaxSize: 10485760
+  imagesMaxSize: 10485760 

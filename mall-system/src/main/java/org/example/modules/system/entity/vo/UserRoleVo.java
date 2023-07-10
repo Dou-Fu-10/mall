@@ -1,13 +1,9 @@
 package org.example.modules.system.entity.vo;
 
 
-import java.io.Serializable;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
  * Created by PanShiFu 2023-07-09 19:57:26
@@ -20,6 +16,10 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRoleVo {
+    /**
+     * ID
+     */
+    private Long id;
     /**
      * 用户ID
      */

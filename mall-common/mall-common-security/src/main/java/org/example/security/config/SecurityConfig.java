@@ -5,6 +5,7 @@ import org.example.security.annotaion.AnonymousAccess;
 import org.example.security.enums.RequestMethodEnum;
 import org.example.security.security.JwtAccessDeniedHandler;
 import org.example.security.security.JwtAuthenticationEntryPoint;
+import org.example.security.utils.JwtTokenUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,6 +43,12 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint authenticationErrorHandler;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final ApplicationContext applicationContext;
+
+    @Bean
+    public JwtTokenUtil jwtTokenUtil() {
+        return new JwtTokenUtil();
+    }
+
 
     @Bean
     public CorsFilter corsFilter() {

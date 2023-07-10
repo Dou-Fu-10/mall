@@ -1,10 +1,10 @@
 package org.example.modules.system.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
 
@@ -18,6 +18,7 @@ import java.util.Date;
  * @date 2023-07-09 18:50:38
  * @Description 后台用户登录日志表(AdminLoginLog)表实体类
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -63,6 +64,21 @@ public class AdminLoginLogEntity extends CommonEntity<AdminLoginLogEntity> imple
      */
     @Schema(name = "userAgent", description = "浏览器登录类型")
     private String userAgent;
+
+    @TableField(exist = false)
+    private String createBy;
+    /**
+     * 更新人
+     * 创建、更新
+     */
+    @TableField(exist = false)
+    private String updateBy;
+    /**
+     * 更新时间
+     * 创建、更新
+     */
+    @TableField(exist = false)
+    private Date updateTime;
 
 
 }

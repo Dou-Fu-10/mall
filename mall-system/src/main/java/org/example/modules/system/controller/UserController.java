@@ -15,6 +15,7 @@ import org.example.modules.system.entity.dto.UserDto;
 import org.example.modules.system.entity.vo.UserVo;
 import org.example.modules.system.service.UserService;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
+import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -125,7 +126,7 @@ public class UserController {
             summary = "Get user by ID",
             description = "Retrieve user information by their ID"
     )
-    @PostMapping(value = "/login")
+    @AnonymousPostMapping(value = "/login")
     public ResponseEntity<Map<String, String>> login(@Validated @RequestBody AuthUser authUser, HttpServletRequest request) {
         // 获取 token
         String token = userService.login(authUser, request);

@@ -26,7 +26,6 @@ import java.util.Objects;
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserService userService;
     private final RoleService roleService;
-    private final DataService dataService;
     private final UserCacheManager userCacheManager;
 
     @Override

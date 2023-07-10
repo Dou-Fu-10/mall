@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
 
@@ -18,6 +19,7 @@ import java.util.Date;
  * @date 2023-07-09 18:50:38
  * @Description 后台用户表(User)表实体类
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
