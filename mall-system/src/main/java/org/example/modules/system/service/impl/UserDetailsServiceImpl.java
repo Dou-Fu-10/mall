@@ -29,7 +29,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final RoleService roleService;
 
     @Override
-//    @Cacheable(value = "user", key = "'info:' + #username")
     public JwtUser loadUserByUsername(String username) {
         // 根据用户名获取用户信息
         UserEntity user = userService.getByUsername(username);
@@ -43,7 +42,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         // 将权限信息放入 jwtUserDto 中
         return new JwtUser(
                 user,
-//              dataService.getDeptIds(user),
                 // 权限信息
                 roleService.mapToGrantedAuthorities(user)
         );

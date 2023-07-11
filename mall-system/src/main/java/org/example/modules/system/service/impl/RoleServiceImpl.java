@@ -33,21 +33,17 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     private RoleMapper roleMapper;
 
     @Override
-//    @Cacheable(value = "authorityCache", key = "'auth:' + #p0.id")
     public List<Authority> mapToGrantedAuthorities(@NotNull UserEntity user) {
         // 获取权限信息
         Set<String> permissions = new HashSet<>();
-        // 如果是管理员直接返回
+        // 如果是超级管理员直接返回
         if (user.getIsAdmin()) {
             permissions.add("admin");
             return permissions.stream().map(Authority::new)
                     .collect(Collectors.toList());
         }
-        List<RoleEntity> roles = roleMapper.findByUserId(user.getId());
-        permissions = roles.stream().flatMap(role -> role.getMenus().stream())
-                .map(MenuEntity::getPermission)
-                .filter(StringUtils::isNotBlank).collect(Collectors.toSet());
-
+        // 根据用户Id查找权限
+        permissions = roleMapper.findPermissionByUserId(user.getId());
         return permissions.stream().map(Authority::new)
                 .collect(Collectors.toList());
     }

@@ -2,6 +2,7 @@ package org.example.modules.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,6 +41,7 @@ public class UserEntity extends CommonEntity<UserEntity> implements Serializable
     /**
      * 密码
      */
+    @JsonIgnore
     @Schema(name = "password", description = "密码")
     private String password;
     /**
@@ -96,6 +98,7 @@ public class UserEntity extends CommonEntity<UserEntity> implements Serializable
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
+    @JsonIgnore
     @Schema(name = "deleteFlag", description = "逻辑删除（1 代表已删除），（0 代表未删除）")
     private Integer deleteFlag;
 

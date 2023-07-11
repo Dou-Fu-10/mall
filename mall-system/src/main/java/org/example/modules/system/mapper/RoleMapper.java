@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.example.modules.system.entity.RoleEntity;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by PanShiFu 2023-07-09 18:34:52
@@ -20,27 +20,28 @@ public interface RoleMapper extends BaseMapper<RoleEntity> {
 
 
     /**
-     * 首先，从ums_role表中选择所有列，并将其别名为role。
-     * 再使用左连接将ums_role表与ums_roles_menus表连接。连接条件是ums_role.id = ums_roles_menus.role_id。
-     * 然后，再次使用左连接将连接结果与ums_menu表连接。连接条件是ums_menu.id = ums_roles_menus.menu_id。
-     * 最后，使用左连接将连接结果与ums_users_roles表连接。连接条件是ums_role.id = ums_users_roles.role_id。
-     * 在连接过后，使用WHERE子句来过滤结果，条件是ums_role.id = ums_users_roles.role_id AND ums_users_roles.user_id = 1。这意味着只返回角色ID与用户ID为1的关联记录。
+     * 首先，在ums_users_roles和ums_role表之间进行内连接（INNER JOIN）。连接条件是ums_users_roles表的role_id与ums_role表的id匹配，并且ums_role表的delete_flag字段为0且enabled字段为1。
+     * 然后，在ums_role表和ums_roles_menus表之间进行内连接。连接条件是ums_role表的id与ums_roles_menus表的role_id匹配。
+     * 最后，在ums_roles_menus表和ums_menu表之间进行内连接。连接条件是ums_roles_menus表的menu_id与ums_menu表的id匹配，并且ums_menu表的delete_flag字段为0。
+     * 最终，使用WHERE子句筛选出ums_users_roles表中user_id为1的记录。
      *
      * @param id 用户id
-     * @return 用户权限信息
+     * @return 根据用户Id查找权限
      */
     @Select("SELECT" +
-            "  *  " +
-            "FROM" +
-            "  `ums_role` role" +
-            "  LEFT JOIN `ums_roles_menus` urm" +
-            "    ON role.`id` = urm.`role_id`" +
-            "  LEFT JOIN `ums_menu` menu" +
-            "    ON menu.`id` = urm.`menu_id`" +
-            "  LEFT JOIN `ums_users_roles` uur" +
-            "    ON role.`id` = uur.`role_id`" +
-            "WHERE role.`id` = uur.`role_id`" +
-            "  AND uur.`user_id` = #{userId}")
-    List<RoleEntity> findByUserId(@Param("userId") Long id);
+            "  menu.permission" +
+            " FROM " +
+            "  ums_users_roles uur" +
+            "  INNER JOIN ums_role ur" +
+            "    ON uur.role_id = ur.id" +
+            "    AND ur.delete_flag = 0" +
+            "    AND ur.enabled = 1" +
+            "  INNER JOIN ums_roles_menus urm" +
+            "    ON ur.id = urm.role_id" +
+            "  INNER JOIN ums_menu menu" +
+            "    ON urm.menu_id = menu.id" +
+            "    AND menu.delete_flag = 0" +
+            " WHERE uur.user_id = #{userId}")
+    Set<String> findPermissionByUserId(@Param("userId") Long id);
 }
 

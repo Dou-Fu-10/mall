@@ -69,7 +69,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
             final JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
             // 获取token
             String token = jwtTokenUtil.generateToken(jwtUser);
-            tokenMap.put("user", jwtUser);
             tokenMap.put("token", token);
             // 记录登录 信息
             adminLoginLogService.insertLoginLog(authUser.getUsername(), request);
@@ -86,6 +85,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
     @Override
     public UserEntity getByUsername(String userName) {
+        // TODO 做缓存
         return lambdaQuery().eq(UserEntity::getUsername, userName).one();
     }
 

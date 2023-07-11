@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 public class JwtUser implements UserDetails {
 
     private final UserEntity user;
-
     /**
      * 默认的GrantedAuthority 无法被反序列话所以使用自定义的 Authority
      */
