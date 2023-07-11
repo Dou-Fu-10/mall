@@ -23,9 +23,9 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("ums_user_role")
+@TableName("ums_users_roles")
 @Schema(name = "ums_user_role", description = "用户角色关联(UserRole)表实体类")
-public class UserRoleEntity extends CommonEntity<UserRoleEntity> implements Serializable {
+public class UsersRolesEntity extends CommonEntity<UsersRolesEntity> implements Serializable {
     /**
      * ID
      */

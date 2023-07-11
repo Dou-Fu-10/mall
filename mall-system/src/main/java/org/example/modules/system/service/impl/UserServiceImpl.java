@@ -22,6 +22,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -49,9 +51,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public String login(AuthUser authUser, HttpServletRequest request) {
-        String token = null;
-        //密码需要客户端加密后传递
+    public Map<String, Object> login(AuthUser authUser, HttpServletRequest request) {
+        Map<String, Object> tokenMap = new HashMap<>(2);
         try {
             // 调用 UserDetailsServiceImpl 获取身份信息
             UsernamePasswordAuthenticationToken authenticationToken =
@@ -62,17 +63,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
             if (Objects.isNull(authentication)) {
                 throw new BaseRequestException("用户名或者密码错误");
             }
-            // 放入 SecurityContextHolder
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            // 放入 SecurityContextHolder 以便后续使用
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             // 获取到用户信息
             final JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
-            token = jwtTokenUtil.generateToken(jwtUser);
+            // 获取token
+            String token = jwtTokenUtil.generateToken(jwtUser);
+            tokenMap.put("user", jwtUser);
+            tokenMap.put("token", token);
             // 记录登录 信息
             adminLoginLogService.insertLoginLog(authUser.getUsername(), request);
         } catch (AuthenticationException e) {
             log.warn("登录异常:{}", e.getMessage());
         }
-        return token;
+        return tokenMap;
     }
 
     @Override

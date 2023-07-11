@@ -127,14 +127,9 @@ public class UserController {
             description = "Retrieve user information by their ID"
     )
     @AnonymousPostMapping(value = "/login")
-    public ResponseEntity<Map<String, String>> login(@Validated @RequestBody AuthUser authUser, HttpServletRequest request) {
-        // 获取 token
-        String token = userService.login(authUser, request);
-        if (token == null) {
-            throw new BaseRequestException("用户名或密码错误");
-        }
-        Map<String, String> tokenMap = new HashMap<>(2);
-        tokenMap.put("token", token);
+    public ResponseEntity<Map<String, Object>> login(@Validated @RequestBody AuthUser authUser, HttpServletRequest request) {
+        // 登录
+        Map<String, Object> tokenMap = userService.login(authUser, request);
         return new ResponseEntity<>(tokenMap, HttpStatus.OK);
     }
 }

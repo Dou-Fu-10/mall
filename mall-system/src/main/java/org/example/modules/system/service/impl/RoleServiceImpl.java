@@ -11,6 +11,7 @@ import org.example.modules.system.mapper.RoleMapper;
 import org.example.modules.system.service.RoleService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -32,7 +33,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     private RoleMapper roleMapper;
 
     @Override
-    @Cacheable(value = "authorityCache", key = "'auth:' + #p0.id")
+//    @Cacheable(value = "authorityCache", key = "'auth:' + #p0.id")
     public List<Authority> mapToGrantedAuthorities(@NotNull UserEntity user) {
         // 获取权限信息
         Set<String> permissions = new HashSet<>();
@@ -46,6 +47,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         permissions = roles.stream().flatMap(role -> role.getMenus().stream())
                 .map(MenuEntity::getPermission)
                 .filter(StringUtils::isNotBlank).collect(Collectors.toSet());
+
         return permissions.stream().map(Authority::new)
                 .collect(Collectors.toList());
     }

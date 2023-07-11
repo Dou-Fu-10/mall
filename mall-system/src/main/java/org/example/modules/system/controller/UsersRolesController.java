@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.example.modules.system.entity.UserRoleEntity;
-import org.example.modules.system.service.UserRoleService;
+import org.example.modules.system.entity.UsersRolesEntity;
+import org.example.modules.system.service.UsersRolesService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,12 +23,12 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/userRole")
-public class UserRoleController {
+public class UsersRolesController {
     /**
      * 服务对象
      */
     @Resource
-    private UserRoleService userRoleService;
+    private UsersRolesService usersRolesService;
 
     /**
      * 分页查询所有数据
@@ -38,8 +38,8 @@ public class UserRoleController {
      * @return 所有数据
      */
     @GetMapping
-    public ResponseEntity<Object> selectAll(Page<UserRoleEntity> page, UserRoleEntity userRole) {
-        return new ResponseEntity<>(this.userRoleService.page(page, new QueryWrapper<>(userRole)), HttpStatus.OK);
+    public ResponseEntity<Object> selectAll(Page<UsersRolesEntity> page, UsersRolesEntity userRole) {
+        return new ResponseEntity<>(this.usersRolesService.page(page, new QueryWrapper<>(userRole)), HttpStatus.OK);
     }
 
     /**
@@ -50,7 +50,7 @@ public class UserRoleController {
      */
     @GetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return new ResponseEntity<>(this.userRoleService.getById(id), HttpStatus.OK);
+        return new ResponseEntity<>(this.usersRolesService.getById(id), HttpStatus.OK);
     }
 
     /**
@@ -60,8 +60,8 @@ public class UserRoleController {
      * @return 新增结果
      */
     @PostMapping
-    public ResponseEntity<Object> insert(@RequestBody UserRoleEntity userRole) {
-        return new ResponseEntity<>(this.userRoleService.save(userRole), HttpStatus.OK);
+    public ResponseEntity<Object> insert(@RequestBody UsersRolesEntity userRole) {
+        return new ResponseEntity<>(this.usersRolesService.save(userRole), HttpStatus.OK);
     }
 
     /**
@@ -71,8 +71,8 @@ public class UserRoleController {
      * @return 修改结果
      */
     @PutMapping
-    public ResponseEntity<Object> update(@RequestBody UserRoleEntity userRole) {
-        return new ResponseEntity<>(this.userRoleService.updateById(userRole), HttpStatus.OK);
+    public ResponseEntity<Object> update(@RequestBody UsersRolesEntity userRole) {
+        return new ResponseEntity<>(this.usersRolesService.updateById(userRole), HttpStatus.OK);
     }
 
     /**
@@ -83,7 +83,7 @@ public class UserRoleController {
      */
     @DeleteMapping
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
-        return new ResponseEntity<>(this.userRoleService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() > 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败", HttpStatus.OK);
+        return new ResponseEntity<>(this.usersRolesService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() > 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败", HttpStatus.OK);
     }
 }
 

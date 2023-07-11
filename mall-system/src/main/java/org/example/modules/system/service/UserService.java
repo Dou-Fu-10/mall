@@ -6,6 +6,8 @@ import org.example.config.AuthUser;
 import org.example.modules.system.entity.UserEntity;
 import org.example.modules.system.entity.dto.UserDto;
 
+import java.util.Map;
+
 
 /**
  * Created by PanShiFu 2023-07-07 09:58:02
@@ -55,6 +57,6 @@ public interface UserService extends IService<UserEntity> {
      * @param request  Http Servlet请求
      * @return token
      */
-    String login(AuthUser authUser, HttpServletRequest request);
+    Map<String, Object> login(AuthUser authUser, HttpServletRequest request);
 
 }

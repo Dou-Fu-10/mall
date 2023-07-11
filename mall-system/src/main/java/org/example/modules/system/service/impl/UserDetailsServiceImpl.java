@@ -7,6 +7,7 @@ import org.example.config.JwtUser;
 import org.example.modules.system.entity.UserEntity;
 import org.example.modules.system.service.RoleService;
 import org.example.modules.system.service.UserService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -26,33 +27,25 @@ import java.util.Objects;
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserService userService;
     private final RoleService roleService;
-    private final UserCacheManager userCacheManager;
 
     @Override
+//    @Cacheable(value = "user", key = "'info:' + #username")
     public JwtUser loadUserByUsername(String username) {
-        // 获取缓存
-        JwtUser jwtUser = userCacheManager.getUserCache(username);
-        if (Objects.isNull(jwtUser)) {
-            UserEntity user;
-            // 根据用户名获取用户信息
-            user = userService.getByUsername(username);
-            if (Objects.isNull(user)) {
-                throw new UsernameNotFoundException("");
-            } else {
-                // 判断是否 激活
-                if (!user.getEnabled()) {
-                    throw new BaseRequestException("账号未激活！");
-                }
-                // 将权限信息放入 jwtUserDto 中
-                jwtUser = new JwtUser(
-                        user,
-//                        dataService.getDeptIds(user),
-                        roleService.mapToGrantedAuthorities(user)
-                );
-                // 添加缓存数据
-                userCacheManager.addUserCache(username, jwtUser);
-            }
+        // 根据用户名获取用户信息
+        UserEntity user = userService.getByUsername(username);
+        if (Objects.isNull(user)) {
+            throw new UsernameNotFoundException("");
         }
-        return jwtUser;
+        // 判断账号是否激活
+        if (!user.getEnabled()) {
+            throw new BaseRequestException("账号未激活！");
+        }
+        // 将权限信息放入 jwtUserDto 中
+        return new JwtUser(
+                user,
+//              dataService.getDeptIds(user),
+                // 权限信息
+                roleService.mapToGrantedAuthorities(user)
+        );
     }
 }

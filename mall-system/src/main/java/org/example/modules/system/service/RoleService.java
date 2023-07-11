@@ -20,7 +20,7 @@ public interface RoleService extends IService<RoleEntity> {
     /**
      * 获取用户权限信息
      *
-     * @param user 用户
+     * @param user 用户信息
      * @return 权限信息
      */
     List<Authority> mapToGrantedAuthorities(UserEntity user);
