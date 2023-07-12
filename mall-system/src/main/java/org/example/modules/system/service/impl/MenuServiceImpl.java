@@ -16,5 +16,9 @@ import org.springframework.stereotype.Service;
 @Service("menuService")
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> implements MenuService {
 
+    @Override
+    public boolean updateHidden(Long id, Integer hidden) {
+        return false;
+    }
 }
 

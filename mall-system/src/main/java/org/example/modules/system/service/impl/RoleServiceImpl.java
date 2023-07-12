@@ -2,7 +2,6 @@ package org.example.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import org.example.common.core.utils.StringUtils;
 import org.example.config.Authority;
 import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.entity.RoleEntity;
@@ -10,8 +9,6 @@ import org.example.modules.system.entity.UserEntity;
 import org.example.modules.system.mapper.RoleMapper;
 import org.example.modules.system.service.RoleService;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -46,6 +43,21 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         permissions = roleMapper.findPermissionByUserId(user.getId());
         return permissions.stream().map(Authority::new)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean update(RoleEntity roleEntity) {
+        return false;
+    }
+
+    @Override
+    public List<MenuEntity> listMenu(Long roleId) {
+        return null;
+    }
+
+    @Override
+    public boolean allocMenu(Long roleId, List<Long> menuIds) {
+        return false;
     }
 }
 

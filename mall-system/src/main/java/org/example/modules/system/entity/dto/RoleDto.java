@@ -38,7 +38,7 @@ public class RoleDto {
     /**
      * 启用状态；0->正常：1->禁用
      */
-    private Integer enabled;
+    private Boolean enabled;
     /**
      * 更新时间
      */

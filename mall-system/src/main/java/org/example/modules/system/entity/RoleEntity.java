@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
 
@@ -19,6 +20,7 @@ import java.util.Set;
  * @date 2023-07-09 18:50:38
  * @Description 后台用户角色表(Role)表实体类
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -63,7 +65,7 @@ public class RoleEntity extends CommonEntity<RoleEntity> implements Serializable
      * 启用状态；0->正常：1->禁用
      */
     @Schema(name = "enabled", description = "启用状态；0->正常：1->禁用")
-    private Integer enabled;
+    private Boolean enabled;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */

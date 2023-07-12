@@ -8,7 +8,10 @@ import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.config.AuthUser;
 import org.example.config.JwtUser;
+import org.example.modules.system.entity.MenuEntity;
+import org.example.modules.system.entity.RoleEntity;
 import org.example.modules.system.entity.UserEntity;
+import org.example.modules.system.entity.dto.UpdatePasswordDto;
 import org.example.modules.system.entity.dto.UserDto;
 import org.example.modules.system.mapper.UserMapper;
 import org.example.modules.system.service.AdminLoginLogService;
@@ -23,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -79,6 +83,34 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
+    public Boolean updatePassword(UpdatePasswordDto updatePasswordDto) {
+        return false;
+    }
+
+    @Override
+    public Boolean updateRole(Long userId, List<Long> roleIds) {
+        // TODO 不允许修改上级的或者同级的
+        return false;
+    }
+
+    @Override
+    public List<RoleEntity> getRoleList(Long userId) {
+        return null;
+    }
+
+    @Override
+    public List<MenuEntity> getMenuList(Long id) {
+        return null;
+    }
+
+    @Override
+    public Boolean updateStatus(UserEntity user) {
+        // TODO 不允许修改上级的或者同级的
+        return null;
+    }
+
+
+    @Override
     public UserEntity getByPhone(String phone) {
         return lambdaQuery().eq(UserEntity::getPhone, phone).one();
     }
@@ -90,13 +122,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public UserEntity register(UserDto resources) {
+    public Boolean register(UserDto resources) {
+        // TODO 对数据进行校验
         UserEntity user = getByUsername(resources.getUsername());
         // 用户名是否唯一
         if (Objects.isNull(user)) {
             throw new BaseRequestException("用户名输入错误或用户名已存在");
         }
-        // 优先是否唯一
+        // 邮箱是否唯一
         user = getByEmail(resources.getEmail());
         if (Objects.isNull(user)) {
             throw new BaseRequestException("邮箱输入错误或邮箱已被暂用");
@@ -111,11 +144,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         // 设置初始不可登录
         userEntity.setEnabled(false);
         // 将密码进行加密操作
-        // String encodePassword = passwordEncoder.encode(resources.getPassword());
-        userEntity.setPassword("123456");
-        // 保存到数据量
-        userEntity.insert();
-        return null;
+        String encodePassword = passwordEncoder.encode(resources.getPassword());
+        userEntity.setPassword(encodePassword);
+        // 保存到数据库
+        return userEntity.insert();
     }
 }
 

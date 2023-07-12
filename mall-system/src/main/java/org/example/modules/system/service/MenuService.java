@@ -13,4 +13,12 @@ import org.example.modules.system.entity.MenuEntity;
  */
 public interface MenuService extends IService<MenuEntity> {
 
+    /**
+     * 修改菜单显示状态
+     *
+     * @param id     菜单id
+     * @param hidden 显示状态
+     * @return 是否修改成功
+     */
+    boolean updateHidden(Long id, Integer hidden);
 }
