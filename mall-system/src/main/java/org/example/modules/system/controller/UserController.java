@@ -5,6 +5,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.common.core.exception.BaseRequestException;
@@ -36,6 +37,7 @@ import java.util.stream.Collectors;
  * @date 2023-07-07 09:58:02
  * @Description 后台用户表(User)表控制层
  */
+@Tag(name = "UserController", description = "后台用户表(User)表控制层")
 @RestController
 @RequestMapping("/api/user")
 public class UserController {

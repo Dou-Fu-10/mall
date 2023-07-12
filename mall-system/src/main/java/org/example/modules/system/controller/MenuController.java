@@ -4,6 +4,7 @@ package org.example.modules.system.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.system.entity.MenuEntity;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  * @date 2023-07-09 18:52:13
  * @Description 后台菜单表(Menu)表控制层
  */
+@Tag(name = "MenuController", description = "后台菜单表(Menu)表控制层")
 @RestController
 @RequestMapping("/api/menu")
 public class MenuController {

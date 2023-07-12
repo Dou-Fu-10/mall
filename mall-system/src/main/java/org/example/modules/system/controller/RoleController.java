@@ -4,6 +4,7 @@ package org.example.modules.system.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
  * @date 2023-07-09 18:15:18
  * @Description 后台用户角色表(Role)表控制层
  */
+@Tag(name = "RoleController", description = "后台用户角色表(Role)表控制层")
 @RestController
 @RequestMapping("/api/role")
 public class RoleController {
