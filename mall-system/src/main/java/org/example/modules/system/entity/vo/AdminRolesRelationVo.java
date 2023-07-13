@@ -6,24 +6,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Created by PanShiFu 2023-07-09 18:52:14
+ * Created by PanShiFu 2023-07-09 19:57:26
  *
  * @author PanShiFu
- * @date 2023-07-09 18:52:14
- * @Description 角色菜单关联(RolesMenus)表实体类
+ * @date 2023-07-09 19:57:26
+ * @Description 用户角色关联(AdminRolesRelation)表实体类
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RolesMenusVo {
+public class AdminRolesRelationVo {
     /**
      * ID
      */
     private Long id;
     /**
-     * 菜单ID
+     * 用户ID
      */
-    private Long menuId;
+    private Long adminId;
     /**
      * 角色ID
      */

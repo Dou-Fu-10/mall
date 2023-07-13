@@ -13,28 +13,28 @@ import org.example.common.core.base.CommonEntity;
 import java.io.Serializable;
 
 /**
- * Created by PanShiFu 2023-07-09 18:52:14
+ * Created by PanShiFu 2023-07-09 19:57:25
  *
  * @author PanShiFu
- * @date 2023-07-09 18:52:14
- * @Description 角色菜单关联(RolesMenus)表实体类
+ * @date 2023-07-09 19:57:25
+ * @Description 用户角色关联(AdminRolesRelation)表实体类
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("ums_roles_menus")
-@Schema(name = "ums_roles_menus", description = "角色菜单关联(RolesMenus)表实体类")
-public class RolesMenusEntity extends CommonEntity<RolesMenusEntity> implements Serializable {
+@TableName("ums_admins_roles_relation")
+@Schema(name = "ums_admins_roles_relation", description = "用户角色关联(AdminRolesRelation)表实体类")
+public class AdminRolesRelationEntity extends CommonEntity<AdminRolesRelationEntity> implements Serializable {
     /**
      * ID
      */
     @TableId
     private Long id;
     /**
-     * 菜单ID
+     * 用户ID
      */
-    private Long menuId;
+    private Long adminId;
     /**
      * 角色ID
      */

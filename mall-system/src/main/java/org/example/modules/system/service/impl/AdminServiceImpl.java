@@ -10,12 +10,12 @@ import org.example.config.AuthUser;
 import org.example.config.JwtUser;
 import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.entity.RoleEntity;
-import org.example.modules.system.entity.UserEntity;
-import org.example.modules.system.entity.dto.UpdatePasswordDto;
-import org.example.modules.system.entity.dto.UserDto;
-import org.example.modules.system.mapper.UserMapper;
+import org.example.modules.system.entity.AdminEntity;
+import org.example.config.UpdatePassword;
+import org.example.modules.system.entity.dto.AdminDto;
+import org.example.modules.system.mapper.AdminMapper;
 import org.example.modules.system.service.AdminLoginLogService;
-import org.example.modules.system.service.UserService;
+import org.example.modules.system.service.AdminService;
 import org.example.security.utils.JwtTokenUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -37,9 +37,9 @@ import java.util.Objects;
  * @date 2023-07-07 09:58:02
  * @Description 后台用户表(User)表服务实现类
  */
-@Service("userService")
+@Service("adminService")
 @Slf4j
-public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> implements UserService {
+public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> implements AdminService {
     @Resource
     private PasswordEncoder passwordEncoder;
     @Resource
@@ -50,8 +50,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     private AdminLoginLogService adminLoginLogService;
 
     @Override
-    public UserEntity getByEmail(String email) {
-        return lambdaQuery().eq(UserEntity::getEmail, email).one();
+    public AdminEntity getByEmail(String email) {
+        return lambdaQuery().eq(AdminEntity::getEmail, email).one();
     }
 
     @Override
@@ -83,7 +83,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public Boolean updatePassword(UpdatePasswordDto updatePasswordDto) {
+    public Boolean updatePassword(UpdatePassword updatePassword) {
         return false;
     }
 
@@ -104,27 +104,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public Boolean updateStatus(UserEntity user) {
+    public Boolean updateStatus(AdminEntity adminEntity) {
         // TODO 不允许修改上级的或者同级的
         return null;
     }
 
 
     @Override
-    public UserEntity getByPhone(String phone) {
-        return lambdaQuery().eq(UserEntity::getPhone, phone).one();
+    public AdminEntity getByPhone(String phone) {
+        return lambdaQuery().eq(AdminEntity::getPhone, phone).one();
     }
 
     @Override
-    public UserEntity getByUsername(String userName) {
+    public AdminEntity getByUsername(String userName) {
         // TODO 做缓存
-        return lambdaQuery().eq(UserEntity::getUsername, userName).one();
+        return lambdaQuery().eq(AdminEntity::getUsername, userName).one();
     }
 
     @Override
-    public Boolean register(UserDto resources) {
+    public Boolean register(AdminDto resources) {
         // TODO 对数据进行校验
-        UserEntity user = getByUsername(resources.getUsername());
+        AdminEntity user = getByUsername(resources.getUsername());
         // 用户名是否唯一
         if (Objects.isNull(user)) {
             throw new BaseRequestException("用户名输入错误或用户名已存在");
@@ -140,14 +140,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
             throw new BaseRequestException("手机号输入错误或手机号已被暂用");
         }
 
-        UserEntity userEntity = BeanCopy.convert(resources, UserEntity.class);
+        AdminEntity adminEntity = BeanCopy.convert(resources, AdminEntity.class);
         // 设置初始不可登录
-        userEntity.setEnabled(false);
+        adminEntity.setEnabled(false);
         // 将密码进行加密操作
         String encodePassword = passwordEncoder.encode(resources.getPassword());
-        userEntity.setPassword(encodePassword);
+        adminEntity.setPassword(encodePassword);
         // 保存到数据库
-        return userEntity.insert();
+        return adminEntity.insert();
     }
 }
 

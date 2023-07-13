@@ -5,9 +5,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.example.config.AuthUser;
 import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.entity.RoleEntity;
-import org.example.modules.system.entity.UserEntity;
-import org.example.modules.system.entity.dto.UpdatePasswordDto;
-import org.example.modules.system.entity.dto.UserDto;
+import org.example.modules.system.entity.AdminEntity;
+import org.example.config.UpdatePassword;
+import org.example.modules.system.entity.dto.AdminDto;
 
 import java.util.List;
 import java.util.Map;
@@ -18,9 +18,9 @@ import java.util.Map;
  *
  * @author PanShiFu
  * @date 2023-07-07 09:58:02
- * @Description 后台用户表(User)表服务接口
+ * @Description 后台用户表(Admin)表服务接口
  */
-public interface UserService extends IService<UserEntity> {
+public interface AdminService extends IService<AdminEntity> {
 
     /**
      * 注册功能
@@ -28,7 +28,7 @@ public interface UserService extends IService<UserEntity> {
      * @param resources 注册用户
      * @return Boolean
      */
-    Boolean register(UserDto resources);
+    Boolean register(AdminDto resources);
 
     /**
      * 通过用户名查询用户信息
@@ -36,7 +36,7 @@ public interface UserService extends IService<UserEntity> {
      * @param userName 用户名
      * @return 用户信息
      */
-    UserEntity getByUsername(String userName);
+    AdminEntity getByUsername(String userName);
 
     /**
      * 通过手机号查询用户信息
@@ -44,7 +44,7 @@ public interface UserService extends IService<UserEntity> {
      * @param phone 手机号
      * @return 用户信息
      */
-    UserEntity getByPhone(String phone);
+    AdminEntity getByPhone(String phone);
 
     /**
      * 通过邮箱查询用户信息
@@ -52,7 +52,7 @@ public interface UserService extends IService<UserEntity> {
      * @param email 邮箱
      * @return 用户信息
      */
-    UserEntity getByEmail(String email);
+    AdminEntity getByEmail(String email);
 
     /**
      * 用户登录
@@ -66,10 +66,10 @@ public interface UserService extends IService<UserEntity> {
     /**
      * 修改密码
      *
-     * @param updatePasswordDto 修改密码信息
+     * @param updatePassword 修改密码信息
      * @return 成功状态
      */
-    Boolean updatePassword(UpdatePasswordDto updatePasswordDto);
+    Boolean updatePassword(UpdatePassword updatePassword);
 
     /**
      * 给用户分配角色
@@ -99,8 +99,8 @@ public interface UserService extends IService<UserEntity> {
     /**
      * 修改帐号状态
      *
-     * @param user 信息
+     * @param adminEntity 信息
      * @return boolean
      */
-    Boolean updateStatus(UserEntity user);
+    Boolean updateStatus(AdminEntity adminEntity);
 }

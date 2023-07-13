@@ -5,7 +5,7 @@ import jakarta.annotation.Resource;
 import org.example.config.Authority;
 import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.entity.RoleEntity;
-import org.example.modules.system.entity.UserEntity;
+import org.example.modules.system.entity.AdminEntity;
 import org.example.modules.system.mapper.RoleMapper;
 import org.example.modules.system.service.RoleService;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +30,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     private RoleMapper roleMapper;
 
     @Override
-    public List<Authority> mapToGrantedAuthorities(@NotNull UserEntity user) {
+    public List<Authority> mapToGrantedAuthorities(@NotNull AdminEntity user) {
         // 获取权限信息
         Set<String> permissions = new HashSet<>();
         // 如果是超级管理员直接返回

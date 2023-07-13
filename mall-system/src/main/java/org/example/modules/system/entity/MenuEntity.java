@@ -87,12 +87,12 @@ public class MenuEntity extends CommonEntity<MenuEntity> implements Serializable
     /**
      * 前端隐藏
      */
-    @Schema(name = "hidden", description = "前端隐藏")
-    private Integer hidden;
+    @Schema(name = "hidden", description = "前端隐藏(0隐藏，1显示)")
+    private Boolean hidden;
     /**
      * 访问权限
      */
-    @Schema(name = "permission", description = "访问权限")
+    @Schema(name = "permission", description = "访问权限标识符")
     private String permission;
     /**
      * 创建时间

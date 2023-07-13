@@ -4,10 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.config.JwtUser;
-import org.example.modules.system.entity.UserEntity;
+import org.example.modules.system.entity.AdminEntity;
 import org.example.modules.system.service.RoleService;
-import org.example.modules.system.service.UserService;
-import org.springframework.cache.annotation.Cacheable;
+import org.example.modules.system.service.AdminService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -25,13 +24,13 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private final UserService userService;
+    private final AdminService adminService;
     private final RoleService roleService;
 
     @Override
     public JwtUser loadUserByUsername(String username) {
         // 根据用户名获取用户信息
-        UserEntity user = userService.getByUsername(username);
+        AdminEntity user = adminService.getByUsername(username);
         if (Objects.isNull(user)) {
             throw new UsernameNotFoundException("");
         }

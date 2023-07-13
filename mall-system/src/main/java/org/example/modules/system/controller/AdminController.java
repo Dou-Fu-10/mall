@@ -11,10 +11,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.config.AuthUser;
 import org.example.modules.system.entity.RoleEntity;
-import org.example.modules.system.entity.UserEntity;
-import org.example.modules.system.entity.dto.UpdatePasswordDto;
-import org.example.modules.system.entity.dto.UserDto;
-import org.example.modules.system.service.UserService;
+import org.example.modules.system.entity.AdminEntity;
+import org.example.config.UpdatePassword;
+import org.example.modules.system.entity.dto.AdminDto;
+import org.example.modules.system.service.AdminService;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.springframework.http.HttpStatus;
@@ -35,23 +35,23 @@ import java.util.stream.Collectors;
  *
  * @author PanShiFu
  * @date 2023-07-07 09:58:02
- * @Description 后台用户表(User)表控制层
+ * @Description 后台用户表(Admin)表控制层
  */
-@Tag(name = "UserController", description = "后台用户表(User)表控制层")
+@Tag(name = "AdminController", description = "后台用户表(Admin)表控制层")
 @RestController
-@RequestMapping("/api/user")
-public class UserController {
+@RequestMapping("/api/admin")
+public class AdminController {
     /**
      * 服务对象
      */
     @Resource
-    private UserService userService;
+    private AdminService adminService;
 
     /**
      * 分页查询所有数据
      *
      * @param page 分页对象
-     * @param user 查询实体
+     * @param admin 查询实体
      * @return 所有数据
      */
     @Operation(
@@ -59,8 +59,8 @@ public class UserController {
             description = "分页获取用户列表"
     )
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<UserEntity> page, UserEntity user) {
-        return new ResponseEntity<>(this.userService.page(page, new QueryWrapper<>(user)), HttpStatus.OK);
+    public ResponseEntity<Object> selectAll(Page<AdminEntity> page, AdminEntity admin) {
+        return new ResponseEntity<>(this.adminService.page(page, new QueryWrapper<>(admin)), HttpStatus.OK);
     }
 
     /**
@@ -72,33 +72,33 @@ public class UserController {
     @Operation(summary = "获取指定用户信息")
     @GetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return new ResponseEntity<>(this.userService.getById(id), HttpStatus.OK);
+        return new ResponseEntity<>(this.adminService.getById(id), HttpStatus.OK);
     }
 
     /**
      * 新增数据
      *
-     * @param user 实体对象
+     * @param admin 实体对象
      * @return 新增结果
      */
     @Operation(summary = "添加用户")
     @PostMapping
-    public ResponseEntity<Object> insert(@RequestBody UserEntity user) {
+    public ResponseEntity<Object> insert(@RequestBody AdminEntity admin) {
         // TODO 对数据进行校验
-        return new ResponseEntity<>(this.userService.save(user), HttpStatus.OK);
+        return new ResponseEntity<>(this.adminService.save(admin), HttpStatus.OK);
     }
 
     /**
      * 修改数据
      *
-     * @param user 实体对象
+     * @param admin 实体对象
      * @return 修改结果
      */
     @Operation(summary = "修改指定用户信息")
     @PutMapping
-    public ResponseEntity<Object> update(@RequestBody UserEntity user) {
+    public ResponseEntity<Object> update(@RequestBody AdminEntity admin) {
         // TODO 对数据进行校验
-        return new ResponseEntity<>(this.userService.updateById(user), HttpStatus.OK);
+        return new ResponseEntity<>(this.adminService.updateById(admin), HttpStatus.OK);
     }
 
     /**
@@ -111,14 +111,14 @@ public class UserController {
     @DeleteMapping
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         // TODO 不允许删除上级的或者同级的
-        return new ResponseEntity<>(this.userService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() > 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败", HttpStatus.OK);
+        return new ResponseEntity<>(this.adminService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() > 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败", HttpStatus.OK);
     }
 
     @Operation(summary = "修改指定用户密码")
     @PostMapping(value = "/updatePassword")
-    public ResponseEntity<Object> updatePassword(@Validated @RequestBody UpdatePasswordDto updatePasswordDto) {
+    public ResponseEntity<Object> updatePassword(@Validated @RequestBody UpdatePassword updatePassword) {
         // TODO 只允许本人或者超级管理员修改 , 同时对数据进行校验
-        if (userService.updatePassword(updatePasswordDto)) {
+        if (adminService.updatePassword(updatePassword)) {
             return ResponseEntity.ok("修改成功");
         }
         throw new BaseRequestException("修改失败");
@@ -135,8 +135,8 @@ public class UserController {
             description = "用户注册"
     )
     @PostMapping(value = "/register")
-    public ResponseEntity<String> register(@Validated @RequestBody UserDto resources) {
-        Boolean register = userService.register(resources);
+    public ResponseEntity<String> register(@Validated @RequestBody AdminDto resources) {
+        Boolean register = adminService.register(resources);
         if (register) {
             return ResponseEntity.ok("注册成功");
 
@@ -157,7 +157,7 @@ public class UserController {
     )
     @AnonymousPostMapping(value = "/login")
     public ResponseEntity<Map<String, Object>> login(@Validated @RequestBody AuthUser authUser, HttpServletRequest request) {
-        Map<String, Object> tokenMap = userService.login(authUser, request);
+        Map<String, Object> tokenMap = adminService.login(authUser, request);
         return ResponseEntity.ok(tokenMap);
     }
 
@@ -172,10 +172,10 @@ public class UserController {
     @AnonymousPostMapping(value = "/updateStatus/{id}")
     @ResponseBody
     public ResponseEntity<String> updateStatus(@PathVariable Long id, @RequestParam(value = "status") boolean status) {
-        UserEntity user = new UserEntity();
-        user.setEnabled(status);
-        user.setId(id);
-        if (userService.updateStatus(user)) {
+        AdminEntity admin = new AdminEntity();
+        admin.setEnabled(status);
+        admin.setId(id);
+        if (adminService.updateStatus(admin)) {
             return ResponseEntity.ok("修改成功");
         }
         throw new BaseRequestException("修改失败");
@@ -184,16 +184,16 @@ public class UserController {
     /**
      * 给用户分配角色
      *
-     * @param userId  用户id
+     * @param adminId  用户id
      * @param roleIds 角色id 列表
      * @return String
      */
     @Operation(summary = "给用户分配角色")
     @AnonymousPostMapping(value = "/role/update")
     @ResponseBody
-    public ResponseEntity<String> updateRole(@RequestParam("userId") Long userId,
+    public ResponseEntity<String> updateRole(@RequestParam("adminId") Long adminId,
                                              @RequestParam("roleIds") List<Long> roleIds) {
-        if (userService.updateRole(userId, roleIds)) {
+        if (adminService.updateRole(adminId, roleIds)) {
             return ResponseEntity.ok("修改成功");
         }
         throw new BaseRequestException("修改失败");
@@ -202,14 +202,14 @@ public class UserController {
     /**
      * 获取指定用户的角色
      *
-     * @param userId 用户id
+     * @param adminId 用户id
      * @return 角色信息
      */
     @Operation(summary = "获取指定用户的角色")
-    @GetMapping(value = "/role/{userId}")
+    @GetMapping(value = "/role/{adminId}")
     @ResponseBody
-    public ResponseEntity<List<RoleEntity>> getRoleList(@PathVariable Long userId) {
-        return ResponseEntity.ok(userService.getRoleList(userId));
+    public ResponseEntity<List<RoleEntity>> getRoleList(@PathVariable Long adminId) {
+        return ResponseEntity.ok(adminService.getRoleList(adminId));
     }
 
 
@@ -221,20 +221,20 @@ public class UserController {
      */
     @Operation(summary = "获取当前登录用户信息", description = "登录后获取登录信息")
     @AnonymousGetMapping(value = "/info")
-    public ResponseEntity<Map<String, Object>> getUserInfo(Principal principal) {
+    public ResponseEntity<Map<String, Object>> getAdminInfo(Principal principal) {
         // TODO 用户登录用户自己
         if (principal == null) {
             throw new BaseRequestException("");
         }
         String username = principal.getName();
-        UserEntity userEntity = userService.getByUsername(username);
+        AdminEntity adminEntity = adminService.getByUsername(username);
         Map<String, Object> data = new HashMap<>(3);
-        data.put("username", userEntity.getUsername());
+        data.put("username", adminEntity.getUsername());
         // 路由信息
-        data.put("menus", userService.getMenuList(userEntity.getId()));
+        data.put("menus", adminService.getMenuList(adminEntity.getId()));
         // 头像
-        data.put("icon", userEntity.getIcon());
-        List<RoleEntity> roleList = userService.getRoleList(userEntity.getId());
+        data.put("icon", adminEntity.getIcon());
+        List<RoleEntity> roleList = adminService.getRoleList(adminEntity.getId());
         if (CollUtil.isNotEmpty(roleList)) {
             List<String> roles = roleList.stream().map(RoleEntity::getName).collect(Collectors.toList());
             data.put("roles", roles);

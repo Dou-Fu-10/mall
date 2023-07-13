@@ -4,8 +4,8 @@ package org.example.modules.system.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.annotation.Resource;
-import org.example.modules.system.entity.RolesMenusEntity;
-import org.example.modules.system.service.RolesMenusService;
+import org.example.modules.system.entity.RolesMenusRelationEntity;
+import org.example.modules.system.service.RolesMenusRelationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +23,12 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/rolesMenus")
-public class RolesMenusController {
+public class RolesMenusRelationController {
     /**
      * 服务对象
      */
     @Resource
-    private RolesMenusService rolesMenusService;
+    private RolesMenusRelationService rolesMenusRelationService;
 
     /**
      * 分页查询所有数据
@@ -38,8 +38,8 @@ public class RolesMenusController {
      * @return 所有数据
      */
     @GetMapping
-    public ResponseEntity<Object> selectAll(Page<RolesMenusEntity> page, RolesMenusEntity rolesMenus) {
-        return new ResponseEntity<>(this.rolesMenusService.page(page, new QueryWrapper<>(rolesMenus)), HttpStatus.OK);
+    public ResponseEntity<Object> selectAll(Page<RolesMenusRelationEntity> page, RolesMenusRelationEntity rolesMenus) {
+        return new ResponseEntity<>(this.rolesMenusRelationService.page(page, new QueryWrapper<>(rolesMenus)), HttpStatus.OK);
     }
 
     /**
@@ -50,7 +50,7 @@ public class RolesMenusController {
      */
     @GetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return new ResponseEntity<>(this.rolesMenusService.getById(id), HttpStatus.OK);
+        return new ResponseEntity<>(this.rolesMenusRelationService.getById(id), HttpStatus.OK);
     }
 
     /**
@@ -60,8 +60,8 @@ public class RolesMenusController {
      * @return 新增结果
      */
     @PostMapping
-    public ResponseEntity<Object> insert(@RequestBody RolesMenusEntity rolesMenus) {
-        return new ResponseEntity<>(this.rolesMenusService.save(rolesMenus), HttpStatus.OK);
+    public ResponseEntity<Object> insert(@RequestBody RolesMenusRelationEntity rolesMenus) {
+        return new ResponseEntity<>(this.rolesMenusRelationService.save(rolesMenus), HttpStatus.OK);
     }
 
     /**
@@ -71,8 +71,8 @@ public class RolesMenusController {
      * @return 修改结果
      */
     @PutMapping
-    public ResponseEntity<Object> update(@RequestBody RolesMenusEntity rolesMenus) {
-        return new ResponseEntity<>(this.rolesMenusService.updateById(rolesMenus), HttpStatus.OK);
+    public ResponseEntity<Object> update(@RequestBody RolesMenusRelationEntity rolesMenus) {
+        return new ResponseEntity<>(this.rolesMenusRelationService.updateById(rolesMenus), HttpStatus.OK);
     }
 
     /**
@@ -83,7 +83,7 @@ public class RolesMenusController {
      */
     @DeleteMapping
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
-        return new ResponseEntity<>(this.rolesMenusService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() > 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败", HttpStatus.OK);
+        return new ResponseEntity<>(this.rolesMenusRelationService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() > 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败", HttpStatus.OK);
     }
 }
 

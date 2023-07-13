@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.config.Authority;
 import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.entity.RoleEntity;
-import org.example.modules.system.entity.UserEntity;
+import org.example.modules.system.entity.AdminEntity;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public interface RoleService extends IService<RoleEntity> {
      * @param user 用户信息
      * @return 权限信息
      */
-    List<Authority> mapToGrantedAuthorities(UserEntity user);
+    List<Authority> mapToGrantedAuthorities(AdminEntity user);
 
     /**
      * 修改角色状态

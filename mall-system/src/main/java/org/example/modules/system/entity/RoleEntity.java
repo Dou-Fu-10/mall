@@ -35,7 +35,7 @@ public class RoleEntity extends CommonEntity<RoleEntity> implements Serializable
 
     @TableField(exist = false)
     @Schema(name = "users", description = "用户", hidden = true)
-    private Set<UserEntity> users;
+    private Set<AdminEntity> users;
 
     @TableField(exist = false)
     @Schema(name = "menus", description = "菜单", hidden = true)

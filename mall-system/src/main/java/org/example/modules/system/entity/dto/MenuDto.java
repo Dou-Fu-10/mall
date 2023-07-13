@@ -66,7 +66,7 @@ public class MenuDto {
     /**
      * 前端隐藏
      */
-    private Integer hidden;
+    private Boolean hidden;
     /**
      * 访问权限
      */

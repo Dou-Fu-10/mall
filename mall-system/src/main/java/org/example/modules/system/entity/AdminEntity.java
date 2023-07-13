@@ -18,15 +18,15 @@ import java.util.Date;
  *
  * @author PanShiFu
  * @date 2023-07-09 18:50:38
- * @Description 后台用户表(User)表实体类
+ * @Description 后台用户表(Admin)表实体类
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("ums_user")
-@Schema(name = "ums_user", description = "后台用户表(User)表实体类")
-public class UserEntity extends CommonEntity<UserEntity> implements Serializable {
+@TableName("ums_admin")
+@Schema(name = "ums_admin", description = "后台用户表(Admin)表实体类")
+public class AdminEntity extends CommonEntity<AdminEntity> implements Serializable {
     /**
      * ID
      */

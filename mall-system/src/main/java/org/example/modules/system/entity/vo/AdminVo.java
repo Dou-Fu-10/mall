@@ -11,12 +11,12 @@ import java.util.Date;
  *
  * @author PanShiFu
  * @date 2023-07-09 18:34:52
- * @Description 后台用户表(User)表实体类
+ * @Description 后台用户表(Admin)表实体类
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserVo {
+public class AdminVo {
     /**
      * ID
      */
