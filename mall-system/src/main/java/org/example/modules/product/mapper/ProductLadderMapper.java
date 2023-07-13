@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.example.modules.product.entity.ProductLadderEntity;
 
 /**
- * Created by PanShiFu 2023-07-13 15:35:56
+ * Created by Dou-Fu-10 2023-07-13 15:35:56
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 15:35:56
  * @Description 产品阶梯价格表(只针对同商品)(ProductLadder)表数据库访问层
  */

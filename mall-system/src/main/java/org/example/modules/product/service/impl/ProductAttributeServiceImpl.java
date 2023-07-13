@@ -7,9 +7,9 @@ import org.example.modules.product.mapper.ProductAttributeMapper;
 import org.example.modules.product.service.ProductAttributeService;
 
 /**
- * Created by PanShiFu 2023-07-13 15:35:53
+ * Created by Dou-Fu-10 2023-07-13 15:35:53
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 15:35:53
  * @Description 商品属性参数表(ProductAttribute)表服务实现类
  */

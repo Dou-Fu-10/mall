@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-07
  * @Description 微服务存储
  */

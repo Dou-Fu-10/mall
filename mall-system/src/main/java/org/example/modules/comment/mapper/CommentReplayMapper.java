@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.example.modules.comment.entity.CommentReplayEntity;
 
 /**
- * Created by PanShiFu 2023-07-13 15:19:46
+ * Created by Dou-Fu-10 2023-07-13 15:19:46
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 15:19:46
  * @Description 产品评价回复表(CommentReplay)表数据库访问层
  */

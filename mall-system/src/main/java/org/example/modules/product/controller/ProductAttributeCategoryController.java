@@ -15,9 +15,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Created by PanShiFu 2023-07-13 15:35:53
+ * Created by Dou-Fu-10 2023-07-13 15:35:53
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 15:35:53
  * @Description 产品属性分类表(ProductAttributeCategory)表控制层
  */

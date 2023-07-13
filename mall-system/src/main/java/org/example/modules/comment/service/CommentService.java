@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 
 /**
- * Created by PanShiFu 2023-07-13 15:19:46
+ * Created by Dou-Fu-10 2023-07-13 15:19:46
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 15:19:46
  * @Description 商品评价表(Comment)表服务接口
  */

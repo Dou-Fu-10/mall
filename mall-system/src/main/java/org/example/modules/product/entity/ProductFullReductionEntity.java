@@ -12,9 +12,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.common.core.base.CommonEntity;
 
 /**
- * Created by PanShiFu 2023-07-13 15:35:55
+ * Created by Dou-Fu-10 2023-07-13 15:35:55
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 15:35:55
  * @Description 产品满减表(只针对同商品)(ProductFullReduction)表实体类
  */

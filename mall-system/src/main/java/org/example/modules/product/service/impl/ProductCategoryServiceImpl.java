@@ -7,9 +7,9 @@ import org.example.modules.product.mapper.ProductCategoryMapper;
 import org.example.modules.product.service.ProductCategoryService;
 
 /**
- * Created by PanShiFu 2023-07-13 15:35:55
+ * Created by Dou-Fu-10 2023-07-13 15:35:55
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 15:35:55
  * @Description 产品分类(ProductCategory)表服务实现类
  */

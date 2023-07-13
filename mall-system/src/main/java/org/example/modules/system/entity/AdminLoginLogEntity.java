@@ -14,9 +14,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by PanShiFu 2023-07-09 18:50:38
+ * Created by Dou-Fu-10 2023-07-09 18:50:38
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-09 18:50:38
  * @Description 后台用户登录日志表(AdminLoginLog)表实体类
  */

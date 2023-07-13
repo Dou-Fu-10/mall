@@ -5,9 +5,9 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 /**
- * Created by PanShiFu 2023-07-11
+ * Created by Dou-Fu-10 2023-07-11
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-11
  * @Description 修改密码实体类
  */

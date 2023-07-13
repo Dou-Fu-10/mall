@@ -6,9 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Created by PanShiFu 2023-07-09 19:57:25
+ * Created by Dou-Fu-10 2023-07-09 19:57:25
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-09 19:57:25
  * @Description 用户角色关联(AdminRolesRelation)表实体类
  */

@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-07
  * @Description 抽象实体类 ：带有公共字段
  */

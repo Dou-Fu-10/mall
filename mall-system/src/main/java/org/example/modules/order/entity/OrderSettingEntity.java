@@ -12,9 +12,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.common.core.base.CommonEntity;
 
 /**
- * Created by PanShiFu 2023-07-13 15:31:37
+ * Created by Dou-Fu-10 2023-07-13 15:31:37
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 15:31:37
  * @Description 订单设置表(OrderSetting)表实体类
  */

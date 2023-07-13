@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-07
  * @Description Minio 文件存储
  **/

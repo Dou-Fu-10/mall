@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-08
  * @Description redis配置
  */

@@ -7,9 +7,9 @@ import org.example.modules.member.mapper.MemberMapper;
 import org.example.modules.member.service.MemberService;
 
 /**
- * Created by PanShiFu 2023-07-13 15:34:48
+ * Created by Dou-Fu-10 2023-07-13 15:34:48
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 15:34:48
  * @Description 会员表(Member)表服务实现类
  */

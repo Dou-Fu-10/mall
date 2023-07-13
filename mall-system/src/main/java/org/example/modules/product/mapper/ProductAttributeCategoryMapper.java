@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.example.modules.product.entity.ProductAttributeCategoryEntity;
 
 /**
- * Created by PanShiFu 2023-07-13 15:35:54
+ * Created by Dou-Fu-10 2023-07-13 15:35:54
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 15:35:54
  * @Description 产品属性分类表(ProductAttributeCategory)表数据库访问层
  */

@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.example.modules.order.entity.OrderReturnApplyEntity;
 
 /**
- * Created by PanShiFu 2023-07-13 15:31:36
+ * Created by Dou-Fu-10 2023-07-13 15:31:36
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 15:31:36
  * @Description 订单退货申请(OrderReturnApply)表数据库访问层
  */

@@ -10,9 +10,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
- * Created by PanShiFu 2023-07-13 15:35:53
+ * Created by Dou-Fu-10 2023-07-13 15:35:53
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 15:35:53
  * @Description 商品属性参数表(ProductAttribute)表实体类
  */

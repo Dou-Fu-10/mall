@@ -7,9 +7,9 @@ import org.example.modules.product.mapper.ProductAttributeCategoryMapper;
 import org.example.modules.product.service.ProductAttributeCategoryService;
 
 /**
- * Created by PanShiFu 2023-07-13 15:35:54
+ * Created by Dou-Fu-10 2023-07-13 15:35:54
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 15:35:54
  * @Description 产品属性分类表(ProductAttributeCategory)表服务实现类
  */

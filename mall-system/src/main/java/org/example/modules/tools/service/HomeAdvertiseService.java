@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 
 /**
- * Created by PanShiFu 2023-07-13 15:39:31
+ * Created by Dou-Fu-10 2023-07-13 15:39:31
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 15:39:31
  * @Description 首页轮播广告表(HomeAdvertise)表服务接口
  */

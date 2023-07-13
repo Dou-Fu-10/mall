@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Date;
 
 /**
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-07
  * @Description MybatisPlus 自动更新处理器
  */

@@ -5,9 +5,9 @@ import org.example.modules.system.entity.RolesMenusRelationEntity;
 
 
 /**
- * Created by PanShiFu 2023-07-09 18:52:14
+ * Created by Dou-Fu-10 2023-07-09 18:52:14
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-09 18:52:14
  * @Description 角色菜单关联(RolesMenusRelation)表服务接口
  */

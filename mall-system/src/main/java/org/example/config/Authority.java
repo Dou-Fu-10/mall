@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
- * Created by PanShiFu 2023-07-08
+ * Created by Dou-Fu-10 2023-07-08
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-08
  * @Description 角色信息
  */

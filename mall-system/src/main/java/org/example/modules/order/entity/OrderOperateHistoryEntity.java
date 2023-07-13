@@ -13,9 +13,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.common.core.base.CommonEntity;
 
 /**
- * Created by PanShiFu 2023-07-13 15:31:35
+ * Created by Dou-Fu-10 2023-07-13 15:31:35
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 15:31:35
  * @Description 订单操作历史记录(OrderOperateHistory)表实体类
  */

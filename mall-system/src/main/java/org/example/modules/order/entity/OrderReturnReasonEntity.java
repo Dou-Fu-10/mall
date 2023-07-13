@@ -13,9 +13,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.common.core.base.CommonEntity;
 
 /**
- * Created by PanShiFu 2023-07-13 15:31:36
+ * Created by Dou-Fu-10 2023-07-13 15:31:36
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 15:31:36
  * @Description 退货原因表(OrderReturnReason)表实体类
  */

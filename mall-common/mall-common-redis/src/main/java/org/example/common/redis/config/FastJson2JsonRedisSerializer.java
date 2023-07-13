@@ -10,7 +10,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 /**
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-07
  * @Description Redis使用FastJson序列化
  */

@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 
 /**
- * Created by PanShiFu 2023-07-13 15:34:49
+ * Created by Dou-Fu-10 2023-07-13 15:34:49
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 15:34:49
  * @Description 会员收货地址表(MemberReceiveAddress)表服务接口
  */

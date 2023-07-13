@@ -15,9 +15,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Created by PanShiFu 2023-07-13 15:35:57
+ * Created by Dou-Fu-10 2023-07-13 15:35:57
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 15:35:57
  * @Description sku的库存(SkuStock)表控制层
  */
