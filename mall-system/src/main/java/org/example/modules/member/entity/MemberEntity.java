@@ -13,10 +13,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.common.core.base.CommonEntity;
 
 /**
- * Created by PanShiFu 2023-07-13 14:08:44
+ * Created by PanShiFu 2023-07-13 14:28:43
  *
  * @author PanShiFu
- * @date 2023-07-13 14:08:44
+ * @date 2023-07-13 14:28:43
  * @Description 会员表(Member)表实体类
  */
 @Data
@@ -96,26 +96,6 @@ public class MemberEntity extends CommonEntity<MemberEntity> implements Serializ
      */
     @Schema(name = "sourceType", description = "用户来源")
     private Integer sourceType;
-    /**
-     * 积分
-     */
-    @Schema(name = "integration", description = "积分")
-    private Integer integration;
-    /**
-     * 成长值
-     */
-    @Schema(name = "growth", description = "成长值")
-    private Integer growth;
-    /**
-     * 剩余抽奖次数
-     */
-    @Schema(name = "luckeyCount", description = "剩余抽奖次数")
-    private Integer luckeyCount;
-    /**
-     * 历史积分数量
-     */
-    @Schema(name = "historyIntegration", description = "历史积分数量")
-    private Integer historyIntegration;
     /**
      * 注册时间
      */

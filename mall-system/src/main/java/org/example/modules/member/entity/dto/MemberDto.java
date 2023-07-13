@@ -11,10 +11,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
- * Created by PanShiFu 2023-07-13 14:08:44
+ * Created by PanShiFu 2023-07-13 14:28:43
  *
  * @author PanShiFu
- * @date 2023-07-13 14:08:44
+ * @date 2023-07-13 14:28:43
  * @Description 会员表(Member)表实体类
  */
 @Data
@@ -78,22 +78,6 @@ public class MemberDto {
      * 用户来源
      */
     private Integer sourceType;
-    /**
-     * 积分
-     */
-    private Integer integration;
-    /**
-     * 成长值
-     */
-    private Integer growth;
-    /**
-     * 剩余抽奖次数
-     */
-    private Integer luckeyCount;
-    /**
-     * 历史积分数量
-     */
-    private Integer historyIntegration;
     /**
      * 注册时间
      */
