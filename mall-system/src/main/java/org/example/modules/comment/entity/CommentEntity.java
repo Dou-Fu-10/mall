@@ -1,21 +1,22 @@
 package org.example.modules.comment.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.Date;
+
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.common.core.base.CommonEntity;
 
-import java.io.Serializable;
-import java.util.Date;
-
 /**
- * Created by Dou-Fu-10 2023-07-13 15:19:46
+ * Created by PanShiFu 2023-07-13 21:35:10
  *
- * @author Dou-Fu-10
- * @date 2023-07-13 15:19:46
+ * @author PanShiFu
+ * @date 2023-07-13 21:35:10
  * @Description 商品评价表(Comment)表实体类
  */
 @Data
@@ -24,14 +25,17 @@ import java.util.Date;
 @TableName("pms_comment")
 @Schema(name = "pms_comment", description = "商品评价表(Comment)表实体类")
 public class CommentEntity extends CommonEntity<CommentEntity> implements Serializable {
+    /**
+     * ID
+     */
     @TableId
     private Long id;
-
     /**
      * 商品id
      */
-    @Schema(name = "productId", description = "商品id")
+    @TableId
     private Long productId;
+
     /**
      * 会员昵称
      */
@@ -53,14 +57,9 @@ public class CommentEntity extends CommonEntity<CommentEntity> implements Serial
     @Schema(name = "memberIp", description = "评价的ip")
     private String memberIp;
     /**
-     * 创建时间
+     * 显示状态  0->不显示：1->显示
      */
-    @Schema(name = "createTime", description = "创建时间")
-    private Date createTime;
-    /**
-     * 显示状态
-     */
-    @Schema(name = "showStatus", description = "显示状态")
+    @Schema(name = "showStatus", description = "显示状态  0->不显示：1->显示")
     private Integer showStatus;
     /**
      * 购买时的商品属性
@@ -94,6 +93,11 @@ public class CommentEntity extends CommonEntity<CommentEntity> implements Serial
     private String memberIcon;
     @Schema(name = "replayCount", description = "${column.comment}")
     private Integer replayCount;
+    /**
+     * 创建时间
+     */
+    @Schema(name = "createTime", description = "创建时间")
+    private Date createTime;
 
 
 }

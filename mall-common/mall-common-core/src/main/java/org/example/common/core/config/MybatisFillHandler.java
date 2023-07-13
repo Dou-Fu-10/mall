@@ -15,6 +15,9 @@ import java.util.Date;
 public class MybatisFillHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
+
+        // TODO 重构
+
         Date currentTime = new Date();
         if (metaObject.hasSetter("createTime")) {
             Class<?> clazz = metaObject.getSetterType("createTime");

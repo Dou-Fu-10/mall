@@ -2,13 +2,13 @@ package org.example.modules.comment.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.example.modules.comment.entity.CommentEntity;
 import org.example.modules.comment.service.CommentService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -16,15 +16,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Created by Dou-Fu-10 2023-07-13 15:19:46
+ * Created by PanShiFu 2023-07-13 21:35:10
  *
- * @author Dou-Fu-10
- * @date 2023-07-13 15:19:46
+ * @author PanShiFu
+ * @date 2023-07-13 21:35:10
  * @Description 商品评价表(Comment)表控制层
  */
 @RestController
 @RequestMapping("/api/comment")
-@Tag(name = "CommentController", description = "商品评价表(Comment)表控制层")
+@Tag(name = "CommentController", description = "")
 public class CommentController {
     /**
      * 服务对象

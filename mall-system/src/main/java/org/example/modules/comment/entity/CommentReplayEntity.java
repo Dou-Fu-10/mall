@@ -1,21 +1,22 @@
 package org.example.modules.comment.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.Date;
+
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.common.core.base.CommonEntity;
 
-import java.io.Serializable;
-import java.util.Date;
-
 /**
- * Created by Dou-Fu-10 2023-07-13 15:19:46
+ * Created by PanShiFu 2023-07-13 21:35:11
  *
- * @author Dou-Fu-10
- * @date 2023-07-13 15:19:46
+ * @author PanShiFu
+ * @date 2023-07-13 21:35:11
  * @Description 产品评价回复表(CommentReplay)表实体类
  */
 @Data
@@ -29,12 +30,12 @@ public class CommentReplayEntity extends CommonEntity<CommentReplayEntity> imple
      */
     @TableId
     private Long id;
-
     /**
      * 评论id
      */
-    @Schema(name = "commentId", description = "评论id")
+    @TableId
     private Long commentId;
+
     /**
      * 会员昵称
      */
@@ -56,10 +57,10 @@ public class CommentReplayEntity extends CommonEntity<CommentReplayEntity> imple
     @Schema(name = "createTime", description = "创建时间")
     private Date createTime;
     /**
-     * 评论人员类型；0->会员；1->管理员
+     * 评论人员类型；0->管理员；1->会员
      */
-    @Schema(name = "type", description = "评论人员类型；0->会员；1->管理员")
-    private Integer type;
+    @Schema(name = "isMember", description = "评论人员类型；0->管理员；1->会员")
+    private Integer isMember;
 
 
 }

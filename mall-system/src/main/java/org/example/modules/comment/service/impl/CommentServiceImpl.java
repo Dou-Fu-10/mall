@@ -1,16 +1,16 @@
 package org.example.modules.comment.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
 import org.example.modules.comment.entity.CommentEntity;
 import org.example.modules.comment.mapper.CommentMapper;
 import org.example.modules.comment.service.CommentService;
-import org.springframework.stereotype.Service;
 
 /**
- * Created by Dou-Fu-10 2023-07-13 15:19:46
+ * Created by PanShiFu 2023-07-13 21:35:11
  *
- * @author Dou-Fu-10
- * @date 2023-07-13 15:19:46
+ * @author PanShiFu
+ * @date 2023-07-13 21:35:11
  * @Description 商品评价表(Comment)表服务实现类
  */
 @Service("commentService")

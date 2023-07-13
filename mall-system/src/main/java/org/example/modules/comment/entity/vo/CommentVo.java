@@ -1,28 +1,35 @@
 package org.example.modules.comment.entity.vo;
 
+import java.util.Date;
+
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
- * Created by Dou-Fu-10 2023-07-13 15:19:46
+ * Created by PanShiFu 2023-07-13 21:35:11
  *
- * @author Dou-Fu-10
- * @date 2023-07-13 15:19:46
+ * @author PanShiFu
+ * @date 2023-07-13 21:35:11
  * @Description 商品评价表(Comment)表实体类
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentVo {
+    /**
+     * ID
+     */
     private Long id;
-
     /**
      * 商品id
      */
     private Long productId;
+
     /**
      * 会员昵称
      */
@@ -40,11 +47,7 @@ public class CommentVo {
      */
     private String memberIp;
     /**
-     * 创建时间
-     */
-    private Date createTime;
-    /**
-     * 显示状态
+     * 显示状态  0->不显示：1->显示
      */
     private Integer showStatus;
     /**
@@ -72,6 +75,10 @@ public class CommentVo {
      */
     private String memberIcon;
     private Integer replayCount;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 
 
 }
