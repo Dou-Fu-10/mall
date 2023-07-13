@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * Created by PanShiFu 2023-07-13 22:08:16
  *
@@ -58,6 +60,7 @@ public class ProductCategoryVo {
      */
     private String description;
 
+    private List<ProductCategoryVo> children;
 
 }
 

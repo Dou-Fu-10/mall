@@ -1,11 +1,12 @@
 package org.example.modules.product.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.product.entity.ProductCategoryEntity;
+import org.example.modules.product.entity.dto.ProductCategoryDto;
 import org.example.modules.product.service.ProductCategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,7 @@ public class ProductCategoryController {
      */
     @GetMapping
     public ResponseEntity<Object> selectAll(Page<ProductCategoryEntity> page, ProductCategoryEntity productCategory) {
-        return new ResponseEntity<>(this.productCategoryService.page(page, new QueryWrapper<>(productCategory)), HttpStatus.OK);
+        return new ResponseEntity<>(this.productCategoryService.page(page, productCategory), HttpStatus.OK);
     }
 
     /**
@@ -62,8 +63,11 @@ public class ProductCategoryController {
      * @return 新增结果
      */
     @PostMapping
-    public ResponseEntity<Object> insert(@RequestBody ProductCategoryEntity productCategory) {
-        return new ResponseEntity<>(this.productCategoryService.save(productCategory), HttpStatus.OK);
+    public ResponseEntity<Object> insert(@RequestBody ProductCategoryDto productCategory) {
+        if (this.productCategoryService.save(productCategory)) {
+            return new ResponseEntity<>("添加成功", HttpStatus.OK);
+        }
+        throw new BaseRequestException("添加失败");
     }
 
     /**
@@ -73,8 +77,11 @@ public class ProductCategoryController {
      * @return 修改结果
      */
     @PutMapping
-    public ResponseEntity<Object> update(@RequestBody ProductCategoryEntity productCategory) {
-        return new ResponseEntity<>(this.productCategoryService.updateById(productCategory), HttpStatus.OK);
+    public ResponseEntity<Object> update(@RequestBody ProductCategoryDto productCategory) {
+        if (this.productCategoryService.updateById(productCategory)) {
+            return new ResponseEntity<>("修改成功", HttpStatus.OK);
+        }
+        throw new BaseRequestException("修改失败");
     }
 
     /**
