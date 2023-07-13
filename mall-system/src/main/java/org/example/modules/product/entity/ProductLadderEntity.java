@@ -32,7 +32,6 @@ public class ProductLadderEntity extends CommonEntity<ProductLadderEntity> imple
     /**
      * 产品ID
      */
-    @TableId
     private Long productId;
 
     /**

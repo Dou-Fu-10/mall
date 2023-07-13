@@ -22,6 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @MapperScan(basePackages = {
         "org.example.modules.system.mapper",
+        "org.example.modules.comment.mapper",
+        "org.example.modules.member.mapper",
+        "org.example.modules.order.mapper",
+        "org.example.modules.product.mapper",
+        "org.example.modules.tools.mapper",
 })
 @EnableTransactionManagement
 public class MallAdminApplication {

@@ -32,12 +32,10 @@ public class ProductAttributeValueEntity extends CommonEntity<ProductAttributeVa
     /**
      * 产品分类ID
      */
-    @TableId
     private Long productId;
     /**
      * 产品属性ID
      */
-    @TableId
     private Long productAttributeId;
 
     /**

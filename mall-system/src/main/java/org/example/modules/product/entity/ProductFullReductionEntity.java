@@ -32,7 +32,6 @@ public class ProductFullReductionEntity extends CommonEntity<ProductFullReductio
     /**
      * 产品ID
      */
-    @TableId
     private Long productId;
 
     /**

@@ -33,7 +33,6 @@ public class ProductOperateLogEntity extends CommonEntity<ProductOperateLogEntit
     /**
      * 商品id
      */
-    @TableId
     private Long productId;
 
     /**

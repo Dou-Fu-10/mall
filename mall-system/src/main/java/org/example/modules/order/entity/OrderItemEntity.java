@@ -108,7 +108,7 @@ public class OrderItemEntity extends CommonEntity<OrderItemEntity> implements Se
     /**
      * 商品销售属性:[{"key":"颜色","value":"颜色"},{"key":"容量","value":"4G"}]
      */
-    @Schema(name = "productAttr", description = "商品销售属性:[{"key":"颜色","value":"颜色"},{"key":"容量","value":"4G"}]")
+    @Schema(name = "productAttr", description = "商品销售属性")
     private String productAttr;
 
 

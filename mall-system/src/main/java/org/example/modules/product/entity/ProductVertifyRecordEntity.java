@@ -33,7 +33,6 @@ public class ProductVertifyRecordEntity extends CommonEntity<ProductVertifyRecor
     /**
      * 产品id
      */
-    @TableId
     private Long productId;
 
     /**
