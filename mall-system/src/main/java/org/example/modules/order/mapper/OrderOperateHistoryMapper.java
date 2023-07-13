@@ -5,10 +5,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.example.modules.order.entity.OrderOperateHistoryEntity;
 
 /**
- * Created by PanShiFu 2023-07-13 14:31:57
+ * Created by PanShiFu 2023-07-13 15:31:35
  *
  * @author PanShiFu
- * @date 2023-07-13 14:31:57
+ * @date 2023-07-13 15:31:35
  * @Description 订单操作历史记录(OrderOperateHistory)表数据库访问层
  */
 @Mapper

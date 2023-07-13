@@ -12,10 +12,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.common.core.base.CommonEntity;
 
 /**
- * Created by PanShiFu 2023-07-13 14:28:43
+ * Created by PanShiFu 2023-07-13 15:34:48
  *
  * @author PanShiFu
- * @date 2023-07-13 14:28:43
+ * @date 2023-07-13 15:34:48
  * @Description 会员等级表(MemberLevel)表实体类
  */
 @Data

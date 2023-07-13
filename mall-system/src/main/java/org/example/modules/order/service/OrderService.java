@@ -5,10 +5,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 
 /**
- * Created by PanShiFu 2023-07-13 14:31:56
+ * Created by PanShiFu 2023-07-13 15:31:34
  *
  * @author PanShiFu
- * @date 2023-07-13 14:31:56
+ * @date 2023-07-13 15:31:34
  * @Description 订单表(Order)表服务接口
  */
 public interface OrderService extends IService<OrderEntity> {

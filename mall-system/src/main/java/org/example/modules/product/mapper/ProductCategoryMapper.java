@@ -5,10 +5,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.example.modules.product.entity.ProductCategoryEntity;
 
 /**
- * Created by PanShiFu 2023-07-13 11:45:00
+ * Created by PanShiFu 2023-07-13 15:35:54
  *
  * @author PanShiFu
- * @date 2023-07-13 11:45:00
+ * @date 2023-07-13 15:35:54
  * @Description 产品分类(ProductCategory)表数据库访问层
  */
 @Mapper

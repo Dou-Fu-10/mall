@@ -12,10 +12,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.common.core.base.CommonEntity;
 
 /**
- * Created by PanShiFu 2023-07-13 11:45:00
+ * Created by PanShiFu 2023-07-13 15:35:55
  *
  * @author PanShiFu
- * @date 2023-07-13 11:45:00
+ * @date 2023-07-13 15:35:55
  * @Description 产品分类(ProductCategory)表实体类
  */
 @Data

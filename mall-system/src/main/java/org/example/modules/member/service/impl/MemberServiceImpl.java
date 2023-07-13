@@ -7,10 +7,10 @@ import org.example.modules.member.mapper.MemberMapper;
 import org.example.modules.member.service.MemberService;
 
 /**
- * Created by PanShiFu 2023-07-13 14:28:43
+ * Created by PanShiFu 2023-07-13 15:34:48
  *
  * @author PanShiFu
- * @date 2023-07-13 14:28:43
+ * @date 2023-07-13 15:34:48
  * @Description 会员表(Member)表服务实现类
  */
 @Service("memberService")

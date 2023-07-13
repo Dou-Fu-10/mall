@@ -7,10 +7,10 @@ import org.example.modules.member.mapper.MemberLoginLogMapper;
 import org.example.modules.member.service.MemberLoginLogService;
 
 /**
- * Created by PanShiFu 2023-07-13 14:28:44
+ * Created by PanShiFu 2023-07-13 15:34:48
  *
  * @author PanShiFu
- * @date 2023-07-13 14:28:44
+ * @date 2023-07-13 15:34:48
  * @Description 会员登录记录(MemberLoginLog)表服务实现类
  */
 @Service("memberLoginLogService")

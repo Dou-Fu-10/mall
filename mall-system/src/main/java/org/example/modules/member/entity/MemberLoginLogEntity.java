@@ -13,10 +13,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.common.core.base.CommonEntity;
 
 /**
- * Created by PanShiFu 2023-07-13 14:28:44
+ * Created by PanShiFu 2023-07-13 15:34:48
  *
  * @author PanShiFu
- * @date 2023-07-13 14:28:44
+ * @date 2023-07-13 15:34:48
  * @Description 会员登录记录(MemberLoginLog)表实体类
  */
 @Data

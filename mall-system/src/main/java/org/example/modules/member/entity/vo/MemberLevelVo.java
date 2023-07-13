@@ -10,10 +10,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
- * Created by PanShiFu 2023-07-13 14:28:44
+ * Created by PanShiFu 2023-07-13 15:34:48
  *
  * @author PanShiFu
- * @date 2023-07-13 14:28:44
+ * @date 2023-07-13 15:34:48
  * @Description 会员等级表(MemberLevel)表实体类
  */
 @Data

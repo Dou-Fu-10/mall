@@ -7,10 +7,10 @@ import org.example.modules.order.mapper.OrderSettingMapper;
 import org.example.modules.order.service.OrderSettingService;
 
 /**
- * Created by PanShiFu 2023-07-13 14:31:59
+ * Created by PanShiFu 2023-07-13 15:31:37
  *
  * @author PanShiFu
- * @date 2023-07-13 14:31:59
+ * @date 2023-07-13 15:31:37
  * @Description 订单设置表(OrderSetting)表服务实现类
  */
 @Service("orderSettingService")

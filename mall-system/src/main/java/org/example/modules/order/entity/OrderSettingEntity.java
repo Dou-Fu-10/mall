@@ -12,10 +12,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.common.core.base.CommonEntity;
 
 /**
- * Created by PanShiFu 2023-07-13 14:31:59
+ * Created by PanShiFu 2023-07-13 15:31:37
  *
  * @author PanShiFu
- * @date 2023-07-13 14:31:59
+ * @date 2023-07-13 15:31:37
  * @Description 订单设置表(OrderSetting)表实体类
  */
 @Data
@@ -30,6 +30,11 @@ public class OrderSettingEntity extends CommonEntity<OrderSettingEntity> impleme
     @TableId
     private Long id;
 
+    /**
+     * 秒杀订单超时关闭时间(分)
+     */
+    @Schema(name = "flashOrderOvertime", description = "秒杀订单超时关闭时间(分)")
+    private Integer flashOrderOvertime;
     /**
      * 正常订单超时时间(分)
      */

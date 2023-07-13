@@ -1,0 +1,81 @@
+package org.example.modules.member.entity;
+
+
+import java.io.Serializable;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
+import org.example.common.core.base.CommonEntity;
+
+/**
+ * Created by PanShiFu 2023-07-13 15:34:49
+ *
+ * @author PanShiFu
+ * @date 2023-07-13 15:34:49
+ * @Description 会员收货地址表(MemberReceiveAddress)表实体类
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@TableName("ums_member_receive_address")
+@Schema(name = "ums_member_receive_address", description = "会员收货地址表(MemberReceiveAddress)表实体类")
+public class MemberReceiveAddressEntity extends CommonEntity<MemberReceiveAddressEntity> implements Serializable {
+    /**
+     * ID
+     */
+    @TableId
+    private Long id;
+
+    /**
+     * 会员id
+     */
+    @Schema(name = "memberId", description = "会员id")
+    private Long memberId;
+    /**
+     * 收货人名称
+     */
+    @Schema(name = "name", description = "收货人名称")
+    private String name;
+    /**
+     * 手机号码
+     */
+    @Schema(name = "phoneNumber", description = "手机号码")
+    private String phoneNumber;
+    /**
+     * 是否为默认
+     */
+    @Schema(name = "defaultStatus", description = "是否为默认")
+    private Integer defaultStatus;
+    /**
+     * 邮政编码
+     */
+    @Schema(name = "postCode", description = "邮政编码")
+    private String postCode;
+    /**
+     * 省份/直辖市
+     */
+    @Schema(name = "province", description = "省份/直辖市")
+    private String province;
+    /**
+     * 城市
+     */
+    @Schema(name = "city", description = "城市")
+    private String city;
+    /**
+     * 区
+     */
+    @Schema(name = "region", description = "区")
+    private String region;
+    /**
+     * 详细地址(街道)
+     */
+    @Schema(name = "detailAddress", description = "详细地址(街道)")
+    private String detailAddress;
+
+
+}
+

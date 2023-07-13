@@ -12,10 +12,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.common.core.base.CommonEntity;
 
 /**
- * Created by PanShiFu 2023-07-13 14:31:57
+ * Created by PanShiFu 2023-07-13 15:31:34
  *
  * @author PanShiFu
- * @date 2023-07-13 14:31:57
+ * @date 2023-07-13 15:31:34
  * @Description 订单中所包含的商品(OrderItem)表实体类
  */
 @Data
@@ -105,10 +105,6 @@ public class OrderItemEntity extends CommonEntity<OrderItemEntity> implements Se
      */
     @Schema(name = "realAmount", description = "该商品经过优惠后的分解金额")
     private Double realAmount;
-    @Schema(name = "giftIntegration", description = "${column.comment}")
-    private Integer giftIntegration;
-    @Schema(name = "giftGrowth", description = "${column.comment}")
-    private Integer giftGrowth;
     /**
      * 商品销售属性:[{"key":"颜色","value":"颜色"},{"key":"容量","value":"4G"}]
      */

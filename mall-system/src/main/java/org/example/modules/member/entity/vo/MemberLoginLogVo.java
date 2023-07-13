@@ -11,10 +11,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
- * Created by PanShiFu 2023-07-13 14:28:44
+ * Created by PanShiFu 2023-07-13 15:34:49
  *
  * @author PanShiFu
- * @date 2023-07-13 14:28:44
+ * @date 2023-07-13 15:34:49
  * @Description 会员登录记录(MemberLoginLog)表实体类
  */
 @Data
