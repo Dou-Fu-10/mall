@@ -1,6 +1,8 @@
 package org.example.modules.system.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,20 +27,11 @@ import java.util.Date;
 @TableName("ums_admin_login_log")
 @Schema(name = "ums_admin_login_log", description = "后台用户登录日志表(AdminLoginLog)表实体类")
 public class AdminLoginLogEntity extends CommonEntity<AdminLoginLogEntity> implements Serializable {
-    public AdminLoginLogEntity(String username, Date createTime, String ip, String address, String userAgent) {
-        this.username = username;
-        this.createTime = createTime;
-        this.ip = ip;
-        this.address = address;
-        this.userAgent = userAgent;
-    }
-
     /**
      * ID
      */
     @TableId
     private Long id;
-
     /**
      * 登录者用户名
      */
@@ -64,7 +57,6 @@ public class AdminLoginLogEntity extends CommonEntity<AdminLoginLogEntity> imple
      */
     @Schema(name = "userAgent", description = "浏览器登录类型")
     private String userAgent;
-
     @TableField(exist = false)
     private String createBy;
     /**
@@ -79,6 +71,14 @@ public class AdminLoginLogEntity extends CommonEntity<AdminLoginLogEntity> imple
      */
     @TableField(exist = false)
     private Date updateTime;
+
+    public AdminLoginLogEntity(String username, Date createTime, String ip, String address, String userAgent) {
+        this.username = username;
+        this.createTime = createTime;
+        this.ip = ip;
+        this.address = address;
+        this.userAgent = userAgent;
+    }
 
 
 }

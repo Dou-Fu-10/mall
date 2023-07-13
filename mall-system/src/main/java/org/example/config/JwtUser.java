@@ -41,6 +41,7 @@ public class JwtUser implements UserDetails {
         //返回当前用户的角色
         return getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
+
     @Override
     @JSONField(serialize = false)
     public String getPassword() {
