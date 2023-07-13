@@ -36,11 +36,11 @@ public class ProductCategoryVo {
     /**
      * 是否显示在导航栏：0->不显示；1->显示
      */
-    private Integer navStatus;
+    private Boolean navStatus;
     /**
      * 显示状态：0->不显示；1->显示
      */
-    private Integer showStatus;
+    private Boolean showStatus;
     /**
      * 排序
      */

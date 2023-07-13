@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/productCategory")
-@Tag(name = "ProductCategoryController", description = "")
+@Tag(name = "ProductCategoryController", description = "产品分类(ProductCategory)表控制层")
 public class ProductCategoryController {
     /**
      * 服务对象
