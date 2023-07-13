@@ -32,7 +32,6 @@ public class CommentEntity extends CommonEntity<CommentEntity> implements Serial
     /**
      * 商品id
      */
-    @TableId
     private Long productId;
 
     /**
@@ -59,7 +58,7 @@ public class CommentEntity extends CommonEntity<CommentEntity> implements Serial
      * 显示状态  0->不显示：1->显示
      */
     @Schema(name = "showStatus", description = "显示状态  0->不显示：1->显示")
-    private Integer showStatus;
+    private Boolean showStatus;
     /**
      * 购买时的商品属性
      */

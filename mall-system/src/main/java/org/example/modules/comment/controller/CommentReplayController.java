@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/commentReplay")
-@Tag(name = "CommentReplayController", description = "")
+@Tag(name = "CommentReplayController", description = "产品评价回复表(CommentReplay)表控制层")
 public class CommentReplayController {
     /**
      * 服务对象

@@ -45,7 +45,7 @@ public class CommentDto {
     /**
      * 显示状态  0->不显示：1->显示
      */
-    private Integer showStatus;
+    private Boolean showStatus;
     /**
      * 购买时的商品属性
      */

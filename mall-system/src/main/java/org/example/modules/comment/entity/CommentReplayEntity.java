@@ -59,7 +59,7 @@ public class CommentReplayEntity extends CommonEntity<CommentReplayEntity> imple
      * 评论人员类型；0->管理员；1->会员
      */
     @Schema(name = "isMember", description = "评论人员类型；0->管理员；1->会员")
-    private Integer isMember;
+    private Boolean isMember;
 
 
 }

@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/comment")
-@Tag(name = "CommentController", description = "")
+@Tag(name = "CommentController", description = "商品评价表(Comment)表控制层")
 public class CommentController {
     /**
      * 服务对象

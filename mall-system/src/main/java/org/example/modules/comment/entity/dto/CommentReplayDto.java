@@ -45,7 +45,7 @@ public class CommentReplayDto {
     /**
      * 评论人员类型；0->管理员；1->会员
      */
-    private Integer isMember;
+    private Boolean isMember;
 
 
 }
