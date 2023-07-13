@@ -1,7 +1,7 @@
 package org.example.modules.product.service;
 
-import org.example.modules.product.entity.ProductCategoryAttributeRelationEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.modules.product.entity.ProductCategoryAttributeRelationEntity;
 
 
 /**

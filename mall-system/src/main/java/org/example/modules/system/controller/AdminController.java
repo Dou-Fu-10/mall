@@ -10,9 +10,9 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.config.AuthUser;
-import org.example.modules.system.entity.RoleEntity;
-import org.example.modules.system.entity.AdminEntity;
 import org.example.config.UpdatePassword;
+import org.example.modules.system.entity.AdminEntity;
+import org.example.modules.system.entity.RoleEntity;
 import org.example.modules.system.entity.dto.AdminDto;
 import org.example.modules.system.service.AdminService;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
@@ -50,7 +50,7 @@ public class AdminController {
     /**
      * 分页查询所有数据
      *
-     * @param page 分页对象
+     * @param page  分页对象
      * @param admin 查询实体
      * @return 所有数据
      */
@@ -184,7 +184,7 @@ public class AdminController {
     /**
      * 给用户分配角色
      *
-     * @param adminId  用户id
+     * @param adminId 用户id
      * @param roleIds 角色id 列表
      * @return String
      */

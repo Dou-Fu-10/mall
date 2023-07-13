@@ -1,7 +1,7 @@
 package org.example.modules.order.service;
 
-import org.example.modules.order.entity.OrderSettingEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.modules.order.entity.OrderSettingEntity;
 
 
 /**

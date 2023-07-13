@@ -1,10 +1,10 @@
 package org.example.modules.product.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
 import org.example.modules.product.entity.ProductAttributeEntity;
 import org.example.modules.product.mapper.ProductAttributeMapper;
 import org.example.modules.product.service.ProductAttributeService;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by Dou-Fu-10 2023-07-13 15:35:53

@@ -1,10 +1,10 @@
 package org.example.modules.order.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
 import org.example.modules.order.entity.OrderSettingEntity;
 import org.example.modules.order.mapper.OrderSettingMapper;
 import org.example.modules.order.service.OrderSettingService;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by Dou-Fu-10 2023-07-13 15:31:37

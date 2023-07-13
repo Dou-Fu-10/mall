@@ -1,7 +1,7 @@
 package org.example.modules.system.service;
 
-import org.example.modules.system.entity.AdminRolesRelationEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.modules.system.entity.AdminRolesRelationEntity;
 
 
 /**

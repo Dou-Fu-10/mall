@@ -1,13 +1,9 @@
 package org.example.modules.product.entity.vo;
 
 
-import java.io.Serializable;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
  * Created by Dou-Fu-10 2023-07-13 15:35:55

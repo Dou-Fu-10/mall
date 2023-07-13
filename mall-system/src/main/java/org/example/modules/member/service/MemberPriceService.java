@@ -1,7 +1,7 @@
 package org.example.modules.member.service;
 
-import org.example.modules.member.entity.MemberPriceEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.modules.member.entity.MemberPriceEntity;
 
 
 /**
