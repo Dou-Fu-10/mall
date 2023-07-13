@@ -1,7 +1,7 @@
 package org.example.modules.tools.storage.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.modules.tools.storage.service.MinioServer;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
@@ -15,10 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
  * @date 2023-07-07
  * @Description 微服务存储
  */
-@RestController
-@RequiredArgsConstructor
-@RequestMapping("/api/storage")
 @Slf4j
+@RestController
+@RequestMapping("/api/storage")
+@Tag(name = "MinioController", description = "微服务存储")
 public class MinioController {
 
     @Resource

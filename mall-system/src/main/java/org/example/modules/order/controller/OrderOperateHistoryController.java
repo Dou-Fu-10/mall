@@ -3,6 +3,7 @@ package org.example.modules.order.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.order.entity.OrderOperateHistoryEntity;
 import org.example.modules.order.service.OrderOperateHistoryService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/orderOperateHistory")
+@Tag(name = "OrderOperateHistoryController", description = "订单操作历史记录(OrderOperateHistory)表控制层")
 public class OrderOperateHistoryController {
     /**
      * 服务对象

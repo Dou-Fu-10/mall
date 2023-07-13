@@ -37,9 +37,9 @@ import java.util.stream.Collectors;
  * @date 2023-07-07 09:58:02
  * @Description 后台用户表(Admin)表控制层
  */
-@Tag(name = "AdminController", description = "后台用户表(Admin)表控制层")
 @RestController
 @RequestMapping("/api/admin")
+@Tag(name = "AdminController", description = "后台用户表(Admin)表控制层")
 public class AdminController {
     /**
      * 服务对象

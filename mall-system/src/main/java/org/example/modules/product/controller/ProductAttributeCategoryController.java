@@ -3,6 +3,7 @@ package org.example.modules.product.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.product.entity.ProductAttributeCategoryEntity;
 import org.example.modules.product.service.ProductAttributeCategoryService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/productAttributeCategory")
+@Tag(name = "ProductAttributeCategoryController", description = "产品属性分类表(ProductAttributeCategory)表控制层")
 public class ProductAttributeCategoryController {
     /**
      * 服务对象

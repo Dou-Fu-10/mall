@@ -3,6 +3,7 @@ package org.example.modules.product.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.product.entity.ProductCategoryAttributeRelationEntity;
 import org.example.modules.product.service.ProductCategoryAttributeRelationService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/productCategoryAttributeRelation")
+@Tag(name = "ProductCategoryAttributeRelationController", description = "产品的分类和属性的关系表，用于设置分类筛选条件（只支持一级分类）(ProductCategoryAttributeRelation)表控制层")
 public class ProductCategoryAttributeRelationController {
     /**
      * 服务对象

@@ -28,9 +28,9 @@ import java.util.stream.Collectors;
  * @date 2023-07-09 18:15:18
  * @Description 后台用户角色表(Role)表控制层
  */
-@Tag(name = "RoleController", description = "后台用户角色表(Role)表控制层")
 @RestController
 @RequestMapping("/api/role")
+@Tag(name = "RoleController", description = "后台用户角色表(Role)表控制层")
 public class RoleController {
     /**
      * 服务对象

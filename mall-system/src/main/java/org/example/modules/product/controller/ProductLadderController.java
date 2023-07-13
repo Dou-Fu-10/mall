@@ -3,6 +3,7 @@ package org.example.modules.product.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.product.entity.ProductLadderEntity;
 import org.example.modules.product.service.ProductLadderService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/productLadder")
+@Tag(name = "ProductLadderController", description = "产品阶梯价格表(只针对同商品)(ProductLadder)表控制层")
 public class ProductLadderController {
     /**
      * 服务对象

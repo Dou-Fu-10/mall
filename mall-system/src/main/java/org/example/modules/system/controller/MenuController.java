@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
  * @date 2023-07-09 18:52:13
  * @Description 后台菜单表(Menu)表控制层
  */
-@Tag(name = "MenuController", description = "后台菜单表(Menu)表控制层")
 @RestController
 @RequestMapping("/api/menu")
+@Tag(name = "MenuController", description = "后台菜单表(Menu)表控制层")
 public class MenuController {
     /**
      * 服务对象

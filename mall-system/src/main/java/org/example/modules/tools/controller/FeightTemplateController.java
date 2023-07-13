@@ -3,6 +3,7 @@ package org.example.modules.tools.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.tools.entity.FeightTemplateEntity;
 import org.example.modules.tools.service.FeightTemplateService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/feightTemplate")
+@Tag(name = "FeightTemplateController", description = "运费模版(FeightTemplate)表控制层")
 public class FeightTemplateController {
     /**
      * 服务对象

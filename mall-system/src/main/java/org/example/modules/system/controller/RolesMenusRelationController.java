@@ -3,6 +3,7 @@ package org.example.modules.system.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.system.entity.RolesMenusRelationEntity;
 import org.example.modules.system.service.RolesMenusRelationService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/rolesMenus")
+@Tag(name = "RolesMenusRelationController", description = "角色菜单关联(RolesMenus)表控制层")
 public class RolesMenusRelationController {
     /**
      * 服务对象

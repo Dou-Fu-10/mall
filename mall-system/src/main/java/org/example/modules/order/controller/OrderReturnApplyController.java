@@ -3,6 +3,7 @@ package org.example.modules.order.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.order.entity.OrderReturnApplyEntity;
 import org.example.modules.order.service.OrderReturnApplyService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/orderReturnApply")
+@Tag(name = "OrderReturnApplyController", description = "订单退货申请(OrderReturnApply)表控制层")
 public class OrderReturnApplyController {
     /**
      * 服务对象

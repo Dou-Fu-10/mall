@@ -3,6 +3,7 @@ package org.example.modules.product.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.product.entity.ProductVertifyRecordEntity;
 import org.example.modules.product.service.ProductVertifyRecordService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/productVertifyRecord")
+@Tag(name = "ProductVertifyRecordController", description = "品审核记录(ProductVertifyRecord)表控制层")
 public class ProductVertifyRecordController {
     /**
      * 服务对象

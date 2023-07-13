@@ -3,6 +3,7 @@ package org.example.modules.order.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.order.entity.OrderSettingEntity;
 import org.example.modules.order.service.OrderSettingService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/orderSetting")
+@Tag(name = "OrderSettingController", description = "订单设置表(OrderSetting)表控制层")
 public class OrderSettingController {
     /**
      * 服务对象

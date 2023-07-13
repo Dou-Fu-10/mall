@@ -3,6 +3,7 @@ package org.example.modules.system.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.system.entity.AdminLoginLogEntity;
 import org.example.modules.system.service.AdminLoginLogService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/adminLoginLog")
+@Tag(name = "AdminLoginLogController", description = "后台用户登录日志表(AdminLoginLog)表控制层")
 public class AdminLoginLogController {
     /**
      * 服务对象

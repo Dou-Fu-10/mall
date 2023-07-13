@@ -3,6 +3,7 @@ package org.example.modules.product.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.product.entity.SkuStockEntity;
 import org.example.modules.product.service.SkuStockService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/skuStock")
+@Tag(name = "SkuStockController", description = "sku的库存(SkuStock)表控制层")
 public class SkuStockController {
     /**
      * 服务对象

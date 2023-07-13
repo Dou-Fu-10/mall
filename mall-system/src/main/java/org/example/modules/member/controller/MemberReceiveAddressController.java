@@ -3,6 +3,7 @@ package org.example.modules.member.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.member.entity.MemberReceiveAddressEntity;
 import org.example.modules.member.service.MemberReceiveAddressService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/memberReceiveAddress")
+@Tag(name = "MemberReceiveAddressController", description = "会员收货地址表(MemberReceiveAddress)表控制层")
 public class MemberReceiveAddressController {
     /**
      * 服务对象

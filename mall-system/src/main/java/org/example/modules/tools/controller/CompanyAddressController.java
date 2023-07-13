@@ -3,6 +3,7 @@ package org.example.modules.tools.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.tools.entity.CompanyAddressEntity;
 import org.example.modules.tools.service.CompanyAddressService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/companyAddress")
+@Tag(name = "CompanyAddressController", description = "公司收发货地址表(CompanyAddress)表控制层")
 public class CompanyAddressController {
     /**
      * 服务对象

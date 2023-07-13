@@ -3,6 +3,7 @@ package org.example.modules.product.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.product.entity.ProductOperateLogEntity;
 import org.example.modules.product.service.ProductOperateLogService;
@@ -19,10 +20,11 @@ import java.util.stream.Collectors;
  *
  * @author Dou-Fu-10
  * @date 2023-07-13 15:35:56
- * @Description (ProductOperateLog)表控制层
+ * @Description 商品价格变动记录(ProductOperateLog)表控制层
  */
 @RestController
 @RequestMapping("/api/productOperateLog")
+@Tag(name = "ProductOperateLogController", description = "商品价格变动记录(ProductOperateLog)表控制层")
 public class ProductOperateLogController {
     /**
      * 服务对象

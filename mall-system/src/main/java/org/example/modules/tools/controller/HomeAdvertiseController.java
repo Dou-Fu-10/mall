@@ -3,6 +3,7 @@ package org.example.modules.tools.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.tools.entity.HomeAdvertiseEntity;
 import org.example.modules.tools.service.HomeAdvertiseService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/homeAdvertise")
+@Tag(name = "HomeAdvertiseController", description = "首页轮播广告表(HomeAdvertise)表控制层")
 public class HomeAdvertiseController {
     /**
      * 服务对象

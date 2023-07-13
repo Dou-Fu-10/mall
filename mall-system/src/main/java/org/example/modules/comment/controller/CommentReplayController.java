@@ -3,6 +3,7 @@ package org.example.modules.comment.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.comment.entity.CommentReplayEntity;
 import org.example.modules.comment.service.CommentReplayService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/commentReplay")
+@Tag(name = "CommentReplayController", description = "产品评价回复表(CommentReplay)表控制层")
 public class CommentReplayController {
     /**
      * 服务对象

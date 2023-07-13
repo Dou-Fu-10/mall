@@ -3,6 +3,7 @@ package org.example.modules.member.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.member.entity.MemberLevelEntity;
 import org.example.modules.member.service.MemberLevelService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/memberLevel")
+@Tag(name = "MemberLevelController", description = "会员等级表(MemberLevel)表控制层")
 public class MemberLevelController {
     /**
      * 服务对象

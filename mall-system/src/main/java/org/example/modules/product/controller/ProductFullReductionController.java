@@ -3,6 +3,7 @@ package org.example.modules.product.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.product.entity.ProductFullReductionEntity;
 import org.example.modules.product.service.ProductFullReductionService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/productFullReduction")
+@Tag(name = "ProductFullReductionController", description = "产品满减表(只针对同商品)(ProductFullReduction)表控制层")
 public class ProductFullReductionController {
     /**
      * 服务对象
