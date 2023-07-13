@@ -1,0 +1,18 @@
+package org.example.modules.order.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.example.modules.order.entity.OrderReturnApplyEntity;
+
+/**
+ * Created by PanShiFu 2023-07-13 14:31:58
+ *
+ * @author PanShiFu
+ * @date 2023-07-13 14:31:58
+ * @Description 订单退货申请(OrderReturnApply)表数据库访问层
+ */
+@Mapper
+public interface OrderReturnApplyMapper extends BaseMapper<OrderReturnApplyEntity> {
+
+}
+
