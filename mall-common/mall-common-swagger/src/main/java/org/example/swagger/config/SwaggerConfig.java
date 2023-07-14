@@ -81,7 +81,8 @@ public class SwaggerConfig {
                         groupedApi("adminRole"), groupedApi("menu"),
                         groupedApi("role"), groupedApi("rolesMenus"),
                         groupedApi("companyAddress"), groupedApi("feightTemplate"),
-                        groupedApi("homeAdvertise"), groupedApi("storage"))
+                        groupedApi("homeAdvertise"), groupedApi("storage"),
+                        "/auth/**")
                 .build();
     }
 

@@ -33,12 +33,10 @@ public class ProductEntity extends CommonEntity<ProductEntity> implements Serial
     /**
      * 商品分类ID
      */
-    @TableId
     private Long productCategoryId;
     /**
      * 运费模板id
      */
-    @TableId
     private Long feightTemplateId;
 
     /**
