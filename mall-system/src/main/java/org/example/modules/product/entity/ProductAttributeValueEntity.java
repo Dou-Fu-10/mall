@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -18,6 +19,7 @@ import org.example.common.core.base.CommonEntity;
  * @date 2023-07-14 13:54:16
  * @Description 存储产品参数信息的表(ProductAttributeValue)表实体类
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,12 +34,10 @@ public class ProductAttributeValueEntity extends CommonEntity<ProductAttributeVa
     /**
      * 产品分类ID
      */
-    @TableId
     private Long productId;
     /**
      * 产品属性ID
      */
-    @TableId
     private Long productAttributeId;
 
     /**

@@ -29,6 +29,7 @@ public class SwaggerConfig {
         return new OpenAPI().info(info);
     }
 
+
     private String groupedApi(String api) {
         return "/api/" + api + "/**";
     }

@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/productAttribute")
-@Tag(name = "ProductAttributeController", description = "")
+@Tag(name = "ProductAttributeController", description = "商品属性参数表(ProductAttribute)表控制层")
 public class ProductAttributeController {
     /**
      * 服务对象

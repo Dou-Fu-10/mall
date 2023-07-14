@@ -2,6 +2,7 @@ package org.example.modules.product.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.example.common.core.exception.BaseRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/productOperateLog")
-@Tag(name = "ProductOperateLogController", description = "")
+@Tag(name = "ProductOperateLogController", description = "商品价格变动记录(ProductOperateLog)表控制层")
 public class ProductOperateLogController {
     /**
      * 服务对象
@@ -68,7 +69,7 @@ public class ProductOperateLogController {
             return ResponseEntity.ok("添加成功");
         }
         // 修改成自定义的 错误类型
-        throw new RuntimeException("添加失败");
+        throw new BaseRequestException("添加失败");
     }
 
     /**
@@ -83,7 +84,7 @@ public class ProductOperateLogController {
             return ResponseEntity.ok("修改成功");
         }
         // 修改成自定义的 错误类型
-        throw new RuntimeException("修改失败");
+        throw new BaseRequestException("修改失败");
     }
 
     /**

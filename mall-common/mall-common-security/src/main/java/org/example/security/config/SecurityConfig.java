@@ -42,7 +42,7 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint authenticationErrorHandler;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final ApplicationContext applicationContext;
-    private final CorsFilter corsFilter;
+//    private final CorsFilter corsFilter;
 
     @Bean
     public JwtTokenUtil jwtTokenUtil() {
@@ -55,14 +55,25 @@ public class SecurityConfig {
         // 密码加密方式
         return new BCryptPasswordEncoder();
     }
-
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        // 配置 CorsConfiguration 对象
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(Collections.singletonList("*"));
+        config.setAllowedMethods(Collections.singletonList("*"));
+        config.setAllowedHeaders(Collections.singletonList("*"));
+        config.setAllowCredentials(true);
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 // 禁用 CSRF
                 .csrf(csrfCustomizer())
                 // CorsFilter 就会被添加到 Spring Security 过滤器链中，并在 UsernamePasswordAuthenticationFilter 之前执行。
-                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
                 // 异常处理定制器
                 .exceptionHandling(exceptionHandlingCustomizer())
                 // 防止 iframe 造成跨域

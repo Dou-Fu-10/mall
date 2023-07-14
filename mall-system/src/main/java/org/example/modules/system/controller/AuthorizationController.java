@@ -1,6 +1,7 @@
 package org.example.modules.system.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +22,12 @@ import java.util.Map;
  *
  * @author PanShiFu
  * @date 2023/7/14
- * @Description 描述
+ * @Description 登录注册
  */
 @Slf4j
 @RestController
 @RequestMapping("/auth")
-@RequiredArgsConstructor
+@Tag(name = "AuthorizationController", description = "登录注册")
 public class AuthorizationController {
 
     /**

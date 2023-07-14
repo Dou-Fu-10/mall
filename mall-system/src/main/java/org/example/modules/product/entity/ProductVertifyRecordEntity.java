@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -19,6 +20,7 @@ import org.example.common.core.base.CommonEntity;
  * @date 2023-07-14 13:54:18
  * @Description 商品审核记录(ProductVertifyRecord)表实体类
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,7 +35,6 @@ public class ProductVertifyRecordEntity extends CommonEntity<ProductVertifyRecor
     /**
      * 产品id
      */
-    @TableId
     private Long productId;
 
     /**
