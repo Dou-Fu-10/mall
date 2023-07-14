@@ -20,7 +20,6 @@ import org.example.security.utils.JwtTokenUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -57,28 +56,26 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     @Override
     public Map<String, Object> login(AuthUser authUser, HttpServletRequest request) {
         Map<String, Object> tokenMap = new HashMap<>(2);
-        try {
-            // 调用 UserDetailsServiceImpl 获取身份信息
-            UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(authUser.getUsername(), authUser.getPassword());
-            // 对身份进行验证
-            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-            // 判断是否认证通过
-            if (Objects.isNull(authentication)) {
-                throw new BaseRequestException("用户名或者密码错误");
-            }
-            // 放入 SecurityContextHolder 以便后续使用
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            // 获取到用户信息
-            final JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
-            // 获取token
-            String token = jwtTokenUtil.generateToken(jwtUser);
-            tokenMap.put("token", token);
-            // 记录登录 信息
-            adminLoginLogService.insertLoginLog(authUser.getUsername(), request);
-        } catch (AuthenticationException e) {
-            log.warn("登录异常:{}", e.getMessage());
+
+        // 调用 UserDetailsServiceImpl 获取身份信息
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(authUser.getUsername(), authUser.getPassword());
+        // 对身份进行验证
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        // 判断是否认证通过
+        if (Objects.isNull(authentication)) {
+            throw new BaseRequestException("用户名或者密码错误");
         }
+        // 放入 SecurityContextHolder 以便后续使用
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        // 获取到用户信息
+        final JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+        // 获取token
+        String token = jwtTokenUtil.generateToken(jwtUser);
+        tokenMap.put("token", token);
+        // 记录登录 信息
+        adminLoginLogService.insertLoginLog(authUser.getUsername(), request);
+
         return tokenMap;
     }
 
