@@ -32,7 +32,6 @@ public class CommentReplayEntity extends CommonEntity<CommentReplayEntity> imple
     /**
      * 评论id
      */
-    @TableId
     private Long commentId;
 
     /**

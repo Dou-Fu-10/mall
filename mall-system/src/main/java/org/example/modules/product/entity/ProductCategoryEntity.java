@@ -1,8 +1,10 @@
 package org.example.modules.product.entity;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +12,7 @@ import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by PanShiFu 2023-07-13 22:08:15
@@ -25,6 +28,15 @@ import java.io.Serializable;
 @Schema(name = "pms_product_category", description = "产品分类(ProductCategory)表实体类")
 public class ProductCategoryEntity extends CommonEntity<ProductCategoryEntity> implements Serializable {
     /**
+     * 创建人
+     * 创建
+     */
+    @JsonIgnore
+    @TableField(exist = false)
+    private String createBy;
+
+
+    /**
      * ID
      */
     @TableId
@@ -32,7 +44,6 @@ public class ProductCategoryEntity extends CommonEntity<ProductCategoryEntity> i
     /**
      * 上级分类的编号：0表示一级分类
      */
-    @TableId
     private Long parentId;
 
     /**
@@ -75,7 +86,31 @@ public class ProductCategoryEntity extends CommonEntity<ProductCategoryEntity> i
      */
     @Schema(name = "description", description = "分类描述")
     private String description;
-
-
+    /**
+     * 更新人
+     * 创建、更新
+     */
+    @JsonIgnore
+    @TableField(exist = false)
+    private String updateBy;
+    /**
+     * 创建时间
+     * 创建
+     */
+    @JsonIgnore
+    @TableField(exist = false)
+    private Date createTime;
+    /**
+     * 更新时间
+     * 创建、更新
+     */
+    @JsonIgnore
+    @TableField(exist = false)
+    private Date updateTime;
+    public ProductCategoryEntity(Long id, Boolean navStatus, Boolean showStatus) {
+        this.id = id;
+        this.navStatus = navStatus;
+        this.showStatus = showStatus;
+    }
 }
 

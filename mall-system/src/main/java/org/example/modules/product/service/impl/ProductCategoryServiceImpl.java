@@ -17,6 +17,7 @@ import org.example.modules.product.service.ProductCategoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by PanShiFu 2023-07-13 22:08:15
@@ -83,6 +84,18 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
         }
         // TODO 其他验证规则需要在加
         return updateById(convert);
+    }
+
+    @Override
+    public Boolean updateNavStatus(Set<Long> idList, Boolean navStatus) {
+        Set<ProductCategoryEntity> collect = idList.stream().map(id -> new ProductCategoryEntity(id, navStatus, null)).collect(Collectors.toSet());
+        return updateBatchById(collect);
+    }
+
+    @Override
+    public Boolean updateShowStatus(Set<Long> idList, Boolean showStatus) {
+        Set<ProductCategoryEntity> collect = idList.stream().map(id -> new ProductCategoryEntity(id, null, showStatus)).collect(Collectors.toSet());
+        return updateBatchById(collect);
     }
 
     @org.jetbrains.annotations.NotNull

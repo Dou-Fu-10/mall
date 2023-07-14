@@ -6,7 +6,7 @@ import org.example.modules.product.entity.ProductCategoryEntity;
 import org.example.modules.product.entity.dto.ProductCategoryDto;
 import org.example.modules.product.entity.vo.ProductCategoryVo;
 
-import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -50,6 +50,7 @@ public interface ProductCategoryService extends IService<ProductCategoryEntity> 
      * @return 所有数据
      */
     Page<ProductCategoryVo> page(Page<ProductCategoryEntity> page, ProductCategoryEntity productCategory);
+
     /**
      * 修改数据
      *
@@ -57,4 +58,22 @@ public interface ProductCategoryService extends IService<ProductCategoryEntity> 
      * @return 修改数据
      */
     Boolean updateById(ProductCategoryDto productCategory);
+
+    /**
+     * 修改导航栏显示状态
+     *
+     * @param idList    修改状态的id
+     * @param navStatus 显示状态
+     * @return String
+     */
+    Boolean updateNavStatus(Set<Long> idList, Boolean navStatus);
+
+    /**
+     * 修改显示状态
+     *
+     * @param idList     修改状态的id
+     * @param showStatus 显示状态
+     * @return String
+     */
+    Boolean updateShowStatus(Set<Long> idList, Boolean showStatus);
 }
