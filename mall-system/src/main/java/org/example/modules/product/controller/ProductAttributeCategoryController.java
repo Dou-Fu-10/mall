@@ -12,6 +12,10 @@ import org.example.modules.product.entity.ProductAttributeCategoryEntity;
 import org.example.modules.product.entity.dto.ProductAttributeCategoryDto;
 import org.example.modules.product.entity.vo.ProductAttributeCategoryVo;
 import org.example.modules.product.service.ProductAttributeCategoryService;
+import org.example.security.annotaion.rest.AnonymousDeleteMapping;
+import org.example.security.annotaion.rest.AnonymousGetMapping;
+import org.example.security.annotaion.rest.AnonymousPostMapping;
+import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +48,7 @@ public class ProductAttributeCategoryController {
      * @param productAttributeCategory 查询实体
      * @return 所有数据
      */
-    @GetMapping
+    @AnonymousGetMapping
     @Operation(summary = "分页查询所有数据")
     public ResponseEntity<Object> selectAll(Page<ProductAttributeCategoryEntity> page, ProductAttributeCategoryEntity productAttributeCategory) {
         return ResponseEntity.ok(this.productAttributeCategoryService.page(page, new QueryWrapper<>(productAttributeCategory)));
@@ -56,7 +60,7 @@ public class ProductAttributeCategoryController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+    @AnonymousGetMapping("{id}")
     @Operation(summary = "通过主键查询单条数据")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return ResponseEntity.ok(this.productAttributeCategoryService.getById(id));
@@ -68,7 +72,7 @@ public class ProductAttributeCategoryController {
      * @param productAttributeCategory 实体对象
      * @return 新增结果
      */
-    @PostMapping
+    @AnonymousPostMapping
     @Operation(summary = "新增数据")
     public ResponseEntity<Object> insert(@RequestBody ProductAttributeCategoryDto productAttributeCategory) {
         if (this.productAttributeCategoryService.save(productAttributeCategory)) {
@@ -83,9 +87,9 @@ public class ProductAttributeCategoryController {
      * @param productAttributeCategory 实体对象
      * @return 修改结果
      */
-    @PutMapping
+    @AnonymousPutMapping
     @Operation(summary = "修改数据")
-    public ResponseEntity<Object> update(@RequestBody ProductAttributeCategoryEntity productAttributeCategory) {
+    public ResponseEntity<Object> update(@RequestBody ProductAttributeCategoryDto productAttributeCategory) {
         if (this.productAttributeCategoryService.updateById(productAttributeCategory)) {
             return ResponseEntity.ok("修改成功");
         }
@@ -98,7 +102,7 @@ public class ProductAttributeCategoryController {
      * @param idList 主键结合
      * @return 删除结果
      */
-    @DeleteMapping
+    @AnonymousDeleteMapping
     @Operation(summary = "删除数据")
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         return ResponseEntity.ok(this.productAttributeCategoryService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() > 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败");
@@ -108,7 +112,7 @@ public class ProductAttributeCategoryController {
      * 获取所有商品属性分类及其下属性
      * @return 属性
      */
-    @GetMapping(value = "/list/withAttr")
+    @AnonymousGetMapping(value = "/list/withAttr")
     @Operation(summary = "获取所有商品属性分类及其下属性")
     public ResponseEntity<List<ProductAttributeCategoryVo>> getListWithAttr() {
         List<ProductAttributeCategoryEntity> productAttributeCategoryResultList = productAttributeCategoryService.getListWithAttr();

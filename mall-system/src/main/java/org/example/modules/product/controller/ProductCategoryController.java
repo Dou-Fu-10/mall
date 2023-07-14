@@ -108,7 +108,7 @@ public class ProductCategoryController {
      * @return String
      */
     @Operation(summary = "修改导航栏显示状态")
-    @PostMapping(value = "/update/navStatus")
+    @AnonymousPostMapping(value = "/update/navStatus")
     public ResponseEntity<String> updateNavStatus(@RequestBody Set<Long> idList, @RequestParam("navStatus") Boolean navStatus) {
         if (productCategoryService.updateNavStatus(idList, navStatus)) {
             return ResponseEntity.ok("修改成功");
@@ -125,7 +125,7 @@ public class ProductCategoryController {
      * @return String
      */
     @Operation(summary = "修改显示状态")
-    @PostMapping(value = "/update/showStatus")
+    @AnonymousPostMapping(value = "/update/showStatus")
     public ResponseEntity<String> updateShowStatus(@RequestBody Set<Long> idList, @RequestParam("showStatus") Boolean showStatus) {
         if (productCategoryService.updateShowStatus(idList, showStatus)) {
             return ResponseEntity.ok("修改成功");

@@ -47,5 +47,11 @@ public class ProductAttributeCategoryServiceImpl extends ServiceImpl<ProductAttr
         List<ProductAttributeCategoryEntity> listWithAttr = this.getBaseMapper().getListWithAttr();
         return null;
     }
+
+    @Override
+    public Boolean updateById(ProductAttributeCategoryDto productAttributeCategory) {
+        ProductAttributeCategoryEntity convert = BeanCopy.convert(productAttributeCategory, ProductAttributeCategoryEntity.class);
+        return updateById(convert);
+    }
 }
 

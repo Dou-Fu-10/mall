@@ -44,4 +44,11 @@ public interface ProductAttributeCategoryService extends IService<ProductAttribu
      * @return 属性
      */
     List<ProductAttributeCategoryEntity> getListWithAttr();
+    /**
+     * 修改数据
+     *
+     * @param productAttributeCategory 实体对象
+     * @return 修改结果
+     */
+    Boolean updateById(ProductAttributeCategoryDto productAttributeCategory);
 }
