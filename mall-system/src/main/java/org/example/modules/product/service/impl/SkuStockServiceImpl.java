@@ -45,7 +45,9 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
 
     @Override
     public Boolean saveOrUpdate(List<SkuStockDto> skuStock) {
-        return null;
+        List<SkuStockEntity> skuStockEntityList = BeanCopy.copytList(skuStock, SkuStockEntity.class);
+        // TODO 数据校验
+        return saveOrUpdateBatch(skuStockEntityList);
     }
 }
 

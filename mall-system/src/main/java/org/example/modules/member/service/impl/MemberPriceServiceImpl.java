@@ -47,7 +47,9 @@ public class MemberPriceServiceImpl extends ServiceImpl<MemberPriceMapper, Membe
 
     @Override
     public Boolean saveOrUpdate(List<MemberPriceDto> memberPrice) {
-        return null;
+        List<MemberPriceEntity> memberPriceEntityList = BeanCopy.copytList(memberPrice, MemberPriceEntity.class);
+        // TODO 数据校验
+        return saveOrUpdateBatch(memberPriceEntityList);
     }
 }
 

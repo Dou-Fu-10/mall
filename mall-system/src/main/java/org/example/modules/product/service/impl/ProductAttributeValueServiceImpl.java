@@ -48,7 +48,9 @@ public class ProductAttributeValueServiceImpl extends ServiceImpl<ProductAttribu
 
     @Override
     public Boolean saveOrUpdate(List<ProductAttributeValueDto> productAttributeValue) {
-        return null;
+        List<ProductAttributeValueEntity> productAttributeValueEntityList = BeanCopy.copytList(productAttributeValue, ProductAttributeValueEntity.class);
+        // TODO 数据校验
+        return saveOrUpdateBatch(productAttributeValueEntityList);
     }
 }
 
