@@ -46,8 +46,8 @@ public class ProductController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<ProductEntity> page, ProductEntity product) {
-        return ResponseEntity.ok(this.productService.page(page, new QueryWrapper<>(product)));
+    public ResponseEntity<Object> selectAll(Page<ProductEntity> page, ProductDto product) {
+        return ResponseEntity.ok(this.productService.page(page, product));
     }
 
     /**

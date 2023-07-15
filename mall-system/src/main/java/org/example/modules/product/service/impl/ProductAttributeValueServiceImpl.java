@@ -36,5 +36,10 @@ public class ProductAttributeValueServiceImpl extends ServiceImpl<ProductAttribu
     public boolean updateById(ProductAttributeValueDto productAttributeValue) {
         return false;
     }
+
+    @Override
+    public List<ProductAttributeValueDto> getProductAttributeValueByProductId(Long productId) {
+        return null;
+    }
 }
 

@@ -37,4 +37,6 @@ public interface SkuStockService extends IService<SkuStockEntity> {
      * @return 修改结果
      */
     boolean updateById(SkuStockDto skuStock);
+
+    List<SkuStockDto> getSkuStockByProductId(Long productId);
 }

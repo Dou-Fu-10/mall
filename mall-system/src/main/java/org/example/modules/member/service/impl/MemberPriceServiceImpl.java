@@ -36,5 +36,10 @@ public class MemberPriceServiceImpl extends ServiceImpl<MemberPriceMapper, Membe
     public boolean updateById(MemberPriceDto memberPrice) {
         return false;
     }
+
+    @Override
+    public List<MemberPriceDto> getMemberPriceByProductId(Long productId) {
+        return null;
+    }
 }
 

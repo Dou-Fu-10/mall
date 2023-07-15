@@ -36,4 +36,6 @@ public interface ProductAttributeValueService extends IService<ProductAttributeV
      * @return 修改结果
      */
     boolean updateById(ProductAttributeValueDto productAttributeValue);
+
+    List<ProductAttributeValueDto> getProductAttributeValueByProductId(Long productId);
 }

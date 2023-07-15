@@ -35,5 +35,10 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
     public boolean updateById(SkuStockDto skuStock) {
         return false;
     }
+
+    @Override
+    public List<SkuStockDto> getSkuStockByProductId(Long productId) {
+        return null;
+    }
 }
 

@@ -1,6 +1,9 @@
 package org.example.modules.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
@@ -12,6 +15,7 @@ import org.example.modules.product.entity.dto.ProductAttributeValueDto;
 import org.example.modules.product.entity.dto.ProductDto;
 import org.example.modules.product.entity.dto.ProductDtoParam;
 import org.example.modules.product.entity.dto.SkuStockDto;
+import org.example.modules.product.entity.vo.ProductVo;
 import org.example.modules.product.mapper.ProductMapper;
 import org.example.modules.product.service.ProductAttributeValueService;
 import org.example.modules.product.service.ProductService;
@@ -36,6 +40,32 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     private MemberPriceService memberPriceService;
     @Resource
     private ProductAttributeValueService productAttributeValueService;
+
+    @Override
+    public Page<ProductVo> page(Page<ProductEntity> page, ProductDto product) {
+        ProductEntity convert = BeanCopy.convert(product, ProductEntity.class);
+        Page<ProductEntity> productEntityPage = page(page, new QueryWrapper<>(convert));
+        IPage<ProductVo> productVoIpage = productEntityPage.convert(productEntity -> BeanCopy.convert(productEntity, ProductVo.class));
+        List<ProductVo> productVoList = productVoIpage.getRecords();
+        // TODO 优化查询逻辑
+        productVoList.forEach(productVo -> {
+            Long productId = productVo.getId();
+            List<SkuStockDto> skuStockByProductId = skuStockService.getSkuStockByProductId(productId);
+            List<MemberPriceDto> memberPriceByProductId = memberPriceService.getMemberPriceByProductId(productId);
+            List<ProductAttributeValueDto> productAttributeValueByProductId = productAttributeValueService.getProductAttributeValueByProductId(productId);
+            if (CollectionUtils.isNotEmpty(skuStockByProductId)) {
+                productVo.setSkuStockList(skuStockByProductId);
+            }
+            if (CollectionUtils.isNotEmpty(memberPriceByProductId)) {
+                productVo.setMemberPriceList(memberPriceByProductId);
+            }
+            if (CollectionUtils.isNotEmpty(productAttributeValueByProductId)) {
+                productVo.setProductAttributeValueList(productAttributeValueByProductId);
+            }
+        });
+
+        return (Page) productVoIpage;
+    }
 
     @Override
     public boolean save(ProductDtoParam product) {

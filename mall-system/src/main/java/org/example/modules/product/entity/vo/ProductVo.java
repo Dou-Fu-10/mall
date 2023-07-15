@@ -3,12 +3,17 @@ package org.example.modules.product.entity.vo;
 import java.util.Date;
 
 import java.io.Serializable;
+import java.util.List;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import org.example.modules.member.entity.dto.MemberPriceDto;
+import org.example.modules.product.entity.dto.ProductAttributeValueDto;
+import org.example.modules.product.entity.dto.SkuStockDto;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 13:05:48
@@ -166,7 +171,12 @@ public class ProductVo {
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
     private Integer deleteFlag;
-
+    @Schema(name = "memberPriceList", description = "商品会员价格设置")
+    private List<MemberPriceDto> memberPriceList;
+    @Schema(name = "skuStockList", description = "商品的sku库存信息")
+    private List<SkuStockDto> skuStockList;
+    @Schema(name = "productAttributeValueList", description = "商品参数及自定义规格属性")
+    private List<ProductAttributeValueDto> productAttributeValueList;
 
 }
 

@@ -53,7 +53,8 @@ public class ProductAttributeServiceImpl extends ServiceImpl<ProductAttributeMap
         productAttributeEntityLambdaQueryWrapper.eq(Objects.nonNull(productAttributeDto.getProductAttributeCategoryId()), ProductAttributeEntity::getProductAttributeCategoryId, productAttributeDto.getProductAttributeCategoryId());
         // 属性的类型；0->规格；1->参数 查询商品属性
         productAttributeEntityLambdaQueryWrapper.eq(Objects.nonNull(productAttributeDto.getType()), ProductAttributeEntity::getType, productAttributeDto.getType());
-
+        // 排序
+        productAttributeEntityLambdaQueryWrapper.orderByDesc(ProductAttributeEntity::getSort);
         Page<ProductAttributeEntity> productAttributeEntityPage = page(page, productAttributeEntityLambdaQueryWrapper);
         return (Page) productAttributeEntityPage.convert(productAttribute -> BeanCopy.convert(productAttribute, ProductAttributeVo.class));
     }

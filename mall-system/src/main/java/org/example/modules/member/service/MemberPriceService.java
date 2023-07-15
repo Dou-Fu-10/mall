@@ -38,4 +38,6 @@ public interface MemberPriceService extends IService<MemberPriceEntity> {
      * @return 修改结果
      */
     boolean updateById(MemberPriceDto memberPrice);
+
+    List<MemberPriceDto> getMemberPriceByProductId(Long productId);
 }
