@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.common.core.base.ValidationDto;
 
+import java.util.Set;
+
 /**
  * Created by PanShiFu 2023-07-13 22:08:16
  *
@@ -59,6 +61,9 @@ public class ProductCategoryDto {
      * 分类描述
      */
     private String description;
+
+
+    private Set<Long> productAttributeIdList;
 
 
 }

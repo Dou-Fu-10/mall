@@ -2,20 +2,22 @@ package org.example.modules.product.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
+import org.example.modules.product.entity.ProductAttributeEntity;
 import org.example.modules.product.entity.dto.ProductAttributeDto;
+import org.example.modules.product.service.ProductAttributeService;
 import org.example.security.annotaion.rest.AnonymousDeleteMapping;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.example.modules.product.entity.ProductAttributeEntity;
-import org.example.modules.product.service.ProductAttributeService;
-import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -46,8 +48,20 @@ public class ProductAttributeController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<ProductAttributeEntity> page, ProductAttributeEntity productAttribute) {
-        return ResponseEntity.ok(this.productAttributeService.page(page, new QueryWrapper<>(productAttribute)));
+    public ResponseEntity<Object> selectAll(Page<ProductAttributeEntity> page, ProductAttributeDto productAttribute) {
+        return ResponseEntity.ok(this.productAttributeService.page(page,productAttribute));
+    }
+
+    /**
+     * 通过商品属性分类id 查询商品属性 分页后所有数据
+     *
+     * @param page             分页对象
+     * @param productAttribute 查询实体
+     * @return 所有数据
+     */
+    @AnonymousGetMapping("/getProductAttributeByProductAttributeCategoryId")
+    public ResponseEntity<Object> getProductAttributeByProductAttributeCategoryId(Page<ProductAttributeEntity> page, ProductAttributeDto productAttribute) {
+        return ResponseEntity.ok(this.productAttributeService.getProductAttributeByProductAttributeCategoryId(page,productAttribute));
     }
 
     /**

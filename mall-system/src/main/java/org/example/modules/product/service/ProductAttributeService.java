@@ -1,8 +1,10 @@
 package org.example.modules.product.service;
 
-import org.example.modules.product.entity.ProductAttributeEntity;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.modules.product.entity.ProductAttributeEntity;
 import org.example.modules.product.entity.dto.ProductAttributeDto;
+import org.example.modules.product.entity.vo.ProductAttributeVo;
 
 
 /**
@@ -20,6 +22,7 @@ public interface ProductAttributeService extends IService<ProductAttributeEntity
      * @return 新增结果
      */
     Boolean save(ProductAttributeDto productAttribute);
+
     /**
      * 修改数据
      *
@@ -27,4 +30,22 @@ public interface ProductAttributeService extends IService<ProductAttributeEntity
      * @return 修改结果
      */
     boolean updateById(ProductAttributeDto productAttribute);
+
+    /**
+     * 分页查询所有数据
+     *
+     * @param page             分页对象
+     * @param productAttribute 查询实体
+     * @return 所有数据
+     */
+    Page<ProductAttributeVo> page(Page<ProductAttributeEntity> page, ProductAttributeDto productAttribute);
+
+    /**
+     * 通过商品属性分类id 查询商品属性 分页后所有数据
+     *
+     * @param page 分页对象
+     * @param productAttributeDto   通过商品属性分类id
+     * @return 所有数据
+     */
+    Page<ProductAttributeVo> getProductAttributeByProductAttributeCategoryId(Page<ProductAttributeEntity> page, ProductAttributeDto productAttributeDto);
 }

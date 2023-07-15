@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.example.common.core.exception.BaseRequestException;
@@ -13,8 +14,11 @@ import org.example.modules.product.entity.ProductCategoryEntity;
 import org.example.modules.product.entity.dto.ProductCategoryDto;
 import org.example.modules.product.entity.vo.ProductCategoryVo;
 import org.example.modules.product.mapper.ProductCategoryMapper;
+import org.example.modules.product.service.ProductCategoryAttributeRelationService;
 import org.example.modules.product.service.ProductCategoryService;
+import org.example.modules.tools.storage.service.MinioServer;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,7 +32,10 @@ import java.util.stream.Collectors;
  */
 @Service("productCategoryService")
 public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMapper, ProductCategoryEntity> implements ProductCategoryService {
-
+    @Resource
+    private MinioServer minioServer;
+    @Resource
+    private ProductCategoryAttributeRelationService productCategoryAttributeRelationService;
 
     @Override
     public ProductCategoryEntity getByCategoryName(@NotEmpty String categoryName) {
@@ -43,6 +50,7 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
     @Override
     public Boolean save(ProductCategoryDto productCategory) {
         ProductCategoryEntity convert = BeanCopy.convert(productCategory, ProductCategoryEntity.class);
+
         // 确保 分类名唯一
         if (Objects.nonNull(getByCategoryName(convert.getName()))) {
             throw new BaseRequestException("分类名不唯一");
@@ -53,8 +61,60 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
                 throw new BaseRequestException("正确的填写上级分类");
             }
         }
+        // 判断是否上传图片
+        if (Objects.nonNull(convert.getIcon())) {
+            if (!minioServer.checkObjectIsExist(convert.getIcon())) {
+                throw new BaseRequestException("请上传正确的文件");
+            }
+        }
+
         // TODO 其他验证规则需要在加
-        return save(convert);
+        if (!convert.insert()) {
+            throw new BaseRequestException("添加失败");
+        }
+
+        assert productCategory != null;
+        if (CollectionUtils.isNotEmpty(productCategory.getProductAttributeIdList())) {
+            if (!productCategoryAttributeRelationService.save(convert.getId(), productCategory.getProductAttributeIdList())) {
+                throw new BaseRequestException("绑定属性失败");
+            }
+        }
+        return true;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean updateById(ProductCategoryDto productCategory) {
+        ProductCategoryEntity convert = BeanCopy.convert(productCategory, ProductCategoryEntity.class);
+
+        // 校验 上级分类id
+        if (Objects.nonNull(convert.getParentId())) {
+            if (Objects.isNull(getByCategoryId(convert.getParentId()))) {
+                throw new BaseRequestException("正确的填写上级分类");
+            }
+        }
+        // 名字 是否改变
+        if (Objects.nonNull(lambdaQuery().eq(ProductCategoryEntity::getName, convert.getName()).ne(ProductCategoryEntity::getId, productCategory.getId()).one())) {
+            throw new BaseRequestException("分类名不唯一");
+        }
+
+        // 判断是否上传图片
+        if (Objects.nonNull(convert.getIcon())) {
+            if (!minioServer.checkObjectIsExist(convert.getIcon())) {
+                throw new BaseRequestException("请上传正确的文件");
+            }
+        }
+
+        // TODO 其他验证规则需要在加
+        if (!convert.updateById()) {
+            throw new BaseRequestException("修改属性失败");
+        }
+        if (CollectionUtils.isNotEmpty(productCategory.getProductAttributeIdList())) {
+            if (!productCategoryAttributeRelationService.updateByProductCategoryId(convert.getId(), productCategory.getProductAttributeIdList())) {
+                throw new BaseRequestException("修改分类与属性的绑定失败");
+            }
+        }
+        return true;
     }
 
     @Override
@@ -69,22 +129,6 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
         return (Page) convert;
     }
 
-    @Override
-    public Boolean updateById(ProductCategoryDto productCategory) {
-        ProductCategoryEntity convert = BeanCopy.convert(productCategory, ProductCategoryEntity.class);
-        // 名字 是否改变
-        if (Objects.nonNull(lambdaQuery().eq(ProductCategoryEntity::getName, convert.getName()).ne(ProductCategoryEntity::getId, productCategory.getId()))) {
-            throw new BaseRequestException("分类名不唯一");
-        }
-        // 校验 上级分类id
-        if (Objects.nonNull(convert.getParentId())) {
-            if (Objects.isNull(getByCategoryId(convert.getParentId()))) {
-                throw new BaseRequestException("正确的填写上级分类");
-            }
-        }
-        // TODO 其他验证规则需要在加
-        return updateById(convert);
-    }
 
     @Override
     public Boolean updateNavStatus(Set<Long> idList, Boolean navStatus) {

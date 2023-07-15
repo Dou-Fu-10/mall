@@ -76,4 +76,5 @@ public interface ProductCategoryService extends IService<ProductCategoryEntity> 
      * @return String
      */
     Boolean updateShowStatus(Set<Long> idList, Boolean showStatus);
+
 }

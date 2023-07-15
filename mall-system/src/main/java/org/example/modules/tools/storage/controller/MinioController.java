@@ -26,7 +26,7 @@ public class MinioController {
 
     @AnonymousPostMapping("/images")
     public String uploadImages(MultipartFile file) {
-        log.info("文件上传");
+        log.info("图片上传");
         return minioServer.uploadImages(file);
     }
 
@@ -36,8 +36,8 @@ public class MinioController {
         return minioServer.upload(file);
     }
 
-    @AnonymousGetMapping("/test")
-    public String uploadImages() {
-        return "minioServer.uploadImages(file)";
+    @AnonymousGetMapping("/browse")
+    public boolean browse(String file) {
+        return minioServer.checkObjectIsExist(file);
     }
 }

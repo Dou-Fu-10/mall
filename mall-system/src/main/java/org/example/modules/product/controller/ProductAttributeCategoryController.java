@@ -1,13 +1,13 @@
 package org.example.modules.product.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.jsonwebtoken.lang.Collections;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
-import org.example.common.core.utils.BeanCopy;
 import org.example.modules.product.entity.ProductAttributeCategoryEntity;
 import org.example.modules.product.entity.dto.ProductAttributeCategoryDto;
 import org.example.modules.product.entity.vo.ProductAttributeCategoryVo;
@@ -17,7 +17,10 @@ import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
 import java.util.List;
@@ -50,8 +53,8 @@ public class ProductAttributeCategoryController {
      */
     @AnonymousGetMapping
     @Operation(summary = "分页查询所有数据")
-    public ResponseEntity<Object> selectAll(Page<ProductAttributeCategoryEntity> page, ProductAttributeCategoryEntity productAttributeCategory) {
-        return ResponseEntity.ok(this.productAttributeCategoryService.page(page, new QueryWrapper<>(productAttributeCategory)));
+    public ResponseEntity<Object> selectAll(Page<ProductAttributeCategoryEntity> page, ProductAttributeCategoryDto productAttributeCategory) {
+        return ResponseEntity.ok(this.productAttributeCategoryService.page(page, productAttributeCategory));
     }
 
     /**
@@ -105,7 +108,10 @@ public class ProductAttributeCategoryController {
     @AnonymousDeleteMapping
     @Operation(summary = "删除数据")
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
-        return ResponseEntity.ok(this.productAttributeCategoryService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() > 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败");
+        if (CollectionUtils.isEmpty(idList)) {
+            throw new BaseRequestException("请正确的填写id");
+        }
+        return ResponseEntity.ok(this.productAttributeCategoryService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() >= 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败");
     }
 
     /***
@@ -115,8 +121,7 @@ public class ProductAttributeCategoryController {
     @AnonymousGetMapping(value = "/list/withAttr")
     @Operation(summary = "获取所有商品属性分类及其下属性")
     public ResponseEntity<List<ProductAttributeCategoryVo>> getListWithAttr() {
-        List<ProductAttributeCategoryEntity> productAttributeCategoryResultList = productAttributeCategoryService.getListWithAttr();
-        return ResponseEntity.ok(BeanCopy.copytList(productAttributeCategoryResultList, ProductAttributeCategoryVo.class));
+        return ResponseEntity.ok(productAttributeCategoryService.getListWithAttr());
     }
 }
 

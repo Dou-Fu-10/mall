@@ -1,8 +1,10 @@
 package org.example.modules.product.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.product.entity.ProductAttributeCategoryEntity;
 import org.example.modules.product.entity.dto.ProductAttributeCategoryDto;
+import org.example.modules.product.entity.vo.ProductAttributeCategoryVo;
 
 import java.util.List;
 
@@ -15,6 +17,15 @@ import java.util.List;
  * @Description 产品属性分类表(ProductAttributeCategory)表服务接口
  */
 public interface ProductAttributeCategoryService extends IService<ProductAttributeCategoryEntity> {
+    /**
+     * 分页查询所有数据
+     *
+     * @param page                     分页对象
+     * @param productAttributeCategory 查询实体
+     * @return 所有数据
+     */
+    Page<List<ProductAttributeCategoryVo>> page(Page<ProductAttributeCategoryEntity> page, ProductAttributeCategoryDto productAttributeCategory);
+
     /**
      * 通过分类名字查询分类信息
      *
@@ -43,7 +54,7 @@ public interface ProductAttributeCategoryService extends IService<ProductAttribu
      * 获取包含属性的属性分类
      * @return 属性
      */
-    List<ProductAttributeCategoryEntity> getListWithAttr();
+    List<ProductAttributeCategoryVo> getListWithAttr();
     /**
      * 修改数据
      *

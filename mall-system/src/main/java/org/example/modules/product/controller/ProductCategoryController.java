@@ -1,7 +1,9 @@
 package org.example.modules.product.controller;
 
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.jsonwebtoken.lang.Collections;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -13,11 +15,11 @@ import org.example.security.annotaion.rest.AnonymousDeleteMapping;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.example.security.annotaion.rest.AnonymousPutMapping;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -49,6 +51,7 @@ public class ProductCategoryController {
     public ResponseEntity<Object> selectAll(Page<ProductCategoryEntity> page, ProductCategoryEntity productCategory) {
         return ResponseEntity.ok(this.productCategoryService.page(page, productCategory));
     }
+
 
     /**
      * 通过主键查询单条数据
@@ -97,7 +100,28 @@ public class ProductCategoryController {
      */
     @AnonymousDeleteMapping
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
-        return new ResponseEntity<>(this.productCategoryService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() > 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败", HttpStatus.OK);
+        if (CollectionUtils.isEmpty(idList)) {
+            throw new BaseRequestException("填写正确的id");
+        }
+        // 校验 id 格式是否正确
+        Set<Long> collect = idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() >= 1).limit(10).collect(Collectors.toSet());
+        if (CollectionUtils.isEmpty(collect)) {
+            throw new BaseRequestException("填写正确的id");
+        }
+
+        List<ProductCategoryEntity> list = productCategoryService.lambdaQuery().in(ProductCategoryEntity::getParentId, collect).list();
+        // 判断 是否有下级分类
+        Set<Long> subordinateClassification = list.stream().map(ProductCategoryEntity::getParentId).collect(Collectors.toSet());
+        if (CollectionUtils.isNotEmpty(subordinateClassification)) {
+            if (collect.size() == subordinateClassification.size()) {
+                throw new BaseRequestException("拥有下级分类不可删除");
+            }
+        }
+        collect.removeAll(subordinateClassification);
+        if (this.productCategoryService.removeByIds(collect)) {
+            return ResponseEntity.ok("删除成功");
+        }
+        throw new BaseRequestException("删除失败");
     }
 
     /**

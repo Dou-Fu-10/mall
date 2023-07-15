@@ -27,14 +27,6 @@ import java.util.Date;
 @TableName("pms_product_category")
 @Schema(name = "pms_product_category", description = "产品分类(ProductCategory)表实体类")
 public class ProductCategoryEntity extends CommonEntity<ProductCategoryEntity> implements Serializable {
-    /**
-     * 创建人
-     * 创建
-     */
-    @JsonIgnore
-    @TableField(exist = false)
-    private String createBy;
-
 
     /**
      * ID
@@ -87,26 +79,12 @@ public class ProductCategoryEntity extends CommonEntity<ProductCategoryEntity> i
     @Schema(name = "description", description = "分类描述")
     private String description;
     /**
-     * 更新人
-     * 创建、更新
+     * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
     @JsonIgnore
-    @TableField(exist = false)
-    private String updateBy;
-    /**
-     * 创建时间
-     * 创建
-     */
-    @JsonIgnore
-    @TableField(exist = false)
-    private Date createTime;
-    /**
-     * 更新时间
-     * 创建、更新
-     */
-    @JsonIgnore
-    @TableField(exist = false)
-    private Date updateTime;
+    @Schema(name = "deleteFlag", description = "逻辑删除（1 代表已删除），（0 代表未删除）")
+    private Integer deleteFlag;
+
     public ProductCategoryEntity(Long id, Boolean navStatus, Boolean showStatus) {
         this.id = id;
         this.navStatus = navStatus;

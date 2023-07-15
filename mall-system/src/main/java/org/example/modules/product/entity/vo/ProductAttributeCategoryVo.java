@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * Created by PanShiFu 2023-07-14 11:03:43
  *
@@ -33,7 +35,10 @@ public class ProductAttributeCategoryVo {
      * 参数数量
      */
     private Integer paramCount;
-
+    /**
+     * 商品属性
+     */
+    List<ProductAttributeVo> productAttributeVoList;
 
 }
 

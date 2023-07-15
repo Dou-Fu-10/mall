@@ -1,12 +1,19 @@
 package org.example.modules.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.product.entity.ProductAttributeCategoryEntity;
 import org.example.modules.product.entity.dto.ProductAttributeCategoryDto;
+import org.example.modules.product.entity.dto.ProductAttributeDto;
+import org.example.modules.product.entity.vo.ProductAttributeCategoryVo;
+import org.example.modules.product.entity.vo.ProductAttributeVo;
 import org.example.modules.product.mapper.ProductAttributeCategoryMapper;
 import org.example.modules.product.service.ProductAttributeCategoryService;
+import org.example.modules.product.service.ProductAttributeService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +28,17 @@ import java.util.Objects;
  */
 @Service("productAttributeCategoryService")
 public class ProductAttributeCategoryServiceImpl extends ServiceImpl<ProductAttributeCategoryMapper, ProductAttributeCategoryEntity> implements ProductAttributeCategoryService {
+
+    @Resource
+    ProductAttributeService productAttributeService;
+
+    @Override
+    public Page<List<ProductAttributeCategoryVo>> page(Page<ProductAttributeCategoryEntity> page, ProductAttributeCategoryDto productAttributeCategory) {
+        ProductAttributeCategoryEntity convert = BeanCopy.convert(productAttributeCategory, ProductAttributeCategoryEntity.class);
+        // TODO 对数据进行校验
+        Page<ProductAttributeCategoryEntity> productAttributeCategoryEntityPage = page(page, new QueryWrapper<>(convert));
+        return (Page) productAttributeCategoryEntityPage.convert(productAttributeCategoryEntity -> BeanCopy.convert(productAttributeCategoryEntity, ProductAttributeCategoryVo.class));
+    }
 
     @Override
     public ProductAttributeCategoryEntity getByProductAttributeCategoryName(String productAttributeCategory) {
@@ -43,9 +61,24 @@ public class ProductAttributeCategoryServiceImpl extends ServiceImpl<ProductAttr
     }
 
     @Override
-    public List<ProductAttributeCategoryEntity> getListWithAttr() {
-        List<ProductAttributeCategoryEntity> listWithAttr = this.getBaseMapper().getListWithAttr();
-        return null;
+    public List<ProductAttributeCategoryVo> getListWithAttr() {
+        // 获取商品属性分类
+        List<ProductAttributeCategoryEntity> productAttributeCategoryEntityList = list();
+        // 转换成vo
+        List<ProductAttributeCategoryVo> productAttributeCategoryVoList = BeanCopy.copytList(productAttributeCategoryEntityList, ProductAttributeCategoryVo.class);
+        // 遍历商品属性分类
+        for (ProductAttributeCategoryVo productAttributeCategoryVo : productAttributeCategoryVoList) {
+            // 查询商品属性分类下的商品属性
+            ProductAttributeDto productAttributeDto = new ProductAttributeDto();
+            productAttributeDto.setProductAttributeCategoryId(productAttributeCategoryVo.getId());
+
+            Page<ProductAttributeVo> byProductAttributeCategoryId = productAttributeService.getProductAttributeByProductAttributeCategoryId(new Page<>(), productAttributeDto);
+            // 获取到商品属性分类下的 商品属性
+            List<ProductAttributeVo> records = byProductAttributeCategoryId.getRecords();
+            // 简历父子关系
+            productAttributeCategoryVo.setProductAttributeVoList(records);
+        }
+        return productAttributeCategoryVoList;
     }
 
     @Override

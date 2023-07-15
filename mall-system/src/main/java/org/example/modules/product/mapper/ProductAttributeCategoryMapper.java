@@ -2,6 +2,7 @@ package org.example.modules.product.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.example.modules.product.entity.ProductAttributeCategoryEntity;
 
@@ -16,22 +17,6 @@ import java.util.List;
  */
 @Mapper
 public interface ProductAttributeCategoryMapper extends BaseMapper<ProductAttributeCategoryEntity> {
-    /**
-     * 获取包含属性的商品属性分类
-     *
-     * @return ProductAttributeCategoryEntity
-     */
-    @Select("SELECT " +
-            "  pac.id," +
-            "  pac.name," +
-            "  pa.id attr_id," +
-            "  pa.name attr_name " +
-            "FROM " +
-            "  pms_product_attribute_category pac " +
-            "  LEFT JOIN pms_product_attribute pa " +
-            "    ON pac.id = pa.product_attribute_category_id " +
-            "    AND pa.type = 1 ;" +
-            "")
-    List<ProductAttributeCategoryEntity> getListWithAttr();
+
 }
 
