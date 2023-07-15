@@ -55,6 +55,7 @@ public interface ProductAttributeCategoryService extends IService<ProductAttribu
      * @return 属性
      */
     List<ProductAttributeCategoryVo> getListWithAttr();
+
     /**
      * 修改数据
      *

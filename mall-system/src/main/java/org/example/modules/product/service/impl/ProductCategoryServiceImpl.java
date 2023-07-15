@@ -18,7 +18,6 @@ import org.example.modules.product.service.ProductCategoryAttributeRelationServi
 import org.example.modules.product.service.ProductCategoryService;
 import org.example.modules.tools.storage.service.MinioServer;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;

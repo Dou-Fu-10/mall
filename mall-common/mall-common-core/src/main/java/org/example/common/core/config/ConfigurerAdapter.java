@@ -12,23 +12,15 @@ package org.example.common.core.config;
 //import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 //import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 //import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-//import org.springframework.http.converter.HttpMessageConverter;
-//import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-//import java.math.BigDecimal;
-//import java.math.BigInteger;
-//import java.text.SimpleDateFormat;
-//import java.time.LocalDate;
-//import java.time.LocalDateTime;
-//import java.time.LocalTime;
-//import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 //import java.util.TimeZone;
@@ -56,6 +48,7 @@ public class ConfigurerAdapter implements WebMvcConfigurer {
      * Time格式化字符串
      */
     private static final String DEFAULT_TIME_PATTERN = "HH:mm:ss";
+
     /**
      * 文件配置
      */
@@ -64,7 +57,6 @@ public class ConfigurerAdapter implements WebMvcConfigurer {
 //    public ConfigurerAdapter(FileProperties properties) {
 //        this.properties = properties;
 //    }
-
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

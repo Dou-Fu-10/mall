@@ -2,11 +2,7 @@ package org.example.modules.product.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Select;
 import org.example.modules.product.entity.ProductAttributeCategoryEntity;
-
-import java.util.List;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 11:03:42

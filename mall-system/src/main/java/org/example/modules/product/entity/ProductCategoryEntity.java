@@ -1,7 +1,6 @@
 package org.example.modules.product.entity;
 
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,7 +11,6 @@ import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by Dou-Fu-10 2023-07-13 22:08:15

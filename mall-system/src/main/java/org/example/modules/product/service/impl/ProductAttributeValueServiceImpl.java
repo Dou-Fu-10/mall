@@ -2,15 +2,12 @@ package org.example.modules.product.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.common.core.utils.BeanCopy;
-import org.example.modules.member.entity.MemberPriceEntity;
-import org.example.modules.product.entity.SkuStockEntity;
-import org.example.modules.product.entity.vo.ProductAttributeValueVo;
-import org.example.modules.product.entity.vo.SkuStockVo;
-import org.springframework.stereotype.Service;
 import org.example.modules.product.entity.ProductAttributeValueEntity;
 import org.example.modules.product.entity.dto.ProductAttributeValueDto;
+import org.example.modules.product.entity.vo.ProductAttributeValueVo;
 import org.example.modules.product.mapper.ProductAttributeValueMapper;
 import org.example.modules.product.service.ProductAttributeValueService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

@@ -19,10 +19,13 @@ import java.util.List;
 @NoArgsConstructor
 public class ProductAttributeCategoryVo {
     /**
+     * 商品属性
+     */
+    List<ProductAttributeVo> productAttributeVoList;
+    /**
      * ID
      */
     private Long id;
-
     /**
      * 产品属性分类名字
      */
@@ -35,10 +38,6 @@ public class ProductAttributeCategoryVo {
      * 参数数量
      */
     private Integer paramCount;
-    /**
-     * 商品属性
-     */
-    List<ProductAttributeVo> productAttributeVoList;
 
 }
 

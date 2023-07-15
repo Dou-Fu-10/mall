@@ -1,20 +1,13 @@
 package org.example.modules.product.entity.vo;
 
-import java.util.Date;
-
-import java.io.Serializable;
-import java.util.List;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import org.example.modules.member.entity.dto.MemberPriceDto;
 import org.example.modules.member.entity.vo.MemberPriceVo;
-import org.example.modules.product.entity.dto.ProductAttributeValueDto;
-import org.example.modules.product.entity.dto.SkuStockDto;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 13:05:48

@@ -1,11 +1,11 @@
 package org.example.modules.product.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
 import org.example.modules.product.entity.ProductOperateLogEntity;
 import org.example.modules.product.entity.dto.ProductOperateLogDto;
 import org.example.modules.product.mapper.ProductOperateLogMapper;
 import org.example.modules.product.service.ProductOperateLogService;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 13:54:18

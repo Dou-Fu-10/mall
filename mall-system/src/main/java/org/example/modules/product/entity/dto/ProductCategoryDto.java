@@ -1,11 +1,9 @@
 package org.example.modules.product.entity.dto;
 
 
-import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.common.core.base.ValidationDto;
 
 import java.util.Set;
 

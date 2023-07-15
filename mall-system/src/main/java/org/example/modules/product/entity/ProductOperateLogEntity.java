@@ -1,17 +1,16 @@
 package org.example.modules.product.entity;
 
-import java.util.Date;
-
-import java.io.Serializable;
-
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.common.core.base.CommonEntity;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 13:54:18

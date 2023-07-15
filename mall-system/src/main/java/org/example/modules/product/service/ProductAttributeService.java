@@ -43,8 +43,8 @@ public interface ProductAttributeService extends IService<ProductAttributeEntity
     /**
      * 通过商品属性分类id 查询商品属性 分页后所有数据
      *
-     * @param page 分页对象
-     * @param productAttributeDto   通过商品属性分类id
+     * @param page                分页对象
+     * @param productAttributeDto 通过商品属性分类id
      * @return 所有数据
      */
     Page<ProductAttributeVo> getProductAttributeByProductAttributeCategoryId(Page<ProductAttributeEntity> page, ProductAttributeDto productAttributeDto);

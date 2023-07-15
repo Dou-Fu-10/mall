@@ -26,11 +26,6 @@ import java.io.Serializable;
 @TableName("pms_product_category_attribute_relation")
 @Schema(name = "pms_product_category_attribute_relation", description = "产品的分类和属性的关系表，用于设置分类筛选条件（只支持一级分类）(ProductCategoryAttributeRelation)表实体类")
 public class ProductCategoryAttributeRelationEntity extends CommonEntity<ProductCategoryAttributeRelationEntity> implements Serializable {
-    public ProductCategoryAttributeRelationEntity(Long productCategoryId, Long productAttributeId) {
-        this.productCategoryId = productCategoryId;
-        this.productAttributeId = productAttributeId;
-    }
-
     /**
      * ID
      */
@@ -40,12 +35,16 @@ public class ProductCategoryAttributeRelationEntity extends CommonEntity<Product
      * 商品分类id
      */
     private Long productCategoryId;
-
-
     /**
      * 商品属性id
      */
     private Long productAttributeId;
+
+
+    public ProductCategoryAttributeRelationEntity(Long productCategoryId, Long productAttributeId) {
+        this.productCategoryId = productCategoryId;
+        this.productAttributeId = productAttributeId;
+    }
 
 
 }

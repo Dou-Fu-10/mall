@@ -1,7 +1,6 @@
 package org.example.modules.product.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -49,7 +48,7 @@ public class ProductAttributeController {
      */
     @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<ProductAttributeEntity> page, ProductAttributeDto productAttribute) {
-        return ResponseEntity.ok(this.productAttributeService.page(page,productAttribute));
+        return ResponseEntity.ok(this.productAttributeService.page(page, productAttribute));
     }
 
     /**
@@ -61,7 +60,7 @@ public class ProductAttributeController {
      */
     @AnonymousGetMapping("/getProductAttributeByProductAttributeCategoryId")
     public ResponseEntity<Object> getProductAttributeByProductAttributeCategoryId(Page<ProductAttributeEntity> page, ProductAttributeDto productAttribute) {
-        return ResponseEntity.ok(this.productAttributeService.getProductAttributeByProductAttributeCategoryId(page,productAttribute));
+        return ResponseEntity.ok(this.productAttributeService.getProductAttributeByProductAttributeCategoryId(page, productAttribute));
     }
 
     /**

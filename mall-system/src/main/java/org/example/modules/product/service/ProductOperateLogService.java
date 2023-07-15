@@ -1,7 +1,7 @@
 package org.example.modules.product.service;
 
-import org.example.modules.product.entity.ProductOperateLogEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.modules.product.entity.ProductOperateLogEntity;
 import org.example.modules.product.entity.dto.ProductOperateLogDto;
 
 /**

@@ -27,6 +27,7 @@ public interface ProductService extends IService<ProductEntity> {
      * @return 所有数据
      */
     Page<ProductVo> page(Page<ProductEntity> page, ProductDto product);
+
     /**
      * 新增数据
      *
