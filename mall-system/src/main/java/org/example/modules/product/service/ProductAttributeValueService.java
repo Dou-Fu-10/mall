@@ -1,8 +1,11 @@
 package org.example.modules.product.service;
 
+import org.example.modules.member.entity.dto.MemberPriceDto;
 import org.example.modules.product.entity.ProductAttributeValueEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.product.entity.dto.ProductAttributeValueDto;
+
+import java.util.List;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 13:54:16
@@ -19,7 +22,13 @@ public interface ProductAttributeValueService extends IService<ProductAttributeV
      * @return 新增结果
      */
     boolean save(ProductAttributeValueDto productAttributeValue);
-
+    /**
+     * 新增数据
+     *
+     * @param productAttributeValue 实体对象
+     * @return 新增结果
+     */
+    boolean save(List<ProductAttributeValueDto> productAttributeValue);
     /**
      * 修改数据
      *

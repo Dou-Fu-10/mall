@@ -70,7 +70,7 @@ public class SwaggerConfig {
                         groupedApi("productAttributeValue"), groupedApi("productCategoryAttributeRelation"),
                         groupedApi("productCategory"), groupedApi("productFullReduction"),
                         groupedApi("productLadder"), groupedApi("productOperateLog"),
-                        groupedApi("productVertifyRecord"), groupedApi("skuStock"))
+                        groupedApi("productVertifyRecord"), groupedApi("skuStock"), groupedApi("product"))
                 .build();
     }
 

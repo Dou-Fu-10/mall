@@ -3,6 +3,10 @@ package org.example.modules.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.product.entity.ProductEntity;
 import org.example.modules.product.entity.dto.ProductDto;
+import org.example.modules.product.entity.dto.ProductDtoParam;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -19,7 +23,8 @@ public interface ProductService extends IService<ProductEntity> {
      * @param product 实体对象
      * @return 新增结果
      */
-    boolean save(ProductDto product);
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
+    boolean save(ProductDtoParam product);
 
     /**
      * 修改数据
