@@ -47,7 +47,7 @@ public class OrderSettingController {
      * @param orderSetting 查询实体
      * @return 所有数据
      */
-    @AnonymousGetMapping
+//    @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<OrderSettingEntity> page, OrderSettingEntity orderSetting) {
         return ResponseEntity.ok(this.orderSettingService.page(page, new QueryWrapper<>(orderSetting)));
     }
@@ -99,7 +99,7 @@ public class OrderSettingController {
      * @param idList 主键结合
      * @return 删除结果
      */
-    @AnonymousDeleteMapping
+//    @AnonymousDeleteMapping
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         return ResponseEntity.ok(this.orderSettingService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() > 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败");
     }

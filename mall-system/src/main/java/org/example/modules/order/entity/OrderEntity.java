@@ -1,7 +1,10 @@
 package org.example.modules.order.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -210,6 +213,21 @@ public class OrderEntity extends CommonEntity<OrderEntity> implements Serializab
     @Schema(name = "deleteFlag", description = "逻辑删除（1 代表已删除），（0 代表未删除）")
     private Integer deleteFlag;
 
+
+    /**
+     * 创建人
+     * 创建
+     */
+    @JsonIgnore
+    @TableField(exist = false)
+    private String createBy;
+    /**
+     * 更新人
+     * 创建、更新
+     */
+    @JsonIgnore
+    @TableField(exist = false)
+    private String updateBy;
 
 }
 

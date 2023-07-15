@@ -6,9 +6,16 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
+import org.example.common.core.utils.BeanCopy;
 import org.example.modules.order.entity.OrderReturnApplyEntity;
+import org.example.modules.order.entity.OrderReturnReasonEntity;
 import org.example.modules.order.entity.dto.OrderReturnApplyDto;
+import org.example.modules.order.entity.vo.OrderReturnApplyVo;
+import org.example.modules.order.entity.vo.OrderReturnReasonVo;
 import org.example.modules.order.service.OrderReturnApplyService;
+import org.example.modules.tools.entity.CompanyAddressEntity;
+import org.example.modules.tools.entity.vo.CompanyAddressVo;
+import org.example.modules.tools.service.CompanyAddressService;
 import org.example.security.annotaion.rest.AnonymousDeleteMapping;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
@@ -40,6 +47,8 @@ public class OrderReturnApplyController {
     @Resource
     private OrderReturnApplyService orderReturnApplyService;
 
+    @Resource
+    private CompanyAddressService companyAddressService;
     /**
      * 分页查询所有数据
      *
@@ -60,7 +69,14 @@ public class OrderReturnApplyController {
      */
     @AnonymousGetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return ResponseEntity.ok(this.orderReturnApplyService.getById(id));
+        // TODO 优化代码
+        OrderReturnApplyEntity orderReturnApplyEntity = this.orderReturnApplyService.getById(id);
+        OrderReturnApplyVo orderReturnApplyVo = BeanCopy.convert(orderReturnApplyEntity, OrderReturnApplyVo.class);
+        CompanyAddressEntity companyAddressEntity = companyAddressService.getById(orderReturnApplyVo.getCompanyAddressId());
+        CompanyAddressVo companyAddressVo = BeanCopy.convert(companyAddressEntity, CompanyAddressVo.class);
+        // 退货地址
+        orderReturnApplyVo.setCompanyAddressVo(companyAddressVo);
+        return ResponseEntity.ok(orderReturnApplyVo);
     }
 
     /**

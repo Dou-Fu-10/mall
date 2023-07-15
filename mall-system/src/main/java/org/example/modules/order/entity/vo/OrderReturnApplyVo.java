@@ -3,6 +3,7 @@ package org.example.modules.order.entity.vo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.modules.tools.entity.vo.CompanyAddressVo;
 
 import java.util.Date;
 
@@ -29,6 +30,8 @@ public class OrderReturnApplyVo {
      * 收货地址表id
      */
     private Long companyAddressId;
+
+    private CompanyAddressVo companyAddressVo;
     /**
      * 退货商品id
      */
