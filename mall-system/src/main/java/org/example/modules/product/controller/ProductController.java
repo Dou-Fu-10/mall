@@ -83,7 +83,7 @@ public class ProductController {
      * @return 修改结果
      */
     @AnonymousPutMapping
-    public ResponseEntity<Object> update(@RequestBody ProductDto product) {
+    public ResponseEntity<Object> update(@RequestBody ProductDtoParam product) {
         if (this.productService.updateById(product)) {
             return ResponseEntity.ok("修改成功");
         }

@@ -1,9 +1,9 @@
 package org.example.modules.member.service;
 
-import org.example.modules.member.entity.MemberPriceEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.modules.member.entity.MemberPriceEntity;
 import org.example.modules.member.entity.dto.MemberPriceDto;
-import org.example.modules.product.entity.dto.SkuStockDto;
+import org.example.modules.member.entity.vo.MemberPriceVo;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public interface MemberPriceService extends IService<MemberPriceEntity> {
      * @param memberPrice 实体对象
      * @return 新增结果
      */
-    boolean save(MemberPriceDto memberPrice);
+    Boolean save(MemberPriceDto memberPrice);
 
     /**
      * 新增数据
@@ -29,7 +29,7 @@ public interface MemberPriceService extends IService<MemberPriceEntity> {
      * @param memberPrice 实体对象
      * @return 新增结果
      */
-    boolean save(List<MemberPriceDto> memberPrice);
+    Boolean save(List<MemberPriceDto> memberPrice);
 
     /**
      * 修改数据
@@ -37,7 +37,21 @@ public interface MemberPriceService extends IService<MemberPriceEntity> {
      * @param memberPrice 实体对象
      * @return 修改结果
      */
-    boolean updateById(MemberPriceDto memberPrice);
+    Boolean updateById(MemberPriceDto memberPrice);
 
-    List<MemberPriceDto> getMemberPriceByProductId(Long productId);
+    /**
+     * 通过商品id 商品会员价格表
+     *
+     * @param productId 商品id
+     * @return 会员价格
+     */
+    List<MemberPriceVo> getMemberPriceByProductId(Long productId);
+
+    /**
+     * 新增数据
+     *
+     * @param memberPrice 实体对象
+     * @return 新增结果
+     */
+    Boolean saveOrUpdate(List<MemberPriceDto> memberPrice);
 }

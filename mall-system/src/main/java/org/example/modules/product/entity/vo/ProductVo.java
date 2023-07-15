@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import org.example.modules.member.entity.dto.MemberPriceDto;
+import org.example.modules.member.entity.vo.MemberPriceVo;
 import org.example.modules.product.entity.dto.ProductAttributeValueDto;
 import org.example.modules.product.entity.dto.SkuStockDto;
 
@@ -172,11 +173,11 @@ public class ProductVo {
      */
     private Integer deleteFlag;
     @Schema(name = "memberPriceList", description = "商品会员价格设置")
-    private List<MemberPriceDto> memberPriceList;
+    private List<MemberPriceVo> memberPriceList;
     @Schema(name = "skuStockList", description = "商品的sku库存信息")
-    private List<SkuStockDto> skuStockList;
+    private List<SkuStockVo> skuStockList;
     @Schema(name = "productAttributeValueList", description = "商品参数及自定义规格属性")
-    private List<ProductAttributeValueDto> productAttributeValueList;
+    private List<ProductAttributeValueVo> productAttributeValueList;
 
 }
 

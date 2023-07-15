@@ -3,6 +3,9 @@ package org.example.modules.product.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.member.entity.MemberPriceEntity;
+import org.example.modules.product.entity.SkuStockEntity;
+import org.example.modules.product.entity.vo.ProductAttributeValueVo;
+import org.example.modules.product.entity.vo.SkuStockVo;
 import org.springframework.stereotype.Service;
 import org.example.modules.product.entity.ProductAttributeValueEntity;
 import org.example.modules.product.entity.dto.ProductAttributeValueDto;
@@ -21,24 +24,30 @@ import java.util.List;
 @Service("productAttributeValueService")
 public class ProductAttributeValueServiceImpl extends ServiceImpl<ProductAttributeValueMapper, ProductAttributeValueEntity> implements ProductAttributeValueService {
     @Override
-    public boolean save(ProductAttributeValueDto productAttributeValue) {
+    public Boolean save(ProductAttributeValueDto productAttributeValue) {
         return false;
     }
 
     @Override
-    public boolean save(List<ProductAttributeValueDto> productAttributeValue) {
+    public Boolean save(List<ProductAttributeValueDto> productAttributeValue) {
         List<ProductAttributeValueEntity> productAttributeValueEntityList = BeanCopy.copytList(productAttributeValue, ProductAttributeValueEntity.class);
         // TODO 数据校验
         return saveBatch(productAttributeValueEntityList);
     }
 
     @Override
-    public boolean updateById(ProductAttributeValueDto productAttributeValue) {
+    public Boolean updateById(ProductAttributeValueDto productAttributeValue) {
         return false;
     }
 
     @Override
-    public List<ProductAttributeValueDto> getProductAttributeValueByProductId(Long productId) {
+    public List<ProductAttributeValueVo> getProductAttributeValueByProductId(Long productId) {
+        List<ProductAttributeValueEntity> productAttributeValueEntityList = lambdaQuery().ge(ProductAttributeValueEntity::getProductId, productId).list();
+        return BeanCopy.copytList(productAttributeValueEntityList, ProductAttributeValueVo.class);
+    }
+
+    @Override
+    public Boolean saveOrUpdate(List<ProductAttributeValueDto> productAttributeValue) {
         return null;
     }
 }

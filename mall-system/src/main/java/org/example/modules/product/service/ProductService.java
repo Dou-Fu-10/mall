@@ -42,5 +42,5 @@ public interface ProductService extends IService<ProductEntity> {
      * @param product 实体对象
      * @return 修改结果
      */
-    boolean updateById(ProductDto product);
+    boolean updateById(ProductDtoParam product);
 }

@@ -1,9 +1,9 @@
 package org.example.modules.product.service;
 
-import org.example.modules.member.entity.dto.MemberPriceDto;
-import org.example.modules.product.entity.ProductAttributeValueEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.modules.product.entity.ProductAttributeValueEntity;
 import org.example.modules.product.entity.dto.ProductAttributeValueDto;
+import org.example.modules.product.entity.vo.ProductAttributeValueVo;
 
 import java.util.List;
 
@@ -21,21 +21,37 @@ public interface ProductAttributeValueService extends IService<ProductAttributeV
      * @param productAttributeValue 实体对象
      * @return 新增结果
      */
-    boolean save(ProductAttributeValueDto productAttributeValue);
+    Boolean save(ProductAttributeValueDto productAttributeValue);
+
     /**
      * 新增数据
      *
      * @param productAttributeValue 实体对象
      * @return 新增结果
      */
-    boolean save(List<ProductAttributeValueDto> productAttributeValue);
+    Boolean save(List<ProductAttributeValueDto> productAttributeValue);
+
     /**
      * 修改数据
      *
      * @param productAttributeValue 实体对象
      * @return 修改结果
      */
-    boolean updateById(ProductAttributeValueDto productAttributeValue);
+    Boolean updateById(ProductAttributeValueDto productAttributeValue);
 
-    List<ProductAttributeValueDto> getProductAttributeValueByProductId(Long productId);
+    /**
+     * 通过商品id 获取 商品属性 value
+     *
+     * @param productId 商品id
+     * @return 商品属性 value
+     */
+    List<ProductAttributeValueVo> getProductAttributeValueByProductId(Long productId);
+
+    /**
+     * 新增数据
+     *
+     * @param productAttributeValue 实体对象
+     * @return 新增结果
+     */
+    Boolean saveOrUpdate(List<ProductAttributeValueDto> productAttributeValue);
 }

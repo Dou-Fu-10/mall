@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.product.entity.SkuStockEntity;
 import org.example.modules.product.entity.dto.SkuStockDto;
+import org.example.modules.product.entity.vo.SkuStockVo;
 import org.example.modules.product.mapper.SkuStockMapper;
 import org.example.modules.product.service.SkuStockService;
 import org.springframework.stereotype.Service;
@@ -20,24 +21,30 @@ import java.util.List;
 @Service("skuStockService")
 public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEntity> implements SkuStockService {
     @Override
-    public boolean save(SkuStockDto skuStock) {
+    public Boolean save(SkuStockDto skuStock) {
         return false;
     }
 
     @Override
-    public boolean save(List<SkuStockDto> skuStock) {
+    public Boolean save(List<SkuStockDto> skuStock) {
         List<SkuStockEntity> skuStockEntityList = BeanCopy.copytList(skuStock, SkuStockEntity.class);
         // TODO 数据校验
         return saveBatch(skuStockEntityList);
     }
 
     @Override
-    public boolean updateById(SkuStockDto skuStock) {
+    public Boolean updateById(SkuStockDto skuStock) {
         return false;
     }
 
     @Override
-    public List<SkuStockDto> getSkuStockByProductId(Long productId) {
+    public List<SkuStockVo> getSkuStockByProductId(Long productId) {
+        List<SkuStockEntity> skuStockEntityList = lambdaQuery().ge(SkuStockEntity::getProductId, productId).list();
+        return BeanCopy.copytList(skuStockEntityList, SkuStockVo.class);
+    }
+
+    @Override
+    public Boolean saveOrUpdate(List<SkuStockDto> skuStock) {
         return null;
     }
 }

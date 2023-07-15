@@ -1,8 +1,9 @@
 package org.example.modules.product.service;
 
-import org.example.modules.product.entity.SkuStockEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.modules.product.entity.SkuStockEntity;
 import org.example.modules.product.entity.dto.SkuStockDto;
+import org.example.modules.product.entity.vo.SkuStockVo;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface SkuStockService extends IService<SkuStockEntity> {
      * @param skuStock 实体对象
      * @return 新增结果
      */
-    boolean save(SkuStockDto skuStock);
+    Boolean save(SkuStockDto skuStock);
 
     /**
      * 新增数据
@@ -28,7 +29,7 @@ public interface SkuStockService extends IService<SkuStockEntity> {
      * @param skuStock 实体对象
      * @return 新增结果
      */
-    boolean save(List<SkuStockDto> skuStock);
+    Boolean save(List<SkuStockDto> skuStock);
 
     /**
      * 修改数据
@@ -36,7 +37,21 @@ public interface SkuStockService extends IService<SkuStockEntity> {
      * @param skuStock 实体对象
      * @return 修改结果
      */
-    boolean updateById(SkuStockDto skuStock);
+    Boolean updateById(SkuStockDto skuStock);
 
-    List<SkuStockDto> getSkuStockByProductId(Long productId);
+    /**
+     * 通过商品id 获取 sku列表
+     *
+     * @param productId 商品id
+     * @return sku列表
+     */
+    List<SkuStockVo> getSkuStockByProductId(Long productId);
+
+    /**
+     * 新增数据
+     *
+     * @param skuStock 实体对象
+     * @return 新增结果
+     */
+    Boolean saveOrUpdate(List<SkuStockDto> skuStock);
 }

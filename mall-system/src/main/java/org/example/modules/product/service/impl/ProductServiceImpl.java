@@ -9,13 +9,16 @@ import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.member.entity.dto.MemberPriceDto;
+import org.example.modules.member.entity.vo.MemberPriceVo;
 import org.example.modules.member.service.MemberPriceService;
 import org.example.modules.product.entity.ProductEntity;
 import org.example.modules.product.entity.dto.ProductAttributeValueDto;
 import org.example.modules.product.entity.dto.ProductDto;
 import org.example.modules.product.entity.dto.ProductDtoParam;
 import org.example.modules.product.entity.dto.SkuStockDto;
+import org.example.modules.product.entity.vo.ProductAttributeValueVo;
 import org.example.modules.product.entity.vo.ProductVo;
+import org.example.modules.product.entity.vo.SkuStockVo;
 import org.example.modules.product.mapper.ProductMapper;
 import org.example.modules.product.service.ProductAttributeValueService;
 import org.example.modules.product.service.ProductService;
@@ -50,9 +53,12 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
         // TODO 优化查询逻辑
         productVoList.forEach(productVo -> {
             Long productId = productVo.getId();
-            List<SkuStockDto> skuStockByProductId = skuStockService.getSkuStockByProductId(productId);
-            List<MemberPriceDto> memberPriceByProductId = memberPriceService.getMemberPriceByProductId(productId);
-            List<ProductAttributeValueDto> productAttributeValueByProductId = productAttributeValueService.getProductAttributeValueByProductId(productId);
+            // 获取 sku
+            List<SkuStockVo> skuStockByProductId = skuStockService.getSkuStockByProductId(productId);
+            // 获取 商品会员价格表
+            List<MemberPriceVo> memberPriceByProductId = memberPriceService.getMemberPriceByProductId(productId);
+            // 获取 存储产品参数信息的表
+            List<ProductAttributeValueVo> productAttributeValueByProductId = productAttributeValueService.getProductAttributeValueByProductId(productId);
             if (CollectionUtils.isNotEmpty(skuStockByProductId)) {
                 productVo.setSkuStockList(skuStockByProductId);
             }
@@ -102,9 +108,36 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     }
 
     @Override
-    public boolean updateById(ProductDto product) {
+    public boolean updateById(ProductDtoParam product) {
+        // TODO 数据校验
         ProductEntity convert = BeanCopy.convert(product, ProductEntity.class);
-        return updateById(convert);
+        if (!convert.updateById()) {
+            throw new BaseRequestException("添加失败");
+        }
+        List<SkuStockDto> skuStockList = product.getSkuStockList();
+        if (CollectionUtils.isNotEmpty(skuStockList)) {
+            skuStockList.forEach(skuStockDto -> skuStockDto.setProductId(convert.getId()));
+            if (!skuStockService.saveOrUpdate(skuStockList)) {
+                throw new BaseRequestException("修改失败");
+            }
+        }
+
+        List<MemberPriceDto> memberPriceList = product.getMemberPriceList();
+        if (CollectionUtils.isNotEmpty(memberPriceList)) {
+            memberPriceList.forEach(memberPriceDto -> memberPriceDto.setProductId(convert.getId()));
+            if (!memberPriceService.saveOrUpdate(memberPriceList)) {
+                throw new BaseRequestException("修改失败");
+            }
+        }
+        List<ProductAttributeValueDto> productAttributeValueList = product.getProductAttributeValueList();
+        if (CollectionUtils.isNotEmpty(productAttributeValueList)) {
+            productAttributeValueList.forEach(productAttributeValueDto -> productAttributeValueDto.setProductId(convert.getId()));
+            if (!productAttributeValueService.saveOrUpdate(productAttributeValueList)) {
+                throw new BaseRequestException("修改失败");
+            }
+
+        }
+        return true;
     }
 }
 
