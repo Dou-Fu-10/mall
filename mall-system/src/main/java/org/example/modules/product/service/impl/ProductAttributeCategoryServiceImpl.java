@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Created by PanShiFu 2023-07-14 11:03:43
+ * Created by Dou-Fu-10 2023-07-14 11:03:43
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-14 11:03:43
  * @Description 产品属性分类表(ProductAttributeCategory)表服务实现类
  */

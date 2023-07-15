@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 
 /**
- * Created by PanShiFu 2023-07-14 12:49:52
+ * Created by Dou-Fu-10 2023-07-14 12:49:52
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-14 12:49:52
  * @Description 商品属性参数表(ProductAttribute)表服务实现类
  */

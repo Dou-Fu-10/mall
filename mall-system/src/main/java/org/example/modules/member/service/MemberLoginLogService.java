@@ -5,9 +5,9 @@ import org.example.modules.member.entity.MemberLoginLogEntity;
 import org.example.modules.member.entity.dto.MemberLoginLogDto;
 
 /**
- * Created by PanShiFu 2023-07-14 14:34:17
+ * Created by Dou-Fu-10 2023-07-14 14:34:17
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-14 14:34:17
  * @Description 会员登录记录(MemberLoginLog)表服务接口
  */

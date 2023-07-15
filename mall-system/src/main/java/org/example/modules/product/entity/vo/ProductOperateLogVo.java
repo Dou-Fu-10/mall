@@ -11,9 +11,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
- * Created by PanShiFu 2023-07-14 13:54:18
+ * Created by Dou-Fu-10 2023-07-14 13:54:18
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-14 13:54:18
  * @Description 商品价格变动记录(ProductOperateLog)表实体类
  */

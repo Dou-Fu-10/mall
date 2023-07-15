@@ -12,9 +12,9 @@ import org.example.common.core.base.CommonEntity;
 import java.io.Serializable;
 
 /**
- * Created by PanShiFu 2023-07-14 14:36:26
+ * Created by Dou-Fu-10 2023-07-14 14:36:26
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-14 14:36:26
  * @Description 运费模版(FeightTemplate)表实体类
  */

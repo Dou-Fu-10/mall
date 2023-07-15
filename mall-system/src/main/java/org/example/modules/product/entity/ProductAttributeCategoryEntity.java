@@ -12,9 +12,9 @@ import org.example.common.core.base.CommonEntity;
 import java.io.Serializable;
 
 /**
- * Created by PanShiFu 2023-07-14 11:03:42
+ * Created by Dou-Fu-10 2023-07-14 11:03:42
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-14 11:03:42
  * @Description 产品属性分类表(ProductAttributeCategory)表实体类
  */

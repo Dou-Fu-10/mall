@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 /**
- * Created by PanShiFu 2023/7/14
+ * Created by Dou-Fu-10 2023/7/14
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023/7/14
  * @Description 登录注册
  */

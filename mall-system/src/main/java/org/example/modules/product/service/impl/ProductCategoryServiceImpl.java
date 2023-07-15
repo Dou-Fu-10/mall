@@ -24,9 +24,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Created by PanShiFu 2023-07-13 22:08:15
+ * Created by Dou-Fu-10 2023-07-13 22:08:15
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 22:08:15
  * @Description 产品分类(ProductCategory)表服务实现类
  */
@@ -83,7 +83,6 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public Boolean updateById(ProductCategoryDto productCategory) {
         ProductCategoryEntity convert = BeanCopy.convert(productCategory, ProductCategoryEntity.class);
 

@@ -10,9 +10,9 @@ import org.example.common.core.base.ValidationDto;
 import java.util.Set;
 
 /**
- * Created by PanShiFu 2023-07-13 22:08:16
+ * Created by Dou-Fu-10 2023-07-13 22:08:16
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 22:08:16
  * @Description 产品分类(ProductCategory)表实体类
  */

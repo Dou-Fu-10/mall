@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * Created by PanShiFu 2023-07-14 14:34:16
+ * Created by Dou-Fu-10 2023-07-14 14:34:16
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-14 14:34:16
  * @Description 会员表(Member)表实体类
  */

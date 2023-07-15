@@ -5,9 +5,9 @@ import org.example.modules.tools.entity.CompanyAddressEntity;
 import org.example.modules.tools.entity.dto.CompanyAddressDto;
 
 /**
- * Created by PanShiFu 2023-07-14 14:36:02
+ * Created by Dou-Fu-10 2023-07-14 14:36:02
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-14 14:36:02
  * @Description 公司收发货地址表(CompanyAddress)表服务接口
  */

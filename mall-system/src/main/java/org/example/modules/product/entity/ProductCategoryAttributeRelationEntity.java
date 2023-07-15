@@ -13,9 +13,9 @@ import org.example.common.core.base.CommonEntity;
 import java.io.Serializable;
 
 /**
- * Created by PanShiFu 2023-07-14 13:54:17
+ * Created by Dou-Fu-10 2023-07-14 13:54:17
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-14 13:54:17
  * @Description 产品的分类和属性的关系表，用于设置分类筛选条件（只支持一级分类）(ProductCategoryAttributeRelation)表实体类
  */

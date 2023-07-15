@@ -5,9 +5,9 @@ import org.apache.ibatis.annotations.Mapper;
 import org.example.modules.tools.entity.CompanyAddressEntity;
 
 /**
- * Created by PanShiFu 2023-07-14 14:36:01
+ * Created by Dou-Fu-10 2023-07-14 14:36:01
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-14 14:36:01
  * @Description 公司收发货地址表(CompanyAddress)表数据库访问层
  */

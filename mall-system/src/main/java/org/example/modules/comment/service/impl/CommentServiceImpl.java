@@ -7,9 +7,9 @@ import org.example.modules.comment.service.CommentService;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by PanShiFu 2023-07-13 21:35:11
+ * Created by Dou-Fu-10 2023-07-13 21:35:11
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 21:35:11
  * @Description 商品评价表(Comment)表服务实现类
  */

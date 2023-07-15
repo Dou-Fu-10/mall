@@ -5,14 +5,17 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.product.entity.ProductCategoryEntity;
 import org.example.modules.product.entity.dto.ProductCategoryDto;
 import org.example.modules.product.entity.vo.ProductCategoryVo;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
 
 /**
- * Created by PanShiFu 2023-07-13 22:08:15
+ * Created by Dou-Fu-10 2023-07-13 22:08:15
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 22:08:15
  * @Description 产品分类(ProductCategory)表服务接口
  */
@@ -57,6 +60,7 @@ public interface ProductCategoryService extends IService<ProductCategoryEntity> 
      * @param productCategory 实体对象
      * @return 修改数据
      */
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     Boolean updateById(ProductCategoryDto productCategory);
 
     /**

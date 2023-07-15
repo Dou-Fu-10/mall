@@ -13,9 +13,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.common.core.base.CommonEntity;
 
 /**
- * Created by PanShiFu 2023-07-14 13:05:47
+ * Created by Dou-Fu-10 2023-07-14 13:05:47
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-14 13:05:47
  * @Description 商品信息(Product)表实体类
  */

@@ -6,9 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Created by PanShiFu 2023-07-14 14:34:17
+ * Created by Dou-Fu-10 2023-07-14 14:34:17
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-14 14:34:17
  * @Description 会员等级表(MemberLevel)表实体类
  */

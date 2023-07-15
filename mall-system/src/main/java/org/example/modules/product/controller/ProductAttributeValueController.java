@@ -18,9 +18,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Created by PanShiFu 2023-07-14 13:54:16
+ * Created by Dou-Fu-10 2023-07-14 13:54:16
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-14 13:54:16
  * @Description 存储产品参数信息的表(ProductAttributeValue)表控制层
  */

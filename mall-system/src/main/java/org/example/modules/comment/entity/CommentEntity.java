@@ -12,9 +12,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by PanShiFu 2023-07-13 21:35:10
+ * Created by Dou-Fu-10 2023-07-13 21:35:10
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-13 21:35:10
  * @Description 商品评价表(Comment)表实体类
  */

@@ -1,19 +1,15 @@
 package org.example.modules.product.entity.dto;
 
-import java.util.Date;
-
-import java.io.Serializable;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.util.Date;
 
 /**
- * Created by PanShiFu 2023-07-14 13:05:48
+ * Created by Dou-Fu-10 2023-07-14 13:05:48
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023-07-14 13:05:48
  * @Description 商品信息(Product)表实体类
  */
