@@ -12,8 +12,10 @@ import org.example.config.UpdatePassword;
 import org.example.modules.system.entity.AdminEntity;
 import org.example.modules.system.entity.RoleEntity;
 import org.example.modules.system.service.AdminService;
+import org.example.security.annotaion.rest.AnonymousDeleteMapping;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
+import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -67,7 +69,7 @@ public class AdminController {
      * @return 单条数据
      */
     @Operation(summary = "获取指定用户信息")
-    @GetMapping("{id}")
+    @AnonymousGetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return new ResponseEntity<>(this.adminService.getById(id), HttpStatus.OK);
     }
@@ -79,7 +81,7 @@ public class AdminController {
      * @return 新增结果
      */
     @Operation(summary = "添加用户")
-    @PostMapping
+    @AnonymousPostMapping
     public ResponseEntity<Object> insert(@RequestBody AdminEntity admin) {
         // TODO 对数据进行校验
         return new ResponseEntity<>(this.adminService.save(admin), HttpStatus.OK);
@@ -92,7 +94,7 @@ public class AdminController {
      * @return 修改结果
      */
     @Operation(summary = "修改指定用户信息")
-    @PutMapping
+    @AnonymousPutMapping
     public ResponseEntity<Object> update(@RequestBody AdminEntity admin) {
         // TODO 对数据进行校验
         return new ResponseEntity<>(this.adminService.updateById(admin), HttpStatus.OK);
@@ -105,14 +107,14 @@ public class AdminController {
      * @return 删除结果
      */
     @Operation(summary = "删除指定用户信息")
-    @DeleteMapping
+    @AnonymousDeleteMapping
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         // TODO 不允许删除上级的或者同级的
         return new ResponseEntity<>(this.adminService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() > 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败", HttpStatus.OK);
     }
 
     @Operation(summary = "修改指定用户密码")
-    @PostMapping(value = "/updatePassword")
+    @AnonymousPostMapping(value = "/updatePassword")
     public ResponseEntity<Object> updatePassword(@Validated @RequestBody UpdatePassword updatePassword) {
         // TODO 只允许本人或者超级管理员修改 , 同时对数据进行校验
         if (adminService.updatePassword(updatePassword)) {
@@ -166,7 +168,7 @@ public class AdminController {
      * @return 角色信息
      */
     @Operation(summary = "获取指定用户的角色")
-    @GetMapping(value = "/role/{adminId}")
+    @AnonymousGetMapping(value = "/role/{adminId}")
     @ResponseBody
     public ResponseEntity<List<RoleEntity>> getRoleList(@PathVariable Long adminId) {
         return ResponseEntity.ok(adminService.getRoleList(adminId));

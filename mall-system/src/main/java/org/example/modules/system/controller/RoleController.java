@@ -12,6 +12,10 @@ import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.entity.RoleEntity;
 import org.example.modules.system.entity.vo.MenuVo;
 import org.example.modules.system.service.RoleService;
+import org.example.security.annotaion.rest.AnonymousDeleteMapping;
+import org.example.security.annotaion.rest.AnonymousGetMapping;
+import org.example.security.annotaion.rest.AnonymousPostMapping;
+import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +50,7 @@ public class RoleController {
      * @return 所有数据
      */
     @Operation(summary = "分页查询所有数据")
-    @GetMapping
+    @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<RoleEntity> page, RoleEntity role) {
         return new ResponseEntity<>(this.roleService.page(page, new QueryWrapper<>(role)), HttpStatus.OK);
     }
@@ -58,7 +62,7 @@ public class RoleController {
      * @return 单条数据
      */
     @Operation(summary = "通过主键查询单条数据")
-    @GetMapping("{id}")
+    @AnonymousGetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return new ResponseEntity<>(this.roleService.getById(id), HttpStatus.OK);
     }
@@ -70,7 +74,7 @@ public class RoleController {
      * @return 新增结果
      */
     @Operation(summary = "新增数据")
-    @PostMapping
+    @AnonymousPostMapping
     public ResponseEntity<Object> insert(@RequestBody RoleEntity role) {
         return new ResponseEntity<>(this.roleService.save(role), HttpStatus.OK);
     }
@@ -82,7 +86,7 @@ public class RoleController {
      * @return 修改结果
      */
     @Operation(summary = "修改数据")
-    @PutMapping
+    @AnonymousPutMapping
     public ResponseEntity<Object> update(@RequestBody RoleEntity role) {
         return new ResponseEntity<>(this.roleService.updateById(role), HttpStatus.OK);
     }
@@ -94,7 +98,7 @@ public class RoleController {
      * @return 删除结果
      */
     @Operation(summary = "删除数据")
-    @DeleteMapping
+    @AnonymousDeleteMapping
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         return new ResponseEntity<>(this.roleService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() > 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败", HttpStatus.OK);
     }
@@ -107,7 +111,7 @@ public class RoleController {
      * @return String
      */
     @Operation(summary = "修改角色状态")
-    @PostMapping(value = "/updateStatus/{id}")
+    @AnonymousPostMapping(value = "/updateStatus/{id}")
     @ResponseBody
     public ResponseEntity<String> updateStatus(@PathVariable Long id, @RequestParam(value = "status") Boolean status) {
         RoleEntity roleEntity = new RoleEntity();
@@ -126,7 +130,7 @@ public class RoleController {
      * @return 角色关联菜单
      */
     @Operation(summary = "获取角色相关菜单")
-    @GetMapping(value = "/listMenu/{roleId}")
+    @AnonymousGetMapping(value = "/listMenu/{roleId}")
     public ResponseEntity<List<MenuVo>> listMenu(@PathVariable Long roleId) {
         List<MenuEntity> roleList = roleService.listMenu(roleId);
         return ResponseEntity.ok(BeanCopy.copytList(roleList, MenuVo.class));
@@ -141,7 +145,7 @@ public class RoleController {
      * @return String
      */
     @Operation(summary = "给角色分配菜单")
-    @PostMapping(value = "/allocMenu")
+    @AnonymousPostMapping(value = "/allocMenu")
     @ResponseBody
     public ResponseEntity<String> allocMenu(@RequestParam Long roleId, @RequestParam List<Long> menuIds) {
         if (roleService.allocMenu(roleId, menuIds)) {

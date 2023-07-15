@@ -12,7 +12,10 @@ import org.example.modules.system.service.AdminService;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
@@ -54,7 +57,7 @@ public class AuthorizationController {
             summary = "注册",
             description = "用户注册"
     )
-    @PostMapping(value = "/register")
+    @AnonymousPostMapping(value = "/register")
     public ResponseEntity<String> register(@Validated @RequestBody AdminDto resources) {
         Boolean register = adminService.register(resources);
         if (register) {

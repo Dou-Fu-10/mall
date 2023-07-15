@@ -39,7 +39,7 @@ public class ProductAttributeValueServiceImpl extends ServiceImpl<ProductAttribu
 
     @Override
     public List<ProductAttributeValueVo> getProductAttributeValueByProductId(Long productId) {
-        List<ProductAttributeValueEntity> productAttributeValueEntityList = lambdaQuery().ge(ProductAttributeValueEntity::getProductId, productId).list();
+        List<ProductAttributeValueEntity> productAttributeValueEntityList = lambdaQuery().eq(ProductAttributeValueEntity::getProductId, productId).list();
         return BeanCopy.copytList(productAttributeValueEntityList, ProductAttributeValueVo.class);
     }
 

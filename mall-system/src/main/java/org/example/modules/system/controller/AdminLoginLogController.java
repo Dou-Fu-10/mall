@@ -7,9 +7,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.system.entity.AdminLoginLogEntity;
 import org.example.modules.system.service.AdminLoginLogService;
+import org.example.security.annotaion.rest.AnonymousDeleteMapping;
+import org.example.security.annotaion.rest.AnonymousGetMapping;
+import org.example.security.annotaion.rest.AnonymousPostMapping;
+import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -39,7 +46,7 @@ public class AdminLoginLogController {
      * @param umsAdminLoginLog 查询实体
      * @return 所有数据
      */
-    @GetMapping
+    @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<AdminLoginLogEntity> page, AdminLoginLogEntity umsAdminLoginLog) {
         return new ResponseEntity<>(this.adminLoginLogService.page(page, new QueryWrapper<>(umsAdminLoginLog)), HttpStatus.OK);
     }
@@ -50,7 +57,7 @@ public class AdminLoginLogController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+    @AnonymousGetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return new ResponseEntity<>(this.adminLoginLogService.getById(id), HttpStatus.OK);
     }
@@ -61,7 +68,7 @@ public class AdminLoginLogController {
      * @param umsAdminLoginLog 实体对象
      * @return 新增结果
      */
-    @PostMapping
+    @AnonymousPostMapping
     public ResponseEntity<Object> insert(@RequestBody AdminLoginLogEntity umsAdminLoginLog) {
         return new ResponseEntity<>(this.adminLoginLogService.save(umsAdminLoginLog), HttpStatus.OK);
     }
@@ -72,7 +79,7 @@ public class AdminLoginLogController {
      * @param umsAdminLoginLog 实体对象
      * @return 修改结果
      */
-    @PutMapping
+    @AnonymousPutMapping
     public ResponseEntity<Object> update(@RequestBody AdminLoginLogEntity umsAdminLoginLog) {
         return new ResponseEntity<>(this.adminLoginLogService.updateById(umsAdminLoginLog), HttpStatus.OK);
     }
@@ -83,7 +90,7 @@ public class AdminLoginLogController {
      * @param idList 主键结合
      * @return 删除结果
      */
-    @DeleteMapping
+    @AnonymousDeleteMapping
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         return new ResponseEntity<>(this.adminLoginLogService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() > 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败", HttpStatus.OK);
     }

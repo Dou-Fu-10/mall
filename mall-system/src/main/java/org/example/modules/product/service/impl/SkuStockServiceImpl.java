@@ -39,7 +39,7 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
 
     @Override
     public List<SkuStockVo> getSkuStockByProductId(Long productId) {
-        List<SkuStockEntity> skuStockEntityList = lambdaQuery().ge(SkuStockEntity::getProductId, productId).list();
+        List<SkuStockEntity> skuStockEntityList = lambdaQuery().eq(SkuStockEntity::getProductId, productId).list();
         return BeanCopy.copytList(skuStockEntityList, SkuStockVo.class);
     }
 

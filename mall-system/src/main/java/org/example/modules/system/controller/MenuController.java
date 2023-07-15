@@ -9,6 +9,10 @@ import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.service.MenuService;
+import org.example.security.annotaion.rest.AnonymousDeleteMapping;
+import org.example.security.annotaion.rest.AnonymousGetMapping;
+import org.example.security.annotaion.rest.AnonymousPostMapping;
+import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +46,7 @@ public class MenuController {
      * @return 所有数据
      */
     @Operation(summary = "分页查询所有数据")
-    @GetMapping
+    @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<MenuEntity> page, MenuEntity menu) {
         return new ResponseEntity<>(this.menuService.page(page, new QueryWrapper<>(menu)), HttpStatus.OK);
     }
@@ -54,7 +58,7 @@ public class MenuController {
      * @return 单条数据
      */
     @Operation(summary = "通过主键查询单条数据")
-    @GetMapping("{id}")
+    @AnonymousGetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return new ResponseEntity<>(this.menuService.getById(id), HttpStatus.OK);
     }
@@ -66,7 +70,7 @@ public class MenuController {
      * @return 新增结果
      */
     @Operation(summary = "新增数据")
-    @PostMapping
+    @AnonymousPostMapping
     public ResponseEntity<Object> insert(@RequestBody MenuEntity menu) {
         return new ResponseEntity<>(this.menuService.save(menu), HttpStatus.OK);
     }
@@ -78,7 +82,7 @@ public class MenuController {
      * @return 修改结果
      */
     @Operation(summary = "修改数据")
-    @PutMapping
+    @AnonymousPutMapping
     public ResponseEntity<Object> update(@RequestBody MenuEntity menu) {
         return new ResponseEntity<>(this.menuService.updateById(menu), HttpStatus.OK);
     }
@@ -90,7 +94,7 @@ public class MenuController {
      * @return 删除结果
      */
     @Operation(summary = "删除数据")
-    @DeleteMapping
+    @AnonymousDeleteMapping
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         return new ResponseEntity<>(this.menuService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() > 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败", HttpStatus.OK);
     }

@@ -60,7 +60,9 @@ public class ProductController {
      */
     @AnonymousGetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return ResponseEntity.ok(this.productService.getById(id));
+        ProductDto productDto = new ProductDto();
+        productDto.setId((Long) id);
+        return ResponseEntity.ok(this.productService.page(new Page<>(), productDto));
     }
 
     /**

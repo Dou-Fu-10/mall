@@ -39,7 +39,7 @@ public class MemberPriceServiceImpl extends ServiceImpl<MemberPriceMapper, Membe
 
     @Override
     public List<MemberPriceVo> getMemberPriceByProductId(Long productId) {
-        List<MemberPriceEntity> memberPriceEntityList = lambdaQuery().ge(MemberPriceEntity::getProductId, productId).list();
+        List<MemberPriceEntity> memberPriceEntityList = lambdaQuery().eq(MemberPriceEntity::getProductId, productId).list();
         return BeanCopy.copytList(memberPriceEntityList, MemberPriceVo.class);
     }
 
