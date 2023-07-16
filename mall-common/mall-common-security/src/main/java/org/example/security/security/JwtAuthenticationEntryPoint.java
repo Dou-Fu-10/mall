@@ -22,7 +22,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        log.error("身份验证入口点" + authException.getMessage());
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException == null ? "认证或者授权失败" : authException.getMessage());
     }
 }

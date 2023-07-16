@@ -16,7 +16,7 @@ import org.example.modules.system.entity.dto.AdminDto;
 import org.example.modules.system.mapper.AdminMapper;
 import org.example.modules.system.service.AdminLoginLogService;
 import org.example.modules.system.service.AdminService;
-import org.example.security.config.bean.SecurityProperties;
+import org.example.security.config.SecurityProperties;
 import org.example.security.entity.JwtUser;
 import org.example.security.utils.JwtTokenUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

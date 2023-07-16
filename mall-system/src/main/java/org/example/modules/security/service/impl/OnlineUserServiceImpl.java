@@ -1,5 +1,6 @@
 package org.example.modules.security.service.impl;
 
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -11,7 +12,7 @@ import org.example.common.redis.service.RedisService;
 import org.example.modules.system.entity.dto.OnlineUserDto;
 import org.example.modules.system.entity.vo.OnlineUserVo;
 import org.example.modules.security.service.OnlineUserService;
-import org.example.security.config.bean.SecurityProperties;
+import org.example.security.config.SecurityProperties;
 import org.example.security.entity.JwtUser;
 import org.example.security.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +31,11 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 public class OnlineUserServiceImpl implements OnlineUserService {
 
-    @Autowired
+    @Resource
     private  SecurityProperties properties;
-    @Autowired
+    @Resource
     private  JwtTokenUtil jwtTokenUtil;
-    @Autowired
+    @Resource
     private  RedisService redisService;
 
     /**
@@ -45,8 +46,11 @@ public class OnlineUserServiceImpl implements OnlineUserService {
      * @param request    /
      */
     public void save(JwtUser jwtUserDto, String token, HttpServletRequest request) {
+        // 获取登录者 ip
         String ip = StringUtils.getIp(request);
+        // 浏览器
         String browser = StringUtils.getBrowser(request);
+        // ip 对应的物理地址
         String address = StringUtils.getCityInfo(ip);
         OnlineUserDto onlineUserDto = null;
         try {
@@ -54,6 +58,7 @@ public class OnlineUserServiceImpl implements OnlineUserService {
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
+        // 获取登录名字
         String loginKey = jwtTokenUtil.getUserNameFromToken(token);
         redisService.set(loginKey, onlineUserDto, properties.getTokenValidityInSeconds(), TimeUnit.MILLISECONDS);
     }

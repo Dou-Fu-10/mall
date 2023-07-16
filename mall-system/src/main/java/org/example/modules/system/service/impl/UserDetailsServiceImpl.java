@@ -1,12 +1,14 @@
 package org.example.modules.system.service.impl;
 
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.common.core.exception.BaseRequestException;
-import org.example.security.entity.JwtUser;
 import org.example.common.core.entity.AdminEntity;
+import org.example.common.core.exception.BaseRequestException;
+import org.example.common.redis.service.RedisService;
 import org.example.modules.system.service.AdminService;
 import org.example.modules.system.service.RoleService;
+import org.example.security.entity.JwtUser;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ import java.util.Objects;
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final AdminService adminService;
     private final RoleService roleService;
+    @Resource
+    private RedisService redisService;
 
     @Override
     public JwtUser loadUserByUsername(String username) {
@@ -39,10 +43,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new BaseRequestException("账号未激活！");
         }
         // 将权限信息放入 jwtUserDto 中
-        return new JwtUser(
-                user,
-                // 权限信息
-                roleService.mapToGrantedAuthorities(user)
-        );
+        JwtUser jwtUser = new JwtUser(user, roleService.mapToGrantedAuthorities(user));
+        redisService.set("login:" + jwtUser.getUsername(), jwtUser);
+        return jwtUser;
     }
 }

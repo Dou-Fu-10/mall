@@ -1,4 +1,4 @@
-package org.example.security.config.bean;
+package org.example.security.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

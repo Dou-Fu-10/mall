@@ -1,7 +1,6 @@
 package org.example.security.security;
 
 
-import com.alibaba.fastjson2.JSONObject;
 import io.jsonwebtoken.Claims;
 import jakarta.annotation.Resource;
 import jakarta.servlet.FilterChain;
@@ -10,12 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.example.common.redis.service.RedisService;
-import org.example.security.config.bean.SecurityProperties;
 import org.example.security.entity.JwtUser;
 import org.example.security.utils.JwtTokenUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -57,9 +52,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 //            WebUtils.renderString(response, JSONObject.toJSONString(result));
             return;
         }
-        String userId = claims.getSubject();
+        String userName = claims.getSubject();
         // 从redis 中获取用户信息
-        JwtUser loginUser = (JwtUser) redisService.get("login:" + userId);
+        JwtUser loginUser = (JwtUser) redisService.get("login:" + userName);
         // 如果获取不到
         if (Objects.isNull(loginUser)) {
             // 说明登录过去 提示重新登录
