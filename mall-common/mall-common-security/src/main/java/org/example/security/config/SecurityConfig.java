@@ -2,10 +2,14 @@ package org.example.security.config;
 
 import lombok.RequiredArgsConstructor;
 import org.example.security.annotaion.AnonymousAccess;
+import org.example.security.config.bean.SecurityProperties;
 import org.example.security.enums.RequestMethodEnum;
 import org.example.security.security.JwtAccessDeniedHandler;
 import org.example.security.security.JwtAuthenticationEntryPoint;
+import org.example.security.security.JwtAuthenticationTokenFilter;
 import org.example.security.utils.JwtTokenUtil;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,18 +39,14 @@ import java.util.*;
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableGlobalAuthentication
+@EnableConfigurationProperties(SecurityProperties.class)
 public class SecurityConfig {
 
-    private final JwtAuthenticationEntryPoint authenticationErrorHandler;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final ApplicationContext applicationContext;
     private final CorsFilter corsFilter;
-
-    @Bean
-    public JwtTokenUtil jwtTokenUtil() {
-        return new JwtTokenUtil();
-    }
-
+    private final JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -60,6 +60,7 @@ public class SecurityConfig {
                 // 禁用 CSRF
                 .csrf(csrfCustomizer())
                 // CorsFilter 就会被添加到 Spring Security 过滤器链中，并在 UsernamePasswordAuthenticationFilter 之前执行。
+                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 // 异常处理定制器
                 .exceptionHandling(exceptionHandlingCustomizer())
@@ -72,50 +73,6 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
-    private Map<String, Set<String>> getAnonymousUrl(Map<RequestMappingInfo, HandlerMethod> handlerMethodMap) {
-        Map<String, Set<String>> anonymousUrls = new HashMap<>(6);
-        Set<String> get = new HashSet<>();
-        Set<String> post = new HashSet<>();
-        Set<String> put = new HashSet<>();
-        Set<String> patch = new HashSet<>();
-        Set<String> delete = new HashSet<>();
-        Set<String> all = new HashSet<>();
-        for (Map.Entry<RequestMappingInfo, HandlerMethod> infoEntry : handlerMethodMap.entrySet()) {
-            HandlerMethod handlerMethod = infoEntry.getValue();
-            AnonymousAccess anonymousAccess = handlerMethod.getMethodAnnotation(AnonymousAccess.class);
-            if (null != anonymousAccess) {
-                List<RequestMethod> requestMethods = new ArrayList<>(infoEntry.getKey().getMethodsCondition().getMethods());
-                RequestMethodEnum request = RequestMethodEnum.find(requestMethods.size() == 0 ? RequestMethodEnum.ALL.getType() : requestMethods.get(0).name());
-                switch (Objects.requireNonNull(request)) {
-                    case GET:
-                        get.addAll(infoEntry.getKey().getPatternValues());
-                        break;
-                    case POST:
-                        post.addAll(infoEntry.getKey().getPatternValues());
-                        break;
-                    case PUT:
-                        put.addAll(infoEntry.getKey().getPatternValues());
-                        break;
-                    case PATCH:
-                        patch.addAll(infoEntry.getKey().getPatternValues());
-                        break;
-                    case DELETE:
-                        delete.addAll(infoEntry.getKey().getPatternValues());
-                        break;
-                    default:
-                        all.addAll(infoEntry.getKey().getPatternValues());
-                        break;
-                }
-            }
-        }
-        anonymousUrls.put(RequestMethodEnum.GET.getType(), get);
-        anonymousUrls.put(RequestMethodEnum.POST.getType(), post);
-        anonymousUrls.put(RequestMethodEnum.PUT.getType(), put);
-        anonymousUrls.put(RequestMethodEnum.PATCH.getType(), patch);
-        anonymousUrls.put(RequestMethodEnum.DELETE.getType(), delete);
-        anonymousUrls.put(RequestMethodEnum.ALL.getType(), all);
-        return anonymousUrls;
-    }
 
     @SuppressWarnings("all")
     private Customizer<CsrfConfigurer<HttpSecurity>> csrfCustomizer() {
@@ -133,7 +90,7 @@ public class SecurityConfig {
             // 添加自定义的异常处理配置
             exceptionHandling
                     .accessDeniedHandler(jwtAccessDeniedHandler) // 拒绝访问处理程序
-                    .authenticationEntryPoint(authenticationErrorHandler); // 配置自定义的认证入口点
+                    .authenticationEntryPoint(jwtAuthenticationEntryPoint); // 身份验证入口点
         };
     }
 
@@ -205,5 +162,50 @@ public class SecurityConfig {
                     // 所有请求都需要认证
                     .anyRequest().authenticated(); // 其他所有路径禁止访问
         };
+    }
+
+    private Map<String, Set<String>> getAnonymousUrl(Map<RequestMappingInfo, HandlerMethod> handlerMethodMap) {
+        Map<String, Set<String>> anonymousUrls = new HashMap<>(6);
+        Set<String> get = new HashSet<>();
+        Set<String> post = new HashSet<>();
+        Set<String> put = new HashSet<>();
+        Set<String> patch = new HashSet<>();
+        Set<String> delete = new HashSet<>();
+        Set<String> all = new HashSet<>();
+        for (Map.Entry<RequestMappingInfo, HandlerMethod> infoEntry : handlerMethodMap.entrySet()) {
+            HandlerMethod handlerMethod = infoEntry.getValue();
+            AnonymousAccess anonymousAccess = handlerMethod.getMethodAnnotation(AnonymousAccess.class);
+            if (null != anonymousAccess) {
+                List<RequestMethod> requestMethods = new ArrayList<>(infoEntry.getKey().getMethodsCondition().getMethods());
+                RequestMethodEnum request = RequestMethodEnum.find(requestMethods.size() == 0 ? RequestMethodEnum.ALL.getType() : requestMethods.get(0).name());
+                switch (Objects.requireNonNull(request)) {
+                    case GET:
+                        get.addAll(infoEntry.getKey().getPatternValues());
+                        break;
+                    case POST:
+                        post.addAll(infoEntry.getKey().getPatternValues());
+                        break;
+                    case PUT:
+                        put.addAll(infoEntry.getKey().getPatternValues());
+                        break;
+                    case PATCH:
+                        patch.addAll(infoEntry.getKey().getPatternValues());
+                        break;
+                    case DELETE:
+                        delete.addAll(infoEntry.getKey().getPatternValues());
+                        break;
+                    default:
+                        all.addAll(infoEntry.getKey().getPatternValues());
+                        break;
+                }
+            }
+        }
+        anonymousUrls.put(RequestMethodEnum.GET.getType(), get);
+        anonymousUrls.put(RequestMethodEnum.POST.getType(), post);
+        anonymousUrls.put(RequestMethodEnum.PUT.getType(), put);
+        anonymousUrls.put(RequestMethodEnum.PATCH.getType(), patch);
+        anonymousUrls.put(RequestMethodEnum.DELETE.getType(), delete);
+        anonymousUrls.put(RequestMethodEnum.ALL.getType(), all);
+        return anonymousUrls;
     }
 }

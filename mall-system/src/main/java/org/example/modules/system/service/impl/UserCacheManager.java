@@ -4,7 +4,7 @@ import cn.hutool.core.util.RandomUtil;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.example.common.redis.service.RedisService;
-import org.example.config.JwtUser;
+import org.example.security.entity.JwtUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;

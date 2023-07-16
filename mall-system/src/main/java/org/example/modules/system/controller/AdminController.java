@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.config.UpdatePassword;
-import org.example.modules.system.entity.AdminEntity;
+import org.example.common.core.entity.AdminEntity;
 import org.example.modules.system.entity.RoleEntity;
 import org.example.modules.system.service.AdminService;
 import org.example.security.annotaion.rest.AnonymousDeleteMapping;

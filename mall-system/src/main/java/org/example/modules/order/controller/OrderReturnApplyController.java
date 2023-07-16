@@ -21,10 +21,8 @@ import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -67,7 +65,8 @@ public class OrderReturnApplyController {
      * @param id 主键
      * @return 单条数据
      */
-    @AnonymousGetMapping("{id}")
+    @GetMapping("{id}")
+    @PreAuthorize("hasAuthority('sys:user:list')")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         // TODO 优化代码
         OrderReturnApplyEntity orderReturnApplyEntity = this.orderReturnApplyService.getById(id);

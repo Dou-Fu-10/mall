@@ -1,8 +1,8 @@
 package org.example.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.example.config.Authority;
-import org.example.modules.system.entity.AdminEntity;
+import org.example.security.entity.Authority;
+import org.example.common.core.entity.AdminEntity;
 import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.entity.RoleEntity;
 

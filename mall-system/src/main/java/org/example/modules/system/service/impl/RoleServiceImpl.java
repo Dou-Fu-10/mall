@@ -2,8 +2,8 @@ package org.example.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import org.example.config.Authority;
-import org.example.modules.system.entity.AdminEntity;
+import org.example.security.entity.Authority;
+import org.example.common.core.entity.AdminEntity;
 import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.entity.RoleEntity;
 import org.example.modules.system.mapper.RoleMapper;

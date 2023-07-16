@@ -13,6 +13,7 @@ package org.example.common.core.config;
 //import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 //import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;

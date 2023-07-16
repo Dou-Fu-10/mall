@@ -1,4 +1,4 @@
-package org.example.config;
+package org.example.security.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

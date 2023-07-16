@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
+import org.example.common.core.entity.AdminEntity;
 
 import java.io.Serializable;
 import java.util.Set;
