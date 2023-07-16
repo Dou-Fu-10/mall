@@ -1,18 +1,9 @@
-package org.example.modules.system.controller;
+package org.example.modules.security;
 
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.example.modules.system.entity.dto.OnlineUserDto;
-import org.example.modules.system.service.OnlineUserService;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.example.modules.security.service.OnlineUserService;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.util.Set;
 
 /**
  * 系统：在线用户管理

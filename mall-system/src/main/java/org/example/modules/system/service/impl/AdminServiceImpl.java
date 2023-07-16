@@ -4,18 +4,20 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.example.common.core.entity.AdminEntity;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.config.AuthUser;
-import org.example.security.entity.JwtUser;
 import org.example.config.UpdatePassword;
-import org.example.common.core.entity.AdminEntity;
+import org.example.modules.security.service.OnlineUserService;
 import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.entity.RoleEntity;
 import org.example.modules.system.entity.dto.AdminDto;
 import org.example.modules.system.mapper.AdminMapper;
 import org.example.modules.system.service.AdminLoginLogService;
 import org.example.modules.system.service.AdminService;
+import org.example.security.config.bean.SecurityProperties;
+import org.example.security.entity.JwtUser;
 import org.example.security.utils.JwtTokenUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -47,6 +49,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     private AuthenticationManagerBuilder authenticationManagerBuilder;
     @Resource
     private AdminLoginLogService adminLoginLogService;
+    @Resource
+    private OnlineUserService onlineUserService;
+    @Resource
+    private SecurityProperties securityProperties;
 
     @Override
     public AdminEntity getByEmail(String email) {
@@ -74,6 +80,12 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         String token = jwtTokenUtil.generateToken(jwtUser);
         tokenMap.put("token", token);
         // 记录登录 信息
+        if (securityProperties.getSingleLogin()) {
+            // 踢掉之前已经登录的token
+            onlineUserService.kickOutForUsername(authUser.getUsername());
+        }
+        // 保存在线信息
+        onlineUserService.save(jwtUser, token, request);
         adminLoginLogService.insertLoginLog(authUser.getUsername(), request);
 
         return tokenMap;

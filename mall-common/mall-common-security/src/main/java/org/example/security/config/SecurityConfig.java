@@ -7,8 +7,6 @@ import org.example.security.enums.RequestMethodEnum;
 import org.example.security.security.JwtAccessDeniedHandler;
 import org.example.security.security.JwtAuthenticationEntryPoint;
 import org.example.security.security.JwtAuthenticationTokenFilter;
-import org.example.security.utils.JwtTokenUtil;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -33,7 +31,9 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import java.util.*;
 
 /**
- * @author Zheng Jie
+ * @author Dou-Fu-10
+ * @date 2023-07-16
+ * @Description 权限访问配置
  */
 @Configuration
 @EnableWebSecurity

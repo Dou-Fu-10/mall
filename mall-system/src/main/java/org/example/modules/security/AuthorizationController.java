@@ -1,4 +1,4 @@
-package org.example.modules.system.controller;
+package org.example.modules.security;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -2,7 +2,6 @@ package org.example.security.config.bean;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 
 /**
  * Jwt参数配置
@@ -53,6 +52,11 @@ public class SecurityProperties {
      * 续期时间
      */
     private Long renew;
+
+    /**
+     * 是否限制单用户登录
+     */
+    private Boolean singleLogin;
 
     public String getTokenStartWith() {
         return tokenStartWith + " ";

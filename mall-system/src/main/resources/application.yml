@@ -29,6 +29,9 @@ jwt:
   expiration: 604800 #JWT的超期限时间(60*60*24*7)
   tokenHead: 'Bearer '  #JWT负载中拿到开头
 
+  #  是否限制单用户登录
+  single-login: false
+
   header: Authorization
   # 令牌前缀
   token-start-with: Bearer

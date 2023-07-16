@@ -1,4 +1,4 @@
-package org.example.modules.system.service.impl;
+package org.example.modules.security.service.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,12 +10,11 @@ import org.example.common.core.utils.StringUtils;
 import org.example.common.redis.service.RedisService;
 import org.example.modules.system.entity.dto.OnlineUserDto;
 import org.example.modules.system.entity.vo.OnlineUserVo;
-import org.example.modules.system.service.OnlineUserService;
+import org.example.modules.security.service.OnlineUserService;
 import org.example.security.config.bean.SecurityProperties;
 import org.example.security.entity.JwtUser;
 import org.example.security.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
