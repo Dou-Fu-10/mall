@@ -9,7 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.example.common.redis.service.RedisService;
-import org.example.security.entity.JwtUser;
+import org.example.security.config.SecurityProperties;
+import org.example.security.entity.OnlineUserDto;
 import org.example.security.utils.JwtTokenUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,10 +29,11 @@ import java.util.Objects;
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Resource
     private RedisService redisService;
-//    @Resource
-//    private SecurityProperties properties;
+    @Resource
+    private SecurityProperties properties;
     @Resource
     private JwtTokenUtil jwtTokenUtil;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 获取请求头中的token
@@ -41,9 +43,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        Claims claims = null;
+        Claims claims;
         try {
-            claims = jwtTokenUtil.getClaimsFromToken(token);
+            claims = jwtTokenUtil.getClaimsByToken(token);
         } catch (Exception e) {
             e.printStackTrace();
             // token 超时 token 非法
@@ -54,7 +56,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         }
         String userName = claims.getSubject();
         // 从redis 中获取用户信息
-        JwtUser loginUser = (JwtUser) redisService.get("login:" + userName);
+        OnlineUserDto loginUser = (OnlineUserDto) redisService.get(properties.getOnlineKey() + userName);
         // 如果获取不到
         if (Objects.isNull(loginUser)) {
             // 说明登录过去 提示重新登录
@@ -64,7 +66,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         }
         // TODO 优化缓存设计
         // 存入SecurityContextHolder
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, null);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser.getJwtUserDto(), null, null);
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
         filterChain.doFilter(request, response);

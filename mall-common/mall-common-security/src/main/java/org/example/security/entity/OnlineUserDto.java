@@ -1,9 +1,8 @@
-package org.example.modules.system.entity.dto;
+package org.example.security.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.security.entity.JwtUser;
 
 import java.util.Date;
 

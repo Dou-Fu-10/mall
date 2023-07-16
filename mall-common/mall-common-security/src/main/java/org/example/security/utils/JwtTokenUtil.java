@@ -3,18 +3,21 @@ package org.example.security.utils;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.example.security.config.SecurityProperties;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 /**
  * @author Dou-Fu-10
  * @date 2023-07-016
@@ -22,12 +25,21 @@ import java.util.Map;
  */
 @Component
 @Slf4j
-public class JwtTokenUtil {
+public class JwtTokenUtil implements InitializingBean {
     private static final String CLAIM_KEY_USERNAME = "subject";
     private static final String CLAIM_KEY_CREATED = "created";
-
+    private JwtBuilder jwtBuilder;
+    private JwtParser jwtParser;
     @Resource
     private SecurityProperties securityProperties;
+
+    @Override
+    public void afterPropertiesSet() {
+        jwtParser = Jwts.parser()
+                .setSigningKey(generalKey());
+        jwtBuilder = Jwts.builder()
+                .signWith(SignatureAlgorithm.HS512, generalKey());
+    }
 
     /**
      * 根据荷载生成token
@@ -37,12 +49,30 @@ public class JwtTokenUtil {
      * @return token
      */
     private String createToken(Map<String, Object> claims) {
-        return Jwts.builder()
+        return jwtBuilder
+                // 唯一的ID
                 .setId(IdUtil.simpleUUID())
+                // 声明
                 .setClaims(claims)
+                // 主题  可以是JSON数据
+                .setSubject((String) claims.get(CLAIM_KEY_USERNAME))
+                // 签发者
+                .setIssuer("mall")
+                // 签发时间
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                // 过期时间
                 .setExpiration(generateExpirationDate())
-                .signWith(SignatureAlgorithm.HS512, securityProperties.getSecret())
                 .compact();
+    }
+
+    /**
+     * 生成加密后的秘钥 secretKey
+     *
+     * @return
+     */
+    public SecretKey generalKey() {
+        byte[] encodedKey = Base64.getDecoder().decode(securityProperties.getBase64Secret());
+        return new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
     }
 
 
@@ -53,11 +83,10 @@ public class JwtTokenUtil {
      * @param token token
      * @return Claims
      */
-    public Claims getClaimsFromToken(String token) {
+    public Claims getClaimsByToken(String token) {
         Claims claims = null;
         try {
-            claims = Jwts.parser()
-                    .setSigningKey(securityProperties.getSecret())
+            claims = jwtParser
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception e) {
@@ -85,7 +114,7 @@ public class JwtTokenUtil {
     public String getUserNameFromToken(String token) {
         String username;
         try {
-            Claims claims = getClaimsFromToken(token);
+            Claims claims = getClaimsByToken(token);
             username = claims.getSubject();
         } catch (Exception e) {
             username = null;
@@ -126,7 +155,7 @@ public class JwtTokenUtil {
      * @return 获取失效时间
      */
     private Date getExpiredDateFromToken(String token) {
-        Claims claims = getClaimsFromToken(token);
+        Claims claims = getClaimsByToken(token);
         return claims.getExpiration();
     }
 
@@ -140,7 +169,9 @@ public class JwtTokenUtil {
     public String createToken(UserDetails userDetails) {
         // 准备一个空荷载claims，用于存储生成的key和value键值对（下面是存储生成token的时间和用户名）
         Map<String, Object> claims = new HashMap<>(2);
+        // 用户名
         claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
+        // 生成时间
         claims.put(CLAIM_KEY_CREATED, new Date());
         return createToken(claims);
     }
@@ -160,7 +191,7 @@ public class JwtTokenUtil {
             return null;
         }
         // token校验不通过
-        Claims claims = getClaimsFromToken(token);
+        Claims claims = getClaimsByToken(token);
         if (claims == null) {
             return null;
         }
@@ -184,10 +215,11 @@ public class JwtTokenUtil {
      * @param time  指定时间（秒）
      */
     private boolean tokenRefreshJustBefore(String token, int time) {
-        Claims claims = getClaimsFromToken(token);
+        Claims claims = getClaimsByToken(token);
         Date created = claims.get(CLAIM_KEY_CREATED, Date.class);
         Date refreshDate = new Date();
         //刷新时间在创建时间的指定时间内
         return refreshDate.after(created) && refreshDate.before(DateUtil.offsetSecond(created, time));
     }
+
 }

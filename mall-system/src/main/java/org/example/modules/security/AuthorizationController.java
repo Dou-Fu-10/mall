@@ -80,7 +80,6 @@ public class AuthorizationController {
     )
     @AnonymousPostMapping(value = "/login")
     public ResponseEntity<Map<String, Object>> login(@Validated @RequestBody AuthUser authUser, HttpServletRequest request) {
-        Map<String, Object> tokenMap = adminService.login(authUser, request);
-        return ResponseEntity.ok(tokenMap);
+        return ResponseEntity.ok(adminService.login(authUser, request));
     }
 }

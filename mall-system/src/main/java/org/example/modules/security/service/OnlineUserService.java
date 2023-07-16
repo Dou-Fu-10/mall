@@ -2,9 +2,9 @@ package org.example.modules.security.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.example.modules.system.entity.dto.OnlineUserDto;
 import org.example.modules.system.entity.vo.OnlineUserVo;
 import org.example.security.entity.JwtUser;
+import org.example.security.entity.OnlineUserDto;
 import org.springframework.scheduling.annotation.Async;
 
 import java.io.IOException;

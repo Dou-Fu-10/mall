@@ -1,7 +1,6 @@
 package org.example.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import io.jsonwebtoken.lang.Strings;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +24,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -76,7 +76,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         // 使用用户的username作为key获取token
         String token = jwtTokenUtil.createToken(jwtUser);
         // 确保token可以 功能非必须
-        if (!Strings.hasText(token)) {
+        if (!StringUtils.hasText(token)) {
             throw new BaseRequestException("登录失败");
         }
         Map<String, Object> tokenMap = new HashMap<>(2);
@@ -87,7 +87,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
             onlineUserService.kickOutForUsername(authUser.getUsername());
         }
         // 保存用户的在线信息
-        if (onlineUserService.save(jwtUser, token, request)) {
+        if (!onlineUserService.save(jwtUser, token, request)) {
             throw new BaseRequestException("登录失败");
         }
         // 记录登录痕迹

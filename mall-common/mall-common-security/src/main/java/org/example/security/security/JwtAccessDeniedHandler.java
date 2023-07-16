@@ -1,6 +1,5 @@
 package org.example.security.security;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +18,7 @@ import java.io.IOException;
 @Component
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
         log.error("拒绝访问处理程序");
         // 当用户在没有授权的情况下访问受保护的REST资源时，将调用此方法发送403 Forbidden响应
         response.sendError(HttpServletResponse.SC_FORBIDDEN, accessDeniedException.getMessage());
