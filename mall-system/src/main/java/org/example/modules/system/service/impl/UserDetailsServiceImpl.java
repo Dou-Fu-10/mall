@@ -1,18 +1,17 @@
 package org.example.modules.system.service.impl;
 
 import jakarta.annotation.Resource;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.common.core.entity.AdminEntity;
-import org.example.common.core.exception.BaseRequestException;
-import org.example.common.redis.service.RedisService;
 import org.example.modules.system.service.AdminService;
 import org.example.modules.system.service.RoleService;
+import org.example.security.entity.Authority;
 import org.example.security.entity.JwtUser;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -23,29 +22,27 @@ import java.util.Objects;
  * @Description 后台用户表(User)表服务实现类
  */
 @Slf4j
-@RequiredArgsConstructor
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private final AdminService adminService;
-    private final RoleService roleService;
     @Resource
-    private RedisService redisService;
+    private AdminService adminService;
+    @Resource
+    private RoleService roleService;
 
     @Override
     public JwtUser loadUserByUsername(String username) {
         // 根据用户名获取用户信息
         AdminEntity user = adminService.getByUsername(username);
         if (Objects.isNull(user)) {
-            throw new UsernameNotFoundException("");
+            throw new UsernameNotFoundException("登录失败");
         }
         // 判断账号是否激活
         if (!user.getEnabled()) {
-            throw new BaseRequestException("账号未激活！");
+            throw new UsernameNotFoundException("账号未激活！");
         }
+        // 获取用户权限信息
+        List<Authority> authorities = roleService.mapToGrantedAuthorities(user);
         // 将权限信息放入 jwtUserDto 中
-        JwtUser jwtUser = new JwtUser(user, roleService.mapToGrantedAuthorities(user));
-        // TODO 优化缓存设计
-        redisService.set("login:" + jwtUser.getUsername(), jwtUser);
-        return jwtUser;
+        return new JwtUser(user, authorities);
     }
 }

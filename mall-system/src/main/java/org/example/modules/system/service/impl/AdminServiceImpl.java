@@ -1,6 +1,7 @@
 package org.example.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.jsonwebtoken.lang.Strings;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,6 @@ import org.example.security.utils.JwtTokenUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -61,34 +61,37 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
 
     @Override
     public Map<String, Object> login(AuthUser authUser, HttpServletRequest request) {
-        Map<String, Object> tokenMap = new HashMap<>(2);
 
-        // 调用 UserDetailsServiceImpl 获取身份信息
+        // 调用 UserDetailsServiceImpl 获取身份信息 同时存储用户信息 判断身份信息是否合法
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(authUser.getUsername(), authUser.getPassword());
-        // 对身份进行验证
+        // 对用户的密码进行验证
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         // 判断是否认证通过
         if (Objects.isNull(authentication)) {
             throw new BaseRequestException("用户名或者密码错误");
         }
-        // 放入 SecurityContextHolder 以便后续使用
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         // 获取到用户信息
         final JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
-        // 获取token
-        String token = jwtTokenUtil.generateToken(jwtUser);
+        // 使用用户的username作为key获取token
+        String token = jwtTokenUtil.createToken(jwtUser);
+        // 确保token可以 功能非必须
+        if (!Strings.hasText(token)) {
+            throw new BaseRequestException("登录失败");
+        }
+        Map<String, Object> tokenMap = new HashMap<>(2);
         tokenMap.put("token", token);
-        // 记录登录 信息
+        // 是否唯一登录
         if (securityProperties.getSingleLogin()) {
             // 踢掉之前已经登录的token
             onlineUserService.kickOutForUsername(authUser.getUsername());
         }
-        // 保存在线信息
-        // TODO 优化缓存 设计
-        onlineUserService.save(jwtUser, token, request);
+        // 保存用户的在线信息
+        if (onlineUserService.save(jwtUser, token, request)) {
+            throw new BaseRequestException("登录失败");
+        }
+        // 记录登录痕迹
         adminLoginLogService.insertLoginLog(authUser.getUsername(), request);
-
         return tokenMap;
     }
 

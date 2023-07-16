@@ -33,6 +33,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     public List<Authority> mapToGrantedAuthorities(@NotNull AdminEntity user) {
         // 获取权限信息
         Set<String> permissions = new HashSet<>();
+        // TODO 管理员
         // 如果是超级管理员直接返回
         if (user.getIsAdmin()) {
             permissions.add("admin");

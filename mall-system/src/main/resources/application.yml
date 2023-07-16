@@ -24,14 +24,12 @@ mybatis-plus:
       logic-delete-field: deleteFlag
   mapper-locations: classpath:mapper/*.xml
 jwt:
-  tokenHeader: Authorization #JWT存储的请求头
-  secret: mall-admin-secret #JWT加解密使用的密钥
+  token-header: Authorization #JWT存储的请求头
+  secret: jwt-token-secret #JWT加解密使用的密钥
   expiration: 604800 #JWT的超期限时间(60*60*24*7)
-  tokenHead: 'Bearer '  #JWT负载中拿到开头
-
+  token-head: 'Bearer '  #JWT负载中拿到开头
   #  是否限制单用户登录
   single-login: false
-
   header: Authorization
   # 令牌前缀
   token-start-with: Bearer
@@ -40,7 +38,8 @@ jwt:
   # 令牌过期时间 此处单位/毫秒 ，默认4小时，可在此网站生成 https://www.convertworld.com/zh-hans/time/milliseconds.html
   token-validity-in-seconds: 14400000
   # 在线用户key
-  online-key: "online-token:"
+  online-key: "online-user:"
+  login-key: "login:"
   # 验证码
   code-key: "captcha-code:"
   # token 续期检查时间范围（默认30分钟，单位毫秒），在token即将过期的一段时间内用户操作了，则给用户的token续期

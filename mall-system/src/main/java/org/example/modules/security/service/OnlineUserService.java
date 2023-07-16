@@ -11,9 +11,9 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by PanShiFu 2023/7/16
+ * Created by Dou-Fu-10 2023/7/16
  *
- * @author PanShiFu
+ * @author Dou-Fu-10
  * @date 2023/7/16
  * @Description 描述
  */
@@ -24,8 +24,9 @@ public interface OnlineUserService {
      * @param jwtUser /
      * @param token   /
      * @param request /
+     * @return Boolean
      */
-    void save(JwtUser jwtUser, String token, HttpServletRequest request);
+    Boolean save(JwtUser jwtUser, String token, HttpServletRequest request);
 
     /**
      * 查询全部数据

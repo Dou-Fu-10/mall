@@ -3,6 +3,7 @@ package org.example.modules.system.entity.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.security.entity.JwtUser;
 
 import java.util.Date;
 
@@ -14,16 +15,10 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OnlineUserDto {
-
     /**
      * 用户名
      */
-    private String userName;
-
-    /**
-     * 昵称
-     */
-    private String nickName;
+    private JwtUser jwtUserDto;
 
     /**
      * 浏览器

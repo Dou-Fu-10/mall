@@ -17,6 +17,22 @@ public class SecurityProperties {
      * Request Headers ： Authorization
      */
     private String header;
+    /**
+     *  JWT存储的请求头
+     */
+    private String tokenHead;
+    /**
+     *  JWT加解密使用的密钥
+     */
+    private Long expiration;
+    /**
+     *  JWT的超期限时间(60*60*24*7)
+     */
+    private String secret;
+    /**
+     *  JWT负载中拿到开头
+     */
+    private String tokenHeader;
 
     /**
      * 令牌前缀，最后留个空格 Bearer
@@ -37,6 +53,11 @@ public class SecurityProperties {
      * 在线用户 key，根据 key 查询 redis 中在线用户的数据
      */
     private String onlineKey;
+
+    /**
+     * 登录用户 key，根据 key 查询 redis 中登录用户的数据
+     */
+    private String loginKey;
 
     /**
      * 验证码 key

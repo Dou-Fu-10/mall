@@ -40,11 +40,11 @@ public class OnlineUserServiceImpl implements OnlineUserService {
     /**
      * 保存在线用户信息
      *
-     * @param jwtUserDto /
-     * @param token      /
-     * @param request    /
+     * @param jwtUser /
+     * @param token   /
+     * @param request /
      */
-    public void save(JwtUser jwtUserDto, String token, HttpServletRequest request) {
+    public Boolean save(JwtUser jwtUser, String token, HttpServletRequest request) {
         // TODO 优化缓存设计
         // 获取登录者 ip
         String ip = StringUtils.getIp(request);
@@ -54,13 +54,12 @@ public class OnlineUserServiceImpl implements OnlineUserService {
         String address = StringUtils.getCityInfo(ip);
         OnlineUserDto onlineUserDto = null;
         try {
-            onlineUserDto = new OnlineUserDto(jwtUserDto.getUsername(), jwtUserDto.getUser().getNickName(), browser, ip, address, token, new Date());
+            onlineUserDto = new OnlineUserDto(jwtUser, browser, ip, address, token, new Date());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
-        // 获取登录名字
-        String loginKey = jwtTokenUtil.getUserNameFromToken(token);
-        redisService.set(loginKey, onlineUserDto, properties.getTokenValidityInSeconds(), TimeUnit.MILLISECONDS);
+        // 以登录用户的username作为key保存在线用户信息
+        return redisService.set(properties.getOnlineKey() + jwtUser.getUsername(), onlineUserDto, properties.getTokenValidityInSeconds(), TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -117,7 +116,7 @@ public class OnlineUserServiceImpl implements OnlineUserService {
         List<Map<String, Object>> list = new ArrayList<>();
         for (OnlineUserDto user : all) {
             Map<String, Object> map = new LinkedHashMap<>();
-            map.put("用户名", user.getUserName());
+            map.put("用户名", user.getJwtUserDto().getUsername());
             map.put("登录IP", user.getIp());
             map.put("登录地点", user.getAddress());
             map.put("浏览器", user.getBrowser());
@@ -144,6 +143,7 @@ public class OnlineUserServiceImpl implements OnlineUserService {
      */
     @Async
     public void kickOutForUsername(String username) {
+        // TODO 删除用户的 token
         String loginKey = properties.getOnlineKey() + username + "*";
 //        redisService.scanDel(loginKey);
     }
