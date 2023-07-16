@@ -9,13 +9,12 @@ import org.example.common.core.utils.BeanCopy;
 import org.example.common.core.utils.FileUtil;
 import org.example.common.core.utils.StringUtils;
 import org.example.common.redis.service.RedisService;
+import org.example.modules.security.service.OnlineUserService;
 import org.example.modules.system.entity.dto.OnlineUserDto;
 import org.example.modules.system.entity.vo.OnlineUserVo;
-import org.example.modules.security.service.OnlineUserService;
 import org.example.security.config.SecurityProperties;
 import org.example.security.entity.JwtUser;
 import org.example.security.utils.JwtTokenUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +45,7 @@ public class OnlineUserServiceImpl implements OnlineUserService {
      * @param request    /
      */
     public void save(JwtUser jwtUserDto, String token, HttpServletRequest request) {
+        // TODO 优化缓存设计
         // 获取登录者 ip
         String ip = StringUtils.getIp(request);
         // 浏览器

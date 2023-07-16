@@ -85,6 +85,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
             onlineUserService.kickOutForUsername(authUser.getUsername());
         }
         // 保存在线信息
+        // TODO 优化缓存 设计
         onlineUserService.save(jwtUser, token, request);
         adminLoginLogService.insertLoginLog(authUser.getUsername(), request);
 

@@ -44,6 +44,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         // 将权限信息放入 jwtUserDto 中
         JwtUser jwtUser = new JwtUser(user, roleService.mapToGrantedAuthorities(user));
+        // TODO 优化缓存设计
         redisService.set("login:" + jwtUser.getUsername(), jwtUser);
         return jwtUser;
     }
