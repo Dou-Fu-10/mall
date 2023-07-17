@@ -21,8 +21,6 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
         log.error("拒绝访问处理程序");
         // 当用户在没有授权的情况下访问受保护的REST资源时，将调用此方法发送403 Forbidden响应
-        response.sendError(HttpServletResponse.SC_FORBIDDEN, accessDeniedException.getMessage());
+        response.sendError(HttpServletResponse.SC_FORBIDDEN, accessDeniedException == null ? "拒绝访问处理程序" : accessDeniedException.getMessage());
     }
-
-
 }
