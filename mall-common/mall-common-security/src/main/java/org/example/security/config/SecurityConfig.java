@@ -1,11 +1,13 @@
 package org.example.security.config;
 
-import lombok.RequiredArgsConstructor;
+import jakarta.annotation.Resource;
+import org.example.common.redis.service.RedisService;
 import org.example.security.annotaion.AnonymousAccess;
 import org.example.security.enums.RequestMethodEnum;
 import org.example.security.security.JwtAccessDeniedHandler;
 import org.example.security.security.JwtAuthenticationEntryPoint;
 import org.example.security.security.JwtAuthenticationTokenFilter;
+import org.example.security.utils.JwtTokenUtil;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -13,10 +15,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.*;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,17 +40,26 @@ import java.util.*;
  */
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 @EnableGlobalAuthentication
 @EnableConfigurationProperties(SecurityProperties.class)
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-    private final ApplicationContext applicationContext;
-    private final CorsFilter corsFilter;
-    private final JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+    @Resource
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    @Resource
+    private JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    @Resource
+    private ApplicationContext applicationContext;
+    @Resource
+    private CorsFilter corsFilter;
+    @Resource
+    private RedisService redisService;
+    @Resource
+    private SecurityProperties properties;
+    @Resource
+    private JwtTokenUtil jwtTokenUtil;
+    private Map<String, Set<String>> anonymousUrls;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -62,8 +73,8 @@ public class SecurityConfig {
                 // 禁用 CSRF
                 .csrf(csrfCustomizer())
                 // CorsFilter 就会被添加到 Spring Security 过滤器链中，并在 UsernamePasswordAuthenticationFilter 之前执行。
-                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationTokenFilter(redisService, properties, jwtTokenUtil), UsernamePasswordAuthenticationFilter.class)
                 // 异常处理定制器
                 .exceptionHandling(exceptionHandlingCustomizer())
                 // 防止 iframe 造成跨域
@@ -75,6 +86,23 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
+    @Bean
+    @SuppressWarnings("all")
+    public WebSecurityCustomizer ignoringCustomizer() {
+        // 调用了 web.ignoring().requestMatchers("xxx") 方法，该方法的作用是指定 "xxx" 请求路径不需要进行 Spring Security 的安全性检查，即忽略对该请求路径的认证和授权。
+        // TODO 慎用
+        String[] get = anonymousUrls.get(RequestMethodEnum.GET.getType()).toArray(new String[0]);
+        String[] post = anonymousUrls.get(RequestMethodEnum.POST.getType()).toArray(new String[0]);
+        String[] put = anonymousUrls.get(RequestMethodEnum.PUT.getType()).toArray(new String[0]);
+        String[] delete = anonymousUrls.get(RequestMethodEnum.DELETE.getType()).toArray(new String[0]);
+        String[] all = anonymousUrls.get(RequestMethodEnum.ALL.getType()).toArray(new String[0]);
+        return (web) -> web.ignoring()
+                .requestMatchers(HttpMethod.GET, get)
+                .requestMatchers(HttpMethod.POST, post)
+                .requestMatchers(HttpMethod.PUT, put)
+                .requestMatchers(HttpMethod.DELETE, delete)
+                .requestMatchers(all);
+    }
 
     @SuppressWarnings("all")
     private Customizer<CsrfConfigurer<HttpSecurity>> csrfCustomizer() {
@@ -131,8 +159,12 @@ public class SecurityConfig {
         RequestMappingHandlerMapping requestMappingHandlerMapping = (RequestMappingHandlerMapping) applicationContext.getBean("requestMappingHandlerMapping");
         Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = requestMappingHandlerMapping.getHandlerMethods();
         // 获取匿名标记
-        Map<String, Set<String>> anonymousUrls = getAnonymousUrl(handlerMethodMap);
-
+        this.anonymousUrls = getAnonymousUrl(handlerMethodMap);
+        String[] get = anonymousUrls.get(RequestMethodEnum.GET.getType()).toArray(new String[0]);
+        String[] post = anonymousUrls.get(RequestMethodEnum.POST.getType()).toArray(new String[0]);
+        String[] put = anonymousUrls.get(RequestMethodEnum.PUT.getType()).toArray(new String[0]);
+        String[] delete = anonymousUrls.get(RequestMethodEnum.DELETE.getType()).toArray(new String[0]);
+        String[] all = anonymousUrls.get(RequestMethodEnum.ALL.getType()).toArray(new String[0]);
         // 在这里进行请求授权的自定义配置
         return (authorizeRequests) -> {
             // 添加自定义的请求授权配置
@@ -146,21 +178,22 @@ public class SecurityConfig {
                             "/*/*.js",
                             "/webSocket/**"
                     ).permitAll()
+                    .requestMatchers("/api/product").permitAll()
                     // swagger 文档
                     .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                     // 放行OPTIONS请求
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     // 自定义匿名访问所有url放行：允许匿名和带Token访问，细腻化到每个 Request 类型
                     // GET
-                    .requestMatchers(HttpMethod.GET, anonymousUrls.get(RequestMethodEnum.GET.getType()).toArray(new String[0])).permitAll()
+                    .requestMatchers(HttpMethod.GET, get).permitAll()
                     // POST
-                    .requestMatchers(HttpMethod.POST, anonymousUrls.get(RequestMethodEnum.POST.getType()).toArray(new String[0])).permitAll()
+                    .requestMatchers(HttpMethod.POST, post).permitAll()
                     // PUT
-                    .requestMatchers(HttpMethod.PUT, anonymousUrls.get(RequestMethodEnum.PUT.getType()).toArray(new String[0])).permitAll()
+                    .requestMatchers(HttpMethod.PUT, put).permitAll()
                     // DELETE
-                    .requestMatchers(HttpMethod.DELETE, anonymousUrls.get(RequestMethodEnum.DELETE.getType()).toArray(new String[0])).permitAll()
+                    .requestMatchers(HttpMethod.DELETE, delete).permitAll()
                     // 所有类型的接口都放行
-                    .requestMatchers(anonymousUrls.get(RequestMethodEnum.ALL.getType()).toArray(new String[0])).permitAll()
+                    .requestMatchers(all).permitAll()
                     // 所有请求都需要认证
                     .anyRequest().authenticated(); // 其他所有路径禁止访问
         };

@@ -2,20 +2,20 @@ package org.example.security.security;
 
 
 import io.jsonwebtoken.Claims;
-import jakarta.annotation.Resource;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
+import org.example.common.core.exception.BaseRequestException;
 import org.example.common.redis.service.RedisService;
 import org.example.security.config.SecurityProperties;
 import org.example.security.entity.OnlineUserDto;
 import org.example.security.utils.JwtTokenUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -25,50 +25,42 @@ import java.util.Objects;
  * @author ty
  */
 @Slf4j
-@Component
+@RequiredArgsConstructor
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
-    @Resource
-    private RedisService redisService;
-    @Resource
-    private SecurityProperties properties;
-    @Resource
-    private JwtTokenUtil jwtTokenUtil;
+
+    private final RedisService redisService;
+    private final SecurityProperties properties;
+    private final JwtTokenUtil jwtTokenUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 获取请求头中的token
         String token = request.getHeader("token");
-        // 解析获取userid
-        if (!StringUtils.hasText(token)) {
+         if (Strings.isBlank(token)) {
             filterChain.doFilter(request, response);
             return;
         }
-        Claims claims;
+        // TODO 优化缓存设计
         try {
-            claims = jwtTokenUtil.getClaimsByToken(token);
+            Claims claims = jwtTokenUtil.getClaimsByToken(token);
+            // 解析获取userName
+            String userName = claims.getSubject();
+            // 从redis 中获取用户信息
+            OnlineUserDto loginUser = (OnlineUserDto) redisService.get(properties.getOnlineKey() + userName);
+            // 如果获取不到
+            if (Objects.nonNull(loginUser)) {
+                // Token 续期
+                jwtTokenUtil.refreshHeadToken(token);
+                // 存入SecurityContextHolder
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser.getJwtUserDto(), null, null);
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             // token 超时 token 非法
             // 响应告诉前端需要重新登录
-//            ResponseResult result = ResponseResult.errorResult(AppHttpCodeEnum.NEED_LOGIN);
-//            WebUtils.renderString(response, JSONObject.toJSONString(result));
-            return;
+            throw new BaseRequestException("请重新登录");
         }
-        String userName = claims.getSubject();
-        // 从redis 中获取用户信息
-        OnlineUserDto loginUser = (OnlineUserDto) redisService.get(properties.getOnlineKey() + userName);
-        // 如果获取不到
-        if (Objects.isNull(loginUser)) {
-            // 说明登录过去 提示重新登录
-//            ResponseResult result = ResponseResult.errorResult(AppHttpCodeEnum.NEED_LOGIN);
-//            WebUtils.renderString(response, JSONObject.toJSONString(result));
-            return;
-        }
-        // TODO 优化缓存设计
-        // 存入SecurityContextHolder
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser.getJwtUserDto(), null, null);
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
         filterChain.doFilter(request, response);
 
     }
