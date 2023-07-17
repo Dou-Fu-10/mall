@@ -58,7 +58,6 @@ public class SecurityConfig {
     private SecurityProperties properties;
     @Resource
     private JwtTokenUtil jwtTokenUtil;
-    private Map<String, Set<String>> anonymousUrls;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -158,7 +157,7 @@ public class SecurityConfig {
         RequestMappingHandlerMapping requestMappingHandlerMapping = (RequestMappingHandlerMapping) applicationContext.getBean("requestMappingHandlerMapping");
         Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = requestMappingHandlerMapping.getHandlerMethods();
         // 获取匿名标记
-        this.anonymousUrls = getAnonymousUrl(handlerMethodMap);
+        Map<String, Set<String>> anonymousUrls = getAnonymousUrl(handlerMethodMap);
         String[] get = anonymousUrls.get(RequestMethodEnum.GET.getType()).toArray(new String[0]);
         String[] post = anonymousUrls.get(RequestMethodEnum.POST.getType()).toArray(new String[0]);
         String[] put = anonymousUrls.get(RequestMethodEnum.PUT.getType()).toArray(new String[0]);

@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
-import org.example.common.core.exception.BaseRequestException;
 import org.example.common.redis.service.RedisService;
 import org.example.security.config.SecurityProperties;
 import org.example.security.entity.OnlineUserDto;
@@ -35,34 +34,28 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 获取请求头中的token
-        String token = request.getHeader("token");
-         if (Strings.isBlank(token)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
         // TODO 优化缓存设计
-        try {
+        String token = request.getHeader("token");
+        if (Strings.isNotBlank(token)) {
             Claims claims = jwtTokenUtil.getClaimsByToken(token);
-            if (Objects.isNull(claims)) {
-                throw new BaseRequestException("tt");
+            if (Objects.nonNull(claims)) {
+                // 解析获取userName
+                String userName = claims.getSubject();
+                // 从redis 中获取用户信息
+                OnlineUserDto loginUser = (OnlineUserDto) redisService.get(properties.getOnlineKey() + userName);
+                // 如果获取不到
+                if (Objects.nonNull(loginUser)) {
+                    // Token 续期
+                    jwtTokenUtil.refreshHeadToken(token);
+                    // 存入SecurityContextHolder
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser.getJwtUserDto(), null, null);
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                } else {
+                    // TODO    清除token
+                    log.error("无法获取redis数据");
+                }
             }
-            // 解析获取userName
-            String userName = claims.getSubject();
-            // 从redis 中获取用户信息
-            OnlineUserDto loginUser = (OnlineUserDto) redisService.get(properties.getOnlineKey() + userName);
-            // 如果获取不到
-            if (Objects.nonNull(loginUser)) {
-                // Token 续期
-                jwtTokenUtil.refreshHeadToken(token);
-                // 存入SecurityContextHolder
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser.getJwtUserDto(), null, null);
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            // token 超时 token 非法
-            // 响应告诉前端需要重新登录
-            return;
+
         }
         filterChain.doFilter(request, response);
 
