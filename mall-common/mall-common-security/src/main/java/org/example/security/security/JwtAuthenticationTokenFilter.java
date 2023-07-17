@@ -43,6 +43,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         // TODO 优化缓存设计
         try {
             Claims claims = jwtTokenUtil.getClaimsByToken(token);
+            if (Objects.isNull(claims)) {
+                throw new BaseRequestException("tt");
+            }
             // 解析获取userName
             String userName = claims.getSubject();
             // 从redis 中获取用户信息
@@ -59,7 +62,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             e.printStackTrace();
             // token 超时 token 非法
             // 响应告诉前端需要重新登录
-            throw new BaseRequestException("请重新登录");
+            return;
         }
         filterChain.doFilter(request, response);
 

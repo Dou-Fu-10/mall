@@ -18,7 +18,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.*;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -86,23 +85,23 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
-    @Bean
-    @SuppressWarnings("all")
-    public WebSecurityCustomizer ignoringCustomizer() {
-        // 调用了 web.ignoring().requestMatchers("xxx") 方法，该方法的作用是指定 "xxx" 请求路径不需要进行 Spring Security 的安全性检查，即忽略对该请求路径的认证和授权。
-        // TODO 慎用
-        String[] get = anonymousUrls.get(RequestMethodEnum.GET.getType()).toArray(new String[0]);
-        String[] post = anonymousUrls.get(RequestMethodEnum.POST.getType()).toArray(new String[0]);
-        String[] put = anonymousUrls.get(RequestMethodEnum.PUT.getType()).toArray(new String[0]);
-        String[] delete = anonymousUrls.get(RequestMethodEnum.DELETE.getType()).toArray(new String[0]);
-        String[] all = anonymousUrls.get(RequestMethodEnum.ALL.getType()).toArray(new String[0]);
-        return (web) -> web.ignoring()
-                .requestMatchers(HttpMethod.GET, get)
-                .requestMatchers(HttpMethod.POST, post)
-                .requestMatchers(HttpMethod.PUT, put)
-                .requestMatchers(HttpMethod.DELETE, delete)
-                .requestMatchers(all);
-    }
+//    @Bean
+//    @SuppressWarnings("all")
+//    public WebSecurityCustomizer ignoringCustomizer() {
+//        // 调用了 web.ignoring().requestMatchers("xxx") 方法，该方法的作用是指定 "xxx" 请求路径不需要进行 Spring Security 的安全性检查，即忽略对该请求路径的认证和授权。
+//        // 慎用
+//        String[] get = anonymousUrls.get(RequestMethodEnum.GET.getType()).toArray(new String[0]);
+//        String[] post = anonymousUrls.get(RequestMethodEnum.POST.getType()).toArray(new String[0]);
+//        String[] put = anonymousUrls.get(RequestMethodEnum.PUT.getType()).toArray(new String[0]);
+//        String[] delete = anonymousUrls.get(RequestMethodEnum.DELETE.getType()).toArray(new String[0]);
+//        String[] all = anonymousUrls.get(RequestMethodEnum.ALL.getType()).toArray(new String[0]);
+//        return (web) -> web.ignoring()
+//                .requestMatchers(HttpMethod.GET, get)
+//                .requestMatchers(HttpMethod.POST, post)
+//                .requestMatchers(HttpMethod.PUT, put)
+//                .requestMatchers(HttpMethod.DELETE, delete)
+//                .requestMatchers(all);
+//    }
 
     @SuppressWarnings("all")
     private Customizer<CsrfConfigurer<HttpSecurity>> csrfCustomizer() {
