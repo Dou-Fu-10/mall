@@ -65,8 +65,7 @@ public class OrderReturnApplyController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
-    @PreAuthorize("hasAuthority('sys:user:list')")
+    @AnonymousGetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         // TODO 优化代码
         OrderReturnApplyEntity orderReturnApplyEntity = this.orderReturnApplyService.getById(id);

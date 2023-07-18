@@ -55,7 +55,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                     log.error("无法获取redis数据");
                 }
             }
-
         }
         filterChain.doFilter(request, response);
 
