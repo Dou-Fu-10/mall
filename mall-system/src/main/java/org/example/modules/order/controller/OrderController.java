@@ -60,7 +60,7 @@ public class OrderController {
      */
     @AnonymousGetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return ResponseEntity.ok(this.orderService.getById(id));
+        return ResponseEntity.ok(this.orderService.getOrderById(id));
     }
 
     /**

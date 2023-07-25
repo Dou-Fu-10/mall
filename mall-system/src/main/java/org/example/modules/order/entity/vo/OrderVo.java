@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:34:29
@@ -167,6 +168,7 @@ public class OrderVo {
      */
     private Integer deleteFlag;
 
+    private List<OrderItemVo> orderItemList;
 
 }
 
