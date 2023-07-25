@@ -3,6 +3,9 @@ package org.example.modules.order.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.order.entity.OrderOperateHistoryEntity;
 import org.example.modules.order.entity.dto.OrderOperateHistoryDto;
+import org.example.modules.order.entity.vo.OrderOperateHistoryVo;
+
+import java.util.List;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:34:29
@@ -15,16 +18,18 @@ public interface OrderOperateHistoryService extends IService<OrderOperateHistory
     /**
      * 新增数据
      *
-     * @param OrderOperateHistory 实体对象
+     * @param orderOperateHistory 实体对象
      * @return 新增结果
      */
-    boolean save(OrderOperateHistoryDto OrderOperateHistory);
+    boolean save(OrderOperateHistoryDto orderOperateHistory);
 
     /**
      * 修改数据
      *
-     * @param OrderOperateHistory 实体对象
+     * @param orderOperateHistory 实体对象
      * @return 修改结果
      */
-    boolean updateById(OrderOperateHistoryDto OrderOperateHistory);
+    boolean updateById(OrderOperateHistoryDto orderOperateHistory);
+
+    List<OrderOperateHistoryVo> getOrderOperateHistoryByOrderId(Long orderId);
 }

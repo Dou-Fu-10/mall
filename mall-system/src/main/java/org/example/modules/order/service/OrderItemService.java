@@ -34,8 +34,8 @@ public interface OrderItemService extends IService<OrderItemEntity> {
     /**
      * 根据订单id 获取订单中所包含的商品
      *
-     * @param id 订单id
+     * @param orderId 订单id
      * @return 订单中所包含的商品
      */
-    List<OrderItemVo> getOrderItemByOrderId(Long id);
+    List<OrderItemVo> getOrderItemByOrderId(Long orderId);
 }

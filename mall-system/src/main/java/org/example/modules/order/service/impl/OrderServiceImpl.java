@@ -7,9 +7,11 @@ import org.example.modules.order.entity.OrderEntity;
 import org.example.modules.order.entity.OrderItemEntity;
 import org.example.modules.order.entity.dto.OrderDto;
 import org.example.modules.order.entity.vo.OrderItemVo;
+import org.example.modules.order.entity.vo.OrderOperateHistoryVo;
 import org.example.modules.order.entity.vo.OrderVo;
 import org.example.modules.order.mapper.OrderMapper;
 import org.example.modules.order.service.OrderItemService;
+import org.example.modules.order.service.OrderOperateHistoryService;
 import org.example.modules.order.service.OrderService;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
      */
     @Resource
     private OrderItemService orderItemService;
+    @Resource
+    private OrderOperateHistoryService orderOperateHistoryService;
 
     @Override
     public boolean save(OrderDto order) {
@@ -46,7 +50,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         OrderEntity orderEntity = getById(id);
         OrderVo orderVo = BeanCopy.convert(orderEntity, OrderVo.class);
         List<OrderItemVo> orderItemVoList = orderItemService.getOrderItemByOrderId(orderEntity.getId());
+        List<OrderOperateHistoryVo> orderOperateHistoryVoList = orderOperateHistoryService.getOrderOperateHistoryByOrderId(orderEntity.getId());
         orderVo.setOrderItemList(orderItemVoList);
+        orderVo.setHistoryList(orderOperateHistoryVoList);
         return orderVo;
     }
 }

@@ -167,8 +167,14 @@ public class OrderVo {
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
     private Integer deleteFlag;
-
+    /**
+     * 订单中所包含的商品
+     */
     private List<OrderItemVo> orderItemList;
+    /**
+     * 订单操作历史记录
+     */
+    private List<OrderOperateHistoryVo> historyList;
 
 }
 
