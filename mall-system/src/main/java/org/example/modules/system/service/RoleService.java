@@ -1,10 +1,10 @@
 package org.example.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.example.security.entity.Authority;
 import org.example.common.core.entity.AdminEntity;
 import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.entity.RoleEntity;
+import org.example.security.entity.Authority;
 
 import java.util.List;
 
@@ -53,6 +53,7 @@ public interface RoleService extends IService<RoleEntity> {
 
     /**
      * 根据用户ID查询 用户角色
+     *
      * @param adminId 用户ID
      * @return 用户角色
      */

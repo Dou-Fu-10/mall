@@ -7,17 +7,16 @@ import io.jsonwebtoken.*;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.example.security.config.SecurityProperties;
-import org.example.security.entity.JwtUser;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.util.*;
+import java.util.Base64;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Dou-Fu-10
@@ -138,6 +137,7 @@ public class JwtTokenUtil implements InitializingBean {
 
     /**
      * 判断token是否已经失效
+     *
      * @param token token
      * @return 是否失效
      */
@@ -152,6 +152,7 @@ public class JwtTokenUtil implements InitializingBean {
      * 根据token获取失效时间
      * 也是先从token中获取荷载
      * 然后从荷载中拿到到设置的失效时间
+     *
      * @param token token
      * @return 获取失效时间
      */

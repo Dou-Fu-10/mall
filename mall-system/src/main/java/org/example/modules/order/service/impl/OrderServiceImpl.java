@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.order.entity.OrderEntity;
-import org.example.modules.order.entity.OrderItemEntity;
 import org.example.modules.order.entity.dto.OrderDto;
 import org.example.modules.order.entity.vo.OrderItemVo;
 import org.example.modules.order.entity.vo.OrderOperateHistoryVo;

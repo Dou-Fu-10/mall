@@ -1,7 +1,6 @@
 package org.example.modules.order.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.example.common.core.entity.AdminEntity;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.order.entity.OrderItemEntity;
 import org.example.modules.order.entity.dto.OrderItemDto;

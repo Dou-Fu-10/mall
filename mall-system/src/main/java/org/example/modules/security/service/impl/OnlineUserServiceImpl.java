@@ -31,11 +31,11 @@ import java.util.concurrent.TimeUnit;
 public class OnlineUserServiceImpl implements OnlineUserService {
 
     @Resource
-    private  SecurityProperties properties;
+    private SecurityProperties properties;
     @Resource
-    private  JwtTokenUtil jwtTokenUtil;
+    private JwtTokenUtil jwtTokenUtil;
     @Resource
-    private  RedisService redisService;
+    private RedisService redisService;
 
     /**
      * 保存在线用户信息

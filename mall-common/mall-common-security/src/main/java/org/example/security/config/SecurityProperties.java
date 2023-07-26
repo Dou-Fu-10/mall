@@ -18,19 +18,19 @@ public class SecurityProperties {
      */
     private String header;
     /**
-     *  JWT存储的请求头
+     * JWT存储的请求头
      */
     private String tokenHead;
     /**
-     *  JWT加解密使用的密钥
+     * JWT加解密使用的密钥
      */
     private Long expiration;
     /**
-     *  JWT的超期限时间(60*60*24*7)
+     * JWT的超期限时间(60*60*24*7)
      */
     private String secret;
     /**
-     *  JWT负载中拿到开头
+     * JWT负载中拿到开头
      */
     private String tokenHeader;
 

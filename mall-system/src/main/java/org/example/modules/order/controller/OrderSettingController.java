@@ -9,7 +9,6 @@ import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.order.entity.OrderSettingEntity;
 import org.example.modules.order.entity.dto.OrderSettingDto;
 import org.example.modules.order.service.OrderSettingService;
-import org.example.security.annotaion.rest.AnonymousDeleteMapping;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.example.security.annotaion.rest.AnonymousPutMapping;

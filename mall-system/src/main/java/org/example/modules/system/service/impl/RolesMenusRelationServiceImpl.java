@@ -1,7 +1,6 @@
 package org.example.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.entity.RolesMenusRelationEntity;
 import org.example.modules.system.mapper.RolesMenusRelationMapper;
 import org.example.modules.system.service.RolesMenusRelationService;

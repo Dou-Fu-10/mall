@@ -5,10 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.entity.vo.MenuVo;
 
-import java.awt.*;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -31,6 +28,7 @@ public interface MenuService extends IService<MenuEntity> {
 
     /**
      * 根据当前用户获取菜单
+     *
      * @param currentUserId 当前用户
      * @return 菜单
      */

@@ -1,7 +1,6 @@
 package org.example.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.entity.RolesMenusRelationEntity;
 
 import java.util.List;
@@ -17,5 +16,5 @@ import java.util.Set;
  */
 public interface RolesMenusRelationService extends IService<RolesMenusRelationEntity> {
 
-    List<RolesMenusRelationEntity> findByRoleIdsAndTypeNot(Set<Long> roleIds );
+    List<RolesMenusRelationEntity> findByRoleIdsAndTypeNot(Set<Long> roleIds);
 }

@@ -2,14 +2,14 @@ package org.example.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import org.example.modules.system.entity.AdminRolesRelationEntity;
-import org.example.modules.system.service.AdminRolesRelationService;
-import org.example.security.entity.Authority;
 import org.example.common.core.entity.AdminEntity;
+import org.example.modules.system.entity.AdminRolesRelationEntity;
 import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.entity.RoleEntity;
 import org.example.modules.system.mapper.RoleMapper;
+import org.example.modules.system.service.AdminRolesRelationService;
 import org.example.modules.system.service.RoleService;
+import org.example.security.entity.Authority;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 

@@ -2,10 +2,8 @@ package org.example.modules.order.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.common.core.utils.BeanCopy;
-import org.example.modules.order.entity.OrderItemEntity;
 import org.example.modules.order.entity.OrderOperateHistoryEntity;
 import org.example.modules.order.entity.dto.OrderOperateHistoryDto;
-import org.example.modules.order.entity.vo.OrderItemVo;
 import org.example.modules.order.entity.vo.OrderOperateHistoryVo;
 import org.example.modules.order.mapper.OrderOperateHistoryMapper;
 import org.example.modules.order.service.OrderOperateHistoryService;

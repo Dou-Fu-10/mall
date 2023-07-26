@@ -1,7 +1,5 @@
 package org.example.modules.system.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -10,7 +8,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.example.common.core.utils.BeanCopy;
 import org.example.common.core.utils.StringUtils;
-import org.example.modules.product.entity.vo.ProductCategoryVo;
 import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.entity.RoleEntity;
 import org.example.modules.system.entity.RolesMenusRelationEntity;
@@ -23,9 +20,7 @@ import org.example.modules.system.service.RolesMenusRelationService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
