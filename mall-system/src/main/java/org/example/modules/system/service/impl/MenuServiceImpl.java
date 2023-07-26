@@ -61,7 +61,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
     @Override
     public List<MenuVo> getOneLevelMenu() {
         // TODO 修改一级菜单
-        List<MenuEntity> list = lambdaQuery().eq(MenuEntity::getParentId, 10000L).list();
+        List<MenuEntity> list = lambdaQuery().eq(MenuEntity::getParentId, 0L).list();
         return BeanCopy.copytList(list, MenuVo.class);
     }
 
