@@ -76,6 +76,16 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
         return (Page) menuVoIPage;
     }
 
+    @Override
+    public List<MenuVo> findByMenusId(Set<Long> menusId) {
+        List<MenuEntity> menuEntityList = lambdaQuery().in(MenuEntity::getId, menusId).list();
+        if (CollectionUtils.isEmpty(menuEntityList)) {
+            return new ArrayList<>();
+        }
+        List<MenuVo> menuVoList = BeanCopy.copytList(menuEntityList, MenuVo.class);
+        return getMenuVoListTree(menuVoList);
+    }
+
     @NotNull
     private List<MenuVo> getMenuVoListTree(List<MenuVo> menuVo) {
         // 1.首先，判断输入的类别集合是否为空，如果为空，则立即返回一个空的列表。

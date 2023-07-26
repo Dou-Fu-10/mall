@@ -1,14 +1,22 @@
 package org.example.modules.admin.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.example.common.core.entity.AdminEntity;
+import org.example.common.core.utils.BeanCopy;
 import org.example.modules.admin.system.entity.AdminRolesRelationEntity;
 import org.example.modules.admin.system.entity.MenuEntity;
 import org.example.modules.admin.system.entity.RoleEntity;
+import org.example.modules.admin.system.entity.vo.MenuVo;
+import org.example.modules.admin.system.entity.vo.RoleVo;
 import org.example.modules.admin.system.mapper.RoleMapper;
 import org.example.modules.admin.system.service.AdminRolesRelationService;
+import org.example.modules.admin.system.service.MenuService;
 import org.example.modules.admin.system.service.RoleService;
+import org.example.modules.admin.system.service.RolesMenusRelationService;
 import org.example.security.entity.Authority;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -30,6 +38,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
 
     @Resource
     private AdminRolesRelationService adminRolesRelationService;
+    @Resource
+    private RolesMenusRelationService rolesMenusRelationService;
 
     @Override
     public List<Authority> mapToGrantedAuthorities(@NotNull AdminEntity user) {
@@ -68,6 +78,14 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         List<AdminRolesRelationEntity> list = adminRolesRelationService.lambdaQuery().eq(AdminRolesRelationEntity::getAdminId, adminId).list();
         Set<Long> collect = list.stream().map(AdminRolesRelationEntity::getRoleId).collect(Collectors.toSet());
         return lambdaQuery().in(RoleEntity::getId, collect).list();
+    }
+
+    @Override
+    public Page<RoleVo> page(Page<RoleEntity> page, RoleEntity role) {
+        Page<RoleEntity> roleEntityPage = page(page, new QueryWrapper<>(role));
+        IPage<RoleVo> roleVoIPage = roleEntityPage.convert(roleEntity -> BeanCopy.convert(roleEntity, RoleVo.class));
+        roleVoIPage.getRecords().stream().forEach(roleVo -> roleVo.setMenu(rolesMenusRelationService.findMenusByRoleId(roleVo.getId())));
+        return (Page)roleVoIPage;
     }
 }
 

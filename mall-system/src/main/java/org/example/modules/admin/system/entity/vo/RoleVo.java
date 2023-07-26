@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Dou-Fu-10 2023-07-09 18:34:52
@@ -59,7 +60,9 @@ public class RoleVo {
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
     private Integer deleteFlag;
-
-
+    /**
+     * 角色对应的菜单
+     */
+    private List<MenuVo> menu;
 }
 

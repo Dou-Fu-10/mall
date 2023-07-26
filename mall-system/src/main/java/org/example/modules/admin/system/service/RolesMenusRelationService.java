@@ -1,7 +1,10 @@
 package org.example.modules.admin.system.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.admin.system.entity.RolesMenusRelationEntity;
+import org.example.modules.admin.system.entity.vo.MenuVo;
+import org.example.modules.admin.system.entity.vo.RolesMenusRelationVo;
 
 import java.util.List;
 import java.util.Set;
@@ -17,4 +20,6 @@ import java.util.Set;
 public interface RolesMenusRelationService extends IService<RolesMenusRelationEntity> {
 
     List<RolesMenusRelationEntity> findByRoleIdsAndTypeNot(Set<Long> roleIds);
+
+    List<MenuVo> findMenusByRoleId(Long roleId);
 }

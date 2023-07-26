@@ -52,7 +52,7 @@ public class RoleController {
     @Operation(summary = "分页查询所有数据")
     @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<RoleEntity> page, RoleEntity role) {
-        return new ResponseEntity<>(this.roleService.page(page, new QueryWrapper<>(role)), HttpStatus.OK);
+        return new ResponseEntity<>(this.roleService.page(page,role), HttpStatus.OK);
     }
 
     /**

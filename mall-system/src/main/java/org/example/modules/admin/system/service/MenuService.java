@@ -6,6 +6,7 @@ import org.example.modules.admin.system.entity.MenuEntity;
 import org.example.modules.admin.system.entity.vo.MenuVo;
 
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -49,4 +50,12 @@ public interface MenuService extends IService<MenuEntity> {
      * @return 所有数据
      */
     Page<MenuVo> page(Page<MenuEntity> page, MenuEntity menu);
+
+    /**
+     * 通过菜单id列表查询 菜单
+     *
+     * @param menusId 菜单id
+     * @return 所有数据
+     */
+    List<MenuVo> findByMenusId(Set<Long> menusId);
 }

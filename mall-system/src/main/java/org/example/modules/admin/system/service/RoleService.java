@@ -1,9 +1,12 @@
 package org.example.modules.admin.system.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.common.core.entity.AdminEntity;
 import org.example.modules.admin.system.entity.MenuEntity;
 import org.example.modules.admin.system.entity.RoleEntity;
+import org.example.modules.admin.system.entity.vo.RoleVo;
 import org.example.security.entity.Authority;
 
 import java.util.List;
@@ -58,4 +61,6 @@ public interface RoleService extends IService<RoleEntity> {
      * @return 用户角色
      */
     List<RoleEntity> findByUsersId(Long adminId);
+
+    Page<RoleVo> page(Page<RoleEntity> page, RoleEntity role);
 }
