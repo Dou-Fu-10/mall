@@ -1,0 +1,18 @@
+package org.example.modules.admin.system.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.example.modules.admin.system.entity.RolesMenusRelationEntity;
+
+/**
+ * Created by Dou-Fu-10 2023-07-09 18:52:14
+ *
+ * @author Dou-Fu-10
+ * @date 2023-07-09 18:52:14
+ * @Description 角色菜单关联(RolesMenusRelation)表数据库访问层
+ */
+@Mapper
+public interface RolesMenusRelationMapper extends BaseMapper<RolesMenusRelationEntity> {
+
+}
+

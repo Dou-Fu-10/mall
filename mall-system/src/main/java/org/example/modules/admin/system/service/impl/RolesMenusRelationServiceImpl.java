@@ -1,0 +1,27 @@
+package org.example.modules.admin.system.service.impl;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.example.modules.admin.system.entity.RolesMenusRelationEntity;
+import org.example.modules.admin.system.mapper.RolesMenusRelationMapper;
+import org.example.modules.admin.system.service.RolesMenusRelationService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
+
+/**
+ * Created by Dou-Fu-10 2023-07-09 18:52:14
+ *
+ * @author Dou-Fu-10
+ * @date 2023-07-09 18:52:14
+ * @Description 角色菜单关联(RolesMenus)表服务实现类
+ */
+@Service("RolesMenusRelationService")
+public class RolesMenusRelationServiceImpl extends ServiceImpl<RolesMenusRelationMapper, RolesMenusRelationEntity> implements RolesMenusRelationService {
+
+    @Override
+    public List<RolesMenusRelationEntity> findByRoleIdsAndTypeNot(Set<Long> roleIds) {
+        return lambdaQuery().in(RolesMenusRelationEntity::getRoleId, roleIds).list();
+    }
+}
+
