@@ -2,6 +2,8 @@ package org.example.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import org.example.modules.system.entity.AdminRolesRelationEntity;
+import org.example.modules.system.service.AdminRolesRelationService;
 import org.example.security.entity.Authority;
 import org.example.common.core.entity.AdminEntity;
 import org.example.modules.system.entity.MenuEntity;
@@ -27,7 +29,7 @@ import java.util.stream.Collectors;
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> implements RoleService {
 
     @Resource
-    private RoleMapper roleMapper;
+    private AdminRolesRelationService adminRolesRelationService;
 
     @Override
     public List<Authority> mapToGrantedAuthorities(@NotNull AdminEntity user) {
@@ -41,7 +43,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
                     .collect(Collectors.toList());
         }
         // 根据用户Id查找权限
-        permissions = roleMapper.findPermissionByUserId(user.getId());
+        permissions = getBaseMapper().findPermissionByUserId(user.getId());
         return permissions.stream().map(Authority::new)
                 .collect(Collectors.toList());
     }
@@ -62,8 +64,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     }
 
     @Override
-    public List<RoleEntity> findByUsersId(Long userId) {
-        return null;
+    public List<RoleEntity> findByUsersId(Long adminId) {
+        List<AdminRolesRelationEntity> list = adminRolesRelationService.lambdaQuery().eq(AdminRolesRelationEntity::getAdminId, adminId).list();
+        Set<Long> collect = list.stream().map(AdminRolesRelationEntity::getRoleId).collect(Collectors.toSet());
+        return lambdaQuery().in(RoleEntity::getId, collect).list();
     }
 }
 

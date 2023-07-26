@@ -1,10 +1,14 @@
 package org.example.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.entity.RolesMenusRelationEntity;
 import org.example.modules.system.mapper.RolesMenusRelationMapper;
 import org.example.modules.system.service.RolesMenusRelationService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-07-09 18:52:14
@@ -16,5 +20,9 @@ import org.springframework.stereotype.Service;
 @Service("RolesMenusRelationService")
 public class RolesMenusRelationServiceImpl extends ServiceImpl<RolesMenusRelationMapper, RolesMenusRelationEntity> implements RolesMenusRelationService {
 
+    @Override
+    public List<RolesMenusRelationEntity> findByRoleIdsAndTypeNot(Set<Long> roleIds) {
+        return lambdaQuery().in(RolesMenusRelationEntity::getRoleId, roleIds).list();
+    }
 }
 

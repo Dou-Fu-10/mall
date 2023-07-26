@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.example.modules.system.entity.MenuEntity;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,6 +17,5 @@ import java.util.Set;
  */
 @Mapper
 public interface MenuMapper extends BaseMapper<MenuEntity> {
-    LinkedHashSet<MenuEntity> findByRoleIdsAndTypeNot(Set<Long> roleIds, int i);
 }
 

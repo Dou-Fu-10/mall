@@ -1,5 +1,6 @@
 package org.example.modules.system.entity.vo;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,8 +20,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MenuVo {
-    private Long id;
 
+    private Long id;
+    /**
+     * 菜单
+     */
+    private MenuMetaVo menuMeta;
     /**
      * 上级菜单ID
      */

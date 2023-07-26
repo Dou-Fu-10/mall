@@ -51,7 +51,18 @@ public class MenuController {
     @Operation(summary = "分页查询所有数据")
     @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<MenuEntity> page, MenuEntity menu) {
-        return new ResponseEntity<>(this.menuService.page(page, new QueryWrapper<>(menu)), HttpStatus.OK);
+        return new ResponseEntity<>(this.menuService.page(page, menu), HttpStatus.OK);
+    }
+
+    /**
+     * 查询所有的一级菜单
+     *
+     * @return 一级菜单列表
+     */
+    @Operation(summary = "分页查询所有数据")
+    @AnonymousGetMapping("/oneLevelMenu")
+    public ResponseEntity<Object> getOneLevelMenu() {
+        return new ResponseEntity<>(this.menuService.getOneLevelMenu(), HttpStatus.OK);
     }
 
     /**
@@ -102,6 +113,13 @@ public class MenuController {
         return new ResponseEntity<>(this.menuService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() > 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败", HttpStatus.OK);
     }
 
+    /**
+     * 修改菜单显示状态
+     *
+     * @param id     菜单id
+     * @param hidden 修改的状态
+     * @return String
+     */
     @Operation(summary = "修改菜单显示状态")
     @RequestMapping(value = "/updateHidden/{id}", method = RequestMethod.POST)
     @ResponseBody
@@ -111,13 +129,17 @@ public class MenuController {
         }
         throw new BaseRequestException("修改成功");
     }
+
+    /**
+     * 登录用户获取前端所需菜单
+     *
+     * @return 菜单
+     */
     @Operation(summary = "获取前端所需菜单")
     @GetMapping(value = "/build")
-    public ResponseEntity<List<MenuVo>> buildMenus(){
+    public ResponseEntity<List<MenuVo>> buildMenus() {
         Long currentUserId = 1L;
-        List<MenuEntity> menuList = menuService.findByUser(currentUserId);
-        List<MenuVo> menus = menuService.buildTree(menuList);
-        return ResponseEntity.ok(menuService.buildMenus(menus));
+        return ResponseEntity.ok(menuService.findByUser(currentUserId));
     }
 }
 

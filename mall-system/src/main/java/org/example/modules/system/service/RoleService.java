@@ -53,8 +53,8 @@ public interface RoleService extends IService<RoleEntity> {
 
     /**
      * 根据用户ID查询 用户角色
-     * @param userId 用户ID
+     * @param adminId 用户ID
      * @return 用户角色
      */
-    List<RoleEntity> findByUsersId(Long userId);
+    List<RoleEntity> findByUsersId(Long adminId);
 }
