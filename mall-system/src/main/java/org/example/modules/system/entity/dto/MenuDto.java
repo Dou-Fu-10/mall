@@ -1,5 +1,6 @@
 package org.example.modules.system.entity.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,7 @@ public class MenuDto {
      */
     private Integer subCount;
     /**
-     * 菜单类型
+     * 菜单类型：0->目录；1->菜单；2->按钮（接口绑定权限）
      */
     private Integer type;
     /**
@@ -43,6 +44,10 @@ public class MenuDto {
      * 创建者
      */
     private String createBy;
+    /**
+     * 链接地址
+     */
+    private String path;
     /**
      * 菜单级数
      */

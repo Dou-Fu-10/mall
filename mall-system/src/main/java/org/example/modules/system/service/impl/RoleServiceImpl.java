@@ -60,5 +60,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     public boolean allocMenu(Long roleId, List<Long> menuIds) {
         return false;
     }
+
+    @Override
+    public List<RoleEntity> findByUsersId(Long userId) {
+        return null;
+    }
 }
 

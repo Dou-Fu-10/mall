@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.system.entity.MenuEntity;
+import org.example.modules.system.entity.vo.MenuVo;
 import org.example.modules.system.service.MenuService;
 import org.example.security.annotaion.rest.AnonymousDeleteMapping;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
@@ -17,7 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -107,7 +110,14 @@ public class MenuController {
             return ResponseEntity.ok("修改成功");
         }
         throw new BaseRequestException("修改成功");
-
+    }
+    @Operation(summary = "获取前端所需菜单")
+    @GetMapping(value = "/build")
+    public ResponseEntity<List<MenuVo>> buildMenus(){
+        Long currentUserId = 1L;
+        List<MenuEntity> menuList = menuService.findByUser(currentUserId);
+        List<MenuVo> menus = menuService.buildTree(menuList);
+        return ResponseEntity.ok(menuService.buildMenus(menus));
     }
 }
 

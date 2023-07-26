@@ -50,4 +50,11 @@ public interface RoleService extends IService<RoleEntity> {
      * @return String
      */
     boolean allocMenu(Long roleId, List<Long> menuIds);
+
+    /**
+     * 根据用户ID查询 用户角色
+     * @param userId 用户ID
+     * @return 用户角色
+     */
+    List<RoleEntity> findByUsersId(Long userId);
 }

@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.example.modules.system.entity.MenuEntity;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 /**
  * Created by Dou-Fu-10 2023-07-09 18:52:13
  *
@@ -13,6 +16,6 @@ import org.example.modules.system.entity.MenuEntity;
  */
 @Mapper
 public interface MenuMapper extends BaseMapper<MenuEntity> {
-
+    LinkedHashSet<MenuEntity> findByRoleIdsAndTypeNot(Set<Long> roleIds, int i);
 }
 

@@ -40,9 +40,9 @@ public class MenuEntity extends CommonEntity<MenuEntity> implements Serializable
     @Schema(name = "subCount", description = "子菜单数目")
     private Integer subCount;
     /**
-     * 菜单类型
+     * 菜单类型：0->目录；1->菜单；2->按钮（接口绑定权限）
      */
-    @Schema(name = "type", description = "菜单类型")
+    @Schema(name = "type", description = "菜单类型：0->目录；1->菜单；2->按钮（接口绑定权限）")
     private Integer type;
     /**
      * 菜单标题
@@ -59,6 +59,11 @@ public class MenuEntity extends CommonEntity<MenuEntity> implements Serializable
      */
     @Schema(name = "createBy", description = "创建者")
     private String createBy;
+    /**
+     * 链接地址
+     */
+    @Schema(name = "path", description = "链接地址")
+    private String path;
     /**
      * 菜单级数
      */

@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Dou-Fu-10 2023-07-09 18:52:14
@@ -28,7 +30,7 @@ public class MenuVo {
      */
     private Integer subCount;
     /**
-     * 菜单类型
+     * 菜单类型：0->目录；1->菜单；2->按钮（接口绑定权限）
      */
     private Integer type;
     /**
@@ -43,6 +45,10 @@ public class MenuVo {
      * 创建者
      */
     private String createBy;
+    /**
+     * 链接地址
+     */
+    private String path;
     /**
      * 菜单级数
      */
@@ -85,5 +91,6 @@ public class MenuVo {
     private Integer deleteFlag;
 
 
+    private List<MenuVo> children;
 }
 
