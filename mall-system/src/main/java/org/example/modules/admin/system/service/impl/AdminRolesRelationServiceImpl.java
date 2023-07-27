@@ -3,6 +3,7 @@ package org.example.modules.admin.system.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import jakarta.validation.constraints.NotNull;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.admin.system.entity.AdminRolesRelationEntity;
 import org.example.modules.admin.system.entity.vo.RoleVo;
@@ -36,12 +37,10 @@ public class AdminRolesRelationServiceImpl extends ServiceImpl<AdminRolesRelatio
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    public Boolean updateRole(Long adminId, Set<Long> roleIds) {
-        if (remove(lambdaQuery().eq(AdminRolesRelationEntity::getAdminId, adminId).getWrapper())) {
-            Set<AdminRolesRelationEntity> adminRolesRelationEntitySet = roleIds.stream().map(id -> new AdminRolesRelationEntity(id, adminId)).collect(Collectors.toSet());
-            return saveBatch(adminRolesRelationEntitySet);
-        }
-        return false;
+    public Boolean updateRole(@NotNull Long adminId,  @NotNull Set<Long> roleIds) {
+        remove(lambdaQuery().eq(AdminRolesRelationEntity::getAdminId, adminId).getWrapper());
+        Set<AdminRolesRelationEntity> adminRolesRelationEntitySet = roleIds.stream().map(id -> new AdminRolesRelationEntity(id, adminId)).collect(Collectors.toSet());
+        return saveBatch(adminRolesRelationEntitySet);
     }
 
     @Override

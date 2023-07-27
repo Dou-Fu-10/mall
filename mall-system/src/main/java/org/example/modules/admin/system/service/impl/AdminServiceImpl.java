@@ -19,9 +19,11 @@ import org.example.modules.admin.system.service.AdminLoginLogService;
 import org.example.modules.admin.system.service.AdminRolesRelationService;
 import org.example.modules.admin.system.service.AdminService;
 import org.example.modules.admin.system.service.RolesMenusRelationService;
+import org.example.modules.admin.tools.storage.service.MinioServer;
 import org.example.security.config.SecurityProperties;
 import org.example.security.entity.JwtUser;
 import org.example.security.utils.JwtTokenUtil;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -61,6 +63,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     private AdminRolesRelationService adminRolesRelationService;
     @Resource
     private RolesMenusRelationService rolesMenusRelationService;
+    @Resource
+    private MinioServer minioServer;
 
     @Override
     public AdminEntity getByEmail(String email) {
@@ -161,17 +165,17 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         // TODO 对数据进行校验
         AdminEntity user = getByUsername(resources.getUsername());
         // 用户名是否唯一
-        if (Objects.isNull(user)) {
+        if (Objects.nonNull(user)) {
             throw new BaseRequestException("用户名输入错误或用户名已存在");
         }
         // 邮箱是否唯一
         user = getByEmail(resources.getEmail());
-        if (Objects.isNull(user)) {
+        if (Objects.nonNull(user)) {
             throw new BaseRequestException("邮箱输入错误或邮箱已被暂用");
         }
         // 手机号是否唯一
         user = getByPhone(resources.getPhone());
-        if (Objects.isNull(user)) {
+        if (Objects.nonNull(user)) {
             throw new BaseRequestException("手机号输入错误或手机号已被暂用");
         }
 
@@ -192,8 +196,13 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     }
 
     @Override
-    public Boolean save(AdminDto adminDto) {
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
+    public Boolean save(@NotNull AdminDto adminDto) {
         adminDto.setPassword("123456");
+        if (Objects.nonNull(adminDto.getIcon()) && minioServer.checkObjectIsExist(adminDto.getIcon())) {
+            return register(adminDto);
+        }
+        adminDto.setIcon(null);
         return register(adminDto);
     }
 }
