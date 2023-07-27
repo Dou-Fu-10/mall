@@ -8,9 +8,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
-import org.example.modules.portal.member.entity.dto.MemberPriceDto;
-import org.example.modules.portal.member.entity.vo.MemberPriceVo;
-import org.example.modules.portal.member.service.MemberPriceService;
 import org.example.modules.admin.product.entity.ProductEntity;
 import org.example.modules.admin.product.entity.dto.ProductAttributeValueDto;
 import org.example.modules.admin.product.entity.dto.ProductDto;
@@ -23,8 +20,12 @@ import org.example.modules.admin.product.mapper.ProductMapper;
 import org.example.modules.admin.product.service.ProductAttributeValueService;
 import org.example.modules.admin.product.service.ProductService;
 import org.example.modules.admin.product.service.SkuStockService;
+import org.example.modules.portal.member.entity.dto.MemberPriceDto;
+import org.example.modules.portal.member.entity.vo.MemberPriceVo;
+import org.example.modules.portal.member.service.MemberPriceService;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -138,6 +139,12 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
 
         }
         return true;
+    }
+
+    @Override
+    public ProductVo findById(Serializable id) {
+        ProductEntity productEntity = getById(id);
+        return BeanCopy.convert(productEntity, ProductVo.class);
     }
 }
 

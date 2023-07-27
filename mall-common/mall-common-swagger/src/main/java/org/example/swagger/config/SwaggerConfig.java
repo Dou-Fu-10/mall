@@ -33,6 +33,17 @@ public class SwaggerConfig {
     private String groupedApi(String api) {
         return "/api/" + api + "/**";
     }
+    private String grouped(String api) {
+        return "/" + api + "/**";
+    }
+
+    @Bean
+    public GroupedOpenApi portal() {
+        return GroupedOpenApi.builder()
+                .group("前台")
+                .pathsToMatch(groupedApi("product"))
+                .build();
+    }
 
     @Bean
     public GroupedOpenApi comment() {
@@ -46,9 +57,9 @@ public class SwaggerConfig {
     public GroupedOpenApi member() {
         return GroupedOpenApi.builder()
                 .group("会员")
-                .pathsToMatch(groupedApi("member"), groupedApi("memberLevel"),
-                        groupedApi("memberLoginLog"), groupedApi("memberPrice"),
-                        groupedApi("memberReceiveAddress"))
+                .pathsToMatch(grouped("member"), grouped("memberLevel"),
+                        grouped("memberLoginLog"), grouped("memberPrice"),
+                        grouped("memberReceiveAddress"))
                 .build();
     }
 

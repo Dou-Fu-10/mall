@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * @Description 会员表(Member)表控制层
  */
 @RestController
-@RequestMapping("/api/member")
+@RequestMapping("/member")
 @Tag(name = "MemberController", description = "会员表(Member)表控制层")
 public class MemberController {
     /**

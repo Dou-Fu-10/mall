@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * @Description 会员等级表(MemberLevel)表控制层
  */
 @RestController
-@RequestMapping("/api/memberLevel")
+@RequestMapping("/memberLevel")
 @Tag(name = "MemberLevelController", description = "会员等级表(MemberLevel)表控制层")
 public class MemberLevelController {
     /**

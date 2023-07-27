@@ -12,7 +12,9 @@ import org.example.modules.admin.product.mapper.ProductAttributeMapper;
 import org.example.modules.admin.product.service.ProductAttributeService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 12:49:52
@@ -57,6 +59,12 @@ public class ProductAttributeServiceImpl extends ServiceImpl<ProductAttributeMap
         productAttributeEntityLambdaQueryWrapper.orderByDesc(ProductAttributeEntity::getSort);
         Page<ProductAttributeEntity> productAttributeEntityPage = page(page, productAttributeEntityLambdaQueryWrapper);
         return (Page) productAttributeEntityPage.convert(productAttribute -> BeanCopy.convert(productAttribute, ProductAttributeVo.class));
+    }
+
+    @Override
+    public List<ProductAttributeVo> findListByIds(Set<Long> productAttributeIds) {
+        List<ProductAttributeEntity> productAttributeEntityList = listByIds(productAttributeIds);
+        return BeanCopy.copytList(productAttributeEntityList, ProductAttributeVo.class);
     }
 }
 

@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
         "org.example.modules.admin.system.mapper",
         "org.example.modules.admin.comment.mapper",
         "org.example.modules.portal.member.mapper",
+        "org.example.modules.portal.cartItem.mapper",
+        "org.example.modules.portal.product.mapper",
         "org.example.modules.admin.order.mapper",
         "org.example.modules.admin.product.mapper",
         "org.example.modules.admin.tools.mapper",

@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * @Description 会员收货地址表(MemberReceiveAddress)表控制层
  */
 @RestController
-@RequestMapping("/api/memberReceiveAddress")
+@RequestMapping("/memberReceiveAddress")
 @Tag(name = "MemberReceiveAddressController", description = "会员收货地址表(MemberReceiveAddress)表控制层")
 public class MemberReceiveAddressController {
     /**

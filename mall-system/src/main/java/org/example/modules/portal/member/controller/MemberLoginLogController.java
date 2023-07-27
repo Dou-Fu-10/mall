@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * @Description 会员登录记录(MemberLoginLog)表控制层
  */
 @RestController
-@RequestMapping("/api/memberLoginLog")
+@RequestMapping("/memberLoginLog")
 @Tag(name = "MemberLoginLogController", description = "会员登录记录(MemberLoginLog)表控制层")
 public class MemberLoginLogController {
     /**

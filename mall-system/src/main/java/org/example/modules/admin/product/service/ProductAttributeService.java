@@ -6,6 +6,9 @@ import org.example.modules.admin.product.entity.ProductAttributeEntity;
 import org.example.modules.admin.product.entity.dto.ProductAttributeDto;
 import org.example.modules.admin.product.entity.vo.ProductAttributeVo;
 
+import java.util.List;
+import java.util.Set;
+
 
 /**
  * Created by Dou-Fu-10 2023-07-14 12:49:52
@@ -48,4 +51,11 @@ public interface ProductAttributeService extends IService<ProductAttributeEntity
      * @return 所有数据
      */
     Page<ProductAttributeVo> getProductAttributeByProductAttributeCategoryId(Page<ProductAttributeEntity> page, ProductAttributeDto productAttributeDto);
+
+    /**
+     * 按 id列表 查询对应的属性
+     * @param productAttributeIds 属性
+     * @return 属性
+     */
+    List<ProductAttributeVo> findListByIds(Set<Long> productAttributeIds);
 }

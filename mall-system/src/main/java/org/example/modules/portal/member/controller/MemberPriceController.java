@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  * @Description 商品会员价格表(MemberPrice)表控制层
  */
 @RestController
-@RequestMapping("/api/memberPrice")
+@RequestMapping("/memberPrice")
 @Tag(name = "MemberPriceController", description = "")
 public class MemberPriceController {
     /**

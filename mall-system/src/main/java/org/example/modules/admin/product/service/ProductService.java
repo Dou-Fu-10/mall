@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
+
 
 /**
  * Created by Dou-Fu-10 2023-07-14 13:05:47
@@ -44,4 +46,12 @@ public interface ProductService extends IService<ProductEntity> {
      * @return 修改结果
      */
     boolean updateById(ProductDtoParam product);
+    /**
+     * 按Id查找
+     *
+     * @param id 商品id
+     * @return 结果
+     */
+    ProductVo findById(Serializable id);
+
 }
