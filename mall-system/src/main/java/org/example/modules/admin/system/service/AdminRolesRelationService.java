@@ -5,6 +5,7 @@ import org.example.modules.admin.system.entity.AdminRolesRelationEntity;
 import org.example.modules.admin.system.entity.vo.RoleVo;
 
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -24,7 +25,7 @@ public interface AdminRolesRelationService extends IService<AdminRolesRelationEn
      * @param roleIds 角色id列表
      * @return 是否成功
      */
-    Boolean updateRole(Long adminId, List<Long> roleIds);
+    Boolean updateRole(Long adminId, Set<Long> roleIds);
 
     /**
      * 获取用户的角色信息

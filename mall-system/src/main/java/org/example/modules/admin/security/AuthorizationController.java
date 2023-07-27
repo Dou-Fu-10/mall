@@ -59,6 +59,7 @@ public class AuthorizationController {
     )
     @AnonymousPostMapping(value = "/register")
     public ResponseEntity<String> register(@Validated @RequestBody AdminDto resources) {
+        resources.setPassword("123456");
         Boolean register = adminService.register(resources);
         if (register) {
             return ResponseEntity.ok("注册成功");

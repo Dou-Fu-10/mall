@@ -10,6 +10,7 @@ import jakarta.annotation.Resource;
 import org.example.common.core.entity.AdminEntity;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.config.UpdatePassword;
+import org.example.modules.admin.system.entity.dto.AdminDto;
 import org.example.modules.admin.system.entity.vo.RoleVo;
 import org.example.modules.admin.system.service.AdminService;
 import org.example.security.annotaion.rest.AnonymousDeleteMapping;
@@ -77,14 +78,14 @@ public class AdminController {
     /**
      * 新增数据
      *
-     * @param admin 实体对象
+     * @param adminDto 实体对象
      * @return 新增结果
      */
     @Operation(summary = "添加用户")
     @AnonymousPostMapping
-    public ResponseEntity<Object> insert(@RequestBody AdminEntity admin) {
+    public ResponseEntity<Object> insert(@RequestBody AdminDto adminDto) {
         // TODO 对数据进行校验
-        return new ResponseEntity<>(this.adminService.save(admin), HttpStatus.OK);
+        return new ResponseEntity<>(this.adminService.save(adminDto), HttpStatus.OK);
     }
 
     /**
@@ -151,7 +152,7 @@ public class AdminController {
     @AnonymousPostMapping(value = "/role/update")
     @ResponseBody
     public ResponseEntity<String> updateRole(@RequestParam("adminId") Long adminId,
-                                             @RequestParam("roleIds") List<Long> roleIds) {
+                                             @RequestParam("roleIds") Set<Long> roleIds) {
         if (adminService.updateRole(adminId, roleIds)) {
             return ResponseEntity.ok("修改成功");
         }

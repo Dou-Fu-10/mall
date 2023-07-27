@@ -1,5 +1,6 @@
 package org.example.modules.admin.system.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +27,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -110,7 +114,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     }
 
     @Override
-    public Boolean updateRole(Long adminId, List<Long> roleIds) {
+    public Boolean updateRole(Long adminId, Set<Long> roleIds) {
         // TODO 数据校验
         return adminRolesRelationService.updateRole(adminId, roleIds);
     }
@@ -149,6 +153,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean register(AdminDto resources) {
         // TODO 对数据进行校验
         AdminEntity user = getByUsername(resources.getUsername());
@@ -174,7 +179,18 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         String encodePassword = passwordEncoder.encode(resources.getPassword());
         adminEntity.setPassword(encodePassword);
         // 保存到数据库
-        return adminEntity.insert();
+        if (adminEntity.insert()) {
+            if (CollectionUtils.isNotEmpty(resources.getRoleIds())) {
+               return adminRolesRelationService.updateRole(adminEntity.getId(), resources.getRoleIds());
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean save(AdminDto adminDto) {
+        return register(adminDto);
     }
 }
 

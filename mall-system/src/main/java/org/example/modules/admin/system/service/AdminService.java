@@ -11,6 +11,7 @@ import org.example.modules.admin.system.entity.vo.RoleVo;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -29,6 +30,14 @@ public interface AdminService extends IService<AdminEntity> {
      * @return Boolean
      */
     Boolean register(AdminDto resources);
+
+    /**
+     * 新增数据
+     *
+     * @param adminDto 实体对象
+     * @return 新增结果
+     */
+    Boolean save(AdminDto adminDto);
 
     /**
      * 通过用户名查询用户信息
@@ -78,7 +87,7 @@ public interface AdminService extends IService<AdminEntity> {
      * @param roleIds 角色id列表
      * @return 是否成功
      */
-    Boolean updateRole(Long adminId, List<Long> roleIds);
+    Boolean updateRole(Long adminId, Set<Long> roleIds);
 
     /**
      * 获取用户的角色信息

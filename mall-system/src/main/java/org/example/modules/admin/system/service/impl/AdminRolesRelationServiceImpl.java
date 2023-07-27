@@ -34,7 +34,7 @@ public class AdminRolesRelationServiceImpl extends ServiceImpl<AdminRolesRelatio
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    public Boolean updateRole(Long adminId, List<Long> roleIds) {
+    public Boolean updateRole(Long adminId, Set<Long> roleIds) {
         if (remove(lambdaQuery().eq(AdminRolesRelationEntity::getAdminId, adminId).getWrapper())) {
             Set<AdminRolesRelationEntity> adminRolesRelationEntitySet = roleIds.stream().map(id -> new AdminRolesRelationEntity(id, adminId)).collect(Collectors.toSet());
             return saveBatch(adminRolesRelationEntitySet);

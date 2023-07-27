@@ -93,9 +93,14 @@ public class SwaggerConfig {
                         groupedApi("adminRole"), groupedApi("menu"),
                         groupedApi("role"), groupedApi("rolesMenus"),
                         groupedApi("companyAddress"), groupedApi("feightTemplate"),
-                        groupedApi("homeAdvertise"), groupedApi("storage"),
-                        "/auth/**")
+                        groupedApi("homeAdvertise"), "/auth/**")
                 .build();
     }
-
+    @Bean
+    public GroupedOpenApi storage() {
+        return GroupedOpenApi.builder()
+                .group("文件存储")
+                .pathsToMatch(groupedApi("storage"))
+                .build();
+    }
 }

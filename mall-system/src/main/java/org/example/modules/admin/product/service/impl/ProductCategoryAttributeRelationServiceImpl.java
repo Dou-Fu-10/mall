@@ -36,6 +36,7 @@ public class ProductCategoryAttributeRelationServiceImpl extends ServiceImpl<Pro
     }
 
     @Override
+    @SuppressWarnings("all")
     public Boolean save(Long id, Set<Long> productAttributeIdList) {
         // 获取有效的商品属性id列表
         productAttributeIdList = productAttributeService.getBaseMapper().selectBatchIds(productAttributeIdList).stream().map(ProductAttributeEntity::getId).collect(Collectors.toSet());
