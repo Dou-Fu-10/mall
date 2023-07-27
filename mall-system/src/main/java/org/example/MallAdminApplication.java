@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @MapperScan(basePackages = {
         "org.example.modules.admin.system.mapper",
         "org.example.modules.admin.comment.mapper",
-        "org.example.modules.admin.member.mapper",
+        "org.example.modules.portal.member.mapper",
         "org.example.modules.admin.order.mapper",
         "org.example.modules.admin.product.mapper",
         "org.example.modules.admin.tools.mapper",

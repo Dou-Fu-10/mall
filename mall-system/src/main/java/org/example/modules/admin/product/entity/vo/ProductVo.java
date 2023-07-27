@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.modules.admin.member.entity.vo.MemberPriceVo;
+import org.example.modules.portal.member.entity.vo.MemberPriceVo;
 
 import java.util.Date;
 import java.util.List;

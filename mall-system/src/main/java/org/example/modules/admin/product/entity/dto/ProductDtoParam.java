@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.example.modules.admin.member.entity.dto.MemberPriceDto;
+import org.example.modules.portal.member.entity.dto.MemberPriceDto;
 
 import java.util.List;
 
