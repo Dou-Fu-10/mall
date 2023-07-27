@@ -11,6 +11,7 @@ import org.example.common.core.entity.AdminEntity;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.config.UpdatePassword;
 import org.example.modules.admin.system.entity.RoleEntity;
+import org.example.modules.admin.system.entity.vo.RoleVo;
 import org.example.modules.admin.system.service.AdminService;
 import org.example.security.annotaion.rest.AnonymousDeleteMapping;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
@@ -133,11 +134,8 @@ public class AdminController {
     @Operation(summary = "修改帐号状态")
     @AnonymousPostMapping(value = "/updateStatus/{id}")
     @ResponseBody
-    public ResponseEntity<String> updateStatus(@PathVariable Long id, @RequestParam(value = "status") boolean status) {
-        AdminEntity admin = new AdminEntity();
-        admin.setEnabled(status);
-        admin.setId(id);
-        if (adminService.updateStatus(admin)) {
+    public ResponseEntity<String> updateStatus(@PathVariable Long id, @RequestParam(value = "status") Boolean status) {
+        if (adminService.updateStatus(id,status)) {
             return ResponseEntity.ok("修改成功");
         }
         throw new BaseRequestException("修改失败");
@@ -170,8 +168,8 @@ public class AdminController {
     @Operation(summary = "获取指定用户的角色")
     @AnonymousGetMapping(value = "/role/{adminId}")
     @ResponseBody
-    public ResponseEntity<List<RoleEntity>> getRoleList(@PathVariable Long adminId) {
-        return ResponseEntity.ok(adminService.getRoleList(adminId));
+    public ResponseEntity<List<RoleVo>> getRoleList(@PathVariable Long adminId) {
+        return ResponseEntity.ok(adminService.getRoleListByAdminId(adminId));
     }
 
 
@@ -196,9 +194,9 @@ public class AdminController {
         data.put("menus", adminService.getMenuList(adminEntity.getId()));
         // 头像
         data.put("icon", adminEntity.getIcon());
-        List<RoleEntity> roleList = adminService.getRoleList(adminEntity.getId());
+        List<RoleVo> roleList = adminService.getRoleListByAdminId(adminEntity.getId());
         if (CollUtil.isNotEmpty(roleList)) {
-            List<String> roles = roleList.stream().map(RoleEntity::getName).collect(Collectors.toList());
+            List<String> roles = roleList.stream().map(RoleVo::getName).collect(Collectors.toList());
             data.put("roles", roles);
         }
         return ResponseEntity.ok(data);

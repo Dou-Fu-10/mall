@@ -10,6 +10,7 @@ import org.example.common.core.utils.BeanCopy;
 import org.example.modules.admin.system.entity.AdminRolesRelationEntity;
 import org.example.modules.admin.system.entity.MenuEntity;
 import org.example.modules.admin.system.entity.RoleEntity;
+import org.example.modules.admin.system.entity.vo.MenuVo;
 import org.example.modules.admin.system.entity.vo.RoleVo;
 import org.example.modules.admin.system.mapper.RoleMapper;
 import org.example.modules.admin.system.service.AdminRolesRelationService;
@@ -57,13 +58,16 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     }
 
     @Override
-    public boolean update(RoleEntity roleEntity) {
-        return false;
+    public boolean updateStatus(Long id, Boolean status) {
+        RoleEntity roleEntity = new RoleEntity();
+        roleEntity.setEnabled(status);
+        roleEntity.setId(id);
+        return roleEntity.updateById();
     }
 
     @Override
-    public List<MenuEntity> listMenu(Long roleId) {
-        return null;
+    public List<MenuVo> listMenu(Long roleId) {
+        return rolesMenusRelationService.findMenusByRoleId(roleId);
     }
 
     @Override

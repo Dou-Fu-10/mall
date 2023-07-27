@@ -113,10 +113,7 @@ public class RoleController {
     @AnonymousPostMapping(value = "/updateStatus/{id}")
     @ResponseBody
     public ResponseEntity<String> updateStatus(@PathVariable Long id, @RequestParam(value = "status") Boolean status) {
-        RoleEntity roleEntity = new RoleEntity();
-        roleEntity.setEnabled(status);
-        roleEntity.setId(id);
-        if (roleService.update(roleEntity)) {
+        if (roleService.updateStatus(id,status)) {
             return ResponseEntity.ok("修改成功");
         }
         throw new BaseRequestException("修改失败");
@@ -131,8 +128,7 @@ public class RoleController {
     @Operation(summary = "获取角色相关菜单")
     @AnonymousGetMapping(value = "/listMenu/{roleId}")
     public ResponseEntity<List<MenuVo>> listMenu(@PathVariable Long roleId) {
-        List<MenuEntity> roleList = roleService.listMenu(roleId);
-        return ResponseEntity.ok(BeanCopy.copytList(roleList, MenuVo.class));
+        return ResponseEntity.ok(roleService.listMenu(roleId));
     }
 
 

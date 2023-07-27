@@ -2,6 +2,9 @@ package org.example.modules.admin.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.admin.system.entity.AdminRolesRelationEntity;
+import org.example.modules.admin.system.entity.vo.RoleVo;
+
+import java.util.List;
 
 
 /**
@@ -13,4 +16,20 @@ import org.example.modules.admin.system.entity.AdminRolesRelationEntity;
  */
 public interface AdminRolesRelationService extends IService<AdminRolesRelationEntity> {
 
+
+    /**
+     * 给用户分配角色
+     *
+     * @param adminId  用户id
+     * @param roleIds 角色id列表
+     * @return 是否成功
+     */
+    Boolean updateRole(Long adminId, List<Long> roleIds);
+    /**
+     * 获取用户的角色信息
+     *
+     * @param adminId 用户id
+     * @return 角色信息
+     */
+    List<RoleVo> getRoleListByAdminId(Long adminId);
 }

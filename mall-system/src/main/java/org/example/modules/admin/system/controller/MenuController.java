@@ -57,7 +57,7 @@ public class MenuController {
      *
      * @return 一级菜单列表
      */
-    @Operation(summary = "分页查询所有数据")
+    @Operation(summary = "查询所有的一级菜单")
     @AnonymousGetMapping("/oneLevelMenu")
     public ResponseEntity<Object> getOneLevelMenu() {
         return new ResponseEntity<>(this.menuService.getOneLevelMenu(), HttpStatus.OK);

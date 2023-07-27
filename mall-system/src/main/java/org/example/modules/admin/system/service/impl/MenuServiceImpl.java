@@ -68,12 +68,12 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
     @Override
     public Page<MenuVo> page(Page<MenuEntity> page, MenuEntity menu) {
         Page<MenuEntity> menuEntityPage = page(page, new QueryWrapper<>(menu));
-        IPage<MenuVo> menuVoIPage = menuEntityPage.convert(menuEntity -> BeanCopy.convert(menuEntity, MenuVo.class));
-        if (CollectionUtils.isNotEmpty(menuVoIPage.getRecords())) {
-            List<MenuVo> menuVoListTree = getMenuVoListTree(menuVoIPage.getRecords());
-            menuVoIPage.setRecords(menuVoListTree);
+        IPage<MenuVo> menuVoIpage = menuEntityPage.convert(menuEntity -> BeanCopy.convert(menuEntity, MenuVo.class));
+        if (CollectionUtils.isNotEmpty(menuVoIpage.getRecords())) {
+            List<MenuVo> menuVoListTree = getMenuVoListTree(menuVoIpage.getRecords());
+            menuVoIpage.setRecords(menuVoListTree);
         }
-        return (Page) menuVoIPage;
+        return (Page) menuVoIpage;
     }
 
     @Override

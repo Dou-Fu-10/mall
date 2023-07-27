@@ -10,15 +10,18 @@ import org.example.common.core.utils.BeanCopy;
 import org.example.config.AuthUser;
 import org.example.config.UpdatePassword;
 import org.example.modules.admin.security.service.OnlineUserService;
-import org.example.modules.admin.system.entity.MenuEntity;
-import org.example.modules.admin.system.entity.RoleEntity;
 import org.example.modules.admin.system.entity.dto.AdminDto;
+import org.example.modules.admin.system.entity.vo.MenuVo;
+import org.example.modules.admin.system.entity.vo.RoleVo;
 import org.example.modules.admin.system.mapper.AdminMapper;
 import org.example.modules.admin.system.service.AdminLoginLogService;
+import org.example.modules.admin.system.service.AdminRolesRelationService;
 import org.example.modules.admin.system.service.AdminService;
+import org.example.modules.admin.system.service.RolesMenusRelationService;
 import org.example.security.config.SecurityProperties;
 import org.example.security.entity.JwtUser;
 import org.example.security.utils.JwtTokenUtil;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -26,10 +29,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Dou-Fu-10 2023-07-07 09:58:02
@@ -53,6 +54,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     private OnlineUserService onlineUserService;
     @Resource
     private SecurityProperties securityProperties;
+    @Resource
+    private AdminRolesRelationService adminRolesRelationService;
+    @Resource
+    private RolesMenusRelationService rolesMenusRelationService;
 
     @Override
     public AdminEntity getByEmail(String email) {
@@ -97,29 +102,39 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
 
     @Override
     public Boolean updatePassword(UpdatePassword updatePassword) {
+        AdminEntity adminEntity = lambdaQuery().eq(AdminEntity::getUsername, updatePassword.getUsername()).one();
+        if (passwordEncoder.matches(updatePassword.getOldPassword(), adminEntity.getPassword())) {
+            adminEntity.setPassword(passwordEncoder.encode(updatePassword.getNewPassword()));
+            return adminEntity.updateById();
+        }
         return false;
     }
 
     @Override
-    public Boolean updateRole(Long userId, List<Long> roleIds) {
+    public Boolean updateRole(Long adminId, List<Long> roleIds) {
+        // TODO 数据校验
+        return adminRolesRelationService.updateRole(adminId, roleIds);
+    }
+
+    @Override
+    public List<RoleVo> getRoleListByAdminId(Long adminId) {
+        return adminRolesRelationService.getRoleListByAdminId(adminId);
+    }
+
+    @Override
+    public List<MenuVo> getMenuList(Long adminId) {
+        List<RoleVo> roleListByAdminId = adminRolesRelationService.getRoleListByAdminId(adminId);
+        Set<Long> roleId = roleListByAdminId.stream().map(RoleVo::getId).collect(Collectors.toSet());
+        return rolesMenusRelationService.findMenusByRoleIds(roleId);
+    }
+
+    @Override
+    public Boolean updateStatus(Long id, Boolean status) {
+        AdminEntity adminEntity = new AdminEntity();
+        adminEntity.setEnabled(status);
+        adminEntity.setId(id);
         // TODO 不允许修改上级的或者同级的
-        return false;
-    }
-
-    @Override
-    public List<RoleEntity> getRoleList(Long userId) {
-        return null;
-    }
-
-    @Override
-    public List<MenuEntity> getMenuList(Long id) {
-        return null;
-    }
-
-    @Override
-    public Boolean updateStatus(AdminEntity adminEntity) {
-        // TODO 不允许修改上级的或者同级的
-        return null;
+        return adminEntity.updateById();
     }
 
 

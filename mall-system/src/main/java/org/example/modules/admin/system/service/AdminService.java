@@ -8,6 +8,10 @@ import org.example.config.UpdatePassword;
 import org.example.modules.admin.system.entity.MenuEntity;
 import org.example.modules.admin.system.entity.RoleEntity;
 import org.example.modules.admin.system.entity.dto.AdminDto;
+import org.example.modules.admin.system.entity.vo.MenuVo;
+import org.example.modules.admin.system.entity.vo.RoleVo;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -74,33 +78,34 @@ public interface AdminService extends IService<AdminEntity> {
     /**
      * 给用户分配角色
      *
-     * @param userId  用户id
+     * @param adminId  用户id
      * @param roleIds 角色id列表
      * @return 是否成功
      */
-    Boolean updateRole(Long userId, List<Long> roleIds);
+    Boolean updateRole(Long adminId, List<Long> roleIds);
 
     /**
      * 获取用户的角色信息
      *
-     * @param userId 用户id
+     * @param adminId 用户id
      * @return 角色信息
      */
-    List<RoleEntity> getRoleList(Long userId);
+    List<RoleVo> getRoleListByAdminId(Long adminId);
 
     /**
      * 根据用户id 查询用户对应的菜单信息
      *
-     * @param id 用户id
+     * @param adminId 用户id
      * @return 菜单信息
      */
-    List<MenuEntity> getMenuList(Long id);
+    List<MenuVo> getMenuList(Long adminId);
 
     /**
      * 修改帐号状态
      *
-     * @param adminEntity 信息
+     * @param id     用户id
+     * @param status 状态
      * @return boolean
      */
-    Boolean updateStatus(AdminEntity adminEntity);
+    Boolean updateStatus( Long id, Boolean status);
 }

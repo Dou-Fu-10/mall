@@ -49,4 +49,12 @@ public interface RolesMenusRelationService extends IService<RolesMenusRelationEn
      * @return Boolean
      */
     Boolean saveBatch(Long roleId, List<Long> menuIds);
+
+    /**
+     * 通过角色Id列表查找菜单
+     *
+     * @param roleId 角色id 列表
+     * @return /
+     */
+    List<MenuVo> findMenusByRoleIds(Set<Long> roleId);
 }

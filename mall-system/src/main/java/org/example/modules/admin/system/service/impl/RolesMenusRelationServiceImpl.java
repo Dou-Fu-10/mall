@@ -59,5 +59,12 @@ public class RolesMenusRelationServiceImpl extends ServiceImpl<RolesMenusRelatio
         Set<RolesMenusRelationEntity> rolesMenusRelationEntitySet = menuIds.stream().map(id -> new RolesMenusRelationEntity(roleId, id)).collect(Collectors.toSet());
         return saveBatch(rolesMenusRelationEntitySet);
     }
+
+    @Override
+    public List<MenuVo> findMenusByRoleIds(Set<Long> roleId) {
+        List<RolesMenusRelationEntity> rolesMenusRelationEntityList = lambdaQuery().in(RolesMenusRelationEntity::getRoleId, roleId).list();
+        Set<Long> menuIdList = rolesMenusRelationEntityList.stream().map(RolesMenusRelationEntity::getMenuId).collect(Collectors.toSet());
+        return menuService.findByMenusId(menuIdList);
+    }
 }
 

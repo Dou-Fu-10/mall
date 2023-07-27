@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.common.core.entity.AdminEntity;
 import org.example.modules.admin.system.entity.MenuEntity;
 import org.example.modules.admin.system.entity.RoleEntity;
+import org.example.modules.admin.system.entity.vo.MenuVo;
 import org.example.modules.admin.system.entity.vo.RoleVo;
 import org.example.security.entity.Authority;
 
@@ -31,10 +32,11 @@ public interface RoleService extends IService<RoleEntity> {
     /**
      * 修改角色状态
      *
-     * @param roleEntity 角色信息
+     * @param id     角色id
+     * @param status 角色状态
      * @return String
      */
-    boolean update(RoleEntity roleEntity);
+    boolean updateStatus(Long id, Boolean status);
 
     /**
      * 获取角色相关菜单
@@ -42,7 +44,7 @@ public interface RoleService extends IService<RoleEntity> {
      * @param roleId 角色id
      * @return 角色关联菜单
      */
-    List<MenuEntity> listMenu(Long roleId);
+    List<MenuVo> listMenu(Long roleId);
 
     /**
      * 给角色分配菜单
