@@ -1,6 +1,5 @@
 package org.example.modules.admin.system.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.common.core.entity.AdminEntity;

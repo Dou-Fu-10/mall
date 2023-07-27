@@ -1,9 +1,9 @@
 package org.example.modules.admin.comment.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.example.modules.admin.comment.service.CommentService;
 import org.example.modules.admin.comment.entity.CommentEntity;
 import org.example.modules.admin.comment.mapper.CommentMapper;
+import org.example.modules.admin.comment.service.CommentService;
 import org.springframework.stereotype.Service;
 
 /**

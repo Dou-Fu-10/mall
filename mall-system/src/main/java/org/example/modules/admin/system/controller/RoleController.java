@@ -1,7 +1,6 @@
 package org.example.modules.admin.system.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -52,7 +51,7 @@ public class RoleController {
     @Operation(summary = "分页查询所有数据")
     @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<RoleEntity> page, RoleEntity role) {
-        return new ResponseEntity<>(this.roleService.page(page,role), HttpStatus.OK);
+        return new ResponseEntity<>(this.roleService.page(page, role), HttpStatus.OK);
     }
 
     /**
@@ -147,7 +146,7 @@ public class RoleController {
     @Operation(summary = "给角色分配菜单")
     @AnonymousPostMapping(value = "/allocMenu")
     @ResponseBody
-    public ResponseEntity<String> allocMenu(@RequestParam Long roleId, @RequestParam List<Long> menuIds) {
+    public ResponseEntity<String> allocMenu(@RequestParam Long roleId, @RequestBody List<Long> menuIds) {
         if (roleService.allocMenu(roleId, menuIds)) {
             return ResponseEntity.ok("分配成功");
         }

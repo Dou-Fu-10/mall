@@ -1,0 +1,20 @@
+package org.example.modules.portal.product.controller;
+
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * Created by Dou-Fu-10 2023-07-13 22:08:15
+ *
+ * @author Dou-Fu-10
+ * @date 2023-07-13 22:08:15
+ * @Description 产品分类(ProductCategory)表控制层
+ */
+@RestController
+@RequestMapping("/productCategory")
+@Tag(name = "PublicProductCategoryController", description = "产品分类(ProductCategory)表控制层")
+public class PublicProductCategoryController {
+}
+

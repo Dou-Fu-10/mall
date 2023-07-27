@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * @Description 商品信息(Product)表服务实现类
  */
 @Service("publicProductService")
-public class PublicProductServiceImpl implements PublicProductService {
+public class PublicProductServiceImpl1 implements PublicProductService {
 
     @Resource
     private ProductService productService;
@@ -41,7 +41,7 @@ public class PublicProductServiceImpl implements PublicProductService {
     @Override
     public PublicProductDetail detail(Serializable id) {
         ProductVo productVo = productService.findById(id);
-        if (Objects.isNull(productVo)){
+        if (Objects.isNull(productVo)) {
             return new PublicProductDetail();
         }
         List<SkuStockVo> skuStockList = skuStockService.getSkuStockByProductId(productVo.getId());

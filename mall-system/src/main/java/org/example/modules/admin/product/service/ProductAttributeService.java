@@ -54,6 +54,7 @@ public interface ProductAttributeService extends IService<ProductAttributeEntity
 
     /**
      * 按 id列表 查询对应的属性
+     *
      * @param productAttributeIds 属性
      * @return 属性
      */

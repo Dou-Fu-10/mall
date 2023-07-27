@@ -6,9 +6,6 @@ import org.example.modules.admin.product.entity.ProductEntity;
 import org.example.modules.admin.product.entity.dto.ProductDto;
 import org.example.modules.admin.product.entity.dto.ProductDtoParam;
 import org.example.modules.admin.product.entity.vo.ProductVo;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 
@@ -36,7 +33,6 @@ public interface ProductService extends IService<ProductEntity> {
      * @param product 实体对象
      * @return 新增结果
      */
-    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     boolean save(ProductDtoParam product);
 
     /**
@@ -46,6 +42,7 @@ public interface ProductService extends IService<ProductEntity> {
      * @return 修改结果
      */
     boolean updateById(ProductDtoParam product);
+
     /**
      * 按Id查找
      *

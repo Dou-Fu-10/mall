@@ -5,9 +5,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.admin.product.entity.ProductCategoryEntity;
 import org.example.modules.admin.product.entity.dto.ProductCategoryDto;
 import org.example.modules.admin.product.entity.vo.ProductCategoryVo;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -60,7 +57,6 @@ public interface ProductCategoryService extends IService<ProductCategoryEntity> 
      * @param productCategory 实体对象
      * @return 修改数据
      */
-    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     Boolean updateById(ProductCategoryDto productCategory);
 
     /**

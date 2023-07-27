@@ -24,6 +24,9 @@ import org.example.modules.portal.member.entity.dto.MemberPriceDto;
 import org.example.modules.portal.member.entity.vo.MemberPriceVo;
 import org.example.modules.portal.member.service.MemberPriceService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
@@ -75,6 +78,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public boolean save(ProductDtoParam product) {
         // TODO 数据校验
         ProductEntity convert = BeanCopy.convert(product, ProductEntity.class);

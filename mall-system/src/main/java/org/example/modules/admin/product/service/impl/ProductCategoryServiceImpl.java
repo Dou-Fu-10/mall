@@ -18,6 +18,9 @@ import org.example.modules.admin.product.service.ProductCategoryAttributeRelatio
 import org.example.modules.admin.product.service.ProductCategoryService;
 import org.example.modules.admin.tools.storage.service.MinioServer;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -82,6 +85,7 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean updateById(ProductCategoryDto productCategory) {
         ProductCategoryEntity convert = BeanCopy.convert(productCategory, ProductCategoryEntity.class);
 

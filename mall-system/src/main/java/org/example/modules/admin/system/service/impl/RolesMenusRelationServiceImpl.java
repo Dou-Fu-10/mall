@@ -8,8 +8,12 @@ import org.example.modules.admin.system.entity.vo.MenuVo;
 import org.example.modules.admin.system.mapper.RolesMenusRelationMapper;
 import org.example.modules.admin.system.service.MenuService;
 import org.example.modules.admin.system.service.RolesMenusRelationService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +46,18 @@ public class RolesMenusRelationServiceImpl extends ServiceImpl<RolesMenusRelatio
             return new ArrayList<>();
         }
         return menuService.findByMenusId(menusId);
+    }
+
+    @Override
+    public Boolean removeByIds(Long roleId) {
+        return remove(lambdaQuery().eq(RolesMenusRelationEntity::getRoleId, roleId).getWrapper());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
+    public Boolean saveBatch(Long roleId, @NotNull List<Long> menuIds) {
+        Set<RolesMenusRelationEntity> rolesMenusRelationEntitySet = menuIds.stream().map(id -> new RolesMenusRelationEntity(roleId, id)).collect(Collectors.toSet());
+        return saveBatch(rolesMenusRelationEntitySet);
     }
 }
 

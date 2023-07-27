@@ -10,11 +10,9 @@ import org.example.common.core.utils.BeanCopy;
 import org.example.modules.admin.system.entity.AdminRolesRelationEntity;
 import org.example.modules.admin.system.entity.MenuEntity;
 import org.example.modules.admin.system.entity.RoleEntity;
-import org.example.modules.admin.system.entity.vo.MenuVo;
 import org.example.modules.admin.system.entity.vo.RoleVo;
 import org.example.modules.admin.system.mapper.RoleMapper;
 import org.example.modules.admin.system.service.AdminRolesRelationService;
-import org.example.modules.admin.system.service.MenuService;
 import org.example.modules.admin.system.service.RoleService;
 import org.example.modules.admin.system.service.RolesMenusRelationService;
 import org.example.security.entity.Authority;
@@ -70,7 +68,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
 
     @Override
     public boolean allocMenu(Long roleId, List<Long> menuIds) {
-        return false;
+        rolesMenusRelationService.removeByIds(roleId);
+        return rolesMenusRelationService.saveBatch(roleId, menuIds);
     }
 
     @Override
@@ -85,7 +84,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         Page<RoleEntity> roleEntityPage = page(page, new QueryWrapper<>(role));
         IPage<RoleVo> roleVoIPage = roleEntityPage.convert(roleEntity -> BeanCopy.convert(roleEntity, RoleVo.class));
         roleVoIPage.getRecords().stream().forEach(roleVo -> roleVo.setMenu(rolesMenusRelationService.findMenusByRoleId(roleVo.getId())));
-        return (Page)roleVoIPage;
+        return (Page) roleVoIPage;
     }
 }
 

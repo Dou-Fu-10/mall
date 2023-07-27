@@ -1,10 +1,8 @@
 package org.example.modules.admin.system.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.admin.system.entity.RolesMenusRelationEntity;
 import org.example.modules.admin.system.entity.vo.MenuVo;
-import org.example.modules.admin.system.entity.vo.RolesMenusRelationVo;
 
 import java.util.List;
 import java.util.Set;
@@ -19,7 +17,36 @@ import java.util.Set;
  */
 public interface RolesMenusRelationService extends IService<RolesMenusRelationEntity> {
 
+    /**
+     * 按角色id和类型查找
+     *
+     * @param roleIds 角色ids
+     * @return /
+     */
     List<RolesMenusRelationEntity> findByRoleIdsAndTypeNot(Set<Long> roleIds);
 
+    /**
+     * 通过角色Id查找菜单
+     *
+     * @param roleId 角色id
+     * @return /
+     */
     List<MenuVo> findMenusByRoleId(Long roleId);
+
+    /**
+     * 删除 角色所绑定的菜单
+     *
+     * @param roleId 角色id
+     * @return Boolean
+     */
+    Boolean removeByIds(Long roleId);
+
+    /**
+     * 角色绑定菜单
+     *
+     * @param roleId  角色id
+     * @param menuIds 菜单ids
+     * @return Boolean
+     */
+    Boolean saveBatch(Long roleId, List<Long> menuIds);
 }
