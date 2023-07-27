@@ -1,5 +1,6 @@
 package org.example.modules.admin.system.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.example.common.core.utils.BeanCopy;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -45,6 +47,9 @@ public class AdminRolesRelationServiceImpl extends ServiceImpl<AdminRolesRelatio
     @Override
     public List<RoleVo> getRoleListByAdminId(Long adminId) {
         Set<Long> roleIdList = lambdaQuery().eq(AdminRolesRelationEntity::getAdminId, adminId).list().stream().map(AdminRolesRelationEntity::getRoleId).collect(Collectors.toSet());
+        if (CollectionUtils.isEmpty(roleIdList)) {
+            return new ArrayList<>();
+        }
         return BeanCopy.copytList(roleService.listByIds(roleIdList), RoleVo.class);
     }
 }

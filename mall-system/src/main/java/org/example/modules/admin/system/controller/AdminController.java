@@ -24,10 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -198,7 +195,10 @@ public class AdminController {
         if (CollUtil.isNotEmpty(roleList)) {
             List<String> roles = roleList.stream().map(RoleVo::getName).collect(Collectors.toList());
             data.put("roles", roles);
+        } else {
+            data.put("roles", new ArrayList<>());
         }
+
         return ResponseEntity.ok(data);
     }
 }

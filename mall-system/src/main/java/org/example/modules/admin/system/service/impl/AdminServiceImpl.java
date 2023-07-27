@@ -88,7 +88,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
             throw new BaseRequestException("登录失败");
         }
         Map<String, Object> tokenMap = new HashMap<>(2);
-        tokenMap.put("token", token);
+        tokenMap.put("token", securityProperties.getTokenStartWith() + token);
         // 是否唯一登录
         if (securityProperties.getSingleLogin()) {
             // 踢掉之前已经登录的token
@@ -127,6 +127,9 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     @Override
     public List<MenuVo> getMenuList(Long adminId) {
         List<RoleVo> roleListByAdminId = adminRolesRelationService.getRoleListByAdminId(adminId);
+        if (CollectionUtils.isEmpty(roleListByAdminId)) {
+            return new ArrayList<>();
+        }
         Set<Long> roleId = roleListByAdminId.stream().map(RoleVo::getId).collect(Collectors.toSet());
         return rolesMenusRelationService.findMenusByRoleIds(roleId);
     }
@@ -181,7 +184,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         // 保存到数据库
         if (adminEntity.insert()) {
             if (CollectionUtils.isNotEmpty(resources.getRoleIds())) {
-               return adminRolesRelationService.updateRole(adminEntity.getId(), resources.getRoleIds());
+                return adminRolesRelationService.updateRole(adminEntity.getId(), resources.getRoleIds());
             }
             return true;
         }
@@ -190,6 +193,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
 
     @Override
     public Boolean save(AdminDto adminDto) {
+        adminDto.setPassword("123456");
         return register(adminDto);
     }
 }

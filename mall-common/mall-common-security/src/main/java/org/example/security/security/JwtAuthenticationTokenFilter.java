@@ -15,9 +15,11 @@ import org.example.security.entity.OnlineUserDto;
 import org.example.security.utils.JwtTokenUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Objects;
 
 /**
@@ -35,7 +37,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 获取请求头中的token
         // TODO 优化缓存设计
-        String token = request.getHeader("token");
+        String token = resolveToken(request);
         if (Strings.isNotBlank(token)) {
             Claims claims = jwtTokenUtil.getClaimsByToken(token);
             if (Objects.nonNull(claims)) {
@@ -66,14 +68,14 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
      * @param request /
      * @return /
      */
-//    private String resolveToken(HttpServletRequest request) {
-//        String bearerToken = request.getHeader(properties.getHeader());
-//        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(properties.getTokenStartWith())) {
-//            // 去掉令牌前缀
-//            return bearerToken.replace(properties.getTokenStartWith(), "");
-//        } else {
-//            log.debug("非法Token：{}", bearerToken);
-//        }
-//        return null;
-//    }
+    private String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader(properties.getHeader());
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(properties.getTokenStartWith())) {
+            // 去掉令牌前缀
+            return bearerToken.replace(properties.getTokenStartWith(), "");
+        } else {
+            log.debug("非法Token：{}", bearerToken);
+        }
+        return null;
+    }
 }
