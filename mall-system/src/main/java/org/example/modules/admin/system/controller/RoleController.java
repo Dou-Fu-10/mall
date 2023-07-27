@@ -6,8 +6,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
-import org.example.common.core.utils.BeanCopy;
-import org.example.modules.admin.system.entity.MenuEntity;
 import org.example.modules.admin.system.entity.RoleEntity;
 import org.example.modules.admin.system.entity.vo.MenuVo;
 import org.example.modules.admin.system.service.RoleService;
@@ -113,7 +111,7 @@ public class RoleController {
     @AnonymousPostMapping(value = "/updateStatus/{id}")
     @ResponseBody
     public ResponseEntity<String> updateStatus(@PathVariable Long id, @RequestParam(value = "status") Boolean status) {
-        if (roleService.updateStatus(id,status)) {
+        if (roleService.updateStatus(id, status)) {
             return ResponseEntity.ok("修改成功");
         }
         throw new BaseRequestException("修改失败");

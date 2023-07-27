@@ -20,11 +20,12 @@ public interface AdminRolesRelationService extends IService<AdminRolesRelationEn
     /**
      * 给用户分配角色
      *
-     * @param adminId  用户id
+     * @param adminId 用户id
      * @param roleIds 角色id列表
      * @return 是否成功
      */
     Boolean updateRole(Long adminId, List<Long> roleIds);
+
     /**
      * 获取用户的角色信息
      *

@@ -5,13 +5,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.example.common.core.entity.AdminEntity;
 import org.example.config.AuthUser;
 import org.example.config.UpdatePassword;
-import org.example.modules.admin.system.entity.MenuEntity;
-import org.example.modules.admin.system.entity.RoleEntity;
 import org.example.modules.admin.system.entity.dto.AdminDto;
 import org.example.modules.admin.system.entity.vo.MenuVo;
 import org.example.modules.admin.system.entity.vo.RoleVo;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -78,7 +74,7 @@ public interface AdminService extends IService<AdminEntity> {
     /**
      * 给用户分配角色
      *
-     * @param adminId  用户id
+     * @param adminId 用户id
      * @param roleIds 角色id列表
      * @return 是否成功
      */
@@ -107,5 +103,5 @@ public interface AdminService extends IService<AdminEntity> {
      * @param status 状态
      * @return boolean
      */
-    Boolean updateStatus( Long id, Boolean status);
+    Boolean updateStatus(Long id, Boolean status);
 }

@@ -29,11 +29,6 @@ import java.util.Date;
 @TableName("ums_admins_roles_relation")
 @Schema(name = "ums_admins_roles_relation", description = "用户角色关联(AdminRolesRelation)表实体类")
 public class AdminRolesRelationEntity extends CommonEntity<AdminRolesRelationEntity> implements Serializable {
-    public AdminRolesRelationEntity(Long adminId, Long roleId) {
-        this.adminId = adminId;
-        this.roleId = roleId;
-    }
-
     /**
      * ID
      */
@@ -75,6 +70,10 @@ public class AdminRolesRelationEntity extends CommonEntity<AdminRolesRelationEnt
     @JsonIgnore
     @TableField(exist = false)
     private Date updateTime;
+    public AdminRolesRelationEntity(Long adminId, Long roleId) {
+        this.adminId = adminId;
+        this.roleId = roleId;
+    }
 
 }
 

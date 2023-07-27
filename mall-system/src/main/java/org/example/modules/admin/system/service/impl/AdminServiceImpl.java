@@ -21,7 +21,6 @@ import org.example.modules.admin.system.service.RolesMenusRelationService;
 import org.example.security.config.SecurityProperties;
 import org.example.security.entity.JwtUser;
 import org.example.security.utils.JwtTokenUtil;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;

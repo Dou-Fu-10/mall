@@ -8,7 +8,6 @@ import jakarta.annotation.Resource;
 import org.example.common.core.entity.AdminEntity;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.admin.system.entity.AdminRolesRelationEntity;
-import org.example.modules.admin.system.entity.MenuEntity;
 import org.example.modules.admin.system.entity.RoleEntity;
 import org.example.modules.admin.system.entity.vo.MenuVo;
 import org.example.modules.admin.system.entity.vo.RoleVo;

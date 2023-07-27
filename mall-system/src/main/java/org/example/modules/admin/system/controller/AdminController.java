@@ -10,7 +10,6 @@ import jakarta.annotation.Resource;
 import org.example.common.core.entity.AdminEntity;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.config.UpdatePassword;
-import org.example.modules.admin.system.entity.RoleEntity;
 import org.example.modules.admin.system.entity.vo.RoleVo;
 import org.example.modules.admin.system.service.AdminService;
 import org.example.security.annotaion.rest.AnonymousDeleteMapping;
@@ -135,7 +134,7 @@ public class AdminController {
     @AnonymousPostMapping(value = "/updateStatus/{id}")
     @ResponseBody
     public ResponseEntity<String> updateStatus(@PathVariable Long id, @RequestParam(value = "status") Boolean status) {
-        if (adminService.updateStatus(id,status)) {
+        if (adminService.updateStatus(id, status)) {
             return ResponseEntity.ok("修改成功");
         }
         throw new BaseRequestException("修改失败");

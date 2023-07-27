@@ -72,6 +72,7 @@ public class RolesMenusRelationEntity extends CommonEntity<RolesMenusRelationEnt
     @JsonIgnore
     @TableField(exist = false)
     private Date updateTime;
+
     public RolesMenusRelationEntity(Long roleId, Long menuId) {
         this.menuId = menuId;
         this.roleId = roleId;

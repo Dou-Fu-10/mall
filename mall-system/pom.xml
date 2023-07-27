@@ -142,7 +142,7 @@
                         <!--因此只需要将配置文件复制一份到与 jar 包平级目录下，或者与jar包平行config目录下，就能优先使用此配置文件，达到了伪分离目的。-->
                         <exclude>*.properties</exclude>
                         <exclude>*.xml</exclude>
-<!--                        <exclude>*.yml</exclude>-->
+                        <!--                        <exclude>*.yml</exclude>-->
                     </excludes>
                 </configuration>
             </plugin>

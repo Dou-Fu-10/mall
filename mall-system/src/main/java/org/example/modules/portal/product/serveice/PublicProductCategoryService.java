@@ -1,7 +1,6 @@
 package org.example.modules.portal.product.serveice;
 
 import org.example.modules.admin.product.entity.ProductCategoryEntity;
-import org.example.modules.admin.product.entity.vo.ProductCategoryVo;
 import org.example.modules.portal.product.entity.vo.PublicProductCategoryVo;
 
 import java.util.List;

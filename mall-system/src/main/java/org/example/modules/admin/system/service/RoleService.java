@@ -3,7 +3,6 @@ package org.example.modules.admin.system.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.common.core.entity.AdminEntity;
-import org.example.modules.admin.system.entity.MenuEntity;
 import org.example.modules.admin.system.entity.RoleEntity;
 import org.example.modules.admin.system.entity.vo.MenuVo;
 import org.example.modules.admin.system.entity.vo.RoleVo;

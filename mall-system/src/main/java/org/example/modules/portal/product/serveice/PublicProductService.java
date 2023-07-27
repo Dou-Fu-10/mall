@@ -7,7 +7,6 @@ import org.example.modules.portal.product.entity.vo.PublicProductDetail;
 import org.example.modules.portal.product.entity.vo.PublicProductVo;
 
 import java.io.Serializable;
-import java.util.List;
 
 
 /**
