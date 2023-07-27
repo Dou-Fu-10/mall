@@ -1,8 +1,13 @@
 package org.example.modules.portal.product.serveice;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.example.modules.admin.product.entity.ProductEntity;
+import org.example.modules.portal.product.entity.dto.PublicProductDto;
 import org.example.modules.portal.product.entity.vo.PublicProductDetail;
+import org.example.modules.portal.product.entity.vo.PublicProductVo;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 /**
@@ -14,4 +19,6 @@ import java.io.Serializable;
  */
 public interface PublicProductService {
     PublicProductDetail detail(Serializable id);
+
+    Page<PublicProductVo> search(Page<ProductEntity> page, PublicProductDto product);
 }

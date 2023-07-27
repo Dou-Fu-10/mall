@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.admin.product.entity.ProductEntity;
 import org.example.modules.admin.product.entity.dto.ProductDto;
+import org.example.modules.portal.product.entity.dto.PublicProductDto;
 import org.example.modules.portal.product.serveice.PublicProductService;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +54,18 @@ public class PublicProductController {
     @AnonymousGetMapping("detail/{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return ResponseEntity.ok(publicProductService.detail(id));
+    }
+
+    /**
+     * 分页查询所有数据
+     *
+     * @param page    分页对象
+     * @param product 查询实体
+     * @return 所有数据
+     */
+    @AnonymousGetMapping("/search")
+    public ResponseEntity<Object> search(Page<ProductEntity> page, PublicProductDto product) {
+        return ResponseEntity.ok(publicProductService.search(page, product));
     }
 }
 

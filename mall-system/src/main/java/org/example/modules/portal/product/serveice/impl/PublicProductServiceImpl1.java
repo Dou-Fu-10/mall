@@ -1,6 +1,11 @@
 package org.example.modules.portal.product.serveice.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.annotation.Resource;
+import org.example.common.core.utils.BeanCopy;
+import org.example.modules.admin.product.entity.ProductEntity;
 import org.example.modules.admin.product.entity.vo.ProductAttributeValueVo;
 import org.example.modules.admin.product.entity.vo.ProductAttributeVo;
 import org.example.modules.admin.product.entity.vo.ProductVo;
@@ -9,7 +14,9 @@ import org.example.modules.admin.product.service.ProductAttributeService;
 import org.example.modules.admin.product.service.ProductAttributeValueService;
 import org.example.modules.admin.product.service.ProductService;
 import org.example.modules.admin.product.service.SkuStockService;
+import org.example.modules.portal.product.entity.dto.PublicProductDto;
 import org.example.modules.portal.product.entity.vo.PublicProductDetail;
+import org.example.modules.portal.product.entity.vo.PublicProductVo;
 import org.example.modules.portal.product.serveice.PublicProductService;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +57,13 @@ public class PublicProductServiceImpl1 implements PublicProductService {
         List<ProductAttributeVo> productAttributeList = productAttributeService.findListByIds(productAttributeIds);
 
         return new PublicProductDetail(productVo, productAttributeList, productAttributeValueList, skuStockList);
+    }
+
+    @Override
+    public Page<PublicProductVo> search(Page<ProductEntity> page, PublicProductDto product) {
+        Page<ProductEntity> productVoPage = productService.page(page, new QueryWrapper<>(BeanCopy.convert(product, ProductEntity.class)));
+        IPage<PublicProductVo> publicProductVoPage = productVoPage.convert(productVo -> BeanCopy.convert(productVo, PublicProductVo.class));
+        return (Page) publicProductVoPage;
     }
 }
 

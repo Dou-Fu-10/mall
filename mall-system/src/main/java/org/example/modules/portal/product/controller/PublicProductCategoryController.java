@@ -2,6 +2,11 @@ package org.example.modules.portal.product.controller;
 
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import org.example.modules.admin.product.entity.ProductCategoryEntity;
+import org.example.modules.portal.product.serveice.PublicProductCategoryService;
+import org.example.security.annotaion.rest.AnonymousGetMapping;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,5 +21,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/productCategory")
 @Tag(name = "PublicProductCategoryController", description = "产品分类(ProductCategory)表控制层")
 public class PublicProductCategoryController {
+    /**
+     * 服务对象
+     */
+    @Resource
+    private PublicProductCategoryService publicProductCategoryService;
+
+    /**
+     * 分页查询所有数据
+     *
+     * @param productCategory 查询实体
+     * @return 所有数据
+     */
+    @AnonymousGetMapping
+    public ResponseEntity<Object> selectAll(ProductCategoryEntity productCategory) {
+        return ResponseEntity.ok(this.publicProductCategoryService.selectProductCategory(productCategory));
+    }
 }
 
