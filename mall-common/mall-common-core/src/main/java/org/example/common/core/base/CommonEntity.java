@@ -18,7 +18,6 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public abstract class CommonEntity<T extends Model<?>> extends Model<T> implements Serializable {
-
     /**
      * 创建人
      * 创建
@@ -30,7 +29,6 @@ public abstract class CommonEntity<T extends Model<?>> extends Model<T> implemen
      * 更新人
      * 创建、更新
      */
-    @JsonIgnore
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private String updateBy;
     /**
@@ -43,7 +41,6 @@ public abstract class CommonEntity<T extends Model<?>> extends Model<T> implemen
      * 更新时间
      * 创建、更新
      */
-    @JsonIgnore
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 

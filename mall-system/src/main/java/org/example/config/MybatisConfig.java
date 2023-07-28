@@ -1,4 +1,4 @@
-package org.example.common.core.config;
+package org.example.config;
 
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;

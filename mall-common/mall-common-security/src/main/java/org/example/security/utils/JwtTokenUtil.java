@@ -10,6 +10,7 @@ import org.example.security.config.SecurityProperties;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -84,6 +85,7 @@ public class JwtTokenUtil implements InitializingBean {
      * @return Claims
      */
     public Claims getClaimsByToken(String token) {
+        token = resolveToken(token);
         Claims claims = null;
         try {
             claims = jwtParser
@@ -102,7 +104,7 @@ public class JwtTokenUtil implements InitializingBean {
      */
     private Date generateExpirationDate() {
         //失效时间是当前系统的时间+我们在配置文件里定义的时间
-        return new Date(System.currentTimeMillis() + securityProperties.getExpiration());
+        return new Date(System.currentTimeMillis() + securityProperties.getTokenValidityInSeconds());
     }
 
     /**
@@ -112,6 +114,7 @@ public class JwtTokenUtil implements InitializingBean {
      * @return 用户名
      */
     public String getUserNameFromToken(String token) {
+        token = resolveToken(token);
         String username;
         try {
             Claims claims = getClaimsByToken(token);
@@ -131,6 +134,7 @@ public class JwtTokenUtil implements InitializingBean {
      * @return 是否有效
      */
     public boolean validateToken(String token, UserDetails userDetails) {
+        token = resolveToken(token);
         String username = getUserNameFromToken(token);
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
@@ -142,6 +146,7 @@ public class JwtTokenUtil implements InitializingBean {
      * @return 是否失效
      */
     private boolean isTokenExpired(String token) {
+        token = resolveToken(token);
         // 先获取之前设置的token的失效时间
         Date expiredDate = getExpiredDateFromToken(token);
         // 判断下，当前时间是都已经在expireDate之后
@@ -185,10 +190,11 @@ public class JwtTokenUtil implements InitializingBean {
      * @param oldToken 带tokenHead的token
      */
     public String refreshHeadToken(String oldToken) {
+        oldToken = resolveToken(oldToken);
         if (StrUtil.isEmpty(oldToken)) {
             return null;
         }
-        String token = oldToken.substring(securityProperties.getTokenHead().length());
+        String token = oldToken.substring(securityProperties.getTokenStartWith().length());
         if (StrUtil.isEmpty(token)) {
             return null;
         }
@@ -217,10 +223,24 @@ public class JwtTokenUtil implements InitializingBean {
      * @param time  指定时间（秒）
      */
     private boolean tokenRefreshJustBefore(String token, int time) {
+        token = resolveToken(token);
         Claims claims = getClaimsByToken(token);
         Date created = claims.get(CLAIM_KEY_CREATED, Date.class);
         Date refreshDate = new Date();
         //刷新时间在创建时间的指定时间内
         return refreshDate.after(created) && refreshDate.before(DateUtil.offsetSecond(created, time));
+    }
+
+    private String resolveToken(String bearerToken) {
+        if (StringUtils.hasText(bearerToken)) {
+            if (bearerToken.startsWith(securityProperties.getTokenStartWith())) {
+                // 去掉令牌前缀
+                return bearerToken.replace(securityProperties.getTokenStartWith(), "");
+            }
+            return bearerToken;
+        } else {
+            log.debug("非法Token：{}", bearerToken);
+        }
+        return null;
     }
 }

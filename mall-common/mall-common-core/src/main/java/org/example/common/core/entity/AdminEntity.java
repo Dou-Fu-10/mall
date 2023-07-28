@@ -2,7 +2,6 @@ package org.example.common.core.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,7 +37,6 @@ public class AdminEntity extends CommonEntity<AdminEntity> implements Serializab
     /**
      * 密码
      */
-    @JsonIgnore
     private String password;
     /**
      * 昵称
@@ -84,9 +82,6 @@ public class AdminEntity extends CommonEntity<AdminEntity> implements Serializab
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
-    @JsonIgnore
     private Integer deleteFlag;
-
-
 }
 

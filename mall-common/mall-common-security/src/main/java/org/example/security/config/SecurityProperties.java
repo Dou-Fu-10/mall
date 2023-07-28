@@ -12,23 +12,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties(prefix = "jwt")
 public class SecurityProperties {
-
-    /**
-     * Request Headers ： Authorization
-     */
-    private String header;
-    /**
-     * JWT存储的请求头
-     */
-    private String tokenHead;
-    /**
-     * JWT加解密使用的密钥
-     */
-    private Long expiration;
-    /**
-     * JWT的超期限时间(60*60*24*7)
-     */
-    private String secret;
     /**
      * JWT负载中拿到开头
      */

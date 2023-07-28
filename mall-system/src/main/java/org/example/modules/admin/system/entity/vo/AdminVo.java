@@ -1,5 +1,9 @@
 package org.example.modules.admin.system.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +25,7 @@ public class AdminVo {
     /**
      * ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**
@@ -46,7 +51,7 @@ public class AdminVo {
     /**
      * 是否为admin账号
      */
-    private Integer isAdmin;
+    private Boolean isAdmin;
     /**
      * 邮箱
      */
@@ -62,6 +67,7 @@ public class AdminVo {
     /**
      * 最后登录时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     private Date loginTime;
     /**
      * 帐号启用状态；0->正常：1->禁用
@@ -70,26 +76,33 @@ public class AdminVo {
     /**
      * 最后修改密码的时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     private Date pwdResetTime;
     /**
      * 创建者
      */
+    @JsonIgnore
     private String createBy;
     /**
      * 更新者
      */
+    @JsonIgnore
     private String updateBy;
     /**
      * 创建日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     private Date createTime;
     /**
      * 更新时间
      */
+    @JsonIgnore(value = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     private Date updateTime;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
+    @JsonIgnore
     private Integer deleteFlag;
 
     private List<RoleVo> roleVoList;

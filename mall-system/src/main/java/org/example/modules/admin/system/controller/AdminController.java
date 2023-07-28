@@ -140,8 +140,7 @@ public class AdminController {
      * @return String
      */
     @Operation(summary = "修改帐号状态")
-    @AnonymousPostMapping(value = "/updateStatus/{id}")
-    @ResponseBody
+    @AnonymousPutMapping(value = "/updateStatus/{id}")
     public ResponseEntity<String> updateStatus(@PathVariable Long id, @RequestParam(value = "status") Boolean status) {
         if (adminService.updateStatus(id, status)) {
             return ResponseEntity.ok("修改成功");
@@ -158,7 +157,6 @@ public class AdminController {
      */
     @Operation(summary = "给用户分配角色")
     @AnonymousPostMapping(value = "/role/update")
-    @ResponseBody
     public ResponseEntity<String> updateRole(@RequestParam("adminId") Long adminId,
                                              @RequestParam("roleIds") Set<Long> roleIds) {
         if (adminService.updateRole(adminId, roleIds)) {
@@ -175,7 +173,6 @@ public class AdminController {
      */
     @Operation(summary = "获取指定用户的角色")
     @AnonymousGetMapping(value = "/role/{adminId}")
-    @ResponseBody
     public ResponseEntity<List<RoleVo>> getRoleList(@PathVariable Long adminId) {
         return ResponseEntity.ok(adminService.getRoleListByAdminId(adminId));
     }

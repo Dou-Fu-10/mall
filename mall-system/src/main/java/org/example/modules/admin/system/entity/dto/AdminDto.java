@@ -46,7 +46,7 @@ public class AdminDto {
     /**
      * 是否为admin账号
      */
-    private Integer isAdmin;
+    private Boolean isAdmin;
     /**
      * 邮箱
      */
