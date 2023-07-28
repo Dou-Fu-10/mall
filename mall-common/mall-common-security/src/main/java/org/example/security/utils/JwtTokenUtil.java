@@ -3,7 +3,6 @@ package org.example.security.utils;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.StrUtil;
 import io.jsonwebtoken.*;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -90,16 +89,27 @@ public class JwtTokenUtil implements InitializingBean {
      * @return Claims
      */
     public Claims getClaimsByToken(String token) {
-        Claims claims = null;
+        Claims claims;
         try {
             claims = jwtParser
                     .parseClaimsJws(token)
                     .getBody();
         } catch (ExpiredJwtException e) {
+            // 当 JWT 的过期时间（expiration time）早于当前时间时，会抛出该异常。
             throw new BaseRequestException("登录信息已过期，请重新登录");
+        } catch (MalformedJwtException e) {
+            // 当 JWT 的格式不正确、无法正确解析时，会抛出该异常。
+            throw new BaseRequestException("身份信息验证失败");
+        } catch (UnsupportedJwtException e) {
+            // 当 JWT 使用了不支持的特性或算法时，会抛出该异常。
+            throw new BaseRequestException("身份信息验证失败");
+        } catch (SignatureException e) {
+            // 当 JWT 的签名验证失败时，会抛出该异常。
+            throw new BaseRequestException("身份信息验证失败");
         } catch (Exception e) {
             log.error(e.getMessage());
             log.info("JWT格式验证失败:{}", token);
+            throw new BaseRequestException("身份信息验证失败");
         }
         return claims;
     }
@@ -258,6 +268,7 @@ public class JwtTokenUtil implements InitializingBean {
         }
         return null;
     }
+
     /**
      * 初步检测Token
      *
