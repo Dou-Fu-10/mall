@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Dou-Fu-10 2023-07-09 18:34:52
@@ -91,6 +92,7 @@ public class AdminVo {
      */
     private Integer deleteFlag;
 
+    private List<RoleVo> roleVoList;
 
 }
 

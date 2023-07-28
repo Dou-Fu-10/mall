@@ -56,8 +56,8 @@ public class AdminController {
             description = "分页获取用户列表"
     )
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<AdminEntity> page, AdminEntity admin) {
-        return new ResponseEntity<>(this.adminService.page(page, new QueryWrapper<>(admin)), HttpStatus.OK);
+    public ResponseEntity<Object> selectAll(Page<AdminEntity> page, AdminDto admin) {
+        return new ResponseEntity<>(this.adminService.page(page,admin), HttpStatus.OK);
     }
 
     /**
@@ -108,7 +108,7 @@ public class AdminController {
     @AnonymousDeleteMapping
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         // TODO 不允许删除上级的或者同级的
-        return new ResponseEntity<>(this.adminService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() > 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败", HttpStatus.OK);
+        return new ResponseEntity<>(this.adminService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() >= 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败", HttpStatus.OK);
     }
 
     @Operation(summary = "修改指定用户密码")

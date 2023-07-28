@@ -1,6 +1,9 @@
 package org.example.modules.admin.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +15,7 @@ import org.example.config.AuthUser;
 import org.example.config.UpdatePassword;
 import org.example.modules.admin.security.service.OnlineUserService;
 import org.example.modules.admin.system.entity.dto.AdminDto;
+import org.example.modules.admin.system.entity.vo.AdminVo;
 import org.example.modules.admin.system.entity.vo.MenuVo;
 import org.example.modules.admin.system.entity.vo.RoleVo;
 import org.example.modules.admin.system.mapper.AdminMapper;
@@ -145,6 +149,15 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         adminEntity.setId(id);
         // TODO 不允许修改上级的或者同级的
         return adminEntity.updateById();
+    }
+
+    @Override
+    public Page<AdminVo> page(Page<AdminEntity> page, AdminDto adminDto) {
+        AdminEntity adminEntity = BeanCopy.convert(adminDto, AdminEntity.class);
+        LambdaQueryWrapper<AdminEntity> adminEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(adminEntity);
+        Page<AdminEntity> adminEntityPage = page(page, adminEntityLambdaQueryWrapper);
+        IPage<AdminVo> adminVoIpage = adminEntityPage.convert(admin -> BeanCopy.convert(admin, AdminVo.class));
+        return (Page) adminVoIpage;
     }
 
 

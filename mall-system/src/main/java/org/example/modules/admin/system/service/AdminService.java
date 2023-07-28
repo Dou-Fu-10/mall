@@ -1,11 +1,16 @@
 package org.example.modules.admin.system.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.common.core.entity.AdminEntity;
 import org.example.config.AuthUser;
 import org.example.config.UpdatePassword;
+import org.example.modules.admin.order.entity.OrderEntity;
+import org.example.modules.admin.order.entity.dto.OrderDto;
+import org.example.modules.admin.order.entity.vo.OrderVo;
 import org.example.modules.admin.system.entity.dto.AdminDto;
+import org.example.modules.admin.system.entity.vo.AdminVo;
 import org.example.modules.admin.system.entity.vo.MenuVo;
 import org.example.modules.admin.system.entity.vo.RoleVo;
 
@@ -113,4 +118,13 @@ public interface AdminService extends IService<AdminEntity> {
      * @return boolean
      */
     Boolean updateStatus(Long id, Boolean status);
+
+    /**
+     * 分页查询所有数据
+     *
+     * @param page  分页对象
+     * @param adminDto 查询实体
+     * @return 所有数据
+     */
+    Page<AdminVo> page(Page<AdminEntity> page, AdminDto adminDto);
 }

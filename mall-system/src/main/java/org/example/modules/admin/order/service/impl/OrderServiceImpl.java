@@ -39,12 +39,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
 
     @Override
     public boolean save(OrderDto order) {
-        return false;
+        // TODO 数据校验
+        OrderEntity orderEntity = BeanCopy.convert(order, OrderEntity.class);
+        return orderEntity.insert();
     }
 
     @Override
     public boolean updateById(OrderDto order) {
-        return false;
+        // TODO 数据校验
+        OrderEntity orderEntity = BeanCopy.convert(order, OrderEntity.class);
+        return orderEntity.updateById();
     }
 
     @Override
