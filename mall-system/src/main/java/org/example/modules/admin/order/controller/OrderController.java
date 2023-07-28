@@ -44,12 +44,12 @@ public class OrderController {
      * 分页查询所有数据
      *
      * @param page  分页对象
-     * @param order 查询实体
+     * @param orderDto 查询实体
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<OrderEntity> page, OrderEntity order) {
-        return ResponseEntity.ok(this.orderService.page(page, new QueryWrapper<>(order)));
+    public ResponseEntity<Object> selectAll(Page<OrderEntity> page, OrderDto orderDto) {
+        return ResponseEntity.ok(this.orderService.page(page, orderDto));
     }
 
     /**

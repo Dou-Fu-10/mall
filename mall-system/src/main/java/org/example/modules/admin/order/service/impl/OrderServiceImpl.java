@@ -1,5 +1,8 @@
 package org.example.modules.admin.order.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.example.common.core.utils.BeanCopy;
@@ -53,6 +56,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         orderVo.setOrderItemList(orderItemVoList);
         orderVo.setHistoryList(orderOperateHistoryVoList);
         return orderVo;
+    }
+
+    @Override
+    public Page<OrderVo> page(Page<OrderEntity> page, OrderDto orderDto) {
+        OrderEntity orderEntity = BeanCopy.convert(orderDto, OrderEntity.class);
+        LambdaQueryWrapper<OrderEntity> orderEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(orderEntity);
+        orderEntityLambdaQueryWrapper.orderByAsc(OrderEntity::getId);
+        Page<OrderEntity> orderEntityPage = page(page, orderEntityLambdaQueryWrapper);
+        IPage<OrderVo> orderVoIpage = orderEntityPage.convert(order -> BeanCopy.convert(order, OrderVo.class));
+        return (Page) orderVoIpage;
     }
 }
 

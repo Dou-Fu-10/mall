@@ -1,6 +1,6 @@
 package org.example.modules.admin.system.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -67,7 +67,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
 
     @Override
     public Page<MenuVo> page(Page<MenuEntity> page, MenuEntity menu) {
-        Page<MenuEntity> menuEntityPage = page(page, new QueryWrapper<>(menu));
+        LambdaQueryWrapper<MenuEntity> menuEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(menu);
+        menuEntityLambdaQueryWrapper.orderByAsc(MenuEntity::getSort);
+        Page<MenuEntity> menuEntityPage = page(page, menuEntityLambdaQueryWrapper);
         IPage<MenuVo> menuVoIpage = menuEntityPage.convert(menuEntity -> BeanCopy.convert(menuEntity, MenuVo.class));
         if (CollectionUtils.isNotEmpty(menuVoIpage.getRecords())) {
             List<MenuVo> menuVoListTree = getMenuVoListTree(menuVoIpage.getRecords());

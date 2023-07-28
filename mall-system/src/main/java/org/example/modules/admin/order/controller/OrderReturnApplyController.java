@@ -56,8 +56,8 @@ public class OrderReturnApplyController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<OrderReturnApplyEntity> page, OrderReturnApplyEntity orderReturnApply) {
-        return ResponseEntity.ok(this.orderReturnApplyService.page(page, new QueryWrapper<>(orderReturnApply)));
+    public ResponseEntity<Object> selectAll(Page<OrderReturnApplyEntity> page, OrderReturnApplyDto orderReturnApply) {
+        return ResponseEntity.ok(this.orderReturnApplyService.page(page, orderReturnApply));
     }
 
     /**

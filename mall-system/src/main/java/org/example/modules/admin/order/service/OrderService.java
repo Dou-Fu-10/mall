@@ -1,5 +1,6 @@
 package org.example.modules.admin.order.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.admin.order.entity.OrderEntity;
 import org.example.modules.admin.order.entity.dto.OrderDto;
@@ -38,4 +39,13 @@ public interface OrderService extends IService<OrderEntity> {
      * @return 订单信息
      */
     OrderVo getOrderById(Serializable id);
+
+    /**
+     * 分页查询所有数据
+     *
+     * @param page  分页对象
+     * @param orderDto 查询实体
+     * @return 所有数据
+     */
+    Page<OrderVo> page(Page<OrderEntity> page, OrderDto orderDto);
 }

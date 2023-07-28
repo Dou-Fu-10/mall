@@ -1,6 +1,6 @@
 package org.example.modules.admin.product.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -121,7 +121,9 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
 
     @Override
     public Page<ProductCategoryVo> page(Page<ProductCategoryEntity> page, ProductCategoryEntity productCategory) {
-        Page<ProductCategoryEntity> productCategoryEntityPage = page(page, new QueryWrapper<>(productCategory));
+        LambdaQueryWrapper<ProductCategoryEntity> productCategoryEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(productCategory);
+        productCategoryEntityLambdaQueryWrapper.orderByAsc(ProductCategoryEntity::getSort);
+        Page<ProductCategoryEntity> productCategoryEntityPage = page(page, productCategoryEntityLambdaQueryWrapper);
         if (CollectionUtils.isEmpty(productCategoryEntityPage.getRecords())) {
             return (Page) productCategoryEntityPage;
         }
