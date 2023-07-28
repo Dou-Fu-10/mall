@@ -103,7 +103,7 @@ public class ProductController {
      * @return 删除结果
      */
     @AnonymousDeleteMapping
-        public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
+    public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");
         }

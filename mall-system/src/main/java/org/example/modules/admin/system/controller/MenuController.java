@@ -108,7 +108,7 @@ public class MenuController {
      */
     @Operation(summary = "删除数据")
     @AnonymousDeleteMapping
-        public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
+    public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");
         }

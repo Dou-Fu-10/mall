@@ -1,7 +1,6 @@
 package org.example.modules.admin.order.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,7 +43,7 @@ public class OrderController {
     /**
      * 分页查询所有数据
      *
-     * @param page  分页对象
+     * @param page     分页对象
      * @param orderDto 查询实体
      * @return 所有数据
      */

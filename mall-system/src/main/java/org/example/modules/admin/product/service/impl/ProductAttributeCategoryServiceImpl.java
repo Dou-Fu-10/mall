@@ -72,7 +72,7 @@ public class ProductAttributeCategoryServiceImpl extends ServiceImpl<ProductAttr
             ProductAttributeDto productAttributeDto = new ProductAttributeDto();
             productAttributeDto.setProductAttributeCategoryId(productAttributeCategoryVo.getId());
 
-            Page<ProductAttributeVo> byProductAttributeCategoryId = productAttributeService.getProductAttributeByProductAttributeCategoryId(new Page<>(1,500), productAttributeDto);
+            Page<ProductAttributeVo> byProductAttributeCategoryId = productAttributeService.getProductAttributeByProductAttributeCategoryId(new Page<>(1, 500), productAttributeDto);
             // 获取到商品属性分类下的 商品属性
             List<ProductAttributeVo> records = byProductAttributeCategoryId.getRecords();
             // 简历父子关系

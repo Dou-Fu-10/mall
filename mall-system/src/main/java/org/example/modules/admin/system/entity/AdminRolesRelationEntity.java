@@ -70,6 +70,7 @@ public class AdminRolesRelationEntity extends CommonEntity<AdminRolesRelationEnt
     @JsonIgnore
     @TableField(exist = false)
     private Date updateTime;
+
     public AdminRolesRelationEntity(Long adminId, Long roleId) {
         this.adminId = adminId;
         this.roleId = roleId;

@@ -31,6 +31,24 @@ public class MinioController {
     private MinioServer minioServer;
 
     /**
+     * InputStream转Base64
+     *
+     * @param inputStream
+     * @return
+     */
+    public static String toBase64(InputStream inputStream) {
+        try (inputStream) {
+            //转换为base64
+            byte[] bytes = IOUtils.toByteArray(inputStream);
+            inputStream.close();
+            return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(bytes);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    /**
      * 上传图片
      *
      * @param file 图片
@@ -67,23 +85,5 @@ public class MinioController {
     public ResponseEntity<String> browse(String fileName) {
         InputStream objectInputStream = minioServer.getObjectInputStream(fileName);
         return ResponseEntity.ok(toBase64(objectInputStream));
-    }
-
-    /**
-     * InputStream转Base64
-     *
-     * @param inputStream
-     * @return
-     */
-    public static String toBase64(InputStream inputStream) {
-        try (inputStream) {
-            //转换为base64
-            byte[] bytes = IOUtils.toByteArray(inputStream);
-            inputStream.close();
-            return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(bytes);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
     }
 }

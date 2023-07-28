@@ -5,18 +5,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.common.core.utils.BeanCopy;
-import org.example.modules.admin.order.entity.OrderEntity;
 import org.example.modules.admin.order.entity.OrderReturnApplyEntity;
 import org.example.modules.admin.order.entity.dto.OrderReturnApplyDto;
-import org.example.modules.admin.order.entity.vo.OrderItemVo;
-import org.example.modules.admin.order.entity.vo.OrderOperateHistoryVo;
 import org.example.modules.admin.order.entity.vo.OrderReturnApplyVo;
-import org.example.modules.admin.order.entity.vo.OrderVo;
 import org.example.modules.admin.order.mapper.OrderReturnApplyMapper;
 import org.example.modules.admin.order.service.OrderReturnApplyService;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:34:30

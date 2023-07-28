@@ -43,7 +43,7 @@ public interface OrderService extends IService<OrderEntity> {
     /**
      * 分页查询所有数据
      *
-     * @param page  分页对象
+     * @param page     分页对象
      * @param orderDto 查询实体
      * @return 所有数据
      */

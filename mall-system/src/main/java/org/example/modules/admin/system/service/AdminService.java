@@ -6,9 +6,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.example.common.core.entity.AdminEntity;
 import org.example.config.AuthUser;
 import org.example.config.UpdatePassword;
-import org.example.modules.admin.order.entity.OrderEntity;
-import org.example.modules.admin.order.entity.dto.OrderDto;
-import org.example.modules.admin.order.entity.vo.OrderVo;
 import org.example.modules.admin.system.entity.dto.AdminDto;
 import org.example.modules.admin.system.entity.vo.AdminVo;
 import org.example.modules.admin.system.entity.vo.MenuVo;
@@ -44,6 +41,7 @@ public interface AdminService extends IService<AdminEntity> {
      * @return 新增结果
      */
     Boolean save(AdminDto adminDto);
+
     /**
      * 修改数据
      *
@@ -51,6 +49,7 @@ public interface AdminService extends IService<AdminEntity> {
      * @return 修改结果
      */
     Boolean updateById(AdminDto adminDto);
+
     /**
      * 通过用户名查询用户信息
      *
@@ -129,7 +128,7 @@ public interface AdminService extends IService<AdminEntity> {
     /**
      * 分页查询所有数据
      *
-     * @param page  分页对象
+     * @param page     分页对象
      * @param adminDto 查询实体
      * @return 所有数据
      */

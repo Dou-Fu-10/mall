@@ -33,6 +33,7 @@ public class SwaggerConfig {
     private String groupedApi(String api) {
         return "/api/" + api + "/**";
     }
+
     private String grouped(String api) {
         return "/" + api + "/**";
     }
@@ -96,6 +97,7 @@ public class SwaggerConfig {
                         groupedApi("homeAdvertise"), "/auth/**")
                 .build();
     }
+
     @Bean
     public GroupedOpenApi storage() {
         return GroupedOpenApi.builder()
