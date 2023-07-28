@@ -15,16 +15,16 @@ public interface OrderSettingService extends IService<OrderSettingEntity> {
     /**
      * 新增数据
      *
-     * @param OrderSetting 实体对象
+     * @param orderSetting 实体对象
      * @return 新增结果
      */
-    boolean save(OrderSettingDto OrderSetting);
+    boolean save(OrderSettingDto orderSetting);
 
     /**
      * 修改数据
      *
-     * @param OrderSetting 实体对象
+     * @param orderSetting 实体对象
      * @return 修改结果
      */
-    boolean updateById(OrderSettingDto OrderSetting);
+    boolean updateById(OrderSettingDto orderSetting);
 }

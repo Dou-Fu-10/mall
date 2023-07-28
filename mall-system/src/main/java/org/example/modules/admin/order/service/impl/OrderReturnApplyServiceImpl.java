@@ -29,12 +29,14 @@ import java.util.List;
 public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMapper, OrderReturnApplyEntity> implements OrderReturnApplyService {
     @Override
     public boolean save(OrderReturnApplyDto orderReturnApply) {
-        return false;
+        OrderReturnApplyEntity orderReturnApplyEntity = BeanCopy.convert(orderReturnApply, OrderReturnApplyEntity.class);
+        return orderReturnApplyEntity.insert();
     }
 
     @Override
     public boolean updateById(OrderReturnApplyDto orderReturnApply) {
-        return false;
+        OrderReturnApplyEntity orderReturnApplyEntity = BeanCopy.convert(orderReturnApply, OrderReturnApplyEntity.class);
+        return orderReturnApplyEntity.insert();
     }
 
     @Override

@@ -31,5 +31,11 @@ public interface OrderOperateHistoryService extends IService<OrderOperateHistory
      */
     boolean updateById(OrderOperateHistoryDto orderOperateHistory);
 
+    /**
+     * 通过订单Id获取订单操作历史记录
+     *
+     * @param orderId 订单id
+     * @return 订单操作历史记录
+     */
     List<OrderOperateHistoryVo> getOrderOperateHistoryByOrderId(Long orderId);
 }

@@ -57,7 +57,7 @@ public class ProductAttributeCategoryServiceImpl extends ServiceImpl<ProductAttr
             throw new BaseRequestException("属性分类名不唯一");
         }
 
-        return save(convert);
+        return convert.insert();
     }
 
     @Override
@@ -72,7 +72,7 @@ public class ProductAttributeCategoryServiceImpl extends ServiceImpl<ProductAttr
             ProductAttributeDto productAttributeDto = new ProductAttributeDto();
             productAttributeDto.setProductAttributeCategoryId(productAttributeCategoryVo.getId());
 
-            Page<ProductAttributeVo> byProductAttributeCategoryId = productAttributeService.getProductAttributeByProductAttributeCategoryId(new Page<>(), productAttributeDto);
+            Page<ProductAttributeVo> byProductAttributeCategoryId = productAttributeService.getProductAttributeByProductAttributeCategoryId(new Page<>(1,500), productAttributeDto);
             // 获取到商品属性分类下的 商品属性
             List<ProductAttributeVo> records = byProductAttributeCategoryId.getRecords();
             // 简历父子关系
@@ -84,7 +84,7 @@ public class ProductAttributeCategoryServiceImpl extends ServiceImpl<ProductAttr
     @Override
     public Boolean updateById(ProductAttributeCategoryDto productAttributeCategory) {
         ProductAttributeCategoryEntity convert = BeanCopy.convert(productAttributeCategory, ProductAttributeCategoryEntity.class);
-        return updateById(convert);
+        return convert.updateById();
     }
 }
 

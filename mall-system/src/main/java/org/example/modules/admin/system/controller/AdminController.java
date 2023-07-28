@@ -2,7 +2,7 @@ package org.example.modules.admin.system.controller;
 
 
 import cn.hutool.core.collection.CollUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -57,7 +57,7 @@ public class AdminController {
     )
     @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<AdminEntity> page, AdminDto admin) {
-        return new ResponseEntity<>(this.adminService.page(page,admin), HttpStatus.OK);
+        return new ResponseEntity<>(this.adminService.page(page, admin), HttpStatus.OK);
     }
 
     /**
@@ -69,7 +69,7 @@ public class AdminController {
     @Operation(summary = "获取指定用户信息")
     @AnonymousGetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return new ResponseEntity<>(this.adminService.getById(id), HttpStatus.OK);
+        return new ResponseEntity<>(this.adminService.getAdminById(id), HttpStatus.OK);
     }
 
     /**
@@ -82,20 +82,28 @@ public class AdminController {
     @AnonymousPostMapping
     public ResponseEntity<Object> insert(@RequestBody AdminDto adminDto) {
         // TODO 对数据进行校验
-        return new ResponseEntity<>(this.adminService.save(adminDto), HttpStatus.OK);
+        if (this.adminService.save(adminDto)) {
+            return ResponseEntity.ok("添加成功");
+        }
+        // 修改成自定义的 错误类型
+        throw new BaseRequestException("添加失败");
     }
 
     /**
      * 修改数据
      *
-     * @param admin 实体对象
+     * @param adminDto 实体对象
      * @return 修改结果
      */
     @Operation(summary = "修改指定用户信息")
     @AnonymousPutMapping
-    public ResponseEntity<Object> update(@RequestBody AdminEntity admin) {
+    public ResponseEntity<Object> update(@RequestBody AdminDto adminDto) {
         // TODO 对数据进行校验
-        return new ResponseEntity<>(this.adminService.updateById(admin), HttpStatus.OK);
+        if (this.adminService.updateById(adminDto)) {
+            return ResponseEntity.ok("修改成功");
+        }
+        // 修改成自定义的 错误类型
+        throw new BaseRequestException("修改失败");
     }
 
     /**
@@ -106,7 +114,10 @@ public class AdminController {
      */
     @Operation(summary = "删除指定用户信息")
     @AnonymousDeleteMapping
-    public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
+        public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
+        if (CollectionUtils.isEmpty(idList)) {
+            throw new BaseRequestException("请正确的填写id");
+        }
         // TODO 不允许删除上级的或者同级的
         return new ResponseEntity<>(this.adminService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() >= 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败", HttpStatus.OK);
     }
@@ -180,7 +191,7 @@ public class AdminController {
     @AnonymousGetMapping(value = "/info")
     public ResponseEntity<Map<String, Object>> getAdminInfo(Principal principal) {
         // TODO 用户登录用户自己
-        if (principal == null) {
+        if (Objects.isNull(principal)) {
             throw new BaseRequestException("");
         }
         String username = principal.getName();

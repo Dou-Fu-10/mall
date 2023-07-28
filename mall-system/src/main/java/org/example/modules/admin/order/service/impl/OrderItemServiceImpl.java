@@ -7,6 +7,7 @@ import org.example.modules.admin.order.entity.dto.OrderItemDto;
 import org.example.modules.admin.order.entity.vo.OrderItemVo;
 import org.example.modules.admin.order.mapper.OrderItemMapper;
 import org.example.modules.admin.order.service.OrderItemService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,17 +22,19 @@ import java.util.List;
 @Service("orderItemService")
 public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItemEntity> implements OrderItemService {
     @Override
-    public boolean save(OrderItemDto orderItem) {
-        return false;
+    public boolean save(@NotNull OrderItemDto orderItem) {
+        OrderItemEntity orderItemEntity = BeanCopy.convert(orderItem, OrderItemEntity.class);
+        return orderItemEntity.insert();
     }
 
     @Override
-    public boolean updateById(OrderItemDto orderItem) {
-        return false;
+    public boolean updateById(@NotNull OrderItemDto orderItem) {
+        OrderItemEntity orderItemEntity = BeanCopy.convert(orderItem, OrderItemEntity.class);
+        return orderItemEntity.updateById();
     }
 
     @Override
-    public List<OrderItemVo> getOrderItemByOrderId(Long orderId) {
+    public List<OrderItemVo> getOrderItemByOrderId(@NotNull Long orderId) {
         List<OrderItemEntity> list = lambdaQuery().eq(OrderItemEntity::getOrderId, orderId).list();
         return BeanCopy.copytList(list, OrderItemVo.class);
     }

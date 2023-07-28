@@ -14,6 +14,7 @@ import org.example.modules.admin.system.entity.vo.AdminVo;
 import org.example.modules.admin.system.entity.vo.MenuVo;
 import org.example.modules.admin.system.entity.vo.RoleVo;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -43,7 +44,13 @@ public interface AdminService extends IService<AdminEntity> {
      * @return 新增结果
      */
     Boolean save(AdminDto adminDto);
-
+    /**
+     * 修改数据
+     *
+     * @param adminDto 实体对象
+     * @return 修改结果
+     */
+    Boolean updateById(AdminDto adminDto);
     /**
      * 通过用户名查询用户信息
      *
@@ -127,4 +134,12 @@ public interface AdminService extends IService<AdminEntity> {
      * @return 所有数据
      */
     Page<AdminVo> page(Page<AdminEntity> page, AdminDto adminDto);
+
+    /**
+     * 通过主键查询单条数据
+     *
+     * @param id 主键
+     * @return 单条数据
+     */
+    AdminVo getAdminById(Serializable id);
 }

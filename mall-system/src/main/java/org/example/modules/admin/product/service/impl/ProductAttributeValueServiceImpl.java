@@ -22,7 +22,8 @@ import java.util.List;
 public class ProductAttributeValueServiceImpl extends ServiceImpl<ProductAttributeValueMapper, ProductAttributeValueEntity> implements ProductAttributeValueService {
     @Override
     public Boolean save(ProductAttributeValueDto productAttributeValue) {
-        return false;
+        ProductAttributeValueEntity productAttributeValueEntity = BeanCopy.convert(productAttributeValue, ProductAttributeValueEntity.class);
+        return productAttributeValueEntity.insert();
     }
 
     @Override
@@ -34,7 +35,8 @@ public class ProductAttributeValueServiceImpl extends ServiceImpl<ProductAttribu
 
     @Override
     public Boolean updateById(ProductAttributeValueDto productAttributeValue) {
-        return false;
+        ProductAttributeValueEntity productAttributeValueEntity = BeanCopy.convert(productAttributeValue, ProductAttributeValueEntity.class);
+        return productAttributeValueEntity.updateById();
     }
 
     @Override

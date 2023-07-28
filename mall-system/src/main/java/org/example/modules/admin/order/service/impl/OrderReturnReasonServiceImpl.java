@@ -1,6 +1,7 @@
 package org.example.modules.admin.order.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.example.common.core.utils.BeanCopy;
 import org.example.modules.admin.order.entity.OrderReturnReasonEntity;
 import org.example.modules.admin.order.entity.dto.OrderReturnReasonDto;
 import org.example.modules.admin.order.mapper.OrderReturnReasonMapper;
@@ -17,13 +18,15 @@ import org.springframework.stereotype.Service;
 @Service("orderReturnReasonService")
 public class OrderReturnReasonServiceImpl extends ServiceImpl<OrderReturnReasonMapper, OrderReturnReasonEntity> implements OrderReturnReasonService {
     @Override
-    public boolean save(OrderReturnReasonDto OrderReturnReason) {
-        return false;
+    public boolean save(OrderReturnReasonDto orderReturnReason) {
+        OrderReturnReasonEntity orderReturnReasonEntity = BeanCopy.convert(orderReturnReason, OrderReturnReasonEntity.class);
+        return orderReturnReasonEntity.insert();
     }
 
     @Override
-    public boolean updateById(OrderReturnReasonDto OrderReturnReason) {
-        return false;
+    public boolean updateById(OrderReturnReasonDto orderReturnReason) {
+        OrderReturnReasonEntity orderReturnReasonEntity = BeanCopy.convert(orderReturnReason, OrderReturnReasonEntity.class);
+        return orderReturnReasonEntity.updateById();
     }
 }
 

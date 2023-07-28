@@ -22,12 +22,14 @@ import java.util.List;
 public class OrderOperateHistoryServiceImpl extends ServiceImpl<OrderOperateHistoryMapper, OrderOperateHistoryEntity> implements OrderOperateHistoryService {
     @Override
     public boolean save(OrderOperateHistoryDto orderOperateHistory) {
-        return false;
+        OrderOperateHistoryEntity orderOperateHistoryEntity = BeanCopy.convert(orderOperateHistory, OrderOperateHistoryEntity.class);
+        return orderOperateHistoryEntity.insert();
     }
 
     @Override
     public boolean updateById(OrderOperateHistoryDto orderOperateHistory) {
-        return false;
+        OrderOperateHistoryEntity orderOperateHistoryEntity = BeanCopy.convert(orderOperateHistory, OrderOperateHistoryEntity.class);
+        return orderOperateHistoryEntity.updateById();
     }
 
     @Override

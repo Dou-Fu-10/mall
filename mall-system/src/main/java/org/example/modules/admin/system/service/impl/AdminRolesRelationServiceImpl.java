@@ -44,7 +44,7 @@ public class AdminRolesRelationServiceImpl extends ServiceImpl<AdminRolesRelatio
     }
 
     @Override
-    public List<RoleVo> getRoleListByAdminId(Long adminId) {
+    public List<RoleVo> getRoleListByAdminId(@NotNull Long adminId) {
         Set<Long> roleIdList = lambdaQuery().eq(AdminRolesRelationEntity::getAdminId, adminId).list().stream().map(AdminRolesRelationEntity::getRoleId).collect(Collectors.toSet());
         if (CollectionUtils.isEmpty(roleIdList)) {
             return new ArrayList<>();

@@ -2,6 +2,7 @@ package org.example.modules.admin.product.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -101,6 +102,9 @@ public class ProductCategoryAttributeRelationController {
      */
     @AnonymousDeleteMapping
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
+        if (CollectionUtils.isEmpty(idList)) {
+            throw new BaseRequestException("请正确的填写id");
+        }
         return ResponseEntity.ok(this.productCategoryAttributeRelationService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() >= 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败");
     }
 }

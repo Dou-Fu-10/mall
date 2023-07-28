@@ -2,9 +2,11 @@ package org.example.modules.admin.comment.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.admin.comment.entity.CommentReplayEntity;
 import org.example.modules.admin.comment.service.CommentReplayService;
 import org.example.security.annotaion.rest.AnonymousDeleteMapping;
@@ -91,7 +93,10 @@ public class CommentReplayController {
      * @return 删除结果
      */
     @AnonymousDeleteMapping
-    public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
+        public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
+        if (CollectionUtils.isEmpty(idList)) {
+            throw new BaseRequestException("请正确的填写id");
+        }
         return new ResponseEntity<>(this.commentReplayService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() >= 1).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败", HttpStatus.OK);
     }
 }

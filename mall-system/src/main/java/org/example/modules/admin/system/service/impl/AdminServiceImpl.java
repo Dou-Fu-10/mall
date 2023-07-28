@@ -38,6 +38,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -71,12 +72,12 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     private MinioServer minioServer;
 
     @Override
-    public AdminEntity getByEmail(String email) {
+    public AdminEntity getByEmail(@NotNull String email) {
         return lambdaQuery().eq(AdminEntity::getEmail, email).one();
     }
 
     @Override
-    public Map<String, Object> login(AuthUser authUser, HttpServletRequest request) {
+    public Map<String, Object> login(@NotNull AuthUser authUser, HttpServletRequest request) {
 
         // 调用 UserDetailsServiceImpl 获取身份信息 同时存储用户信息 判断身份信息是否合法
         UsernamePasswordAuthenticationToken authenticationToken =
@@ -122,18 +123,21 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     }
 
     @Override
-    public Boolean updateRole(Long adminId, Set<Long> roleIds) {
+    public Boolean updateRole(@NotNull Long adminId, @NotNull Set<Long> roleIds) {
         // TODO 数据校验
+        if (Objects.isNull(getById(adminId))) {
+            return false;
+        }
         return adminRolesRelationService.updateRole(adminId, roleIds);
     }
 
     @Override
-    public List<RoleVo> getRoleListByAdminId(Long adminId) {
+    public List<RoleVo> getRoleListByAdminId(@NotNull Long adminId) {
         return adminRolesRelationService.getRoleListByAdminId(adminId);
     }
 
     @Override
-    public List<MenuVo> getMenuList(Long adminId) {
+    public List<MenuVo> getMenuList(@NotNull Long adminId) {
         List<RoleVo> roleListByAdminId = adminRolesRelationService.getRoleListByAdminId(adminId);
         if (CollectionUtils.isEmpty(roleListByAdminId)) {
             return new ArrayList<>();
@@ -143,7 +147,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     }
 
     @Override
-    public Boolean updateStatus(Long id, Boolean status) {
+    public Boolean updateStatus(@NotNull Long id, @NotNull Boolean status) {
         AdminEntity adminEntity = new AdminEntity();
         adminEntity.setEnabled(status);
         adminEntity.setId(id);
@@ -160,21 +164,30 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         return (Page) adminVoIpage;
     }
 
+    @Override
+    public AdminVo getAdminById(@NotNull Serializable id) {
+        AdminEntity adminEntity = getById(id);
+        if (Objects.nonNull(adminEntity)) {
+            return BeanCopy.convert(adminEntity, AdminVo.class);
+        }
+        return null;
+    }
+
 
     @Override
-    public AdminEntity getByPhone(String phone) {
+    public AdminEntity getByPhone(@NotNull String phone) {
         return lambdaQuery().eq(AdminEntity::getPhone, phone).one();
     }
 
     @Override
-    public AdminEntity getByUsername(String userName) {
+    public AdminEntity getByUsername(@NotNull String userName) {
         // TODO 做缓存
         return lambdaQuery().eq(AdminEntity::getUsername, userName).one();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    public Boolean register(AdminDto resources) {
+    public Boolean register(@NotNull AdminDto resources) {
         // TODO 对数据进行校验
         AdminEntity user = getByUsername(resources.getUsername());
         // 用户名是否唯一
@@ -217,6 +230,12 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         }
         adminDto.setIcon(null);
         return register(adminDto);
+    }
+
+    @Override
+    public Boolean updateById(@NotNull AdminDto adminDto) {
+        AdminEntity adminEntity = BeanCopy.convert(adminDto, AdminEntity.class);
+        return adminEntity.updateById();
     }
 }
 
