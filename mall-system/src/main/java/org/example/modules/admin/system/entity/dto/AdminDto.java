@@ -66,7 +66,7 @@ public class AdminDto {
     /**
      * 帐号启用状态；0->正常：1->禁用
      */
-    private Integer enabled;
+    private Boolean enabled;
     /**
      * 最后修改密码的时间
      */
