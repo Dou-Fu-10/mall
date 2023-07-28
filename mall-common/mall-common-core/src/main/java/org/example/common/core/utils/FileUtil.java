@@ -95,7 +95,7 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
      * 获取文件扩展名，不带 .
      */
     public static String getExtensionName(String filename) {
-        if ((filename != null) && (filename.length() > 0)) {
+        if (StringUtils.isNotBlank(filename)) {
             int dot = filename.lastIndexOf('.');
             if ((dot > -1) && (dot < (filename.length() - 1))) {
                 return filename.substring(dot + 1);
@@ -108,7 +108,7 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
      * Java文件操作 获取不带扩展名的文件名
      */
     public static String getFileNameNoEx(String filename) {
-        if ((filename != null) && (filename.length() > 0)) {
+        if (StringUtils.isNotBlank(filename)) {
             int dot = filename.lastIndexOf('.');
             if ((dot > -1) && (dot < (filename.length()))) {
                 return filename.substring(0, dot);
@@ -157,8 +157,8 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            CloseUtil.close(os);
-            CloseUtil.close(ins);
+            close(os);
+            close(ins);
         }
         return file;
     }
@@ -247,24 +247,36 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
         }
     }
 
-    public static String getFileType(String type) {
+    /**
+     * 获取文件类型
+     *
+     * @param typename 文件名字
+     * @return 图片 文档 音乐 视频 其他
+     */
+    public static String getFileType(String typename) {
         String documents = "txt doc pdf ppt pps xlsx xls docx";
         String music = "mp3 wav wma mpa ram ra aac aif m4a";
         String video = "avi mpg mpe mpeg asf wmv mov qt rm mp4 flv m4v webm ogv ogg";
         String image = "bmp dib pcp dif wmf gif jpg tif eps psd cdr iff tga pcd mpt png jpeg";
-        if (image.contains(type)) {
+        if (image.contains(typename)) {
             return IMAGE;
-        } else if (documents.contains(type)) {
+        } else if (documents.contains(typename)) {
             return TXT;
-        } else if (music.contains(type)) {
+        } else if (music.contains(typename)) {
             return MUSIC;
-        } else if (video.contains(type)) {
+        } else if (video.contains(typename)) {
             return VIDEO;
         } else {
             return OTHER;
         }
     }
 
+    /**
+     * 检查尺寸
+     *
+     * @param maxSize 最大尺寸
+     * @param size    大小
+     */
     public static void checkSize(long maxSize, long size) {
         // 1M
         int len = 1024 * 1024;
@@ -286,12 +298,17 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
     }
 
     /**
-     * 判断两个文件是否相同
+     * 判断两个文件名是否相同
      */
     public static boolean check(String file1Md5, String file2Md5) {
         return file1Md5.equals(file2Md5);
     }
 
+    /**
+     * 得到文件字节
+     * @param file 文件
+     * @return
+     */
     private static byte[] getByte(File file) {
         // 得到文件长度
         byte[] b = new byte[(int) file.length()];
@@ -307,7 +324,7 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
             log.error(e.getMessage(), e);
             return null;
         } finally {
-            CloseUtil.close(in);
+            close(in);
         }
         return b;
     }
@@ -405,6 +422,16 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
             return out.toByteArray();
         } else {
             return null;
+        }
+    }
+
+    public static void close(Closeable closeable) {
+        if (null != closeable) {
+            try {
+                closeable.close();
+            } catch (Exception e) {
+                // 静默关闭
+            }
         }
     }
 }

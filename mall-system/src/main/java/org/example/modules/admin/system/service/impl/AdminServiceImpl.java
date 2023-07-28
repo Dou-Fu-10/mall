@@ -173,6 +173,14 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         return null;
     }
 
+    @Override
+    public String refreshHeadToken(HttpServletRequest request) {
+        // 获取token
+        String token = jwtTokenUtil.resolveToken(request);
+        // 续约token
+        return jwtTokenUtil.refreshHeadToken(token);
+    }
+
 
     @Override
     public AdminEntity getByPhone(@NotNull String phone) {

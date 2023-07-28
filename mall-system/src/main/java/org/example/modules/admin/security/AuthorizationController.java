@@ -9,6 +9,7 @@ import org.example.common.core.exception.BaseRequestException;
 import org.example.config.AuthUser;
 import org.example.modules.admin.system.entity.dto.AdminDto;
 import org.example.modules.admin.system.service.AdminService;
+import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -83,4 +84,18 @@ public class AuthorizationController {
     public ResponseEntity<Map<String, Object>> login(@Validated @RequestBody AuthUser authUser, HttpServletRequest request) {
         return ResponseEntity.ok(adminService.login(authUser, request));
     }
+
+    /**
+     * token续约
+     *
+     * @param request token
+     * @return token
+     */
+    @Operation(summary = "token续约")
+    @AnonymousGetMapping(value = "/refresh")
+    public ResponseEntity<String> refresh(HttpServletRequest request) {
+        // Token 续期
+        return ResponseEntity.ok(adminService.refreshHeadToken(request));
+    }
+
 }

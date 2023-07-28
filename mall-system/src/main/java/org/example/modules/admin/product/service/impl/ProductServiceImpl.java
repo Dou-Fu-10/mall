@@ -113,6 +113,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public boolean updateById(ProductDtoParam product) {
         // TODO 数据校验
         ProductEntity convert = BeanCopy.convert(product, ProductEntity.class);

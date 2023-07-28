@@ -15,7 +15,6 @@ import org.example.security.entity.OnlineUserDto;
 import org.example.security.utils.JwtTokenUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -36,7 +35,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 获取请求头中的token
         // TODO 优化缓存设计
-        String token = resolveToken(request);
+        String token = jwtTokenUtil.resolveToken(request);
         if (Strings.isNotBlank(token)) {
             Claims claims = jwtTokenUtil.getClaimsByToken(token);
             if (Objects.nonNull(claims)) {
@@ -46,8 +45,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 OnlineUserDto loginUser = (OnlineUserDto) redisService.get(properties.getOnlineKey() + userName);
                 // 如果获取不到
                 if (Objects.nonNull(loginUser)) {
-                    // Token 续期
-                    jwtTokenUtil.refreshHeadToken(token);
                     // 存入SecurityContextHolder
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser.getJwtUserDto(), null, null);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
@@ -58,23 +55,5 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(request, response);
-
-    }
-
-    /**
-     * 初步检测Token
-     *
-     * @param request /
-     * @return /
-     */
-    private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(properties.getTokenHeader());
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(properties.getTokenStartWith())) {
-            // 去掉令牌前缀
-            return bearerToken.replace(properties.getTokenStartWith(), "");
-        } else {
-            log.debug("非法Token：{}", bearerToken);
-        }
-        return null;
     }
 }

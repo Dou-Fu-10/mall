@@ -7,9 +7,11 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * 在线用户
+ * Created by Dou-Fu-10 2023-07-28
  *
- * @author Zheng Jie
+ * @author Dou-Fu-10
+ * @date 2023-07-28
+ * @Description 在线用户
  */
 @Data
 @AllArgsConstructor

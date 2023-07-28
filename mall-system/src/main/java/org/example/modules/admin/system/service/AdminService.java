@@ -10,6 +10,7 @@ import org.example.modules.admin.system.entity.dto.AdminDto;
 import org.example.modules.admin.system.entity.vo.AdminVo;
 import org.example.modules.admin.system.entity.vo.MenuVo;
 import org.example.modules.admin.system.entity.vo.RoleVo;
+import org.springframework.http.ResponseEntity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -141,4 +142,12 @@ public interface AdminService extends IService<AdminEntity> {
      * @return 单条数据
      */
     AdminVo getAdminById(Serializable id);
+
+    /**
+     * token续约
+     *
+     * @param request token
+     * @return token
+     */
+    String refreshHeadToken(HttpServletRequest request);
 }

@@ -22,7 +22,6 @@ public abstract class CommonEntity<T extends Model<?>> extends Model<T> implemen
      * 创建人
      * 创建
      */
-    @JsonIgnore
     @TableField(fill = FieldFill.INSERT)
     private String createBy;
     /**
