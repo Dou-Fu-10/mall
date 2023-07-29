@@ -1,20 +1,19 @@
 package org.example.modules.admin.system.controller;
 
 
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import org.example.common.core.exception.BaseRequestException;
-import org.example.modules.admin.system.service.PrizePoolService;
-import org.springframework.http.ResponseEntity;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.example.modules.admin.system.entity.dto.PrizePoolDto;
-import org.example.modules.admin.system.entity.PrizePoolEntity;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.Serializable;
-import java.util.Set;
-import java.util.stream.Collectors;
+import org.example.modules.admin.system.entity.PrizePoolEntity;
+import org.example.modules.admin.system.entity.dto.PrizePoolDto;
+import org.example.modules.admin.system.service.PrizePoolService;
+import org.example.security.annotaion.rest.AnonymousGetMapping;
+import org.example.security.annotaion.rest.AnonymousPostMapping;
+import org.example.security.annotaion.rest.AnonymousPutMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by Dou-Fu-10 2023-07-29 15:47:03
@@ -40,7 +39,7 @@ public class PrizePoolController {
      * @param prizePool 查询实体
      * @return 所有数据
      */
-    @GetMapping
+//    @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<PrizePoolEntity> page, PrizePoolDto prizePool) {
         return ResponseEntity.ok(this.prizePoolService.page(page, prizePool));
     }
@@ -48,12 +47,11 @@ public class PrizePoolController {
     /**
      * 通过主键查询单条数据
      *
-     * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
-    public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return ResponseEntity.ok(this.prizePoolService.getById(id));
+    @AnonymousGetMapping()
+    public ResponseEntity<Object> select() {
+        return ResponseEntity.ok(this.prizePoolService.select());
     }
 
     /**
@@ -62,7 +60,7 @@ public class PrizePoolController {
      * @param prizePool 实体对象
      * @return 新增结果
      */
-    @PostMapping
+    @AnonymousPostMapping
     public ResponseEntity<Object> insert(@RequestBody PrizePoolDto prizePool) {
         if (this.prizePoolService.save(prizePool)) {
             return ResponseEntity.ok("添加成功");
@@ -77,7 +75,7 @@ public class PrizePoolController {
      * @param prizePool 实体对象
      * @return 修改结果
      */
-    @PutMapping
+    @AnonymousPutMapping
     public ResponseEntity<Object> update(@RequestBody PrizePoolDto prizePool) {
         if (this.prizePoolService.updateById(prizePool)) {
             return ResponseEntity.ok("修改成功");

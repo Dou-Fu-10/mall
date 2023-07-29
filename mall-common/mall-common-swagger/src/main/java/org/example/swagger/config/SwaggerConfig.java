@@ -94,7 +94,7 @@ public class SwaggerConfig {
                         groupedApi("adminRole"), groupedApi("menu"),
                         groupedApi("role"), groupedApi("rolesMenus"),
                         groupedApi("companyAddress"), groupedApi("feightTemplate"),
-                        groupedApi("homeAdvertise"), "/auth/**")
+                        groupedApi("homeAdvertise"), groupedApi("prizePool"), "/auth/**")
                 .build();
     }
 

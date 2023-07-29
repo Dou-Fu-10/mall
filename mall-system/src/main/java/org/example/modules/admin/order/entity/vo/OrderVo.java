@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -42,19 +43,19 @@ public class OrderVo {
     /**
      * 订单总金额
      */
-    private Double totalAmount;
+    private BigDecimal totalAmount;
     /**
      * 应付金额（实际支付金额）
      */
-    private Double payAmount;
+    private BigDecimal payAmount;
     /**
      * 运费金额
      */
-    private Double freightAmount;
+    private BigDecimal freightAmount;
     /**
      * 管理员后台调整订单使用的折扣金额
      */
-    private Double discountAmount;
+    private BigDecimal discountAmount;
     /**
      * 支付方式：0->未支付；1->支付宝；2->微信
      */

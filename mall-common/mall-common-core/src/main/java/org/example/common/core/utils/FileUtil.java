@@ -306,6 +306,7 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
 
     /**
      * 得到文件字节
+     *
      * @param file 文件
      * @return
      */

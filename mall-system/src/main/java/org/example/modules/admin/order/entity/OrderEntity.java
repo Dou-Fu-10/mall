@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -55,22 +56,22 @@ public class OrderEntity extends CommonEntity<OrderEntity> implements Serializab
      * 订单总金额
      */
     @Schema(name = "totalAmount", description = "订单总金额")
-    private Double totalAmount;
+    private BigDecimal totalAmount;
     /**
      * 应付金额（实际支付金额）
      */
     @Schema(name = "payAmount", description = "应付金额（实际支付金额）")
-    private Double payAmount;
+    private BigDecimal payAmount;
     /**
      * 运费金额
      */
     @Schema(name = "freightAmount", description = "运费金额")
-    private Double freightAmount;
+    private BigDecimal freightAmount;
     /**
      * 管理员后台调整订单使用的折扣金额
      */
     @Schema(name = "discountAmount", description = "管理员后台调整订单使用的折扣金额")
-    private Double discountAmount;
+    private BigDecimal discountAmount;
     /**
      * 支付方式：0->未支付；1->支付宝；2->微信
      */

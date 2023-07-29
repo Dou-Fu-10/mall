@@ -1,14 +1,10 @@
 package org.example.modules.admin.system.entity.dto;
 
-import java.util.Date;
-
-import java.io.Serializable;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.util.Date;
 
 /**
  * Created by Dou-Fu-10 2023-07-29 15:47:03
@@ -47,6 +43,15 @@ public class PrizePoolDto {
      */
     private Date updateTime;
 
-
+    /**
+     * 创建人
+     * 创建
+     */
+    private String createBy;
+    /**
+     * 更新人
+     * 创建、更新
+     */
+    private String updateBy;
 }
 

@@ -1,5 +1,6 @@
 package org.example.modules.admin.order.service;
 
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.admin.order.entity.OrderEntity;
@@ -7,6 +8,7 @@ import org.example.modules.admin.order.entity.dto.OrderDto;
 import org.example.modules.admin.order.entity.vo.OrderVo;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:34:28
@@ -48,4 +50,12 @@ public interface OrderService extends IService<OrderEntity> {
      * @return 所有数据
      */
     Page<OrderVo> page(Page<OrderEntity> page, OrderDto orderDto);
+
+    /**
+     * 按传入的月份查找月份已完成的订单
+     *
+     * @param date 月份
+     * @return 已完成的订单
+     */
+    List<OrderVo> findCompletedOrdersByMonth(DateTime date);
 }

@@ -29,6 +29,7 @@ public interface MemberService extends IService<MemberEntity> {
      * @return 修改结果
      */
     boolean updateById(MemberDto member);
+
     /**
      * 分页查询所有数据
      *
