@@ -79,6 +79,14 @@ public class MemberDto {
      */
     private Date createTime;
 
-
+    /**
+     * 更新时间
+     * 创建、更新
+     */
+    private Date updateTime;
+    /**
+     * 逻辑删除（1 代表已删除），（0 代表未删除）
+     */
+    private Integer deleteFlag;
 }
 

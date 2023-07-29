@@ -50,7 +50,7 @@ public class MemberController {
      */
     @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<MemberEntity> page, MemberEntity member) {
-        return ResponseEntity.ok(this.memberService.page(page, new QueryWrapper<>(member)));
+        return ResponseEntity.ok(this.memberService.page(page, member));
     }
 
     /**

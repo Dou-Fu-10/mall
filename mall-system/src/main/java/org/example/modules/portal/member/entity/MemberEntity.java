@@ -1,5 +1,7 @@
 package org.example.modules.portal.member.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -100,6 +102,22 @@ public class MemberEntity extends CommonEntity<MemberEntity> implements Serializ
     @Schema(name = "createTime", description = "注册时间")
     private Date createTime;
 
-
+    /**
+     * 创建人
+     * 创建
+     */
+    @TableField(exist = false)
+    private String createBy;
+    /**
+     * 更新人
+     * 创建、更新
+     */
+    @TableField(exist = false)
+    private String updateBy;
+    /**
+     * 逻辑删除（1 代表已删除），（0 代表未删除）
+     */
+    @Schema(name = "deleteFlag", description = "逻辑删除（1 代表已删除），（0 代表未删除）")
+    private Integer deleteFlag;
 }
 
