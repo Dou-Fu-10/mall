@@ -1,5 +1,6 @@
 package org.example.modules.portal.member.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,7 @@ public class MemberVo {
     /**
      * 密码
      */
+    @JsonIgnore
     private String password;
     /**
      * 昵称

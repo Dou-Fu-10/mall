@@ -3,6 +3,7 @@ package org.example.modules.admin.product.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
@@ -15,10 +16,7 @@ import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -79,6 +77,22 @@ public class ProductController {
         }
         // 修改成自定义的 错误类型
         throw new BaseRequestException("添加失败");
+    }
+
+    /**
+     * 修改帐号状态
+     *
+     * @param id     用户id
+     * @param status 状态
+     * @return String
+     */
+    @Operation(summary = "修改帐号状态")
+    @AnonymousPutMapping(value = "/updateStatus/{id}")
+    public ResponseEntity<String> updateStatus(@PathVariable Long id, @RequestParam(value = "status") Boolean status) {
+        if (this.productService.updateStatus(id, status)) {
+            return ResponseEntity.ok("修改成功");
+        }
+        throw new BaseRequestException("修改失败");
     }
 
     /**

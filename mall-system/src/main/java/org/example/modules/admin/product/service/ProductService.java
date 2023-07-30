@@ -50,5 +50,12 @@ public interface ProductService extends IService<ProductEntity> {
      * @return 结果
      */
     ProductVo findById(Serializable id);
-
+    /**
+     * 修改帐号状态
+     *
+     * @param id     用户id
+     * @param status 状态
+     * @return boolean
+     */
+    Boolean updateStatus(Long id, Boolean status);
 }

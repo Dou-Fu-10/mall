@@ -6,6 +6,7 @@ import org.example.modules.admin.product.entity.dto.SkuStockDto;
 import org.example.modules.admin.product.entity.vo.SkuStockVo;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-07-15 11:35:50
@@ -54,4 +55,12 @@ public interface SkuStockService extends IService<SkuStockEntity> {
      * @return 新增结果
      */
     Boolean saveOrUpdate(List<SkuStockDto> skuStock);
+
+    /**
+     * 修改数据
+     *
+     * @param skuStock 实体对象
+     * @return 修改结果
+     */
+    Boolean updateBatchById(Set<SkuStockDto> skuStock);
 }

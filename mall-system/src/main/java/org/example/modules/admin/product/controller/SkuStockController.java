@@ -95,6 +95,21 @@ public class SkuStockController {
     }
 
     /**
+     * 修改数据
+     *
+     * @param skuStock 实体对象
+     * @return 修改结果
+     */
+    @AnonymousPutMapping("/updateBatch")
+    public ResponseEntity<Object> update(@RequestBody Set<SkuStockDto> skuStock) {
+        if (this.skuStockService.updateBatchById(skuStock)) {
+            return ResponseEntity.ok("修改成功");
+        }
+        // 修改成自定义的 错误类型
+        throw new RuntimeException("修改失败");
+    }
+
+    /**
      * 删除数据
      *
      * @param idList 主键结合

@@ -53,7 +53,7 @@ public class ProductDto {
     /**
      * 上架状态：0->下架；1->上架
      */
-    private Integer publishStatus;
+    private Boolean publishStatus;
     /**
      * 新品状态:0->不是新品；1->新品
      */

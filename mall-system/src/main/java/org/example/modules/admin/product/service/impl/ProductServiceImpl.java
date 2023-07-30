@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import org.example.common.core.entity.AdminEntity;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.admin.product.entity.ProductEntity;
@@ -23,6 +24,7 @@ import org.example.modules.admin.product.service.SkuStockService;
 import org.example.modules.portal.member.entity.dto.MemberPriceDto;
 import org.example.modules.portal.member.entity.vo.MemberPriceVo;
 import org.example.modules.portal.member.service.MemberPriceService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -150,6 +152,15 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     public ProductVo findById(Serializable id) {
         ProductEntity productEntity = getById(id);
         return BeanCopy.convert(productEntity, ProductVo.class);
+    }
+
+    @Override
+    public Boolean updateStatus(@NotNull Long id, @NotNull Boolean status) {
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setPublishStatus(status);
+        productEntity.setId(id);
+        // TODO 不允许修改上级的或者同级的
+        return productEntity.updateById();
     }
 }
 
