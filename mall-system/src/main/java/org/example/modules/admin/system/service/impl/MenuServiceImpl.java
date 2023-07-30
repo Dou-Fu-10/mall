@@ -44,7 +44,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
     }
 
     @Override
-    public List<MenuVo> findByUser(Long currentUserId) {
+    public List<MenuVo> findByUser(@NotNull Long currentUserId) {
         // TODO 校验是否为空 优化代码
         // 获取用户对应的角色
         List<RoleEntity> roles = roleService.findByUsersId(currentUserId);
@@ -57,6 +57,15 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
         return getMenuVoListTree(BeanCopy.copytList(menus, MenuVo.class));
     }
 
+    @Override
+    public List<MenuVo> findByMenusId(Set<Long> menusId) {
+        List<MenuEntity> menuEntityList = lambdaQuery().in(MenuEntity::getId, menusId).list();
+        if (CollectionUtils.isEmpty(menuEntityList)) {
+            return new ArrayList<>();
+        }
+        List<MenuVo> menuVoList = BeanCopy.copytList(menuEntityList, MenuVo.class);
+        return getMenuVoListTree(menuVoList);
+    }
 
     @Override
     public List<MenuVo> getOneLevelMenu() {
@@ -76,16 +85,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
             menuVoIpage.setRecords(menuVoListTree);
         }
         return (Page) menuVoIpage;
-    }
-
-    @Override
-    public List<MenuVo> findByMenusId(Set<Long> menusId) {
-        List<MenuEntity> menuEntityList = lambdaQuery().in(MenuEntity::getId, menusId).list();
-        if (CollectionUtils.isEmpty(menuEntityList)) {
-            return new ArrayList<>();
-        }
-        List<MenuVo> menuVoList = BeanCopy.copytList(menuEntityList, MenuVo.class);
-        return getMenuVoListTree(menuVoList);
     }
 
     @NotNull

@@ -4,12 +4,15 @@ package org.example.modules.admin.system.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.modules.admin.order.service.OrderService;
+import org.example.modules.admin.system.entity.MenuEntity;
 import org.example.modules.admin.system.entity.PrizePoolEntity;
 import org.example.modules.admin.system.entity.dto.PrizePoolDto;
 import org.example.modules.admin.system.service.PrizePoolService;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.example.security.annotaion.rest.AnonymousPutMapping;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +34,8 @@ public class PrizePoolController {
      */
     @Resource
     private PrizePoolService prizePoolService;
+    @Resource
+    private OrderService orderService;
 
     /**
      * 分页查询所有数据
@@ -39,7 +44,7 @@ public class PrizePoolController {
      * @param prizePool 查询实体
      * @return 所有数据
      */
-//    @AnonymousGetMapping
+    @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<PrizePoolEntity> page, PrizePoolDto prizePool) {
         return ResponseEntity.ok(this.prizePoolService.page(page, prizePool));
     }
@@ -49,9 +54,9 @@ public class PrizePoolController {
      *
      * @return 单条数据
      */
-    @AnonymousGetMapping()
-    public ResponseEntity<Object> select() {
-        return ResponseEntity.ok(this.prizePoolService.select());
+    @AnonymousGetMapping("/details")
+    public ResponseEntity<Object> details() {
+        return ResponseEntity.ok(this.prizePoolService.details());
     }
 
     /**

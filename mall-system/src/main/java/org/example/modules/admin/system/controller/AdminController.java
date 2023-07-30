@@ -158,7 +158,7 @@ public class AdminController {
     @Operation(summary = "给用户分配角色")
     @AnonymousPostMapping(value = "/role/update")
     public ResponseEntity<String> updateRole(@RequestParam("adminId") Long adminId,
-                                             @RequestParam("roleIds") Set<Long> roleIds) {
+                                             @RequestBody Set<Long> roleIds) {
         if (adminService.updateRole(adminId, roleIds)) {
             return ResponseEntity.ok("修改成功");
         }

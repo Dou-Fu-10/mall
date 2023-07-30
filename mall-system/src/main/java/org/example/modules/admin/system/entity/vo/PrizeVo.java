@@ -20,10 +20,6 @@ import java.util.List;
 @NoArgsConstructor
 public class PrizeVo {
     /**
-     * 订单
-     */
-    List<OrderVo> orderList;
-    /**
      * 会员奖金池
      */
     BigDecimal memberBonus;

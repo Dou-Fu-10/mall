@@ -4,13 +4,10 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
-import org.example.modules.admin.order.entity.vo.OrderVo;
 import org.example.modules.admin.order.service.OrderService;
 import org.example.modules.admin.system.entity.PrizePoolEntity;
 import org.example.modules.admin.system.entity.dto.PrizePoolDto;
@@ -22,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.List;
 
 /**
  * Created by Dou-Fu-10 2023-07-29 16:17:13
@@ -59,19 +55,10 @@ public class PrizePoolServiceImpl extends ServiceImpl<PrizePoolMapper, PrizePool
     }
 
     @Override
-    public PrizeVo select() {
-        // 获取当前日期时间
-        DateTime currentTime = DateUtil.date();
-        List<OrderVo> orderVoList = orderService.findCompletedOrdersByMonth(currentTime);
-        if (CollectionUtils.isEmpty(orderVoList)) {
-            throw new BaseRequestException("当月没有完成的订单");
-        }
-        BigDecimal totalAmountCompletedOrder = BigDecimal.ZERO;
-        // 计算当月订单总金额
-        for (OrderVo orderVo : orderVoList) {
-            BigDecimal payAmount = orderVo.getPayAmount();
-            totalAmountCompletedOrder = totalAmountCompletedOrder.add(payAmount);
-        }
+    public PrizeVo details() {
+        // 按月查找 订单已完成的金额
+        BigDecimal totalAmountCompletedOrder = orderService.findTotalAmountCompletedOrdersByMonth(new DateTime());
+
         LambdaQueryWrapper<PrizePoolEntity> prizePoolEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
         // 获取月份的第一天
         DateTime firstDayOfMonth = DateUtil.beginOfMonth(DateUtil.date());
@@ -82,13 +69,18 @@ public class PrizePoolServiceImpl extends ServiceImpl<PrizePoolMapper, PrizePool
         // 获取 奖金池
         PrizePoolEntity prizePoolEntity = getOne(prizePoolEntityLambdaQueryWrapper);
         // 获取 商品奖金池百分比
-        Integer productBonusesPercentage = prizePoolEntity.getProductBonusesPercentage();
-        BigDecimal bigDecimal = new BigDecimal(productBonusesPercentage);
+        BigDecimal bigDecimal = new BigDecimal(prizePoolEntity.getProductBonusesPercentage());
+        BigDecimal productBonusesPercentageBigDecimal = bigDecimal.divide(new BigDecimal(100),2, RoundingMode.DOWN);
+        // 获取 会员奖金池百分比
+        BigDecimal bigDecimal1 = new BigDecimal(prizePoolEntity.getMemberBonusesPercentage());
+        BigDecimal memberBonusesPercentageBigDecimal = bigDecimal1.divide(new BigDecimal(100),2, RoundingMode.DOWN);
+
+
         // 当月订单总金额 进行百分比计算 获取到商品奖金池
-        BigDecimal commodityBonus = totalAmountCompletedOrder.divide(bigDecimal, RoundingMode.DOWN);
+        BigDecimal commodityBonus = totalAmountCompletedOrder.multiply(productBonusesPercentageBigDecimal);
         // 当月商品奖金池 进行百分比计算 获取到会员奖金池
-        BigDecimal memberBonus = commodityBonus.divide(prizePoolEntity.getMemberFees(), RoundingMode.DOWN);
-        return new PrizeVo(orderVoList, memberBonus, commodityBonus);
+        BigDecimal memberBonus = commodityBonus.multiply(memberBonusesPercentageBigDecimal);
+        return new PrizeVo(memberBonus, commodityBonus);
     }
 }
 

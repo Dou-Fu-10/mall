@@ -22,6 +22,7 @@ import org.example.modules.admin.order.service.OrderService;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -78,12 +79,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     }
 
     @Override
-    public List<OrderVo> findCompletedOrdersByMonth(DateTime date) {
+    public Page<OrderVo> findCompletedOrdersByMonth(Page<OrderEntity> page, OrderDto orderDto, DateTime date) {
+        OrderEntity orderEntity = BeanCopy.convert(orderDto, OrderEntity.class);
         // 获取当前日期时间
         DateTime currentTime = DateUtil.date();
         // 校验 最后一天不可使用
         // 判断给定的日期是否是所在月份的最后一天
-        // 即当前不是单约最后一天
+        // 即当前不是当月最后一天
         boolean isLastDayOfMonth = DateUtil.isLastDayOfMonth(currentTime);
         if (isLastDayOfMonth) {
             throw new BaseRequestException("当月的最后一天不可查看");
@@ -100,12 +102,54 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         // 获取月份的最后一天
         DateTime lastDayOfMonth = DateUtil.endOfMonth(DateUtil.date());
         log.info("最后一天：" + lastDayOfMonth);
-        LambdaQueryWrapper<OrderEntity> orderEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<OrderEntity> orderEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(orderEntity);
         // 已完成的订单
         orderEntityLambdaQueryWrapper.eq(OrderEntity::getStatus, 3);
         // 查询时间范围
         orderEntityLambdaQueryWrapper.between(OrderEntity::getPaymentTime, firstDayOfMonth, lastDayOfMonth);
-        return BeanCopy.copytList(list(orderEntityLambdaQueryWrapper), OrderVo.class);
+        Page<OrderEntity> orderEntityPage = page(page, orderEntityLambdaQueryWrapper);
+        IPage<OrderVo> convert = orderEntityPage.convert(order -> BeanCopy.convert(order, OrderVo.class));
+        return (Page) convert;
+    }
+
+    @Override
+    public BigDecimal findTotalAmountCompletedOrdersByMonth(DateTime dateTime) {
+        // 获取当前日期时间
+        DateTime currentTime = DateUtil.date();
+        // 校验 最后一天不可使用
+        // 判断给定的日期是否是所在月份的最后一天
+        // 即当前不是当月最后一天
+        boolean isLastDayOfMonth = DateUtil.isLastDayOfMonth(currentTime);
+        if (isLastDayOfMonth) {
+            throw new BaseRequestException("当月的最后一天不可查看");
+        }
+        // 当前时间月末
+        DateTime currentTimeEndOfMonth = DateUtil.endOfMonth(currentTime);
+        // 传入的时间不能 在这个月月底之后 ，即 一月份不能查询二月的数据
+        if (dateTime.isAfter(currentTimeEndOfMonth)) {
+            throw new BaseRequestException("请传入正确的时间");
+        }
+        // 获取月份的第一天
+        DateTime firstDayOfMonth = DateUtil.beginOfMonth(DateUtil.date());
+        log.info("第一天：" + firstDayOfMonth);
+        // 获取月份的最后一天
+        DateTime lastDayOfMonth = DateUtil.endOfMonth(DateUtil.date());
+        log.info("最后一天：" + lastDayOfMonth);
+        LambdaQueryWrapper<OrderEntity> orderEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        // 已完成的订单
+        orderEntityLambdaQueryWrapper.eq(OrderEntity::getStatus, 3);
+        orderEntityLambdaQueryWrapper.isNotNull(OrderEntity::getPayAmount);
+        // 查询时间范围
+        orderEntityLambdaQueryWrapper.between(OrderEntity::getPaymentTime, firstDayOfMonth, lastDayOfMonth);
+        // 只返回 PayAmount
+        orderEntityLambdaQueryWrapper.select(OrderEntity::getPayAmount);
+        List<OrderEntity> orderEntityList = list(orderEntityLambdaQueryWrapper);
+        BigDecimal totalAmountCompletedOrder = BigDecimal.ZERO;
+        // 将金额进行累加
+        for (OrderEntity orderEntity : orderEntityList) {
+            totalAmountCompletedOrder = totalAmountCompletedOrder.add(orderEntity.getPayAmount());
+        }
+        return totalAmountCompletedOrder;
     }
 }
 

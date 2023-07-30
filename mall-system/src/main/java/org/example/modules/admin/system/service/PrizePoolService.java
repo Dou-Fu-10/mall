@@ -45,5 +45,5 @@ public interface PrizePoolService extends IService<PrizePoolEntity> {
      *
      * @return 金额
      */
-    PrizeVo select();
+    PrizeVo details();
 }

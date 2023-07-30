@@ -1,6 +1,7 @@
 package org.example.security.entity;
 
 import com.alibaba.fastjson2.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.example.common.core.entity.AdminEntity;
@@ -29,18 +30,8 @@ public class JwtUser implements UserDetails {
     /**
      * 默认的GrantedAuthority 无法被反序列话所以使用自定义的 Authority
      */
+
     private final List<Authority> authorities;
-
-    public Set<String> getRoles() {
-        // TODO 优化语句
-        return authorities.stream().map(Authority::getAuthority).collect(Collectors.toSet());
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        //返回当前用户的角色
-        return getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-    }
 
     @Override
     @JSONField(serialize = false)

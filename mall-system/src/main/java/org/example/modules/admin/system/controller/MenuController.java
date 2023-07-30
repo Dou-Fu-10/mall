@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.apache.catalina.security.SecurityUtil;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.admin.system.entity.MenuEntity;
 import org.example.modules.admin.system.entity.vo.MenuVo;
@@ -14,6 +15,7 @@ import org.example.security.annotaion.rest.AnonymousDeleteMapping;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.example.security.annotaion.rest.AnonymousPutMapping;
+import org.example.security.utils.SecurityUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -140,8 +142,7 @@ public class MenuController {
     @Operation(summary = "获取前端所需菜单")
     @GetMapping(value = "/build")
     public ResponseEntity<List<MenuVo>> buildMenus() {
-        Long currentUserId = 1L;
-        return ResponseEntity.ok(menuService.findByUser(currentUserId));
+        return ResponseEntity.ok(menuService.findByUser(SecurityUtils.getCurrentUserId()));
     }
 }
 

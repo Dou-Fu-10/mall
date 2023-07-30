@@ -8,7 +8,7 @@ import org.example.modules.admin.order.entity.dto.OrderDto;
 import org.example.modules.admin.order.entity.vo.OrderVo;
 
 import java.io.Serializable;
-import java.util.List;
+import java.math.BigDecimal;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:34:28
@@ -54,8 +54,18 @@ public interface OrderService extends IService<OrderEntity> {
     /**
      * 按传入的月份查找月份已完成的订单
      *
-     * @param date 月份
+     * @param page     分页对象
+     * @param orderDto 查询实体
+     * @param date     月份
      * @return 已完成的订单
      */
-    List<OrderVo> findCompletedOrdersByMonth(DateTime date);
+    Page<OrderVo> findCompletedOrdersByMonth(Page<OrderEntity> page, OrderDto orderDto, DateTime date);
+
+    /**
+     * 按月查找已完成交易订单的总金额
+     *
+     * @param dateTime 时间
+     * @return 金额
+     */
+    BigDecimal findTotalAmountCompletedOrdersByMonth(DateTime dateTime);
 }

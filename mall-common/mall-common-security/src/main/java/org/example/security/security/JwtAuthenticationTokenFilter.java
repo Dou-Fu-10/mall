@@ -49,7 +49,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser.getJwtUserDto(), null, null);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 } else {
-                    // TODO    清除token
+                    // TODO 清除token
                     log.error("无法获取redis数据");
                 }
             }

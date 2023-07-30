@@ -1,6 +1,7 @@
 package org.example.modules.admin.order.controller;
 
 
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -61,6 +62,11 @@ public class OrderController {
     @AnonymousGetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return ResponseEntity.ok(this.orderService.getOrderById(id));
+    }
+
+    @AnonymousGetMapping("/completedOrdersMonth")
+    public ResponseEntity<Object> findCompletedOrdersByMonth(Page<OrderEntity> page, OrderDto orderDto) {
+        return ResponseEntity.ok(this.orderService.findCompletedOrdersByMonth(page, orderDto, new DateTime()));
     }
 
     /**
