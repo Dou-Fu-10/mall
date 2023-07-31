@@ -1,5 +1,6 @@
 package org.example.modules.admin.system.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -62,6 +63,7 @@ public class AdminDto {
     /**
      * 最后登录时间
      */
+    @JsonIgnore
     private Date loginTime;
     /**
      * 帐号启用状态；0->正常：1->禁用
@@ -70,26 +72,32 @@ public class AdminDto {
     /**
      * 最后修改密码的时间
      */
+    @JsonIgnore
     private Date pwdResetTime;
     /**
      * 创建者
      */
+    @JsonIgnore
     private String createBy;
     /**
      * 更新者
      */
+    @JsonIgnore
     private String updateBy;
     /**
      * 创建日期
      */
+    @JsonIgnore
     private Date createTime;
     /**
      * 更新时间
      */
+    @JsonIgnore
     private Date updateTime;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
+    @JsonIgnore
     private Integer deleteFlag;
 
     private Set<Long> roleIds;

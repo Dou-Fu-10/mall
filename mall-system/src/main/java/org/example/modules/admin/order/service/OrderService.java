@@ -68,4 +68,12 @@ public interface OrderService extends IService<OrderEntity> {
      * @return 金额
      */
     BigDecimal findTotalAmountCompletedOrdersByMonth(DateTime dateTime);
+    /**
+     * 修改帐号状态
+     *
+     * @param id     用户id
+     * @param status 状态
+     * @return String
+     */
+    Boolean updateStatus(Long id, Integer status, String deliveryCompany, String deliverySn);
 }

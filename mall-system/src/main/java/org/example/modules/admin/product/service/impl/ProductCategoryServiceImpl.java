@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
+import org.example.common.core.utils.StringUtils;
 import org.example.modules.admin.product.entity.ProductCategoryEntity;
 import org.example.modules.admin.product.entity.dto.ProductCategoryDto;
 import org.example.modules.admin.product.entity.vo.ProductCategoryVo;
@@ -64,7 +65,7 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
             }
         }
         // 判断是否上传图片
-        if (Objects.nonNull(convert.getIcon())) {
+        if (StringUtils.isNotBlank(convert.getIcon())) {
             if (!minioServer.checkObjectIsExist(convert.getIcon())) {
                 throw new BaseRequestException("请上传正确的文件");
             }

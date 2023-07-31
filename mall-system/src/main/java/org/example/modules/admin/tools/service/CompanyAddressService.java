@@ -15,16 +15,16 @@ public interface CompanyAddressService extends IService<CompanyAddressEntity> {
     /**
      * 新增数据
      *
-     * @param CompanyAddress 实体对象
+     * @param companyAddress 实体对象
      * @return 新增结果
      */
-    boolean save(CompanyAddressDto CompanyAddress);
+    boolean save(CompanyAddressDto companyAddress);
 
     /**
      * 修改数据
      *
-     * @param CompanyAddress 实体对象
+     * @param companyAddress 实体对象
      * @return 修改结果
      */
-    boolean updateById(CompanyAddressDto CompanyAddress);
+    boolean updateById(CompanyAddressDto companyAddress);
 }

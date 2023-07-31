@@ -18,7 +18,7 @@ public interface OrderReturnReasonService extends IService<OrderReturnReasonEnti
      * @param orderReturnReason 实体对象
      * @return 新增结果
      */
-    boolean save(OrderReturnReasonDto orderReturnReason);
+    Boolean save(OrderReturnReasonDto orderReturnReason);
 
     /**
      * 修改数据
@@ -26,5 +26,13 @@ public interface OrderReturnReasonService extends IService<OrderReturnReasonEnti
      * @param orderReturnReason 实体对象
      * @return 修改结果
      */
-    boolean updateById(OrderReturnReasonDto orderReturnReason);
+    Boolean updateById(OrderReturnReasonDto orderReturnReason);
+    /**
+     * 修改帐号状态
+     *
+     * @param id     用户id
+     * @param status 状态
+     * @return String
+     */
+    Boolean updateStatus(Long id, Boolean status);
 }

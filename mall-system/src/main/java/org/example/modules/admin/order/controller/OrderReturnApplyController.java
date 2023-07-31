@@ -72,14 +72,14 @@ public class OrderReturnApplyController {
     public ResponseEntity<Object> selectOne(@PathVariable @NotNull Serializable id) {
         // TODO 优化代码
         OrderReturnApplyEntity orderReturnApplyEntity = this.orderReturnApplyService.getById(id);
-        OrderReturnApplyVo orderReturnApplyVo = BeanCopy.convert(orderReturnApplyEntity, OrderReturnApplyVo.class);
-        if (Objects.isNull(orderReturnApplyVo)) {
-            return ResponseEntity.ok("传入正确的id");
+        if (Objects.isNull(orderReturnApplyEntity)) {
+            return ResponseEntity.ok("未获取到相应的订单退货");
         }
+        OrderReturnApplyVo orderReturnApplyVo = BeanCopy.convert(orderReturnApplyEntity, OrderReturnApplyVo.class);
         CompanyAddressEntity companyAddressEntity = companyAddressService.getById(orderReturnApplyVo.getCompanyAddressId());
         CompanyAddressVo companyAddressVo = BeanCopy.convert(companyAddressEntity, CompanyAddressVo.class);
         // 退货地址
-        orderReturnApplyVo.setCompanyAddressVo(companyAddressVo);
+        orderReturnApplyVo.setCompanyAddress(companyAddressVo);
         return ResponseEntity.ok(orderReturnApplyVo);
     }
 

@@ -181,7 +181,7 @@ public class OrderEntity extends CommonEntity<OrderEntity> implements Serializab
      * 确认收货状态：0->已确认：1->未确认
      */
     @Schema(name = "confirmStatus", description = "确认收货状态：0->已确认：1->未确认")
-    private Integer confirmStatus;
+    private Boolean confirmStatus;
     /**
      * 支付时间
      */

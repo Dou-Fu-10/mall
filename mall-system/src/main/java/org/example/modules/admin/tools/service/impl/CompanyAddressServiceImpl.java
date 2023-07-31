@@ -17,12 +17,12 @@ import org.springframework.stereotype.Service;
 @Service("companyAddressService")
 public class CompanyAddressServiceImpl extends ServiceImpl<CompanyAddressMapper, CompanyAddressEntity> implements CompanyAddressService {
     @Override
-    public boolean save(CompanyAddressDto CompanyAddress) {
+    public boolean save(CompanyAddressDto companyAddress) {
         return false;
     }
 
     @Override
-    public boolean updateById(CompanyAddressDto CompanyAddress) {
+    public boolean updateById(CompanyAddressDto companyAddress) {
         return false;
     }
 }
