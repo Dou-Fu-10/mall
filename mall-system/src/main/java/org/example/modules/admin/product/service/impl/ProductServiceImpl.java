@@ -81,7 +81,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
         Set<String> albumPics = product.getAlbumPics();
         if (Objects.nonNull(albumPics)) {
             String albumPicStr = checkAlbumPics(albumPics);
-            if (Objects.nonNull(albumPicStr)){
+            if (Objects.nonNull(albumPicStr)) {
                 convert.setAlbumPics(albumPicStr);
             }
         }
@@ -118,7 +118,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
         Set<String> albumPics = product.getAlbumPics();
         if (Objects.nonNull(albumPics)) {
             String albumPicStr = checkAlbumPics(albumPics);
-            if (Objects.nonNull(albumPicStr)){
+            if (Objects.nonNull(albumPicStr)) {
                 convert.setAlbumPics(albumPicStr);
             }
         }

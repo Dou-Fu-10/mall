@@ -7,10 +7,8 @@ import org.example.modules.admin.system.service.AdminService;
 import org.example.modules.admin.system.service.RoleService;
 import org.example.security.entity.Authority;
 import org.example.security.entity.JwtUser;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import org.apache.catalina.security.SecurityUtil;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.admin.system.entity.MenuEntity;
 import org.example.modules.admin.system.entity.vo.MenuVo;

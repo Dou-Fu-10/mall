@@ -78,6 +78,7 @@ public class ProductController {
         // 修改成自定义的 错误类型
         throw new BaseRequestException("添加失败");
     }
+
     /**
      * 修改数据
      *
@@ -92,6 +93,7 @@ public class ProductController {
         // 修改成自定义的 错误类型
         throw new BaseRequestException("修改失败");
     }
+
     /**
      * 修改帐号状态
      *
@@ -107,7 +109,6 @@ public class ProductController {
         }
         throw new BaseRequestException("修改失败");
     }
-
 
 
     /**

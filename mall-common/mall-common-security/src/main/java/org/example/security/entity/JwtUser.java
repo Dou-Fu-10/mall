@@ -1,18 +1,12 @@
 package org.example.security.entity;
 
 import com.alibaba.fastjson2.annotation.JSONField;
-import com.alibaba.fastjson2.annotation.JSONType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.example.common.core.entity.AdminEntity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 
 /**

@@ -50,6 +50,7 @@ public interface ProductService extends IService<ProductEntity> {
      * @return 结果
      */
     ProductVo findById(Serializable id);
+
     /**
      * 修改帐号状态
      *

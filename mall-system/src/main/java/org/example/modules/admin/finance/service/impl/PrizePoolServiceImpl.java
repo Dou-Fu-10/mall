@@ -8,13 +8,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.example.common.core.utils.BeanCopy;
-import org.example.modules.admin.order.service.OrderService;
 import org.example.modules.admin.finance.entity.PrizePoolEntity;
 import org.example.modules.admin.finance.entity.dto.PrizePoolDto;
 import org.example.modules.admin.finance.entity.vo.PrizePoolVo;
 import org.example.modules.admin.finance.entity.vo.PrizeVo;
 import org.example.modules.admin.finance.mapper.PrizePoolMapper;
 import org.example.modules.admin.finance.service.PrizePoolService;
+import org.example.modules.admin.order.service.OrderService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -70,10 +70,10 @@ public class PrizePoolServiceImpl extends ServiceImpl<PrizePoolMapper, PrizePool
         PrizePoolEntity prizePoolEntity = getOne(prizePoolEntityLambdaQueryWrapper);
         // 获取 商品奖金池百分比
         BigDecimal bigDecimal = new BigDecimal(prizePoolEntity.getProductBonusesPercentage());
-        BigDecimal productBonusesPercentageBigDecimal = bigDecimal.divide(new BigDecimal(100),2, RoundingMode.DOWN);
+        BigDecimal productBonusesPercentageBigDecimal = bigDecimal.divide(new BigDecimal(100), 2, RoundingMode.DOWN);
         // 获取 会员奖金池百分比
         BigDecimal bigDecimal1 = new BigDecimal(prizePoolEntity.getMemberBonusesPercentage());
-        BigDecimal memberBonusesPercentageBigDecimal = bigDecimal1.divide(new BigDecimal(100),2, RoundingMode.DOWN);
+        BigDecimal memberBonusesPercentageBigDecimal = bigDecimal1.divide(new BigDecimal(100), 2, RoundingMode.DOWN);
 
 
         // 当月订单总金额 进行百分比计算 获取到商品奖金池

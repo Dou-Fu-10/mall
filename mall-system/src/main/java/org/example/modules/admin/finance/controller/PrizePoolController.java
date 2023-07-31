@@ -90,7 +90,7 @@ public class PrizePoolController {
     @AnonymousGetMapping("/memberFees")
     public ResponseEntity<Object> getMemberFees() {
         BigDecimal memberFees = this.prizePoolService.getMemberFees();
-        if(Objects.nonNull(memberFees)) {
+        if (Objects.nonNull(memberFees)) {
             return ResponseEntity.ok(memberFees);
         }
         // 修改成自定义的 错误类型

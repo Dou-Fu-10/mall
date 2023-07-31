@@ -48,6 +48,7 @@ public interface PrizePoolService extends IService<PrizePoolEntity> {
      * @return 金额
      */
     PrizeVo details();
+
     /**
      * 查询会员费用
      *

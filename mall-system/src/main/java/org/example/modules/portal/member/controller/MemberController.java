@@ -2,16 +2,14 @@ package org.example.modules.portal.member.controller;
 
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.example.common.core.exception.BaseRequestException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.example.modules.portal.member.entity.dto.MemberDto;
-import org.example.modules.portal.member.entity.MemberEntity;
-import org.example.modules.portal.member.service.MemberService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.common.core.exception.BaseRequestException;
+import org.example.modules.portal.member.entity.MemberEntity;
+import org.example.modules.portal.member.entity.dto.MemberDto;
+import org.example.modules.portal.member.service.MemberService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;

@@ -1,15 +1,11 @@
 package org.example.modules.portal.member.entity.dto;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import java.io.Serializable;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Created by Dou-Fu-10 2023-07-31 15:49:05

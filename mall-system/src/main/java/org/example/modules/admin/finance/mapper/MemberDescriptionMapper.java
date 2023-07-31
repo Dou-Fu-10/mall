@@ -1,7 +1,7 @@
 package org.example.modules.admin.finance.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.example.modules.admin.finance.entity.MemberDescriptionEntity;
 
 /**

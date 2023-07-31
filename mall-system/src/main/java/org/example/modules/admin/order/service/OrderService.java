@@ -68,6 +68,7 @@ public interface OrderService extends IService<OrderEntity> {
      * @return 金额
      */
     BigDecimal findTotalAmountCompletedOrdersByMonth(DateTime dateTime);
+
     /**
      * 修改帐号状态
      *

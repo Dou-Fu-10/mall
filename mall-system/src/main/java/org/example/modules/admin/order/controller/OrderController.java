@@ -75,7 +75,7 @@ public class OrderController {
                                                @RequestParam(value = "status") Integer status,
                                                @RequestParam(value = "deliveryCompany") String deliveryCompany,
                                                @RequestParam(value = "deliverySn") String deliverySn) {
-        if (this.orderService.updateStatus(id, status,deliveryCompany,deliverySn)) {
+        if (this.orderService.updateStatus(id, status, deliveryCompany, deliverySn)) {
             return ResponseEntity.ok("修改成功");
         }
         throw new BaseRequestException("修改失败");

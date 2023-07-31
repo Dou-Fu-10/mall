@@ -1,8 +1,8 @@
 package org.example.modules.admin.finance.service;
 
-import org.example.modules.admin.finance.entity.MemberDescriptionEntity;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.modules.admin.finance.entity.MemberDescriptionEntity;
 import org.example.modules.admin.finance.entity.dto.MemberDescriptionDto;
 import org.example.modules.admin.finance.entity.vo.MemberDescriptionVo;
 

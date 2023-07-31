@@ -3,10 +3,8 @@ package org.example.modules.admin.finance.entity.vo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.modules.admin.order.entity.vo.OrderVo;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * Created by Dou-Fu-10 2023-07-29 15:47:03

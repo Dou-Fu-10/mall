@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.admin.finance.entity.MemberDescriptionEntity;
 import org.example.modules.admin.finance.entity.dto.MemberDescriptionDto;
 import org.example.modules.admin.finance.entity.vo.MemberDescriptionVo;
 import org.example.modules.admin.finance.mapper.MemberDescriptionMapper;
 import org.example.modules.admin.finance.service.MemberDescriptionService;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by Dou-Fu-10 2023-07-31 15:40:17
