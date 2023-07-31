@@ -1,4 +1,4 @@
-package org.example.modules.admin.system.entity;
+package org.example.modules.admin.finance.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;

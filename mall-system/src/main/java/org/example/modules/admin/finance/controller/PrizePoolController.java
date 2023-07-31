@@ -1,22 +1,22 @@
-package org.example.modules.admin.system.controller;
+package org.example.modules.admin.finance.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import org.example.modules.admin.order.service.OrderService;
-import org.example.modules.admin.system.entity.MenuEntity;
-import org.example.modules.admin.system.entity.PrizePoolEntity;
-import org.example.modules.admin.system.entity.dto.PrizePoolDto;
-import org.example.modules.admin.system.service.PrizePoolService;
+import org.example.modules.admin.finance.entity.PrizePoolEntity;
+import org.example.modules.admin.finance.entity.dto.PrizePoolDto;
+import org.example.modules.admin.finance.service.PrizePoolService;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.example.security.annotaion.rest.AnonymousPutMapping;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * Created by Dou-Fu-10 2023-07-29 15:47:03
@@ -34,8 +34,6 @@ public class PrizePoolController {
      */
     @Resource
     private PrizePoolService prizePoolService;
-    @Resource
-    private OrderService orderService;
 
     /**
      * 分页查询所有数据
@@ -87,6 +85,16 @@ public class PrizePoolController {
         }
         // 修改成自定义的 错误类型
         throw new RuntimeException("修改失败");
+    }
+
+    @AnonymousGetMapping("/memberFees")
+    public ResponseEntity<Object> getMemberFees() {
+        BigDecimal memberFees = this.prizePoolService.getMemberFees();
+        if(Objects.nonNull(memberFees)) {
+            return ResponseEntity.ok(memberFees);
+        }
+        // 修改成自定义的 错误类型
+        throw new RuntimeException("查询失败");
     }
 }
 

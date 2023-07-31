@@ -1,11 +1,13 @@
-package org.example.modules.admin.system.service;
+package org.example.modules.admin.finance.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.example.modules.admin.system.entity.PrizePoolEntity;
-import org.example.modules.admin.system.entity.dto.PrizePoolDto;
-import org.example.modules.admin.system.entity.vo.PrizePoolVo;
-import org.example.modules.admin.system.entity.vo.PrizeVo;
+import org.example.modules.admin.finance.entity.PrizePoolEntity;
+import org.example.modules.admin.finance.entity.dto.PrizePoolDto;
+import org.example.modules.admin.finance.entity.vo.PrizePoolVo;
+import org.example.modules.admin.finance.entity.vo.PrizeVo;
+
+import java.math.BigDecimal;
 
 /**
  * Created by Dou-Fu-10 2023-07-29 16:07:50
@@ -46,4 +48,10 @@ public interface PrizePoolService extends IService<PrizePoolEntity> {
      * @return 金额
      */
     PrizeVo details();
+    /**
+     * 查询会员费用
+     *
+     * @return 金额
+     */
+    BigDecimal getMemberFees();
 }

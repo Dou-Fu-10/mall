@@ -1,8 +1,8 @@
-package org.example.modules.admin.system.mapper;
+package org.example.modules.admin.finance.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import org.example.modules.admin.system.entity.PrizePoolEntity;
+import org.example.modules.admin.finance.entity.PrizePoolEntity;
 
 /**
  * Created by Dou-Fu-10 2023-07-29 15:47:03

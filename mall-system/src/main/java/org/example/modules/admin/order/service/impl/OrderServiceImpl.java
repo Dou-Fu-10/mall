@@ -86,16 +86,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         // 校验 最后一天不可使用
         // 判断给定的日期是否是所在月份的最后一天
         // 即当前不是当月最后一天
-        boolean isLastDayOfMonth = DateUtil.isLastDayOfMonth(currentTime);
-        if (isLastDayOfMonth) {
-            throw new BaseRequestException("当月的最后一天不可查看");
-        }
-        // 当前时间月末
-        DateTime currentTimeEndOfMonth = DateUtil.endOfMonth(currentTime);
-        // 传入的时间不能 在这个月月底之后 ，即 一月份不能查询二月的数据
-        if (date.isAfter(currentTimeEndOfMonth)) {
-            throw new BaseRequestException("请传入正确的时间");
-        }
+//        boolean isLastDayOfMonth = DateUtil.isLastDayOfMonth(currentTime);
+//        if (isLastDayOfMonth) {
+//            throw new BaseRequestException("当月的最后一天不可查看");
+//        }
+//        // 当前时间月末
+//        DateTime currentTimeEndOfMonth = DateUtil.endOfMonth(currentTime);
+//        // 传入的时间不能 在这个月月底之后 ，即 一月份不能查询二月的数据
+//        if (date.isAfter(currentTimeEndOfMonth)) {
+//            throw new BaseRequestException("请传入正确的时间");
+//        }
         // 获取月份的第一天
         DateTime firstDayOfMonth = DateUtil.beginOfMonth(DateUtil.date());
         log.info("第一天：" + firstDayOfMonth);

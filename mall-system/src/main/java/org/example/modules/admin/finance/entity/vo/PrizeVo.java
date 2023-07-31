@@ -1,4 +1,4 @@
-package org.example.modules.admin.system.entity.vo;
+package org.example.modules.admin.finance.entity.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

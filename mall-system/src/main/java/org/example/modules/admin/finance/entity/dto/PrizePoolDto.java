@@ -1,4 +1,4 @@
-package org.example.modules.admin.system.entity.dto;
+package org.example.modules.admin.finance.entity.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package org.example.modules.admin.system.service.impl;
+package org.example.modules.admin.finance.service.impl;
 
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
@@ -9,12 +9,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.admin.order.service.OrderService;
-import org.example.modules.admin.system.entity.PrizePoolEntity;
-import org.example.modules.admin.system.entity.dto.PrizePoolDto;
-import org.example.modules.admin.system.entity.vo.PrizePoolVo;
-import org.example.modules.admin.system.entity.vo.PrizeVo;
-import org.example.modules.admin.system.mapper.PrizePoolMapper;
-import org.example.modules.admin.system.service.PrizePoolService;
+import org.example.modules.admin.finance.entity.PrizePoolEntity;
+import org.example.modules.admin.finance.entity.dto.PrizePoolDto;
+import org.example.modules.admin.finance.entity.vo.PrizePoolVo;
+import org.example.modules.admin.finance.entity.vo.PrizeVo;
+import org.example.modules.admin.finance.mapper.PrizePoolMapper;
+import org.example.modules.admin.finance.service.PrizePoolService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -81,6 +81,12 @@ public class PrizePoolServiceImpl extends ServiceImpl<PrizePoolMapper, PrizePool
         // 当月商品奖金池 进行百分比计算 获取到会员奖金池
         BigDecimal memberBonus = commodityBonus.multiply(memberBonusesPercentageBigDecimal);
         return new PrizeVo(memberBonus, commodityBonus);
+    }
+
+    @Override
+    public BigDecimal getMemberFees() {
+        PrizePoolEntity memberFees = lambdaQuery().select(PrizePoolEntity::getMemberFees).one();
+        return memberFees.getMemberFees();
     }
 }
 
