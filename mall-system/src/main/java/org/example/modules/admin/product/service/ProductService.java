@@ -33,7 +33,7 @@ public interface ProductService extends IService<ProductEntity> {
      * @param product 实体对象
      * @return 新增结果
      */
-    boolean save(ProductDtoParam product);
+    Boolean save(ProductDtoParam product);
 
     /**
      * 修改数据
@@ -41,7 +41,7 @@ public interface ProductService extends IService<ProductEntity> {
      * @param product 实体对象
      * @return 修改结果
      */
-    boolean updateById(ProductDtoParam product);
+    Boolean updateById(ProductDtoParam product);
 
     /**
      * 按Id查找

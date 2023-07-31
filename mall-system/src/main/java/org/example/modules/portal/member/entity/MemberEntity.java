@@ -1,18 +1,17 @@
 package org.example.modules.portal.member.entity;
 
-import java.util.Date;
-
-import java.io.Serializable;
-
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Created by Dou-Fu-10 2023-07-31 15:49:04
@@ -47,6 +46,11 @@ public class MemberEntity extends CommonEntity<MemberEntity> implements Serializ
      */
     @Schema(name = "password", description = "密码")
     private String password;
+    /**
+     * 钱包
+     */
+    @Schema(name = "money", description = "余额")
+    private BigDecimal money;
     /**
      * 昵称
      */

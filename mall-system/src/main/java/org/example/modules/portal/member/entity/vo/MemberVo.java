@@ -1,5 +1,6 @@
 package org.example.modules.portal.member.entity.vo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import java.io.Serializable;
@@ -39,6 +40,10 @@ public class MemberVo {
      * 密码
      */
     private String password;
+    /**
+     * 钱包
+     */
+    private BigDecimal money;
     /**
      * 昵称
      */

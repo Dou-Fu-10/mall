@@ -75,7 +75,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    public boolean save(ProductDtoParam product) {
+    public Boolean save(ProductDtoParam product) {
         // TODO 数据校验
         ProductEntity convert = BeanCopy.convert(product, ProductEntity.class);
         Set<String> albumPics = product.getAlbumPics();
@@ -112,7 +112,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    public boolean updateById(ProductDtoParam product) {
+    public Boolean updateById(ProductDtoParam product) {
         // TODO 数据校验
         ProductEntity convert = BeanCopy.convert(product, ProductEntity.class);
         Set<String> albumPics = product.getAlbumPics();
