@@ -10,11 +10,11 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
- * Created by Dou-Fu-10 2023-07-31 15:32:48
+ * Created by Dou-Fu-10 2023-07-31 15:40:17
  *
  * @author Dou-Fu-10
- * @date 2023-07-31 15:32:48
- * @Description (MemberDescription)表实体类
+ * @date 2023-07-31 15:40:17
+ * @Description 会员详细说明(MemberDescription)表实体类
  */
 @Data
 @AllArgsConstructor
@@ -25,6 +25,10 @@ public class MemberDescriptionVo {
      */
     private Long id;
 
+    /**
+     * 排序
+     */
+    private Integer sort;
     /**
      * 标题
      */

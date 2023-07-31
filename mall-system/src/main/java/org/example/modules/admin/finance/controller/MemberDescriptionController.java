@@ -19,15 +19,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Created by Dou-Fu-10 2023-07-31 15:32:47
+ * Created by Dou-Fu-10 2023-07-31 15:40:17
  *
  * @author Dou-Fu-10
- * @date 2023-07-31 15:32:47
- * @Description (MemberDescription)表控制层
+ * @date 2023-07-31 15:40:17
+ * @Description 会员详细说明(MemberDescription)表控制层
  */
 @RestController
 @RequestMapping("/api/memberDescription")
-@Tag(name = "MemberDescriptionController", description = "")
+@Tag(name = "MemberDescriptionController", description = "会员详细说明(MemberDescription)表控制层")
 public class MemberDescriptionController {
     /**
      * 服务对象
@@ -38,8 +38,8 @@ public class MemberDescriptionController {
     /**
      * 分页查询所有数据
      *
-     * @param page              分页对象
-     * @param memberDescription 查询实体
+     * @param page                 分页对象
+     * @param memberDescriptionDto 查询实体
      * @return 所有数据
      */
     @GetMapping
@@ -61,7 +61,7 @@ public class MemberDescriptionController {
     /**
      * 新增数据
      *
-     * @param memberDescription 实体对象
+     * @param memberDescriptionDto 实体对象
      * @return 新增结果
      */
     @PostMapping
@@ -76,7 +76,7 @@ public class MemberDescriptionController {
     /**
      * 修改数据
      *
-     * @param memberDescription 实体对象
+     * @param memberDescriptionDto 实体对象
      * @return 修改结果
      */
     @PutMapping

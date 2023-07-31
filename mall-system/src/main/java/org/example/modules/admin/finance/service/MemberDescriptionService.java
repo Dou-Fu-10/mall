@@ -7,11 +7,11 @@ import org.example.modules.admin.finance.entity.dto.MemberDescriptionDto;
 import org.example.modules.admin.finance.entity.vo.MemberDescriptionVo;
 
 /**
- * Created by Dou-Fu-10 2023-07-31 15:32:48
+ * Created by Dou-Fu-10 2023-07-31 15:40:17
  *
  * @author Dou-Fu-10
- * @date 2023-07-31 15:32:48
- * @Description (MemberDescription)表服务接口
+ * @date 2023-07-31 15:40:17
+ * @Description 会员详细说明(MemberDescription)表服务接口
  */
 public interface MemberDescriptionService extends IService<MemberDescriptionEntity> {
     /**

@@ -13,11 +13,11 @@ import org.example.modules.admin.finance.mapper.MemberDescriptionMapper;
 import org.example.modules.admin.finance.service.MemberDescriptionService;
 
 /**
- * Created by Dou-Fu-10 2023-07-31 15:32:48
+ * Created by Dou-Fu-10 2023-07-31 15:40:17
  *
  * @author Dou-Fu-10
- * @date 2023-07-31 15:32:48
- * @Description (MemberDescription)表服务实现类
+ * @date 2023-07-31 15:40:17
+ * @Description 会员详细说明(MemberDescription)表服务实现类
  */
 @Service("memberDescriptionService")
 public class MemberDescriptionServiceImpl extends ServiceImpl<MemberDescriptionMapper, MemberDescriptionEntity> implements MemberDescriptionService {

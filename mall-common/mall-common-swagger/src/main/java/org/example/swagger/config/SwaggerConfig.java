@@ -94,7 +94,15 @@ public class SwaggerConfig {
                         groupedApi("adminRole"), groupedApi("menu"),
                         groupedApi("role"), groupedApi("rolesMenus"),
                         groupedApi("companyAddress"), groupedApi("feightTemplate"),
-                        groupedApi("homeAdvertise"), groupedApi("prizePool"), "/auth/**")
+                        groupedApi("homeAdvertise"), "/auth/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi finance() {
+        return GroupedOpenApi.builder()
+                .group("财务")
+                .pathsToMatch(groupedApi("prizePool"), groupedApi("memberDescription"))
                 .build();
     }
 

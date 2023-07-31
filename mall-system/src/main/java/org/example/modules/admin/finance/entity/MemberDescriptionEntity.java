@@ -12,17 +12,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.common.core.base.CommonEntity;
 
 /**
- * Created by Dou-Fu-10 2023-07-31 15:32:47
+ * Created by Dou-Fu-10 2023-07-31 15:40:17
  *
  * @author Dou-Fu-10
- * @date 2023-07-31 15:32:47
- * @Description (MemberDescription)表实体类
+ * @date 2023-07-31 15:40:17
+ * @Description 会员详细说明(MemberDescription)表实体类
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("ums_member_description")
-@Schema(name = "ums_member_description", description = "(MemberDescription)表实体类")
+@Schema(name = "ums_member_description", description = "会员详细说明(MemberDescription)表实体类")
 public class MemberDescriptionEntity extends CommonEntity<MemberDescriptionEntity> implements Serializable {
     /**
      * Id
@@ -30,6 +30,11 @@ public class MemberDescriptionEntity extends CommonEntity<MemberDescriptionEntit
     @TableId
     private Long id;
 
+    /**
+     * 排序
+     */
+    @Schema(name = "sort", description = "排序")
+    private Integer sort;
     /**
      * 标题
      */
