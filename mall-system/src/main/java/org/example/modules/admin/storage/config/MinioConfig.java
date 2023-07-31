@@ -1,4 +1,4 @@
-package org.example.modules.admin.tools.storage.config;
+package org.example.modules.admin.storage.config;
 
 import io.minio.MinioClient;
 import lombok.Data;

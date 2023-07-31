@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import org.example.common.core.entity.AdminEntity;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.admin.product.entity.ProductEntity;
@@ -21,9 +20,7 @@ import org.example.modules.admin.product.mapper.ProductMapper;
 import org.example.modules.admin.product.service.ProductAttributeValueService;
 import org.example.modules.admin.product.service.ProductService;
 import org.example.modules.admin.product.service.SkuStockService;
-import org.example.modules.portal.member.entity.dto.MemberPriceDto;
-import org.example.modules.portal.member.entity.vo.MemberPriceVo;
-import org.example.modules.portal.member.service.MemberPriceService;
+import org.example.modules.admin.storage.service.MinioServer;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -32,6 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 13:05:47
@@ -46,7 +45,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     @Resource
     private SkuStockService skuStockService;
     @Resource
-    private MemberPriceService memberPriceService;
+    private MinioServer minioServer;
     @Resource
     private ProductAttributeValueService productAttributeValueService;
 
@@ -61,15 +60,10 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
             Long productId = productVo.getId();
             // 获取 sku
             List<SkuStockVo> skuStockByProductId = skuStockService.getSkuStockByProductId(productId);
-            // 获取 商品会员价格表
-            List<MemberPriceVo> memberPriceByProductId = memberPriceService.getMemberPriceByProductId(productId);
             // 获取 存储产品参数信息的表
             List<ProductAttributeValueVo> productAttributeValueByProductId = productAttributeValueService.getProductAttributeValueByProductId(productId);
             if (CollectionUtils.isNotEmpty(skuStockByProductId)) {
                 productVo.setSkuStockList(skuStockByProductId);
-            }
-            if (CollectionUtils.isNotEmpty(memberPriceByProductId)) {
-                productVo.setMemberPriceList(memberPriceByProductId);
             }
             if (CollectionUtils.isNotEmpty(productAttributeValueByProductId)) {
                 productVo.setProductAttributeValueList(productAttributeValueByProductId);
@@ -84,6 +78,15 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     public boolean save(ProductDtoParam product) {
         // TODO 数据校验
         ProductEntity convert = BeanCopy.convert(product, ProductEntity.class);
+        Set<String> albumPics = product.getAlbumPics();
+        if (Objects.nonNull(albumPics)) {
+            String albumPicStr = checkAlbumPics(albumPics);
+            if (Objects.nonNull(albumPicStr)){
+                convert.setAlbumPics(albumPicStr);
+            }
+        }
+
+
         if (!convert.insert()) {
             throw new BaseRequestException("添加失败");
         }
@@ -95,13 +98,6 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
             }
         }
 
-        List<MemberPriceDto> memberPriceList = product.getMemberPriceList();
-        if (CollectionUtils.isNotEmpty(memberPriceList)) {
-            memberPriceList.forEach(memberPriceDto -> memberPriceDto.setProductId(convert.getId()));
-            if (!memberPriceService.save(memberPriceList)) {
-                throw new BaseRequestException("添加失败");
-            }
-        }
         List<ProductAttributeValueDto> productAttributeValueList = product.getProductAttributeValueList();
         if (CollectionUtils.isNotEmpty(productAttributeValueList)) {
             productAttributeValueList.forEach(productAttributeValueDto -> productAttributeValueDto.setProductId(convert.getId()));
@@ -119,6 +115,14 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     public boolean updateById(ProductDtoParam product) {
         // TODO 数据校验
         ProductEntity convert = BeanCopy.convert(product, ProductEntity.class);
+        Set<String> albumPics = product.getAlbumPics();
+        if (Objects.nonNull(albumPics)) {
+            String albumPicStr = checkAlbumPics(albumPics);
+            if (Objects.nonNull(albumPicStr)){
+                convert.setAlbumPics(albumPicStr);
+            }
+        }
+
         if (!convert.updateById()) {
             throw new BaseRequestException("添加失败");
         }
@@ -130,13 +134,6 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
             }
         }
 
-        List<MemberPriceDto> memberPriceList = product.getMemberPriceList();
-        if (CollectionUtils.isNotEmpty(memberPriceList)) {
-            memberPriceList.forEach(memberPriceDto -> memberPriceDto.setProductId(convert.getId()));
-            if (!memberPriceService.saveOrUpdate(memberPriceList)) {
-                throw new BaseRequestException("修改失败");
-            }
-        }
         List<ProductAttributeValueDto> productAttributeValueList = product.getProductAttributeValueList();
         if (CollectionUtils.isNotEmpty(productAttributeValueList)) {
             productAttributeValueList.forEach(productAttributeValueDto -> productAttributeValueDto.setProductId(convert.getId()));
@@ -146,6 +143,14 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
 
         }
         return true;
+    }
+
+    private String checkAlbumPics(Set<String> albumPics) {
+        Set<String> existObject = minioServer.checkObjectIsExist(albumPics);
+        if (existObject.isEmpty()) {
+            return null;
+        }
+        return String.join(",", existObject);
     }
 
     @Override

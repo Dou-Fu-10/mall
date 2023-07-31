@@ -1,5 +1,6 @@
 package org.example.modules.admin.finance.entity.vo;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,6 +36,10 @@ public class PrizePoolVo {
      * 会员费用
      */
     private BigDecimal memberFees;
+    /**
+     * 推荐会员提成比例
+     */
+    private Integer recommendedCommissionPercentage;
     /**
      * 创建日期
      */

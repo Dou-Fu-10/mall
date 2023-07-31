@@ -2,7 +2,10 @@ package org.example.modules.admin.finance.entity;
 
 
 import java.io.Serializable;
+import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -46,6 +49,29 @@ public class MemberDescriptionEntity extends CommonEntity<MemberDescriptionEntit
     @Schema(name = "description", description = "详情")
     private String description;
 
-
+    /**
+     * 创建人
+     * 创建
+     */
+    @TableField(exist = false)
+    private String createBy;
+    /**
+     * 更新人
+     * 创建、更新
+     */
+    @TableField(exist = false)
+    private String updateBy;
+    /**
+     * 创建时间
+     * 创建
+     */
+    @TableField(exist = false)
+    private Date createTime;
+    /**
+     * 更新时间
+     * 创建、更新
+     */
+    @TableField(exist = false)
+    private Date updateTime;
 }
 

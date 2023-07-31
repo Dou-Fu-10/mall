@@ -1,4 +1,4 @@
-package org.example.modules.admin.tools.storage.service;
+package org.example.modules.admin.storage.service;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
@@ -14,15 +14,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.FileUtil;
 import org.example.common.core.utils.StringUtils;
-import org.example.modules.admin.tools.storage.config.MinioConfig;
+import org.example.modules.admin.storage.config.MinioConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Dou-Fu-10
@@ -405,6 +403,22 @@ public class MinioServer {
      */
     public Boolean checkObjectIsExist(String objectName) {
         return this.checkObjectIsExist(prop.getBucketName(), objectName);
+    }
+
+    /**
+     * 判断文件是否存在
+     *
+     * @param objectNameList 文件名称, 如果要带文件夹请用 / 分割, 例如 /help/index.html
+     * @return true存在, 反之
+     */
+    public Set<String> checkObjectIsExist(Set<String> objectNameList) {
+        Set<String> existObjectNameList = new HashSet<>();
+        for (String objectName : objectNameList) {
+            if (this.checkObjectIsExist(prop.getBucketName(), objectName)) {
+                existObjectNameList.add(objectName);
+            }
+        }
+        return existObjectNameList;
     }
 
     /**

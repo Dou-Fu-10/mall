@@ -78,7 +78,20 @@ public class ProductController {
         // 修改成自定义的 错误类型
         throw new BaseRequestException("添加失败");
     }
-
+    /**
+     * 修改数据
+     *
+     * @param product 实体对象
+     * @return 修改结果
+     */
+    @AnonymousPutMapping
+    public ResponseEntity<Object> update(@RequestBody ProductDtoParam product) {
+        if (this.productService.updateById(product)) {
+            return ResponseEntity.ok("修改成功");
+        }
+        // 修改成自定义的 错误类型
+        throw new BaseRequestException("修改失败");
+    }
     /**
      * 修改帐号状态
      *
@@ -95,20 +108,7 @@ public class ProductController {
         throw new BaseRequestException("修改失败");
     }
 
-    /**
-     * 修改数据
-     *
-     * @param product 实体对象
-     * @return 修改结果
-     */
-    @AnonymousPutMapping
-    public ResponseEntity<Object> update(@RequestBody ProductDtoParam product) {
-        if (this.productService.updateById(product)) {
-            return ResponseEntity.ok("修改成功");
-        }
-        // 修改成自定义的 错误类型
-        throw new BaseRequestException("修改失败");
-    }
+
 
     /**
      * 删除数据

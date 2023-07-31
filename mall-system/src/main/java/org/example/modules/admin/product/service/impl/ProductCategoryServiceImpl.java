@@ -17,7 +17,7 @@ import org.example.modules.admin.product.entity.vo.ProductCategoryVo;
 import org.example.modules.admin.product.mapper.ProductCategoryMapper;
 import org.example.modules.admin.product.service.ProductCategoryAttributeRelationService;
 import org.example.modules.admin.product.service.ProductCategoryService;
-import org.example.modules.admin.tools.storage.service.MinioServer;
+import org.example.modules.admin.storage.service.MinioServer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;

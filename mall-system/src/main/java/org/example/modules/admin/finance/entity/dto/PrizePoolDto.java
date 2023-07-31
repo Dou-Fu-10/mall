@@ -31,6 +31,10 @@ public class PrizePoolDto {
      */
     private Integer memberBonusesPercentage;
     /**
+     * 推荐会员提成比例
+     */
+    private Integer recommendedCommissionPercentage;
+    /**
      * 会员费用
      */
     private Double memberFees;

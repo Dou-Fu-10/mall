@@ -1,16 +1,20 @@
 package org.example.modules.portal.member.entity.dto;
 
+import java.util.Date;
+
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
- * Created by Dou-Fu-10 2023-07-14 14:34:17
+ * Created by Dou-Fu-10 2023-07-31 15:49:05
  *
  * @author Dou-Fu-10
- * @date 2023-07-14 14:34:17
+ * @date 2023-07-31 15:49:05
  * @Description 会员登录记录(MemberLoginLog)表实体类
  */
 @Data

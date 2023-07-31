@@ -1,16 +1,20 @@
 package org.example.modules.portal.member.entity.dto;
 
+import java.util.Date;
+
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
- * Created by Dou-Fu-10 2023-07-14 14:34:16
+ * Created by Dou-Fu-10 2023-07-31 15:49:05
  *
  * @author Dou-Fu-10
- * @date 2023-07-14 14:34:16
+ * @date 2023-07-31 15:49:05
  * @Description 会员表(Member)表实体类
  */
 @Data
@@ -22,9 +26,9 @@ public class MemberDto {
      */
     private Long id;
     /**
-     * 会员等级
+     * 上级用户ID
      */
-    private Long memberLevelId;
+    private Long parentId;
 
     /**
      * 用户名
@@ -42,6 +46,10 @@ public class MemberDto {
      * 手机号码
      */
     private String phone;
+    /**
+     * 是否是vip
+     */
+    private Boolean isVip;
     /**
      * 帐号启用状态；0->正常：1->禁用
      */
@@ -78,15 +86,15 @@ public class MemberDto {
      * 注册时间
      */
     private Date createTime;
-
     /**
      * 更新时间
-     * 创建、更新
      */
     private Date updateTime;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
     private Integer deleteFlag;
+
+
 }
 

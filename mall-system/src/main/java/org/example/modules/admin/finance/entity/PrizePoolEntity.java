@@ -42,6 +42,11 @@ public class PrizePoolEntity extends CommonEntity<PrizePoolEntity> implements Se
     @Schema(name = "memberBonusesPercentage", description = "会员奖金池占比")
     private Integer memberBonusesPercentage;
     /**
+     * 推荐会员提成比例
+     */
+    @Schema(name = "recommendedCommissionPercentage", description = "推荐会员提成比例")
+    private Integer recommendedCommissionPercentage;
+    /**
      * 会员费用
      */
     @Schema(name = "memberFees", description = "会员费用")

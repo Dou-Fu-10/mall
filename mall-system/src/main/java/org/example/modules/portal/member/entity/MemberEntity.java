@@ -1,22 +1,24 @@
 package org.example.modules.portal.member.entity;
 
+import java.util.Date;
+
+import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.common.core.base.CommonEntity;
 
-import java.io.Serializable;
-import java.util.Date;
-
 /**
- * Created by Dou-Fu-10 2023-07-14 14:34:16
+ * Created by Dou-Fu-10 2023-07-31 15:49:04
  *
  * @author Dou-Fu-10
- * @date 2023-07-14 14:34:16
+ * @date 2023-07-31 15:49:04
  * @Description 会员表(Member)表实体类
  */
 @Data
@@ -31,9 +33,9 @@ public class MemberEntity extends CommonEntity<MemberEntity> implements Serializ
     @TableId
     private Long id;
     /**
-     * 会员等级
+     * 上级用户ID
      */
-    private Long memberLevelId;
+    private Long parentId;
 
     /**
      * 用户名
@@ -55,6 +57,12 @@ public class MemberEntity extends CommonEntity<MemberEntity> implements Serializ
      */
     @Schema(name = "phone", description = "手机号码")
     private String phone;
+    /**
+     * 是否是vip
+     */
+    @Schema(name = "isVip", description = "是否是vip")
+    private Boolean isVip;
+
     /**
      * 帐号启用状态；0->正常：1->禁用
      */
@@ -100,6 +108,16 @@ public class MemberEntity extends CommonEntity<MemberEntity> implements Serializ
      */
     @Schema(name = "createTime", description = "注册时间")
     private Date createTime;
+    /**
+     * 更新时间
+     */
+    @Schema(name = "updateTime", description = "更新时间")
+    private Date updateTime;
+    /**
+     * 逻辑删除（1 代表已删除），（0 代表未删除）
+     */
+    @Schema(name = "deleteFlag", description = "逻辑删除（1 代表已删除），（0 代表未删除）")
+    private Integer deleteFlag;
 
     /**
      * 创建人
@@ -113,10 +131,7 @@ public class MemberEntity extends CommonEntity<MemberEntity> implements Serializ
      */
     @TableField(exist = false)
     private String updateBy;
-    /**
-     * 逻辑删除（1 代表已删除），（0 代表未删除）
-     */
-    @Schema(name = "deleteFlag", description = "逻辑删除（1 代表已删除），（0 代表未删除）")
-    private Integer deleteFlag;
+
+
 }
 

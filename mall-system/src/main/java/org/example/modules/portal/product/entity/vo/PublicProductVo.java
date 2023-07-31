@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.modules.admin.product.entity.vo.ProductAttributeValueVo;
 import org.example.modules.admin.product.entity.vo.SkuStockVo;
-import org.example.modules.portal.member.entity.vo.MemberPriceVo;
 
 import java.util.Date;
 import java.util.List;
@@ -167,8 +166,6 @@ public class PublicProductVo {
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
     private Integer deleteFlag;
-    @Schema(name = "memberPriceList", description = "商品会员价格设置")
-    private List<MemberPriceVo> memberPriceList;
     @Schema(name = "skuStockList", description = "商品的sku库存信息")
     private List<SkuStockVo> skuStockList;
     @Schema(name = "productAttributeValueList", description = "商品参数及自定义规格属性")

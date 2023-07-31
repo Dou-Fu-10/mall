@@ -1,4 +1,4 @@
-package org.example.modules.portal.member.controller;
+package org.example.modules.portal.home.controller;
 
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -8,9 +8,9 @@ import org.springframework.http.HttpStatus;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.common.core.exception.BaseRequestException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.example.modules.portal.member.entity.dto.MemberReceiveAddressDto;
-import org.example.modules.portal.member.entity.MemberReceiveAddressEntity;
-import org.example.modules.portal.member.service.MemberReceiveAddressService;
+import org.example.modules.portal.home.entity.dto.HomeAdvertiseDto;
+import org.example.modules.portal.home.entity.HomeAdvertiseEntity;
+import org.example.modules.portal.home.service.HomeAdvertiseService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,32 +19,32 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Created by Dou-Fu-10 2023-07-31 15:49:05
+ * Created by Dou-Fu-10 2023-07-31 16:16:51
  *
  * @author Dou-Fu-10
- * @date 2023-07-31 15:49:05
- * @Description 会员收货地址表(MemberReceiveAddress)表控制层
+ * @date 2023-07-31 16:16:51
+ * @Description 首页轮播广告表(HomeAdvertise)表控制层
  */
 @RestController
-@RequestMapping("/memberReceiveAddress")
-@Tag(name = "MemberReceiveAddressController", description = "")
-public class MemberReceiveAddressController {
+@RequestMapping("/homeAdvertise")
+@Tag(name = "HomeAdvertiseController", description = "页轮播广告表(HomeAdvertise)表控制层")
+public class HomeAdvertiseController {
     /**
      * 服务对象
      */
     @Resource
-    private MemberReceiveAddressService memberReceiveAddressService;
+    private HomeAdvertiseService homeAdvertiseService;
 
     /**
      * 分页查询所有数据
      *
-     * @param page                    分页对象
-     * @param memberReceiveAddressDto 查询实体
+     * @param page             分页对象
+     * @param homeAdvertiseDto 查询实体
      * @return 所有数据
      */
     @GetMapping
-    public ResponseEntity<Object> selectAll(Page<MemberReceiveAddressEntity> page, MemberReceiveAddressDto memberReceiveAddressDto) {
-        return ResponseEntity.ok(this.memberReceiveAddressService.page(page, memberReceiveAddressDto));
+    public ResponseEntity<Object> selectAll(Page<HomeAdvertiseEntity> page, HomeAdvertiseDto homeAdvertiseDto) {
+        return ResponseEntity.ok(this.homeAdvertiseService.page(page, homeAdvertiseDto));
     }
 
     /**
@@ -55,18 +55,18 @@ public class MemberReceiveAddressController {
      */
     @GetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return ResponseEntity.ok(this.memberReceiveAddressService.getById(id));
+        return ResponseEntity.ok(this.homeAdvertiseService.getById(id));
     }
 
     /**
      * 新增数据
      *
-     * @param memberReceiveAddressDto 实体对象
+     * @param homeAdvertiseDto 实体对象
      * @return 新增结果
      */
     @PostMapping
-    public ResponseEntity<Object> insert(@RequestBody MemberReceiveAddressDto memberReceiveAddressDto) {
-        if (this.memberReceiveAddressService.save(memberReceiveAddressDto)) {
+    public ResponseEntity<Object> insert(@RequestBody HomeAdvertiseDto homeAdvertiseDto) {
+        if (this.homeAdvertiseService.save(homeAdvertiseDto)) {
             return ResponseEntity.ok("添加成功");
         }
         // 修改成自定义的 错误类型
@@ -76,12 +76,12 @@ public class MemberReceiveAddressController {
     /**
      * 修改数据
      *
-     * @param memberReceiveAddressDto 实体对象
+     * @param homeAdvertiseDto 实体对象
      * @return 修改结果
      */
     @PutMapping
-    public ResponseEntity<Object> update(@RequestBody MemberReceiveAddressDto memberReceiveAddressDto) {
-        if (this.memberReceiveAddressService.updateById(memberReceiveAddressDto)) {
+    public ResponseEntity<Object> update(@RequestBody HomeAdvertiseDto homeAdvertiseDto) {
+        if (this.homeAdvertiseService.updateById(homeAdvertiseDto)) {
             return ResponseEntity.ok("修改成功");
         }
         // 修改成自定义的 错误类型
@@ -100,7 +100,7 @@ public class MemberReceiveAddressController {
             throw new BaseRequestException("请正确的填写id");
         }
         Set<Long> collect = idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() >= 1).limit(10).collect(Collectors.toSet());
-        return ResponseEntity.ok(this.memberReceiveAddressService.removeByIds(collect) ? "删除成功" : "删除失败");
+        return ResponseEntity.ok(this.homeAdvertiseService.removeByIds(collect) ? "删除成功" : "删除失败");
     }
 }
 

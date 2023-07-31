@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.example.modules.portal.member.entity.dto.MemberPriceDto;
 
 import java.util.List;
 
@@ -21,8 +20,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductDtoParam extends ProductDto {
-    @Schema(name = "memberPriceList", description = "商品会员价格设置")
-    private List<MemberPriceDto> memberPriceList;
     @Schema(name = "skuStockList", description = "商品的sku库存信息")
     private List<SkuStockDto> skuStockList;
     @Schema(name = "productAttributeValueList", description = "商品参数及自定义规格属性")

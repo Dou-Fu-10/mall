@@ -4,10 +4,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.modules.portal.member.entity.vo.MemberPriceVo;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 13:05:48
@@ -124,7 +124,7 @@ public class ProductVo {
     /**
      * 画册图片，连产品图片限制为5张，以逗号分割
      */
-    private String albumPics;
+    private Set<String> albumPics;
     /**
      * 详细标题
      */
@@ -165,8 +165,6 @@ public class ProductVo {
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
     private Integer deleteFlag;
-    @Schema(name = "memberPriceList", description = "商品会员价格设置")
-    private List<MemberPriceVo> memberPriceList;
     @Schema(name = "skuStockList", description = "商品的sku库存信息")
     private List<SkuStockVo> skuStockList;
     @Schema(name = "productAttributeValueList", description = "商品参数及自定义规格属性")

@@ -1,11 +1,11 @@
-package org.example.modules.admin.tools.storage.controller;
+package org.example.modules.admin.storage.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.IOUtils;
-import org.example.modules.admin.tools.storage.service.MinioServer;
+import org.example.modules.admin.storage.service.MinioServer;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.springframework.http.ResponseEntity;

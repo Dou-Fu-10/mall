@@ -23,7 +23,7 @@ import org.example.modules.admin.system.service.AdminLoginLogService;
 import org.example.modules.admin.system.service.AdminRolesRelationService;
 import org.example.modules.admin.system.service.AdminService;
 import org.example.modules.admin.system.service.RolesMenusRelationService;
-import org.example.modules.admin.tools.storage.service.MinioServer;
+import org.example.modules.admin.storage.service.MinioServer;
 import org.example.security.config.SecurityProperties;
 import org.example.security.entity.JwtUser;
 import org.example.security.utils.JwtTokenUtil;

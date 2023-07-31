@@ -34,6 +34,7 @@ import java.util.List;
         "org.example.modules.portal.member.mapper",
         "org.example.modules.portal.cartItem.mapper",
         "org.example.modules.portal.product.mapper",
+        "org.example.modules.portal.home.mapper",
 })
 @EnableTransactionManagement
 public class MallAdminApplication {

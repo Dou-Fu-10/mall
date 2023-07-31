@@ -1,15 +1,19 @@
 package org.example.modules.portal.member.entity.vo;
 
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
- * Created by Dou-Fu-10 2023-07-14 14:34:18
+ * Created by Dou-Fu-10 2023-07-31 15:49:05
  *
  * @author Dou-Fu-10
- * @date 2023-07-14 14:34:18
+ * @date 2023-07-31 15:49:05
  * @Description 会员收货地址表(MemberReceiveAddress)表实体类
  */
 @Data
