@@ -110,7 +110,7 @@ public class ProductDto {
     /**
      * 以逗号分割的产品服务：1->无忧退货；2->快速退款；3->免费包邮
      */
-    private String serviceIds;
+    private Set<String> serviceIds;
     /**
      * 关键字
      */

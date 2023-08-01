@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -75,22 +76,22 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    public Boolean save(ProductDtoParam product) {
+    public Boolean save(ProductDtoParam productDtoParam) {
         // TODO 数据校验
-        ProductEntity convert = BeanCopy.convert(product, ProductEntity.class);
-        Set<String> albumPics = product.getAlbumPics();
-        if (Objects.nonNull(albumPics)) {
-            String albumPicStr = checkAlbumPics(albumPics);
-            if (Objects.nonNull(albumPicStr)) {
-                convert.setAlbumPics(albumPicStr);
-            }
+        ProductEntity convert = BeanCopy.convert(productDtoParam, ProductEntity.class);
+        Set<String> albumPics = productDtoParam.getAlbumPics();
+        String albumPicStr = checkAlbumPics(albumPics);
+        if (Objects.nonNull(albumPicStr)) {
+            convert.setAlbumPics(albumPicStr);
         }
-
-
+        String checkServiceIds = checkServiceIds(productDtoParam.getServiceIds());
+        if (Objects.nonNull(checkServiceIds)) {
+            convert.setServiceIds(checkServiceIds);
+        }
         if (!convert.insert()) {
             throw new BaseRequestException("添加失败");
         }
-        List<SkuStockDto> skuStockList = product.getSkuStockList();
+        List<SkuStockDto> skuStockList = productDtoParam.getSkuStockList();
         if (CollectionUtils.isNotEmpty(skuStockList)) {
             skuStockList.forEach(skuStockDto -> skuStockDto.setProductId(convert.getId()));
             if (!skuStockService.save(skuStockList)) {
@@ -98,7 +99,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
             }
         }
 
-        List<ProductAttributeValueDto> productAttributeValueList = product.getProductAttributeValueList();
+        List<ProductAttributeValueDto> productAttributeValueList = productDtoParam.getProductAttributeValueList();
         if (CollectionUtils.isNotEmpty(productAttributeValueList)) {
             productAttributeValueList.forEach(productAttributeValueDto -> productAttributeValueDto.setProductId(convert.getId()));
             if (!productAttributeValueService.save(productAttributeValueList)) {
@@ -112,21 +113,22 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    public Boolean updateById(ProductDtoParam product) {
+    public Boolean updateById(ProductDtoParam productDtoParam) {
         // TODO 数据校验
-        ProductEntity convert = BeanCopy.convert(product, ProductEntity.class);
-        Set<String> albumPics = product.getAlbumPics();
-        if (Objects.nonNull(albumPics)) {
-            String albumPicStr = checkAlbumPics(albumPics);
-            if (Objects.nonNull(albumPicStr)) {
-                convert.setAlbumPics(albumPicStr);
-            }
+        ProductEntity convert = BeanCopy.convert(productDtoParam, ProductEntity.class);
+        Set<String> albumPics = productDtoParam.getAlbumPics();
+        String albumPicStr = checkAlbumPics(albumPics);
+        if (Objects.nonNull(albumPicStr)) {
+            convert.setAlbumPics(albumPicStr);
         }
-
+        String checkServiceIds = checkServiceIds(productDtoParam.getServiceIds());
+        if (Objects.nonNull(checkServiceIds)) {
+            convert.setServiceIds(checkServiceIds);
+        }
         if (!convert.updateById()) {
             throw new BaseRequestException("添加失败");
         }
-        List<SkuStockDto> skuStockList = product.getSkuStockList();
+        List<SkuStockDto> skuStockList = productDtoParam.getSkuStockList();
         if (CollectionUtils.isNotEmpty(skuStockList)) {
             skuStockList.forEach(skuStockDto -> skuStockDto.setProductId(convert.getId()));
             if (!skuStockService.saveOrUpdate(skuStockList)) {
@@ -134,7 +136,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
             }
         }
 
-        List<ProductAttributeValueDto> productAttributeValueList = product.getProductAttributeValueList();
+        List<ProductAttributeValueDto> productAttributeValueList = productDtoParam.getProductAttributeValueList();
         if (CollectionUtils.isNotEmpty(productAttributeValueList)) {
             productAttributeValueList.forEach(productAttributeValueDto -> productAttributeValueDto.setProductId(convert.getId()));
             if (!productAttributeValueService.saveOrUpdate(productAttributeValueList)) {
@@ -146,11 +148,29 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     }
 
     private String checkAlbumPics(Set<String> albumPics) {
-        Set<String> existObject = minioServer.checkObjectIsExist(albumPics);
-        if (existObject.isEmpty()) {
-            return null;
+        if (Objects.nonNull(albumPics) && CollectionUtils.isNotEmpty(albumPics)) {
+            Set<String> existObject = minioServer.checkObjectIsExist(albumPics);
+            if (!existObject.isEmpty()) {
+                return String.join(",", existObject);
+            }
         }
-        return String.join(",", existObject);
+        return null;
+    }
+
+    private String checkServiceIds(Set<String> serviceIds) {
+        Set<String> filteredSet = new HashSet<>();
+        if (Objects.nonNull(serviceIds) && CollectionUtils.isNotEmpty(serviceIds)) {
+
+            for (String element : serviceIds) {
+                if ("1".equals(element) || "2".equals(element) || "3".equals(element)) {
+                    filteredSet.add(element);
+                }
+            }
+            if (!filteredSet.isEmpty()) {
+                return String.join(",", filteredSet);
+            }
+        }
+        return null;
     }
 
     @Override
