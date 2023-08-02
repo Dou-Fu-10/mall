@@ -22,10 +22,10 @@ import org.example.security.utils.JwtTokenUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -49,6 +49,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
     private OnlineMemberService onlineMemberService;
     @Resource
     private MemberLoginLogService memberLoginLogService;
+
     @Override
     public Boolean save(MemberDto memberDto) {
         MemberEntity memberEntity = BeanCopy.convert(memberDto, MemberEntity.class);
@@ -113,9 +114,20 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
     }
 
     @Override
-    public MemberVo info(HttpServletRequest request) {
-        return null;
+    public Map<String, Object> info(Principal principal) {
+        // TODO 用户登录用户自己
+        if (Objects.isNull(principal)) {
+            throw new BaseRequestException("请登录");
+        }
+        String phone = principal.getName();
+        MemberEntity memberEntity = getByPhone(phone);
+        Map<String, Object> data = new HashMap<>(3);
+        data.put("phone", memberEntity.getPhone());
+        // 头像
+        data.put("icon", memberEntity.getIcon());
+        return data;
     }
+
     @Override
     public String refreshHeadToken(HttpServletRequest request) {
         // 获取token

@@ -8,6 +8,7 @@ import org.example.config.AuthMember;
 import org.example.modules.member.entity.dto.MemberDto;
 import org.example.modules.member.entity.vo.MemberVo;
 
+import java.security.Principal;
 import java.util.Map;
 
 /**
@@ -59,12 +60,15 @@ public interface MemberService extends IService<MemberEntity> {
      * @return 会员信息
      */
     MemberEntity getByPhone(String phone);
+
     /**
-     * info
+     * 获取身份信息
      *
+     * @param principal 身份
      * @return 身份信息
      */
-    MemberVo info(HttpServletRequest request);
+    Map<String, Object> info(Principal principal);
+
     /**
      * token续约
      *

@@ -1,6 +1,7 @@
 package org.example.modules.member.controller;
 
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,7 +12,6 @@ import org.example.common.core.entity.MemberEntity;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.config.AuthMember;
 import org.example.modules.member.entity.dto.MemberDto;
-import org.example.modules.member.entity.vo.MemberVo;
 import org.example.modules.member.service.MemberService;
 import org.example.security.annotaion.rest.AnonymousDeleteMapping;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
@@ -19,11 +19,14 @@ import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
-import java.util.Map;
-import java.util.Set;
+import java.security.Principal;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -134,8 +137,9 @@ public class MemberController {
      */
     @Operation(summary = "info")
     @AnonymousGetMapping(value = "/info")
-    public ResponseEntity<MemberVo> info(HttpServletRequest request) {
-        return ResponseEntity.ok(memberService.info(request));
+    public ResponseEntity<Map<String, Object>> getAdminInfo(Principal principal) {
+        Map<String, Object> data = memberService.info(principal);
+        return ResponseEntity.ok(data);
     }
 }
 

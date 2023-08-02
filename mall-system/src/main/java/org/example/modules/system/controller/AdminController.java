@@ -1,7 +1,6 @@
 package org.example.modules.system.controller;
 
 
-import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +23,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
 import java.security.Principal;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -187,27 +188,7 @@ public class AdminController {
     @Operation(summary = "获取当前登录用户信息", description = "登录后获取登录信息")
     @AnonymousGetMapping(value = "/info")
     public ResponseEntity<Map<String, Object>> getAdminInfo(Principal principal) {
-        // TODO 用户登录用户自己
-        if (Objects.isNull(principal)) {
-            throw new BaseRequestException("");
-        }
-        String username = principal.getName();
-        AdminEntity adminEntity = adminService.getByUsername(username);
-        Map<String, Object> data = new HashMap<>(3);
-        data.put("username", adminEntity.getUsername());
-        // 路由信息
-        data.put("menus", adminService.getMenuList(adminEntity.getId()));
-        // 头像
-        data.put("icon", adminEntity.getIcon());
-        List<RoleVo> roleList = adminService.getRoleListByAdminId(adminEntity.getId());
-        if (CollUtil.isNotEmpty(roleList)) {
-            List<String> roles = roleList.stream().map(RoleVo::getName).collect(Collectors.toList());
-            data.put("roles", roles);
-        } else {
-            data.put("roles", new ArrayList<>());
-        }
-
-        return ResponseEntity.ok(data);
+        return ResponseEntity.ok(adminService.info(principal));
     }
 }
 

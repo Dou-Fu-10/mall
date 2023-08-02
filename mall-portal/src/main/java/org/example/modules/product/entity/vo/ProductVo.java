@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-07-27 13:05:48
@@ -111,7 +112,7 @@ public class ProductVo {
     /**
      * 以逗号分割的产品服务：1->无忧退货；2->快速退款；3->免费包邮
      */
-    private String serviceIds;
+    private Set<String> serviceIds;
     /**
      * 关键字
      */
@@ -123,7 +124,7 @@ public class ProductVo {
     /**
      * 画册图片，连产品图片限制为5张，以逗号分割
      */
-    private String albumPics;
+    private Set<String> albumPics;
     /**
      * 详细标题
      */

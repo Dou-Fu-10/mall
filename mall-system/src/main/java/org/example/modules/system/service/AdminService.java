@@ -12,6 +12,7 @@ import org.example.modules.system.entity.vo.MenuVo;
 import org.example.modules.system.entity.vo.RoleVo;
 
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -149,4 +150,11 @@ public interface AdminService extends IService<AdminEntity> {
      * @return token
      */
     String refreshHeadToken(HttpServletRequest request);
+    /**
+     * 获取当前登录用户信息
+     *
+     * @param principal 主要
+     * @return 用户登录信息
+     */
+    Map<String, Object> info(Principal principal);
 }

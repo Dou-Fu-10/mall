@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-07-27 13:05:48
@@ -121,7 +122,7 @@ public class ProductDto {
     /**
      * 画册图片，连产品图片限制为5张，以逗号分割
      */
-    private String albumPics;
+    private Set<String> albumPics;
     /**
      * 详细标题
      */

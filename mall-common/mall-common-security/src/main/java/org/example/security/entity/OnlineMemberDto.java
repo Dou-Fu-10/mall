@@ -20,7 +20,7 @@ public class OnlineMemberDto {
     /**
      * 用户名
      */
-    private JwtMember jwtAdminDto;
+    private JwtMember jwtMember;
 
     /**
      * 浏览器

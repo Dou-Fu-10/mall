@@ -1,5 +1,6 @@
 package org.example.modules.system.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -39,6 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -179,6 +181,30 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         String token = jwtTokenUtil.resolveToken(request);
         // 续约token
         return jwtTokenUtil.refreshHeadToken(token);
+    }
+
+    @Override
+    public Map<String, Object> info(Principal principal) {
+        // TODO 用户登录用户自己
+        if (Objects.isNull(principal)) {
+            throw new BaseRequestException("请登录！");
+        }
+        String username = principal.getName();
+        AdminEntity adminEntity = getByUsername(username);
+        Map<String, Object> data = new HashMap<>(3);
+        data.put("username", adminEntity.getUsername());
+        // 路由信息
+        data.put("menus", getMenuList(adminEntity.getId()));
+        // 头像
+        data.put("icon", adminEntity.getIcon());
+        List<RoleVo> roleList = getRoleListByAdminId(adminEntity.getId());
+        if (CollUtil.isNotEmpty(roleList)) {
+            List<String> roles = roleList.stream().map(RoleVo::getName).collect(Collectors.toList());
+            data.put("roles", roles);
+        } else {
+            data.put("roles", roleList);
+        }
+        return data;
     }
 
 
