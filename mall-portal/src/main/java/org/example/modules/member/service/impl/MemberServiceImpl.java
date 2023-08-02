@@ -13,11 +13,18 @@ import org.example.config.AuthMember;
 import org.example.modules.member.entity.dto.MemberDto;
 import org.example.modules.member.entity.vo.MemberVo;
 import org.example.modules.member.mapper.MemberMapper;
+import org.example.modules.member.service.MemberLoginLogService;
 import org.example.modules.member.service.MemberService;
+import org.example.modules.security.service.OnlineMemberService;
 import org.example.security.config.SecurityProperties;
+import org.example.security.entity.JwtMember;
 import org.example.security.utils.JwtTokenUtil;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,8 +44,11 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
     @Resource
     private SecurityProperties securityProperties;
     @Resource
-    private PasswordEncoder passwordEncoder;
-
+    private AuthenticationManagerBuilder authenticationManagerBuilder;
+    @Resource
+    private OnlineMemberService onlineMemberService;
+    @Resource
+    private MemberLoginLogService memberLoginLogService;
     @Override
     public Boolean save(MemberDto memberDto) {
         MemberEntity memberEntity = BeanCopy.convert(memberDto, MemberEntity.class);
@@ -62,19 +72,38 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
 
     @Override
     public Map<String, Object> login(AuthMember authMember, HttpServletRequest request) {
-        HashMap<String, Object> tokenMap = new HashMap<>();
-        // 手机密码登录
-        MemberEntity memberEntity = getByPhone(authMember.getPhone());
-        if (Objects.isNull(memberEntity)) {
-            throw new BaseRequestException("账号或密码错误");
-        }
-        // 校验密码是否正确
-        if (passwordEncoder.matches(authMember.getPassword(), memberEntity.getPassword())) {
-            // 成功登录
-            String memberToken = jwtTokenUtil.createMemberToken(memberEntity.getPhone());
-            tokenMap.put("token", securityProperties.getTokenStartWith() + memberToken);
-        }
 
+        // 调用 UserDetailsServiceImpl 获取身份信息 同时存储用户信息 判断身份信息是否合法
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(authMember.getPhone(), authMember.getPassword());
+        // 对用户的密码进行验证
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        // 判断是否认证通过
+        if (Objects.isNull(authentication)) {
+            throw new BaseRequestException("用户名或者密码错误");
+        }
+        // 获取到用户信息
+        final JwtMember jwtMember = (JwtMember) authentication.getPrincipal();
+
+        // 使用用户的username作为key获取token
+        String token = jwtTokenUtil.createMemberToken(jwtMember);
+        // 确保token可以 功能非必须
+        if (!StringUtils.hasText(token)) {
+            throw new BaseRequestException("登录失败");
+        }
+        Map<String, Object> tokenMap = new HashMap<>(2);
+        tokenMap.put("token", securityProperties.getTokenStartWith() + token);
+        // 是否唯一登录
+        if (securityProperties.getSingleLogin()) {
+            // 踢掉之前已经登录的token   getUsername 对应的是用户的手机号码
+            onlineMemberService.kickOutForUsername(jwtMember.getUsername());
+        }
+        // 保存用户的在线信息
+        if (!onlineMemberService.save(jwtMember, token, request)) {
+            throw new BaseRequestException("登录失败");
+        }
+        // 记录登录痕迹
+        memberLoginLogService.insertLoginLog(jwtMember.getUser().getId(), request);
         return tokenMap;
     }
 
@@ -85,6 +114,18 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
 
     @Override
     public MemberVo info(HttpServletRequest request) {
+        return null;
+    }
+    @Override
+    public String refreshHeadToken(HttpServletRequest request) {
+        // 获取token
+        String token = jwtTokenUtil.resolveToken(request);
+        // 续约token
+        return jwtTokenUtil.refreshHeadToken(token);
+    }
+
+    @Override
+    public Boolean register(MemberDto memberDto) {
         return null;
     }
 }

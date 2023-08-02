@@ -17,7 +17,7 @@ import java.util.List;
  * @date 2023/7/16
  * @Description 描述
  */
-public interface OnlineUserService {
+public interface OnlineAdminService {
     /**
      * 保存在线用户信息
      *

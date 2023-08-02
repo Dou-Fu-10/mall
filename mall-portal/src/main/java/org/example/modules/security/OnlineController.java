@@ -2,7 +2,7 @@ package org.example.modules.security;
 
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
-import org.example.modules.security.service.OnlineAdminService;
+import org.example.modules.security.service.OnlineMemberService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OnlineController {
 
     @Resource
-    private OnlineAdminService onlineAdminService;
+    private OnlineMemberService onlineMemberService;
 
 //    /**
 //     * 查询在线用户

@@ -14,7 +14,7 @@ import org.example.common.core.server.MinioServer;
 import org.example.common.core.utils.BeanCopy;
 import org.example.config.AuthAdmin;
 import org.example.config.UpdatePassword;
-import org.example.modules.security.service.OnlineUserService;
+import org.example.modules.security.service.OnlineAdminService;
 import org.example.modules.system.entity.dto.AdminDto;
 import org.example.modules.system.entity.vo.AdminVo;
 import org.example.modules.system.entity.vo.MenuVo;
@@ -61,7 +61,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     @Resource
     private AdminLoginLogService adminLoginLogService;
     @Resource
-    private OnlineUserService onlineUserService;
+    private OnlineAdminService onlineAdminService;
     @Resource
     private SecurityProperties securityProperties;
     @Resource
@@ -101,10 +101,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         // 是否唯一登录
         if (securityProperties.getSingleLogin()) {
             // 踢掉之前已经登录的token
-            onlineUserService.kickOutForUsername(authAdmin.getUsername());
+            onlineAdminService.kickOutForUsername(authAdmin.getUsername());
         }
         // 保存用户的在线信息
-        if (!onlineUserService.save(jwtAdmin, token, request)) {
+        if (!onlineAdminService.save(jwtAdmin, token, request)) {
             throw new BaseRequestException("登录失败");
         }
         // 记录登录痕迹

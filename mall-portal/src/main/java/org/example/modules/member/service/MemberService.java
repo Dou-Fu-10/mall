@@ -59,6 +59,25 @@ public interface MemberService extends IService<MemberEntity> {
      * @return 会员信息
      */
     MemberEntity getByPhone(String phone);
-
+    /**
+     * info
+     *
+     * @return 身份信息
+     */
     MemberVo info(HttpServletRequest request);
+    /**
+     * token续约
+     *
+     * @param request token
+     * @return token
+     */
+    String refreshHeadToken(HttpServletRequest request);
+
+    /**
+     * 注册功能
+     *
+     * @param memberDto 注册用户
+     * @return Boolean
+     */
+    Boolean register(MemberDto memberDto);
 }

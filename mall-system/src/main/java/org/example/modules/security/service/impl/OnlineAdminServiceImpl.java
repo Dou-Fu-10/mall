@@ -9,7 +9,7 @@ import org.example.common.core.utils.BeanCopy;
 import org.example.common.core.utils.FileUtil;
 import org.example.common.core.utils.StringUtils;
 import org.example.common.redis.service.RedisService;
-import org.example.modules.security.service.OnlineUserService;
+import org.example.modules.security.service.OnlineAdminService;
 import org.example.modules.system.entity.vo.OnlineUserVo;
 import org.example.security.config.SecurityProperties;
 import org.example.security.entity.JwtAdmin;
@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class OnlineUserServiceImpl implements OnlineUserService {
+public class OnlineAdminServiceImpl implements OnlineAdminService {
 
     @Resource
     private SecurityProperties properties;
@@ -46,6 +46,7 @@ public class OnlineUserServiceImpl implements OnlineUserService {
      * @param token    /
      * @param request  /
      */
+    @Override
     public Boolean save(JwtAdmin jwtAdmin, String token, HttpServletRequest request) {
         // TODO 优化缓存设计
         // 获取登录者 ip
@@ -85,6 +86,7 @@ public class OnlineUserServiceImpl implements OnlineUserService {
      * @param username /
      * @return /
      */
+    @Override
     public List<OnlineUserVo> getAll(String username) {
         String loginKey = properties.getOnlineKey() +
                 (StringUtils.isBlank(username) ? "" : "*" + username);
@@ -103,6 +105,7 @@ public class OnlineUserServiceImpl implements OnlineUserService {
      *
      * @param token /
      */
+    @Override
     public void logout(String token) {
         String loginKey = jwtTokenUtil.getUserNameFromToken(token);
         redisService.del(loginKey);
@@ -114,6 +117,7 @@ public class OnlineUserServiceImpl implements OnlineUserService {
      * @param all      /
      * @param response /
      */
+    @Override
     public void download(List<OnlineAdminDto> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (OnlineAdminDto user : all) {
@@ -134,6 +138,7 @@ public class OnlineUserServiceImpl implements OnlineUserService {
      * @param key /
      * @return /
      */
+    @Override
     public OnlineUserVo getOne(String key) {
         return (OnlineUserVo) redisService.get(key);
     }
@@ -144,6 +149,7 @@ public class OnlineUserServiceImpl implements OnlineUserService {
      * @param username /
      */
     @Async
+    @Override
     public void kickOutForUsername(String username) {
         // TODO 删除用户的 token
         String loginKey = properties.getOnlineKey() + username + "*";

@@ -62,9 +62,9 @@ public class SwaggerConfig {
     public GroupedOpenApi product() {
         return GroupedOpenApi.builder()
                 .group("商品")
-                .pathsToMatch(grouped("productAttribute"), grouped("ProductAttributeValue"),
-                        grouped("ProductCategory"), grouped("Product"),
-                        grouped("SkuStock"))
+                .pathsToMatch(grouped("productAttribute"), grouped("productAttributeValue"),
+                        grouped("productCategory"), grouped("product"),
+                        grouped("skuStock"))
                 .build();
     }
 

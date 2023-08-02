@@ -26,9 +26,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private MemberService memberService;
 
     @Override
-    public JwtMember loadUserByUsername(String username) {
+    public JwtMember loadUserByUsername(String phone) {
         // 根据用户名获取用户信息
-        MemberEntity member = memberService.getByPhone(username);
+        MemberEntity member = memberService.getByPhone(phone);
         if (Objects.isNull(member)) {
             throw new BadCredentialsException("登录失败");
         }

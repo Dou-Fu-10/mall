@@ -2,6 +2,7 @@ package org.example.modules.member.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.modules.member.entity.MemberLoginLogEntity;
 import org.example.modules.member.entity.dto.MemberLoginLogDto;
 import org.example.modules.member.entity.vo.MemberLoginLogVo;
@@ -38,4 +39,13 @@ public interface MemberLoginLogService extends IService<MemberLoginLogEntity> {
      * @return 所有数据
      */
     Page<MemberLoginLogVo> page(Page<MemberLoginLogEntity> page, MemberLoginLogDto memberLoginLogDto);
+
+    /**
+     * 记录登陆者信息
+     *
+     * @param memberId 登录用户名
+     * @param request  Http Servlet请求
+     * @return 是否成功
+     */
+    Boolean insertLoginLog(Long memberId, HttpServletRequest request);
 }

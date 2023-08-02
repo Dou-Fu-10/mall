@@ -27,7 +27,7 @@ public class MemberLoginLogDto {
     private Long memberId;
 
     /**
-     * 用户创建时间
+     * 登录时间
      */
     private Date createTime;
     /**

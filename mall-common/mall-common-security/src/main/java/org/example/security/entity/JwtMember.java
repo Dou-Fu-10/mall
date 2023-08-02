@@ -36,7 +36,7 @@ public class JwtMember implements UserDetails {
     @Override
     @JSONField(serialize = false)
     public String getUsername() {
-        return user.getUsername();
+        return user.getPhone();
     }
 
     @JSONField(serialize = false)
