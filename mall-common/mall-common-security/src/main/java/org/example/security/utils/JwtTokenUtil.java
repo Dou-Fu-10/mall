@@ -53,7 +53,7 @@ public class JwtTokenUtil implements InitializingBean {
      * @param expirationDate 过期时间
      * @return token
      */
-    private String createToken(Map<String, Object> claims, Date expirationDate) {
+    private String createAdminToken(Map<String, Object> claims, Date expirationDate) {
         return jwtBuilder
                 // 唯一的ID
                 .setId(IdUtil.simpleUUID())
@@ -197,14 +197,24 @@ public class JwtTokenUtil implements InitializingBean {
      * @param userDetails 用户信息
      * @return token
      */
-    public String createToken(UserDetails userDetails) {
+    public String createAdminToken(UserDetails userDetails) {
         // 准备一个空荷载claims，用于存储生成的key和value键值对（下面是存储生成token的时间和用户名）
         Map<String, Object> claims = new HashMap<>(2);
         // 用户名
         claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
         // 生成时间
         claims.put(CLAIM_KEY_CREATED, new Date());
-        return createToken(claims, generateExpirationDate());
+        return createAdminToken(claims, generateExpirationDate());
+    }
+
+    public String createMemberToken(String phone) {
+        // 准备一个空荷载claims，用于存储生成的key和value键值对（下面是存储生成token的时间和用户名）
+        Map<String, Object> claims = new HashMap<>(2);
+        // 用户名
+        claims.put(CLAIM_KEY_USERNAME, phone);
+        // 生成时间
+        claims.put(CLAIM_KEY_CREATED, new Date());
+        return createAdminToken(claims, generateExpirationDate());
     }
 
 
@@ -233,7 +243,7 @@ public class JwtTokenUtil implements InitializingBean {
         } else {
             // 刷新token，刷新后默认将在14400000毫秒后过期 即 四小时后过期
             claims.put(CLAIM_KEY_CREATED, new Date());
-            return createToken(claims, generateRenewDate());
+            return createAdminToken(claims, generateRenewDate());
         }
     }
 

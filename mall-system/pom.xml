@@ -21,18 +21,13 @@
     <dependencies>
         <dependency>
             <groupId>org.example</groupId>
-            <artifactId>mall-common-swagger</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.example</groupId>
             <artifactId>mall-common-security</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.minio</groupId>
-            <artifactId>minio</artifactId>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
         </dependency>
         <!-- druid数据源驱动 -->
         <dependency>

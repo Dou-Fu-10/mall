@@ -22,7 +22,6 @@
         <module>mall-common-core</module>
         <module>mall-common-redis</module>
         <module>mall-common-security</module>
-        <module>mall-common-swagger</module>
     </modules>
 
 </project>

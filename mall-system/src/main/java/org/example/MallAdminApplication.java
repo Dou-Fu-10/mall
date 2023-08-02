@@ -25,16 +25,13 @@ import java.util.List;
 @RestController
 @SpringBootApplication
 @MapperScan(basePackages = {
-        "org.example.modules.admin.system.mapper",
-        "org.example.modules.admin.comment.mapper",
-        "org.example.modules.admin.finance.mapper",
-        "org.example.modules.admin.order.mapper",
-        "org.example.modules.admin.product.mapper",
-        "org.example.modules.admin.tools.mapper",
-        "org.example.modules.portal.member.mapper",
-        "org.example.modules.portal.cartItem.mapper",
-        "org.example.modules.portal.product.mapper",
-        "org.example.modules.portal.home.mapper",
+        "org.example.modules.system.mapper",
+        "org.example.modules.comment.mapper",
+        "org.example.modules.finance.mapper",
+        "org.example.modules.order.mapper",
+        "org.example.modules.product.mapper",
+        "org.example.modules.tools.mapper",
+        "org.example.modules.member.mapper",
 })
 @EnableTransactionManagement
 public class MallAdminApplication {
