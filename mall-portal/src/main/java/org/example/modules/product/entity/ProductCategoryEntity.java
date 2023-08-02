@@ -1,6 +1,7 @@
 package org.example.modules.product.entity;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by Dou-Fu-10 2023-07-13 22:08:15
@@ -88,5 +90,29 @@ public class ProductCategoryEntity extends CommonEntity<ProductCategoryEntity> i
         this.navStatus = navStatus;
         this.showStatus = showStatus;
     }
+    /**
+     * 创建人
+     * 创建
+     */
+    @TableField(exist = false)
+    private String createBy;
+    /**
+     * 更新人
+     * 创建、更新
+     */
+    @TableField(exist = false)
+    private String updateBy;
+    /**
+     * 创建时间
+     * 创建
+     */
+    @TableField(exist = false)
+    private Date createTime;
+    /**
+     * 更新时间
+     * 创建、更新
+     */
+    @TableField(exist = false)
+    private Date updateTime;
 }
 

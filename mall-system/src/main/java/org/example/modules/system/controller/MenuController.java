@@ -139,7 +139,7 @@ public class MenuController {
      * @return 菜单
      */
     @Operation(summary = "获取前端所需菜单")
-    @GetMapping(value = "/build")
+    @AnonymousGetMapping(value = "/build")
     public ResponseEntity<List<MenuVo>> buildMenus() {
         return ResponseEntity.ok(menuService.findByUser(SecurityUtils.getCurrentUserId()));
     }

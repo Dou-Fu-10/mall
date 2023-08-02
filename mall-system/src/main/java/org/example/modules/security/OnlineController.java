@@ -25,7 +25,7 @@ public class OnlineController {
 //     * @param pageable
 //     * @return
 //     */
-//    @GetMapping
+//    @AnonymousGetMapping
 //    @PreAuthorize("@el.check()")
 //    public ResponseEntity<PageResult<OnlineUserDto>> queryOnlineUser(String username, Pageable pageable){
 //        return new ResponseEntity<>(onlineUserService.getAll(username, pageable),HttpStatus.OK);
@@ -37,7 +37,7 @@ public class OnlineController {
 //     * @param username
 //     * @throws IOException
 //     */
-//    @GetMapping(value = "/download")
+//    @AnonymousGetMapping(value = "/download")
 //    @PreAuthorize("@el.check()")
 //    public void exportOnlineUser(HttpServletResponse response, String username) throws IOException {
 //        onlineUserService.download(onlineUserService.getAll(username), response);
@@ -49,7 +49,7 @@ public class OnlineController {
 //     * @return
 //     * @throws Exception
 //     */
-//    @DeleteMapping
+//    @AnonymousDeleteMapping
 //    @PreAuthorize("@el.check()")
 //    public ResponseEntity<Object> deleteOnlineUser(@RequestBody Set<String> keys) throws Exception {
 //        for (String token : keys) {

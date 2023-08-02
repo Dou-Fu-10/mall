@@ -9,6 +9,10 @@ import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.finance.entity.MemberDescriptionEntity;
 import org.example.modules.finance.entity.dto.MemberDescriptionDto;
 import org.example.modules.finance.service.MemberDescriptionService;
+import org.example.security.annotaion.rest.AnonymousDeleteMapping;
+import org.example.security.annotaion.rest.AnonymousGetMapping;
+import org.example.security.annotaion.rest.AnonymousPostMapping;
+import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +44,7 @@ public class MemberDescriptionController {
      * @param memberDescriptionDto 查询实体
      * @return 所有数据
      */
-    @GetMapping
+    @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<MemberDescriptionEntity> page, MemberDescriptionDto memberDescriptionDto) {
         return ResponseEntity.ok(this.memberDescriptionService.page(page, memberDescriptionDto));
     }
@@ -51,7 +55,7 @@ public class MemberDescriptionController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+    @AnonymousGetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return ResponseEntity.ok(this.memberDescriptionService.getById(id));
     }
@@ -62,7 +66,7 @@ public class MemberDescriptionController {
      * @param memberDescriptionDto 实体对象
      * @return 新增结果
      */
-    @PostMapping
+    @AnonymousPostMapping
     public ResponseEntity<Object> insert(@RequestBody MemberDescriptionDto memberDescriptionDto) {
         if (this.memberDescriptionService.save(memberDescriptionDto)) {
             return ResponseEntity.ok("添加成功");
@@ -77,7 +81,7 @@ public class MemberDescriptionController {
      * @param memberDescriptionDto 实体对象
      * @return 修改结果
      */
-    @PutMapping
+    @AnonymousPutMapping
     public ResponseEntity<Object> update(@RequestBody MemberDescriptionDto memberDescriptionDto) {
         if (this.memberDescriptionService.updateById(memberDescriptionDto)) {
             return ResponseEntity.ok("修改成功");
@@ -92,7 +96,7 @@ public class MemberDescriptionController {
      * @param idList 主键结合
      * @return 删除结果
      */
-    @DeleteMapping
+    @AnonymousDeleteMapping
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");
