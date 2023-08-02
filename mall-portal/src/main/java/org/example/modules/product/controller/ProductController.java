@@ -41,7 +41,7 @@ public class ProductController {
      */
     @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<ProductEntity> page, ProductDto product) {
-        return ResponseEntity.ok("");
+        return ResponseEntity.ok(productService.page(page, product));
     }
 
     /**
@@ -53,18 +53,6 @@ public class ProductController {
     @AnonymousGetMapping("detail/{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return ResponseEntity.ok(productService.detail(id));
-    }
-
-    /**
-     * 分页查询所有数据
-     *
-     * @param page    分页对象
-     * @param product 查询实体
-     * @return 所有数据
-     */
-    @AnonymousGetMapping("/search")
-    public ResponseEntity<Object> search(Page<ProductEntity> page, ProductDto product) {
-        return ResponseEntity.ok(productService.search(page, product));
     }
 }
 

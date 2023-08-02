@@ -34,15 +34,6 @@ public class SwaggerConfig {
     }
 
     @Bean
-    public GroupedOpenApi portal() {
-        return GroupedOpenApi.builder()
-                .group("前台")
-                .pathsToMatch(grouped("product"), grouped("homeAdvertise"),
-                        grouped("platformInformation"), grouped("productCategory"))
-                .build();
-    }
-
-    @Bean
     public GroupedOpenApi comment() {
         return GroupedOpenApi.builder()
                 .group("购物车")
