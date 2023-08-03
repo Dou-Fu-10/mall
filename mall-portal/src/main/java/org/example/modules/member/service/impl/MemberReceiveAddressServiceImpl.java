@@ -4,13 +4,20 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
+import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.member.entity.MemberReceiveAddressEntity;
 import org.example.modules.member.entity.dto.MemberReceiveAddressDto;
 import org.example.modules.member.entity.vo.MemberReceiveAddressVo;
 import org.example.modules.member.mapper.MemberReceiveAddressMapper;
 import org.example.modules.member.service.MemberReceiveAddressService;
+import org.example.modules.member.service.MemberService;
 import org.springframework.stereotype.Service;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Dou-Fu-10 2023-07-31 15:49:05
@@ -21,15 +28,24 @@ import org.springframework.stereotype.Service;
  */
 @Service("memberReceiveAddressService")
 public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAddressMapper, MemberReceiveAddressEntity> implements MemberReceiveAddressService {
+    @Resource
+    private MemberService memberService;
+
     @Override
     public Boolean save(MemberReceiveAddressDto memberReceiveAddressDto) {
         MemberReceiveAddressEntity memberReceiveAddressEntity = BeanCopy.convert(memberReceiveAddressDto, MemberReceiveAddressEntity.class);
+        if (Objects.isNull(memberService.getById(memberReceiveAddressEntity.getMemberId()))) {
+            throw new BaseRequestException("请正确的填写信息");
+        }
         return save(memberReceiveAddressEntity);
     }
 
     @Override
     public Boolean updateById(MemberReceiveAddressDto memberReceiveAddressDto) {
         MemberReceiveAddressEntity memberReceiveAddressEntity = BeanCopy.convert(memberReceiveAddressDto, MemberReceiveAddressEntity.class);
+        if (Objects.isNull(memberService.getById(memberReceiveAddressEntity.getMemberId()))) {
+            throw new BaseRequestException("请正确的填写信息");
+        }
         return updateById(memberReceiveAddressEntity);
     }
 
@@ -40,6 +56,12 @@ public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAd
         Page<MemberReceiveAddressEntity> memberReceiveAddressEntityPage = page(page, memberReceiveAddressEntityLambdaQueryWrapper);
         IPage<MemberReceiveAddressVo> memberReceiveAddressEntityPageVoIpage = memberReceiveAddressEntityPage.convert(memberReceiveAddress -> BeanCopy.convert(memberReceiveAddress, MemberReceiveAddressVo.class));
         return (Page) memberReceiveAddressEntityPageVoIpage;
+    }
+
+    @Override
+    public List<MemberReceiveAddressVo> getReceiveAddressByMemberId(Serializable memberId) {
+        List<MemberReceiveAddressEntity> memberReceiveAddressEntityList = lambdaQuery().eq(MemberReceiveAddressEntity::getMemberId, memberId).list();
+        return BeanCopy.copytList(memberReceiveAddressEntityList, MemberReceiveAddressVo.class);
     }
 }
 

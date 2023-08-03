@@ -42,13 +42,13 @@ public class MemberReceiveAddressEntity extends CommonEntity<MemberReceiveAddres
     /**
      * 手机号码
      */
-    @Schema(name = "phoneNumber", description = "手机号码")
-    private String phoneNumber;
+    @Schema(name = "phone", description = "手机号码")
+    private String phone;
     /**
      * 是否为默认
      */
     @Schema(name = "defaultStatus", description = "是否为默认")
-    private Integer defaultStatus;
+    private Boolean defaultStatus;
     /**
      * 邮政编码
      */

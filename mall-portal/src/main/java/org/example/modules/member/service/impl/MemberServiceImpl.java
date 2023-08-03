@@ -125,6 +125,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
         data.put("phone", memberEntity.getPhone());
         // 头像
         data.put("icon", memberEntity.getIcon());
+        data.put("data", memberEntity);
         return data;
     }
 

@@ -6,6 +6,9 @@ import org.example.modules.member.entity.MemberReceiveAddressEntity;
 import org.example.modules.member.entity.dto.MemberReceiveAddressDto;
 import org.example.modules.member.entity.vo.MemberReceiveAddressVo;
 
+import java.io.Serializable;
+import java.util.List;
+
 /**
  * Created by Dou-Fu-10 2023-07-31 15:49:05
  *
@@ -38,4 +41,12 @@ public interface MemberReceiveAddressService extends IService<MemberReceiveAddre
      * @return 所有数据
      */
     Page<MemberReceiveAddressVo> page(Page<MemberReceiveAddressEntity> page, MemberReceiveAddressDto memberReceiveAddressDto);
+
+    /**
+     * 分页查询所有数据
+     *
+     * @param memberId 会员id
+     * @return 所有数据
+     */
+    List<MemberReceiveAddressVo> getReceiveAddressByMemberId(Serializable memberId);
 }

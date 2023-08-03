@@ -38,26 +38,14 @@ public class MemberReceiveAddressController {
     private MemberReceiveAddressService memberReceiveAddressService;
 
     /**
-     * 分页查询所有数据
-     *
-     * @param page                    分页对象
-     * @param memberReceiveAddressDto 查询实体
-     * @return 所有数据
-     */
-    @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<MemberReceiveAddressEntity> page, MemberReceiveAddressDto memberReceiveAddressDto) {
-        return ResponseEntity.ok(this.memberReceiveAddressService.page(page, memberReceiveAddressDto));
-    }
-
-    /**
      * 通过主键查询单条数据
      *
-     * @param id 主键
+     * @param memberId 主键
      * @return 单条数据
      */
-    @AnonymousGetMapping("{id}")
-    public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return ResponseEntity.ok(this.memberReceiveAddressService.getById(id));
+    @AnonymousGetMapping("/memberId/{memberId}")
+    public ResponseEntity<Object> selectOne(@PathVariable Serializable memberId) {
+        return ResponseEntity.ok(this.memberReceiveAddressService.getReceiveAddressByMemberId(memberId));
     }
 
     /**
