@@ -84,12 +84,6 @@ public class ProductCategoryEntity extends CommonEntity<ProductCategoryEntity> i
     @JsonIgnore
     @Schema(name = "deleteFlag", description = "逻辑删除（1 代表已删除），（0 代表未删除）")
     private Integer deleteFlag;
-
-    public ProductCategoryEntity(Long id, Boolean navStatus, Boolean showStatus) {
-        this.id = id;
-        this.navStatus = navStatus;
-        this.showStatus = showStatus;
-    }
     /**
      * 创建人
      * 创建
@@ -114,5 +108,10 @@ public class ProductCategoryEntity extends CommonEntity<ProductCategoryEntity> i
      */
     @TableField(exist = false)
     private Date updateTime;
+    public ProductCategoryEntity(Long id, Boolean navStatus, Boolean showStatus) {
+        this.id = id;
+        this.navStatus = navStatus;
+        this.showStatus = showStatus;
+    }
 }
 

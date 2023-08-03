@@ -73,7 +73,7 @@ public class AuthorizationController {
      * 登录以后返回token
      *
      * @param authMember 登录用户
-     * @param request   Http Servlet请求
+     * @param request    Http Servlet请求
      * @return token
      */
     @Operation(

@@ -2,7 +2,7 @@ package org.example.modules.member.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.example.modules.member.entity.MemberEntity;
+import org.example.common.core.entity.MemberEntity;
 import org.example.modules.member.entity.dto.MemberDto;
 import org.example.modules.member.entity.vo.MemberVo;
 

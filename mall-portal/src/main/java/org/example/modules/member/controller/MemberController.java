@@ -1,7 +1,6 @@
 package org.example.modules.member.controller;
 
 
-import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,7 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
 import java.security.Principal;
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**

@@ -1,15 +1,11 @@
 package org.example.modules.order.entity.dto;
 
-import java.util.Date;
-
-import java.io.Serializable;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.util.Date;
 
 /**
  * Created by Dou-Fu-10 2023-08-03 14:28:08
@@ -177,7 +173,7 @@ public class OrderDto {
      * 确认收货状态：0->已确认：1->未确认
      */
     @Schema(name = "confirmStatus", description = "确认收货状态：0->已确认：1->未确认")
-    private Integer confirmStatus;
+    private Boolean confirmStatus;
     /**
      * 支付时间
      */

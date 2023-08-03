@@ -2,7 +2,7 @@ package org.example.modules.member.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import org.example.modules.member.entity.MemberEntity;
+import org.example.common.core.entity.MemberEntity;
 
 /**
  * Created by Dou-Fu-10 2023-07-31 15:49:04

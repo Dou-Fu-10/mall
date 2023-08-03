@@ -150,6 +150,7 @@ public interface AdminService extends IService<AdminEntity> {
      * @return token
      */
     String refreshHeadToken(HttpServletRequest request);
+
     /**
      * 获取当前登录用户信息
      *

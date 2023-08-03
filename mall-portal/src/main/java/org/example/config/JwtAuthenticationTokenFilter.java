@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.example.common.redis.service.RedisService;
 import org.example.security.config.SecurityProperties;
-import org.example.security.entity.OnlineAdminDto;
 import org.example.security.entity.OnlineMemberDto;
 import org.example.security.utils.JwtTokenUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

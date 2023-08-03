@@ -1,16 +1,16 @@
 package org.example.modules.order.entity;
 
-import java.util.Date;
-
-import java.io.Serializable;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by Dou-Fu-10 2023-08-03 14:28:08
@@ -19,6 +19,7 @@ import org.example.common.core.base.CommonEntity;
  * @date 2023-08-03 14:28:08
  * @Description 订单表(Order)表实体类
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,7 +34,6 @@ public class OrderEntity extends CommonEntity<OrderEntity> implements Serializab
     /**
      * 会员id
      */
-    @TableId
     private Long memberId;
 
     /**
@@ -180,7 +180,7 @@ public class OrderEntity extends CommonEntity<OrderEntity> implements Serializab
      * 确认收货状态：0->已确认：1->未确认
      */
     @Schema(name = "confirmStatus", description = "确认收货状态：0->已确认：1->未确认")
-    private Integer confirmStatus;
+    private Boolean confirmStatus;
     /**
      * 支付时间
      */

@@ -139,7 +139,8 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
 
     @Override
     public Boolean register(MemberDto memberDto) {
-        return null;
+        MemberEntity memberEntity = BeanCopy.convert(memberDto, MemberEntity.class);
+        return memberEntity.insert();
     }
 }
 

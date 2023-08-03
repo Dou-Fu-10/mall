@@ -206,6 +206,7 @@ public class JwtTokenUtil implements InitializingBean {
         claims.put(CLAIM_KEY_CREATED, new Date());
         return createAdminToken(claims, generateExpirationDate());
     }
+
     /**
      * 根据用户信息生成token
      * 用户信息根据Spring security框架中的UserDetail中拿

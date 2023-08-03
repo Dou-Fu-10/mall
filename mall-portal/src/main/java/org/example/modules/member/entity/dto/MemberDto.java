@@ -28,10 +28,6 @@ public class MemberDto {
     private Long parentId;
 
     /**
-     * 用户名
-     */
-    private String username;
-    /**
      * 密码
      */
     private String password;
