@@ -34,7 +34,7 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
     }
 
     @Override
-    public List<OrderItemVo> getOrderItemByOrderId(@NotNull Long orderId) {
+    public List<OrderItemVo> getOrderItemByOrderId(Long orderId) {
         List<OrderItemEntity> list = lambdaQuery().eq(OrderItemEntity::getOrderId, orderId).list();
         return BeanCopy.copytList(list, OrderItemVo.class);
     }

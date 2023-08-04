@@ -27,7 +27,7 @@ import java.util.Map;
  * @Description 订单表(Order)表控制层
  */
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/app/order")
 @Tag(name = "OrderController", description = "")
 public class OrderController {
     /**

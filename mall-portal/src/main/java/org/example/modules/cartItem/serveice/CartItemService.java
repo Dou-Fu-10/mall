@@ -1,5 +1,6 @@
 package org.example.modules.cartItem.serveice;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.cartItem.entity.CartItemEntity;
 import org.example.modules.cartItem.entity.dto.AddCartItemDto;
@@ -35,17 +36,28 @@ public interface CartItemService extends IService<CartItemEntity> {
 
     /**
      * 通过会员id和购物车id获取购物车信息
+     *
      * @param memberId 会员id
-     * @param cartIds 购物车id列表
+     * @param cartIds  购物车id列表
      * @return 购物车信息
      */
     List<CartItemVo> getCartItemByMemberIdAndCartIds(Long memberId, List<Long> cartIds);
 
     /**
      * 删除购物车信息
+     *
      * @param cartItemIds 购物车id
-     * @param memberId 会员id
+     * @param memberId    会员id
      * @return Boolean
      */
     Boolean removeBatchByIdsAndMemberId(Set<Long> cartItemIds, Long memberId);
+
+    /**
+     * 按传入的月份查找月份已完成的订单
+     *
+     * @param page 分页对象
+     * @param page 查询实体
+     * @return 已完成的订单
+     */
+    Page<CartItemVo> page(Page<CartItemEntity> page);
 }

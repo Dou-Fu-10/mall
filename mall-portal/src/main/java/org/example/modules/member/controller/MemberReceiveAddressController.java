@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  * @Description 会员收货地址表(MemberReceiveAddress)表控制层
  */
 @RestController
-@RequestMapping("/memberReceiveAddress")
+@RequestMapping("/app/memberReceiveAddress")
 @Tag(name = "MemberReceiveAddressController", description = "")
 public class MemberReceiveAddressController {
     /**
@@ -90,7 +90,7 @@ public class MemberReceiveAddressController {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");
         }
-        Set<Long> collect = idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() >= 1).limit(10).collect(Collectors.toSet());
+        Set<Long> collect = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
         return ResponseEntity.ok(this.memberReceiveAddressService.removeByIds(collect) ? "删除成功" : "删除失败");
     }
 }

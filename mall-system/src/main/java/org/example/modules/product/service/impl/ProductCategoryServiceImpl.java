@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.server.MinioServer;
 import org.example.common.core.utils.BeanCopy;
@@ -46,7 +45,7 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
     }
 
     @Override
-    public ProductCategoryEntity getByCategoryId(@NotNull Long id) {
+    public ProductCategoryEntity getByCategoryId(Long id) {
         return lambdaQuery().eq(ProductCategoryEntity::getId, id).one();
     }
 

@@ -29,7 +29,7 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/app")
 @Tag(name = "AuthorizationController", description = "登录注册")
 public class AuthorizationController {
 

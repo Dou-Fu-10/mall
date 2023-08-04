@@ -44,7 +44,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
     }
 
     @Override
-    public List<MenuVo> findByUser(@NotNull Long currentUserId) {
+    public List<MenuVo> findByUser(Long currentUserId) {
         // TODO 校验是否为空 优化代码
         // 获取用户对应的角色
         List<RoleEntity> roles = roleService.findByUsersId(currentUserId);

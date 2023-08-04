@@ -1,6 +1,9 @@
 package org.example.modules.cartItem.serveice.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.validation.constraints.NotNull;
@@ -26,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -151,9 +153,19 @@ public class CartItemServiceImpl extends ServiceImpl<CartItemMapper, CartItemEnt
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    public Boolean removeBatchByIdsAndMemberId(@NotNull Set<Long> cartItemIds, @NotNull Long memberId) {
+    public Boolean removeBatchByIdsAndMemberId(@NotNull Set<Long> cartItemIds, Long memberId) {
         List<CartItemEntity> collect = cartItemIds.stream().map(id -> new CartItemEntity(id, memberId)).toList();
         return removeBatchByIds(collect);
+    }
+
+    @Override
+    public Page<CartItemVo> page(Page<CartItemEntity> page) {
+        CartItemEntity cartItemEntity = new CartItemEntity();
+        cartItemEntity.setMemberId(SecurityUtils.getCurrentUserId());
+        Page<CartItemEntity> cartItemEntityPage = page(page, new QueryWrapper<>(cartItemEntity));
+        IPage<CartItemVo> cartItemVoIpage = cartItemEntityPage.convert(cartItem -> BeanCopy.convert(cartItem, CartItemVo.class));
+        // TODO 获取商品的实时信息
+        return (Page<CartItemVo>) cartItemVoIpage;
     }
 }
 

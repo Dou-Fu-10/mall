@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import jakarta.validation.constraints.NotNull;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.product.entity.ProductEntity;
@@ -63,7 +62,7 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
     }
 
     @Override
-    public SkuStockVo getByIdAndProductId(@NotNull Long productSkuId, @NotNull Long productId) {
+    public SkuStockVo getByIdAndProductId(Long productSkuId, Long productId) {
         // 获取商品
         ProductEntity productEntity = productService.getById(productId);
         // 确保商品不为空

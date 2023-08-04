@@ -66,7 +66,7 @@ public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAd
     }
 
     @Override
-    public MemberReceiveAddressVo getReceiveAddressByMemberIdAndMemberReceiveAddressId(@NotNull Long memberReceiveAddressId, @NotNull Long memberId) {
+    public MemberReceiveAddressVo getReceiveAddressByMemberIdAndMemberReceiveAddressId(Long memberReceiveAddressId, Long memberId) {
         MemberReceiveAddressEntity memberReceiveAddressEntity = lambdaQuery().eq(MemberReceiveAddressEntity::getMemberId, memberId).eq(MemberReceiveAddressEntity::getId, memberReceiveAddressId).one();
         return BeanCopy.convert(memberReceiveAddressEntity, MemberReceiveAddressVo.class);
     }

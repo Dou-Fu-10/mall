@@ -125,7 +125,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     }
 
     @Override
-    public Boolean updateRole(@NotNull Long adminId, @NotNull Set<Long> roleIds) {
+    public Boolean updateRole(Long adminId, @NotNull Set<Long> roleIds) {
         // TODO 数据校验
         if (Objects.isNull(getById(adminId))) {
             return false;
@@ -134,12 +134,12 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     }
 
     @Override
-    public List<RoleVo> getRoleListByAdminId(@NotNull Long adminId) {
+    public List<RoleVo> getRoleListByAdminId(Long adminId) {
         return adminRolesRelationService.getRoleListByAdminId(adminId);
     }
 
     @Override
-    public List<MenuVo> getMenuList(@NotNull Long adminId) {
+    public List<MenuVo> getMenuList(Long adminId) {
         List<RoleVo> roleListByAdminId = adminRolesRelationService.getRoleListByAdminId(adminId);
         if (CollectionUtils.isEmpty(roleListByAdminId)) {
             return new ArrayList<>();
@@ -149,7 +149,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     }
 
     @Override
-    public Boolean updateStatus(@NotNull Long id, @NotNull Boolean status) {
+    public Boolean updateStatus(Long id, @NotNull Boolean status) {
         AdminEntity adminEntity = new AdminEntity();
         adminEntity.setEnabled(status);
         adminEntity.setId(id);

@@ -2,16 +2,14 @@ package org.example.modules.order.controller;
 
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.example.common.core.exception.BaseRequestException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.example.modules.order.entity.dto.OrderItemDto;
-import org.example.modules.order.entity.OrderItemEntity;
-import org.example.modules.order.service.OrderItemService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.common.core.exception.BaseRequestException;
+import org.example.modules.order.entity.OrderItemEntity;
+import org.example.modules.order.entity.dto.OrderItemDto;
+import org.example.modules.order.service.OrderItemService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -26,7 +24,7 @@ import java.util.stream.Collectors;
  * @Description 订单中所包含的商品(OrderItem)表控制层
  */
 @RestController
-@RequestMapping("/api/orderItem")
+@RequestMapping("/app/orderItem")
 @Tag(name = "OrderItemController", description = "")
 public class OrderItemController {
     /**
@@ -99,7 +97,7 @@ public class OrderItemController {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");
         }
-        Set<Long> collect = idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() >= 1).limit(10).collect(Collectors.toSet());
+        Set<Long> collect = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
         return ResponseEntity.ok(this.orderItemService.removeByIds(collect) ? "删除成功" : "删除失败");
     }
 }

@@ -62,6 +62,27 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     @Resource
     private OrderItemService orderItemService;
 
+    @org.jetbrains.annotations.NotNull
+    private static List<OrderItemEntity> getOrderItemEntities(List<CartItemVo> cartItemVoList) {
+        List<OrderItemEntity> orderItemEntityList = new ArrayList<>();
+        for (CartItemVo cartItemVo : cartItemVoList) {
+            // 生成下单商品信息
+            OrderItemEntity orderItem = new OrderItemEntity();
+            orderItem.setProductId(cartItemVo.getProductId());
+            orderItem.setProductName(cartItemVo.getProductName());
+            orderItem.setProductPic(cartItemVo.getProductPic());
+            orderItem.setProductAttr(cartItemVo.getProductAttr());
+            orderItem.setProductSn(cartItemVo.getProductSn());
+            orderItem.setProductPrice(cartItemVo.getPrice());
+            orderItem.setProductQuantity(cartItemVo.getQuantity());
+            orderItem.setProductSkuId(cartItemVo.getProductSkuId());
+            orderItem.setProductSkuCode(cartItemVo.getProductSkuCode());
+            orderItem.setProductCategoryId(cartItemVo.getProductCategoryId());
+            orderItemEntityList.add(orderItem);
+        }
+        return orderItemEntityList;
+    }
+
     @Override
     public Boolean save(OrderDto orderDto) {
         OrderEntity orderEntity = BeanCopy.convert(orderDto, OrderEntity.class);
@@ -100,7 +121,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         confirmOrderVo.setCalculateAmount(calcTotalAmount(cartItemVoList));
         return confirmOrderVo;
     }
-
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
@@ -187,31 +207,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         return result;
     }
 
-    @org.jetbrains.annotations.NotNull
-    private static List<OrderItemEntity> getOrderItemEntities(List<CartItemVo> cartItemVoList) {
-        List<OrderItemEntity> orderItemEntityList = new ArrayList<>();
-        for (CartItemVo cartItemVo : cartItemVoList) {
-            // 生成下单商品信息
-            OrderItemEntity orderItem = new OrderItemEntity();
-            orderItem.setProductId(cartItemVo.getProductId());
-            orderItem.setProductName(cartItemVo.getProductName());
-            orderItem.setProductPic(cartItemVo.getProductPic());
-            orderItem.setProductAttr(cartItemVo.getProductAttr());
-            orderItem.setProductSn(cartItemVo.getProductSn());
-            orderItem.setProductPrice(cartItemVo.getPrice());
-            orderItem.setProductQuantity(cartItemVo.getQuantity());
-            orderItem.setProductSkuId(cartItemVo.getProductSkuId());
-            orderItem.setProductSkuCode(cartItemVo.getProductSkuCode());
-            orderItem.setProductCategoryId(cartItemVo.getProductCategoryId());
-            orderItemEntityList.add(orderItem);
-        }
-        return orderItemEntityList;
-    }
-
     /**
      * 删除下单商品的购物车信息
      */
-    private Boolean deleteCartItemList(@NotNull List<CartItemVo> cartItemVoList, @NotNull Long memberId) {
+    private Boolean deleteCartItemList(@NotNull List<CartItemVo> cartItemVoList, Long memberId) {
         Set<Long> cartItemIds = cartItemVoList.stream().map(CartItemVo::getId).collect(Collectors.toSet());
         return cartItemService.removeBatchByIdsAndMemberId(cartItemIds, memberId);
     }

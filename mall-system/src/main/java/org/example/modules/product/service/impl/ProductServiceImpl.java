@@ -180,7 +180,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     }
 
     @Override
-    public Boolean updateStatus(@NotNull Long id, @NotNull Boolean status) {
+    public Boolean updateStatus(Long id, @NotNull Boolean status) {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setPublishStatus(status);
         productEntity.setId(id);

@@ -33,11 +33,23 @@ public class SwaggerConfig {
         return "/" + api + "/**";
     }
 
+    private String groupedApp(String api) {
+        return "/app/" + api + "/**";
+    }
+
     @Bean
     public GroupedOpenApi comment() {
         return GroupedOpenApi.builder()
                 .group("购物车")
-                .pathsToMatch(grouped("cart"))
+                .pathsToMatch(groupedApp("cart"))
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi platform() {
+        return GroupedOpenApi.builder()
+                .group("平台信息")
+                .pathsToMatch(grouped("homeAdvertise"), grouped("platformInformation"))
                 .build();
     }
 
@@ -45,16 +57,15 @@ public class SwaggerConfig {
     public GroupedOpenApi member() {
         return GroupedOpenApi.builder()
                 .group("会员")
-                .pathsToMatch(grouped("member"), grouped("memberLoginLog"),
-                        grouped("memberReceiveAddress"), grouped("auth"))
+                .pathsToMatch(groupedApp("member"), groupedApp("memberReceiveAddress"), groupedApp("auth"))
                 .build();
     }
 
     @Bean
     public GroupedOpenApi order() {
         return GroupedOpenApi.builder()
-                .group("平台信息")
-                .pathsToMatch(grouped("homeAdvertise"), grouped("platformInformation"))
+                .group("订单")
+                .pathsToMatch(groupedApp("order"), groupedApp("orderItem"))
                 .build();
     }
 

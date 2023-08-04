@@ -103,7 +103,7 @@ public class ProductCategoryController {
             throw new BaseRequestException("填写正确的id");
         }
         // 校验 id 格式是否正确
-        Set<Long> collect = idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() >= 1).limit(10).collect(Collectors.toSet());
+        Set<Long> collect = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
         if (CollectionUtils.isEmpty(collect)) {
             throw new BaseRequestException("填写正确的id");
         }
