@@ -8,21 +8,28 @@ import org.apache.commons.collections4.SetUtils;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.cartItem.entity.CartItemEntity;
+import org.example.modules.cartItem.entity.dto.AddCartItemDto;
 import org.example.modules.cartItem.entity.dto.CartItemDto;
 import org.example.modules.cartItem.entity.vo.CartItemVo;
 import org.example.modules.cartItem.mapper.CartItemMapper;
 import org.example.modules.cartItem.serveice.CartItemService;
 import org.example.modules.product.entity.ProductEntity;
+import org.example.modules.product.entity.vo.SkuStockVo;
 import org.example.modules.product.serveice.ProductService;
+import org.example.modules.product.service.SkuStockService;
 import org.example.security.entity.JwtMember;
 import org.example.security.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,13 +44,57 @@ import java.util.stream.Collectors;
 public class CartItemServiceImpl extends ServiceImpl<CartItemMapper, CartItemEntity> implements CartItemService {
     @Resource
     private ProductService productService;
+    @Resource
+    private SkuStockService skuStockService;
 
     @Override
-    public Boolean save(CartItemDto cartItem) {
+    public Boolean save(AddCartItemDto cartItem) {
+        // 购买数量
+        Integer quantity = cartItem.getQuantity();
+        if (quantity < 1) {
+            throw new BaseRequestException("请正确的填写购买数量");
+        }
+        CartItemEntity cartItemEntity = new CartItemEntity();
+        // 获取用户信息
         JwtMember currentUser = (JwtMember) SecurityUtils.getCurrentUser();
-        CartItemEntity cartItemEntity = BeanCopy.convert(cartItem, CartItemEntity.class);
+        if (Objects.isNull(currentUser)) {
+            throw new BaseRequestException("登录信息错误");
+        }
+        // 获取用户下但的sku
+        SkuStockVo skuStockVo = skuStockService.getByIdAndProductId(cartItem.getProductSkuId(), cartItem.getProductId());
+        // 判断 购买数量是否在范围之内
+        if (skuStockVo.getStock() < quantity) {
+            throw new BaseRequestException("请正确的填写购买数量");
+        }
+        ProductEntity productEntity = skuStockVo.getProduct();
+        // 设置商品id
+        cartItemEntity.setProductId(productEntity.getId());
+        // 商品SKUid
+        cartItemEntity.setProductSkuId(skuStockVo.getId());
+        // 商品分类
+        cartItemEntity.setProductCategoryId(productEntity.getProductCategoryId());
+        // 设置用户id
         cartItemEntity.setMemberId(currentUser.getUser().getId());
+        // 设置用户昵称
         cartItemEntity.setMemberNickname(currentUser.getUser().getNickname());
+        // 单个商品的价格
+        BigDecimal price = skuStockVo.getPrice();
+        // 商品销售属性:[{"key":"颜色","value":"颜色"},{"key":"容量","value":"4G"}]
+        cartItemEntity.setProductAttr(skuStockVo.getSpData());
+        // 商品编码
+        cartItemEntity.setProductSn(productEntity.getProductSn());
+        // 购买数量
+        cartItemEntity.setQuantity(quantity);
+        // 添加到购物车的价格
+        cartItemEntity.setPrice(productEntity.getPrice());
+        // 商品主图
+        cartItemEntity.setProductPic(productEntity.getPic());
+        // 商品名称
+        cartItemEntity.setProductName(productEntity.getName());
+        // 商品副标题（卖点）
+        cartItemEntity.setProductSubTitle(productEntity.getSubTitle());
+        // 商品sku条码
+        cartItemEntity.setProductSkuCode(skuStockVo.getSkuCode());
         return cartItemEntity.insert();
     }
 
@@ -86,7 +137,7 @@ public class CartItemServiceImpl extends ServiceImpl<CartItemMapper, CartItemEnt
                 }
             }
             // 将信息进行报错回显
-            throw new BaseRequestException(stringList + "缺货中");
+            throw new BaseRequestException(StringUtils.collectionToCommaDelimitedString(stringList) + "缺货中");
         }
         // TODO 待定库存信息
         cartItemVoList.forEach(cartItemVo -> productEntityList.forEach(productEntity -> {
@@ -100,7 +151,7 @@ public class CartItemServiceImpl extends ServiceImpl<CartItemMapper, CartItemEnt
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    public Boolean removeBatchByIdsAndMemberId(@NotNull Set<Long> cartItemIds,@NotNull Long memberId) {
+    public Boolean removeBatchByIdsAndMemberId(@NotNull Set<Long> cartItemIds, @NotNull Long memberId) {
         List<CartItemEntity> collect = cartItemIds.stream().map(id -> new CartItemEntity(id, memberId)).toList();
         return removeBatchByIds(collect);
     }

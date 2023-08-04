@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.cartItem.entity.CartItemEntity;
+import org.example.modules.cartItem.entity.dto.AddCartItemDto;
 import org.example.modules.cartItem.entity.dto.CartItemDto;
 import org.example.modules.cartItem.serveice.CartItemService;
 import org.example.security.annotaion.rest.AnonymousDeleteMapping;
@@ -71,7 +72,7 @@ public class CartItemController {
      * @return 新增结果
      */
     @AnonymousPostMapping
-    public ResponseEntity<Object> insert(@RequestBody CartItemDto cartItem) {
+    public ResponseEntity<Object> insert(@RequestBody AddCartItemDto cartItem) {
         if (this.cartItemService.save(cartItem)) {
             return ResponseEntity.ok("添加成功");
         }

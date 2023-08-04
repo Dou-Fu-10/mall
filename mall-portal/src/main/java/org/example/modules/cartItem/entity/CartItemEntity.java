@@ -31,8 +31,6 @@ public class CartItemEntity extends CommonEntity<CartItemEntity> implements Seri
         this.id = id;
         this.memberId = memberId;
     }
-
-
     /**
      * ID
      */
@@ -54,7 +52,11 @@ public class CartItemEntity extends CommonEntity<CartItemEntity> implements Seri
      * 会员id
      */
     private Long memberId;
-
+    /**
+     * 会员昵称
+     */
+    @Schema(name = "memberNickname", description = "会员昵称")
+    private String memberNickname;
     /**
      * 商品销售属性:[{"key":"颜色","value":"颜色"},{"key":"容量","value":"4G"}]
      */
@@ -95,11 +97,6 @@ public class CartItemEntity extends CommonEntity<CartItemEntity> implements Seri
      */
     @Schema(name = "productSkuCode", description = "商品sku条码")
     private String productSkuCode;
-    /**
-     * 会员昵称
-     */
-    @Schema(name = "memberNickname", description = "会员昵称")
-    private String memberNickname;
     /**
      * 创建时间
      */

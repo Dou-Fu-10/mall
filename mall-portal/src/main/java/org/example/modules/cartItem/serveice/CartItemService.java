@@ -2,6 +2,7 @@ package org.example.modules.cartItem.serveice;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.cartItem.entity.CartItemEntity;
+import org.example.modules.cartItem.entity.dto.AddCartItemDto;
 import org.example.modules.cartItem.entity.dto.CartItemDto;
 import org.example.modules.cartItem.entity.vo.CartItemVo;
 
@@ -22,7 +23,7 @@ public interface CartItemService extends IService<CartItemEntity> {
      * @param cartItem 实体对象
      * @return 新增结果
      */
-    Boolean save(CartItemDto cartItem);
+    Boolean save(AddCartItemDto cartItem);
 
     /**
      * 修改数据

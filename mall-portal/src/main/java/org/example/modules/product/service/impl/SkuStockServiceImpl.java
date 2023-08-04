@@ -1,18 +1,26 @@
 package org.example.modules.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
+import jakarta.validation.constraints.NotNull;
+import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
+import org.example.modules.product.entity.ProductEntity;
 import org.example.modules.product.entity.SkuStockEntity;
 import org.example.modules.product.entity.dto.SkuStockDto;
 import org.example.modules.product.entity.vo.SkuStockVo;
 import org.example.modules.product.mapper.SkuStockMapper;
+import org.example.modules.product.serveice.ProductService;
 import org.example.modules.product.service.SkuStockService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Dou-Fu-10 2023-08-01 22:28:59
@@ -23,6 +31,10 @@ import java.util.List;
  */
 @Service("skuStockService")
 public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEntity> implements SkuStockService {
+    @Resource
+    @Lazy
+    private ProductService productService;
+
     @Override
     public Boolean save(SkuStockDto skuStockDto) {
         SkuStockEntity skuStockEntity = BeanCopy.convert(skuStockDto, SkuStockEntity.class);
@@ -48,6 +60,28 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
     public List<SkuStockVo> getSkuStockByProductId(Long productId) {
         List<SkuStockEntity> skuStockEntityList = lambdaQuery().eq(SkuStockEntity::getProductId, productId).list();
         return BeanCopy.copytList(skuStockEntityList, SkuStockVo.class);
+    }
+
+    @Override
+    public SkuStockVo getByIdAndProductId(@NotNull Long productSkuId, @NotNull Long productId) {
+        // 获取商品
+        ProductEntity productEntity = productService.getById(productId);
+        // 确保商品不为空
+        if (Objects.isNull(productEntity)) {
+            throw new BaseRequestException("请正确的填写商品数据");
+        }
+        SkuStockEntity skuStockEntity = new SkuStockEntity();
+        skuStockEntity.setId(productSkuId);
+        skuStockEntity.setProductId(productEntity.getId());
+        // 获取sku
+        SkuStockEntity stockEntity = getOne(new QueryWrapper<>(skuStockEntity));
+        // 确保sku不为空
+        if (Objects.isNull(stockEntity)) {
+            throw new BaseRequestException("请正确的填写商品数据");
+        }
+        SkuStockVo skuStockVo = BeanCopy.convert(stockEntity, SkuStockVo.class);
+        skuStockVo.setProduct(productEntity);
+        return skuStockVo;
     }
 }
 

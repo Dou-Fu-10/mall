@@ -97,8 +97,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         // 获取用户购物车信息
         List<CartItemVo> cartItemVoList = cartItemService.getCartItemByMemberIdAndCartIds(memberId, cartIds);
         confirmOrderVo.setCartItemVoList(cartItemVoList);
-
-
         confirmOrderVo.setCalculateAmount(calcTotalAmount(cartItemVoList));
         return confirmOrderVo;
     }

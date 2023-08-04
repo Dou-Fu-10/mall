@@ -48,4 +48,12 @@ public interface SkuStockService extends IService<SkuStockEntity> {
      * @return sku列表
      */
     List<SkuStockVo> getSkuStockByProductId(Long productId);
+
+    /**
+     * 通过skuId 和 商品列表获取 sku信息
+     * @param productSkuId sku Id
+     * @param productId 商品id
+     * @return SkuStockVo
+     */
+    SkuStockVo getByIdAndProductId(Long productSkuId, Long productId);
 }
