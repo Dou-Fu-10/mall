@@ -1,25 +1,25 @@
 package org.example.modules.order.entity;
 
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.example.common.core.base.CommonEntity;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
+import org.example.common.core.base.CommonEntity;
+
 /**
- * Created by Dou-Fu-10 2023-07-14 14:34:29
+ * Created by Dou-Fu-10 2023-08-04 11:32:58
  *
  * @author Dou-Fu-10
- * @date 2023-07-14 14:34:29
+ * @date 2023-08-04 11:32:58
  * @Description 订单中所包含的商品(OrderItem)表实体类
  */
 @Data
@@ -108,36 +108,32 @@ public class OrderItemEntity extends CommonEntity<OrderItemEntity> implements Se
     /**
      * 商品销售属性:[{"key":"颜色","value":"颜色"},{"key":"容量","value":"4G"}]
      */
-    @Schema(name = "productAttr", description = "商品销售属性")
+    @Schema(name = "productAttr", description = "")
     private String productAttr;
-
     /**
      * 创建人
      * 创建
      */
-    @JsonIgnore
     @TableField(exist = false)
     private String createBy;
     /**
      * 更新人
      * 创建、更新
      */
-    @JsonIgnore
     @TableField(exist = false)
     private String updateBy;
     /**
      * 创建时间
      * 创建
      */
-    @JsonIgnore
     @TableField(exist = false)
     private Date createTime;
     /**
      * 更新时间
      * 创建、更新
      */
-    @JsonIgnore
     @TableField(exist = false)
     private Date updateTime;
+
 }
 

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -63,7 +64,7 @@ public class OrderReturnApplyEntity extends CommonEntity<OrderReturnApplyEntity>
      * 退款金额
      */
     @Schema(name = "returnAmount", description = "退款金额")
-    private Double returnAmount;
+    private BigDecimal returnAmount;
     /**
      * 退货人姓名
      */
@@ -113,12 +114,12 @@ public class OrderReturnApplyEntity extends CommonEntity<OrderReturnApplyEntity>
      * 商品单价
      */
     @Schema(name = "productPrice", description = "商品单价")
-    private Double productPrice;
+    private BigDecimal productPrice;
     /**
      * 商品实际支付单价
      */
     @Schema(name = "productRealPrice", description = "商品实际支付单价")
-    private Double productRealPrice;
+    private BigDecimal productRealPrice;
     /**
      * 原因
      */

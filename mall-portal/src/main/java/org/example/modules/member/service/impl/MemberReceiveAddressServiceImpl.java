@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import jakarta.validation.constraints.NotNull;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.member.entity.MemberReceiveAddressEntity;
@@ -32,7 +33,7 @@ public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAd
     private MemberService memberService;
 
     @Override
-    public Boolean save(MemberReceiveAddressDto memberReceiveAddressDto) {
+    public Boolean save(@NotNull MemberReceiveAddressDto memberReceiveAddressDto) {
         MemberReceiveAddressEntity memberReceiveAddressEntity = BeanCopy.convert(memberReceiveAddressDto, MemberReceiveAddressEntity.class);
         if (Objects.isNull(memberService.getById(memberReceiveAddressEntity.getMemberId()))) {
             throw new BaseRequestException("请正确的填写信息");
@@ -41,7 +42,7 @@ public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAd
     }
 
     @Override
-    public Boolean updateById(MemberReceiveAddressDto memberReceiveAddressDto) {
+    public Boolean updateById(@NotNull MemberReceiveAddressDto memberReceiveAddressDto) {
         MemberReceiveAddressEntity memberReceiveAddressEntity = BeanCopy.convert(memberReceiveAddressDto, MemberReceiveAddressEntity.class);
         if (Objects.isNull(memberService.getById(memberReceiveAddressEntity.getMemberId()))) {
             throw new BaseRequestException("请正确的填写信息");
@@ -59,9 +60,15 @@ public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAd
     }
 
     @Override
-    public List<MemberReceiveAddressVo> getReceiveAddressByMemberId(Serializable memberId) {
+    public List<MemberReceiveAddressVo> getReceiveAddressByMemberId(@NotNull Serializable memberId) {
         List<MemberReceiveAddressEntity> memberReceiveAddressEntityList = lambdaQuery().eq(MemberReceiveAddressEntity::getMemberId, memberId).list();
         return BeanCopy.copytList(memberReceiveAddressEntityList, MemberReceiveAddressVo.class);
+    }
+
+    @Override
+    public MemberReceiveAddressVo getReceiveAddressByMemberIdAndMemberReceiveAddressId(@NotNull Long memberReceiveAddressId, @NotNull Long memberId) {
+        MemberReceiveAddressEntity memberReceiveAddressEntity = lambdaQuery().eq(MemberReceiveAddressEntity::getMemberId, memberId).eq(MemberReceiveAddressEntity::getId, memberReceiveAddressId).one();
+        return BeanCopy.convert(memberReceiveAddressEntity, MemberReceiveAddressVo.class);
     }
 }
 

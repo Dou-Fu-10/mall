@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -49,7 +50,7 @@ public class OrderReturnApplyDto {
     /**
      * 退款金额
      */
-    private Double returnAmount;
+    private BigDecimal returnAmount;
     /**
      * 退货人姓名
      */
@@ -89,11 +90,11 @@ public class OrderReturnApplyDto {
     /**
      * 商品单价
      */
-    private Double productPrice;
+    private BigDecimal productPrice;
     /**
      * 商品实际支付单价
      */
-    private Double productRealPrice;
+    private BigDecimal productRealPrice;
     /**
      * 原因
      */

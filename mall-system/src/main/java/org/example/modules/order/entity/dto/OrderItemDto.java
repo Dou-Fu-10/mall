@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 /**
  * Created by Dou-Fu-10 2023-07-14 14:34:29
  *
@@ -56,7 +58,7 @@ public class OrderItemDto {
     /**
      * 销售价格
      */
-    private Double productPrice;
+    private BigDecimal productPrice;
     /**
      * 购买数量
      */
@@ -72,15 +74,15 @@ public class OrderItemDto {
     /**
      * 商品促销分解金额
      */
-    private Double promotionAmount;
+    private BigDecimal promotionAmount;
     /**
      * 积分优惠分解金额
      */
-    private Double integrationAmount;
+    private BigDecimal integrationAmount;
     /**
      * 该商品经过优惠后的分解金额
      */
-    private Double realAmount;
+    private BigDecimal realAmount;
     /**
      * 商品销售属性:[{"key":"颜色","value":"颜色"},{"key":"容量","value":"4G"}]
      */

@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  * @Description 购物车表(CartItem)表控制层
  */
 @RestController
-@RequestMapping("/cartItem")
+@RequestMapping("/cart")
 @Tag(name = "CartItemController", description = "购物车表(CartItem)表控制层")
 public class CartItemController {
     /**

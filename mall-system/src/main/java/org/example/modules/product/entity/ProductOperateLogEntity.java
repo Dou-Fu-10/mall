@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -40,22 +41,22 @@ public class ProductOperateLogEntity extends CommonEntity<ProductOperateLogEntit
      * 旧价格
      */
     @Schema(name = "priceOld", description = "旧价格")
-    private Double priceOld;
+    private BigDecimal priceOld;
     /**
      * 新价格
      */
     @Schema(name = "priceNew", description = "新价格")
-    private Double priceNew;
+    private BigDecimal priceNew;
     /**
      * 销售旧价格
      */
     @Schema(name = "salePriceOld", description = "销售旧价格")
-    private Double salePriceOld;
+    private BigDecimal salePriceOld;
     /**
      * 销售新价格
      */
     @Schema(name = "salePriceNew", description = "销售新价格")
-    private Double salePriceNew;
+    private BigDecimal salePriceNew;
     /**
      * 更新价格者
      */

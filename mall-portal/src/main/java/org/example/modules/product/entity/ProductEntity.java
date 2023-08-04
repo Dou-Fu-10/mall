@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -97,7 +98,7 @@ public class ProductEntity extends CommonEntity<ProductEntity> implements Serial
      * 价格
      */
     @Schema(name = "price", description = "价格")
-    private Double price;
+    private BigDecimal price;
     /**
      * 副标题
      */
@@ -112,7 +113,7 @@ public class ProductEntity extends CommonEntity<ProductEntity> implements Serial
      * 市场价
      */
     @Schema(name = "originalPrice", description = "市场价")
-    private Double originalPrice;
+    private BigDecimal originalPrice;
     /**
      * 库存
      */
@@ -132,7 +133,7 @@ public class ProductEntity extends CommonEntity<ProductEntity> implements Serial
      * 商品重量，默认为克
      */
     @Schema(name = "weight", description = "商品重量，默认为克")
-    private Double weight;
+    private BigDecimal weight;
     /**
      * 以逗号分割的产品服务：1->无忧退货；2->快速退款；3->免费包邮
      */

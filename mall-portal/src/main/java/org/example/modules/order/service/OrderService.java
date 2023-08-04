@@ -3,8 +3,13 @@ package org.example.modules.order.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.order.entity.OrderEntity;
+import org.example.modules.order.entity.dto.GenerateOrderDto;
 import org.example.modules.order.entity.dto.OrderDto;
+import org.example.modules.order.entity.vo.ConfirmOrderVo;
 import org.example.modules.order.entity.vo.OrderVo;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Dou-Fu-10 2023-08-03 14:28:08
@@ -38,4 +43,18 @@ public interface OrderService extends IService<OrderEntity> {
      * @return 所有数据
      */
     Page<OrderVo> page(Page<OrderEntity> page, OrderDto orderDto);
+    /**
+     * 根据购物车信息生成确认单
+     *
+     * @param cartIds 购物车id列表
+     * @return 生成确认单
+     */
+    ConfirmOrderVo generateConfirmOrder(List<Long> cartIds);
+    /**
+     * 生成订单
+     *
+     * @param generateOrderDto 订单信息
+     * @return 生成结果
+     */
+    Map<String, Object> generateOrder(GenerateOrderDto generateOrderDto);
 }

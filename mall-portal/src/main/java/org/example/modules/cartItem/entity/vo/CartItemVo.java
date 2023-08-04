@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -53,7 +54,7 @@ public class CartItemVo {
     /**
      * 添加到购物车的价格
      */
-    private Double price;
+    private BigDecimal price;
     /**
      * 商品主图
      */
@@ -77,7 +78,7 @@ public class CartItemVo {
     /**
      * 创建时间
      */
-    private Date createDate;
+    private Date createTime;
     /**
      * 修改时间
      */
@@ -86,7 +87,10 @@ public class CartItemVo {
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
     private Integer deleteFlag;
-
+    /**
+     * 剩余库存
+     */
+    private Integer realStock;
 
 }
 

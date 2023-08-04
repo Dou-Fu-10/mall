@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:36:26
@@ -44,16 +45,16 @@ public class FeightTemplateEntity extends CommonEntity<FeightTemplateEntity> imp
      * 首重kg
      */
     @Schema(name = "firstWeight", description = "首重kg")
-    private Double firstWeight;
+    private BigDecimal firstWeight;
     /**
      * 首费（元）
      */
     @Schema(name = "firstFee", description = "首费（元）")
-    private Double firstFee;
+    private BigDecimal firstFee;
     @Schema(name = "continueWeight", description = "${column.comment}")
-    private Double continueWeight;
+    private BigDecimal continueWeight;
     @Schema(name = "continmeFee", description = "${column.comment}")
-    private Double continmeFee;
+    private BigDecimal continmeFee;
     /**
      * 目的地（省、市）
      */

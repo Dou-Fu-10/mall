@@ -2,15 +2,22 @@ package org.example.modules.order.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.order.entity.OrderEntity;
+import org.example.modules.order.entity.dto.GenerateOrderDto;
 import org.example.modules.order.entity.dto.OrderDto;
+import org.example.modules.order.entity.vo.ConfirmOrderVo;
 import org.example.modules.order.service.OrderService;
+import org.example.security.annotaion.rest.AnonymousGetMapping;
+import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Dou-Fu-10 2023-08-03 14:28:08
@@ -20,7 +27,7 @@ import java.io.Serializable;
  * @Description 订单表(Order)表控制层
  */
 @RestController
-@RequestMapping("/api/order")
+@RequestMapping("/order")
 @Tag(name = "OrderController", description = "")
 public class OrderController {
     /**
@@ -53,21 +60,6 @@ public class OrderController {
     }
 
     /**
-     * 新增数据
-     *
-     * @param orderDto 实体对象
-     * @return 新增结果
-     */
-    @PostMapping
-    public ResponseEntity<Object> insert(@RequestBody OrderDto orderDto) {
-        if (this.orderService.save(orderDto)) {
-            return ResponseEntity.ok("添加成功");
-        }
-        // 修改成自定义的 错误类型
-        throw new RuntimeException("添加失败");
-    }
-
-    /**
      * 修改数据
      *
      * @param orderDto 实体对象
@@ -80,6 +72,30 @@ public class OrderController {
         }
         // 修改成自定义的 错误类型
         throw new RuntimeException("修改失败");
+    }
+
+    /**
+     * 根据购物车信息生成确认单
+     *
+     * @param cartIds 购物车id列表
+     * @return 生成结果
+     */
+    @Operation(summary = "根据购物车信息生成确认单", description = "根据购物车信息生成确认单")
+    @AnonymousGetMapping(value = "/generateConfirmationOrder")
+    public ResponseEntity<ConfirmOrderVo> generateConfirmOrder(@RequestBody List<Long> cartIds) {
+        return ResponseEntity.ok(orderService.generateConfirmOrder(cartIds));
+    }
+
+    /**
+     * 生成订单
+     *
+     * @param generateOrderDto 订单信息
+     * @return 生成确认单
+     */
+    @Operation(summary = "根据购物车信息生成确认单", description = "根据购物车信息生成确认单")
+    @AnonymousPostMapping(value = "/generateOrder")
+    public ResponseEntity<Map<String, Object>> generateOrder(@RequestBody GenerateOrderDto generateOrderDto) {
+        return ResponseEntity.ok(this.orderService.generateOrder(generateOrderDto));
     }
 }
 

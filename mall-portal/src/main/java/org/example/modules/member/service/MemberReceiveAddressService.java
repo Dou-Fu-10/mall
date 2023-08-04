@@ -43,10 +43,18 @@ public interface MemberReceiveAddressService extends IService<MemberReceiveAddre
     Page<MemberReceiveAddressVo> page(Page<MemberReceiveAddressEntity> page, MemberReceiveAddressDto memberReceiveAddressDto);
 
     /**
-     * 分页查询所有数据
+     * 通过会员id获取会员的地址信息
      *
      * @param memberId 会员id
      * @return 所有数据
      */
     List<MemberReceiveAddressVo> getReceiveAddressByMemberId(Serializable memberId);
+
+    /**
+     * 通过地址id 和 用户id 精确 地址
+     * @param memberReceiveAddressId 地址id
+     * @param memberId 用户id
+     * @return 地址
+     */
+    MemberReceiveAddressVo getReceiveAddressByMemberIdAndMemberReceiveAddressId(Long memberReceiveAddressId, Long memberId);
 }

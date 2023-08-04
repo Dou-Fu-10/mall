@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * Created by Dou-Fu-10 2023-07-15 11:35:49
@@ -40,7 +41,7 @@ public class SkuStockEntity extends CommonEntity<SkuStockEntity> implements Seri
      * 价格
      */
     @Schema(name = "price", description = "价格")
-    private Double price;
+    private BigDecimal price;
     /**
      * 库存
      */
@@ -65,7 +66,7 @@ public class SkuStockEntity extends CommonEntity<SkuStockEntity> implements Seri
      * 单品促销价格
      */
     @Schema(name = "promotionPrice", description = "单品促销价格")
-    private Double promotionPrice;
+    private BigDecimal promotionPrice;
     /**
      * 锁定库存
      */

@@ -33,6 +33,11 @@ public class MemberEntity extends CommonEntity<MemberEntity> implements Serializ
      * 上级用户ID
      */
     private Long parentId;
+
+    /**
+     * 用户名
+     */
+    private String username;
     /**
      * 密码
      */

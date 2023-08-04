@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -37,7 +38,7 @@ public class PrizePoolDto {
     /**
      * 会员费用
      */
-    private Double memberFees;
+    private BigDecimal memberFees;
     /**
      * 创建日期
      */

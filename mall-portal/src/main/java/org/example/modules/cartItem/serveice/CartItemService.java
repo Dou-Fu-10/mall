@@ -3,6 +3,10 @@ package org.example.modules.cartItem.serveice;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.cartItem.entity.CartItemEntity;
 import org.example.modules.cartItem.entity.dto.CartItemDto;
+import org.example.modules.cartItem.entity.vo.CartItemVo;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:35:11
@@ -18,7 +22,7 @@ public interface CartItemService extends IService<CartItemEntity> {
      * @param cartItem 实体对象
      * @return 新增结果
      */
-    boolean save(CartItemDto cartItem);
+    Boolean save(CartItemDto cartItem);
 
     /**
      * 修改数据
@@ -26,5 +30,21 @@ public interface CartItemService extends IService<CartItemEntity> {
      * @param cartItem 实体对象
      * @return 修改结果
      */
-    boolean updateById(CartItemDto cartItem);
+    Boolean updateById(CartItemDto cartItem);
+
+    /**
+     * 通过会员id和购物车id获取购物车信息
+     * @param memberId 会员id
+     * @param cartIds 购物车id列表
+     * @return 购物车信息
+     */
+    List<CartItemVo> getCartItemByMemberIdAndCartIds(Long memberId, List<Long> cartIds);
+
+    /**
+     * 删除购物车信息
+     * @param cartItemIds 购物车id
+     * @param memberId 会员id
+     * @return Boolean
+     */
+    Boolean removeBatchByIdsAndMemberId(Set<Long> cartItemIds, Long memberId);
 }

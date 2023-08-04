@@ -26,11 +26,6 @@ public class MemberVo {
      * 上级用户ID
      */
     private Long parentId;
-
-    /**
-     * 用户名
-     */
-    private String username;
     /**
      * 密码
      */

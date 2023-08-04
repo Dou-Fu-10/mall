@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -53,7 +54,7 @@ public class CartItemDto {
     /**
      * 添加到购物车的价格
      */
-    private Double price;
+    private BigDecimal price;
     /**
      * 商品主图
      */
@@ -77,7 +78,7 @@ public class CartItemDto {
     /**
      * 创建时间
      */
-    private Date createDate;
+    private Date createTime;
     /**
      * 修改时间
      */

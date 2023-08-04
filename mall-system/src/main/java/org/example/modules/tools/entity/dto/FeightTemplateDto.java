@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 /**
  * Created by Dou-Fu-10 2023-07-14 14:36:26
  *
@@ -32,13 +34,13 @@ public class FeightTemplateDto {
     /**
      * 首重kg
      */
-    private Double firstWeight;
+    private BigDecimal firstWeight;
     /**
      * 首费（元）
      */
-    private Double firstFee;
-    private Double continueWeight;
-    private Double continmeFee;
+    private BigDecimal firstFee;
+    private BigDecimal continueWeight;
+    private BigDecimal continmeFee;
     /**
      * 目的地（省、市）
      */

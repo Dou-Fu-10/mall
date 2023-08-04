@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -29,19 +30,19 @@ public class ProductOperateLogDto {
     /**
      * 旧价格
      */
-    private Double priceOld;
+    private BigDecimal priceOld;
     /**
      * 新价格
      */
-    private Double priceNew;
+    private BigDecimal priceNew;
     /**
      * 销售旧价格
      */
-    private Double salePriceOld;
+    private BigDecimal salePriceOld;
     /**
      * 销售新价格
      */
-    private Double salePriceNew;
+    private BigDecimal salePriceNew;
     /**
      * 更新价格者
      */

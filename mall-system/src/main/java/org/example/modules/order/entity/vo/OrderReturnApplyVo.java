@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.modules.tools.entity.vo.CompanyAddressVo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -52,7 +53,7 @@ public class OrderReturnApplyVo {
     /**
      * 退款金额
      */
-    private Double returnAmount;
+    private BigDecimal returnAmount;
     /**
      * 退货人姓名
      */
@@ -92,11 +93,11 @@ public class OrderReturnApplyVo {
     /**
      * 商品单价
      */
-    private Double productPrice;
+    private BigDecimal productPrice;
     /**
      * 商品实际支付单价
      */
-    private Double productRealPrice;
+    private BigDecimal productRealPrice;
     /**
      * 原因
      */

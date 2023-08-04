@@ -19,7 +19,7 @@ import java.io.IOException;
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        log.error("认证或者授权失败:url=" + request.getRequestURI() + request.getHeader("Authorization"));
+        log.error("认证或者授权失败:url=" + request.getRequestURI() + " --- token=" + request.getHeader("Authorization"));
         // 当用户尝试访问安全的REST资源而不提供任何凭据时，将调用此方法发送401 响应
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException == null ? "认证或者授权失败" : authException.getMessage());
     }

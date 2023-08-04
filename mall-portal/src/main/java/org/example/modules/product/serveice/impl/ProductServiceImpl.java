@@ -6,7 +6,11 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import jakarta.validation.constraints.NotNull;
+import org.apache.commons.collections4.SetUtils;
+import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
+import org.example.modules.cartItem.entity.vo.CartItemVo;
 import org.example.modules.product.entity.ProductEntity;
 import org.example.modules.product.entity.dto.ProductDto;
 import org.example.modules.product.entity.vo.*;
@@ -18,6 +22,7 @@ import org.example.modules.product.service.SkuStockService;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -54,8 +59,12 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
         }
         List<SkuStockVo> skuStockList = skuStockService.getSkuStockByProductId(productVo.getId());
         List<ProductAttributeValueVo> productAttributeValueList = productAttributeValueService.getProductAttributeValueByProductId(productVo.getId());
-        Set<Long> productAttributeIds = productAttributeValueList.stream().map(ProductAttributeValueVo::getProductAttributeId).collect(Collectors.toSet());
-        List<ProductAttributeVo> productAttributeList = productAttributeService.findListByIds(productAttributeIds);
+        List<ProductAttributeVo> productAttributeList = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(productAttributeValueList)) {
+            Set<Long> productAttributeIds = productAttributeValueList.stream().map(ProductAttributeValueVo::getProductAttributeId).collect(Collectors.toSet());
+            productAttributeService.findListByIds(productAttributeIds);
+        }
+
 
         return new ProductDetail(productVo, productAttributeList, productAttributeValueList, skuStockList);
     }

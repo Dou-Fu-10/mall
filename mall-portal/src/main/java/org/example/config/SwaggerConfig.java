@@ -37,7 +37,7 @@ public class SwaggerConfig {
     public GroupedOpenApi comment() {
         return GroupedOpenApi.builder()
                 .group("购物车")
-                .pathsToMatch(grouped("cartItem"))
+                .pathsToMatch(grouped("cart"))
                 .build();
     }
 

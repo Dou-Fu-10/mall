@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
@@ -78,7 +79,7 @@ public class ProductDto {
     /**
      * 价格
      */
-    private Double price;
+    private BigDecimal price;
     /**
      * 副标题
      */
@@ -90,7 +91,7 @@ public class ProductDto {
     /**
      * 市场价
      */
-    private Double originalPrice;
+    private BigDecimal originalPrice;
     /**
      * 库存
      */
@@ -106,7 +107,7 @@ public class ProductDto {
     /**
      * 商品重量，默认为克
      */
-    private Double weight;
+    private BigDecimal weight;
     /**
      * 以逗号分割的产品服务：1->无忧退货；2->快速退款；3->免费包邮
      */

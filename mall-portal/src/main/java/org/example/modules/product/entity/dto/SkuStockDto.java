@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -38,7 +39,7 @@ public class SkuStockDto {
      * 价格
      */
     @Schema(name = "price", description = "价格")
-    private Double price;
+    private BigDecimal price;
     /**
      * 库存
      */
@@ -63,7 +64,7 @@ public class SkuStockDto {
      * 单品促销价格
      */
     @Schema(name = "promotionPrice", description = "单品促销价格")
-    private Double promotionPrice;
+    private BigDecimal promotionPrice;
     /**
      * 锁定库存
      */
