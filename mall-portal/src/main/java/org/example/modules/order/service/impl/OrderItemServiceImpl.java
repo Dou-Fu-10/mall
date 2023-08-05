@@ -48,6 +48,9 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
 
     @Override
     public List<OrderItemVo> getByOrderIds(List<Long> orderIds) {
+        if (CollectionUtils.isEmpty(orderIds)) {
+            return new ArrayList<>();
+        }
         List<OrderItemEntity> orderItemEntityList = lambdaQuery().in(OrderItemEntity::getOrderId, orderIds).list();
         if (CollectionUtils.isEmpty(orderItemEntityList)) {
             return new ArrayList<>();

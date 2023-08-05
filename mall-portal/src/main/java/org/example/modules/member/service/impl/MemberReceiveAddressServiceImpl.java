@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.validation.constraints.NotNull;
-import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.member.entity.MemberReceiveAddressEntity;
 import org.example.modules.member.entity.dto.MemberReceiveAddressDto;
@@ -16,8 +15,12 @@ import org.example.modules.member.service.MemberReceiveAddressService;
 import org.example.modules.member.service.MemberService;
 import org.example.security.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,21 +33,57 @@ import java.util.Objects;
  */
 @Service("memberReceiveAddressService")
 public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAddressMapper, MemberReceiveAddressEntity> implements MemberReceiveAddressService {
-    @Resource
-    private MemberService memberService;
+
 
     @Override
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean save(@NotNull MemberReceiveAddressDto memberReceiveAddressDto) {
         MemberReceiveAddressEntity memberReceiveAddressEntity = BeanCopy.convert(memberReceiveAddressDto, MemberReceiveAddressEntity.class);
         memberReceiveAddressEntity.setMemberId(SecurityUtils.getCurrentUserId());
+        if (Objects.nonNull(memberReceiveAddressDto.getDefaultStatus()) && memberReceiveAddressDto.getDefaultStatus()){
+            List<MemberReceiveAddressEntity> memberReceiveAddressEntityList = lambdaQuery().eq(MemberReceiveAddressEntity::getMemberId, SecurityUtils.getCurrentUserId()).list();
+            for (MemberReceiveAddressEntity receiveAddressEntity : memberReceiveAddressEntityList) {
+                    receiveAddressEntity.setDefaultStatus(false);
+            }
+            return updateBatchById(memberReceiveAddressEntityList);
+        }
         return save(memberReceiveAddressEntity);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean updateById(@NotNull MemberReceiveAddressDto memberReceiveAddressDto) {
+        Long memberId = SecurityUtils.getCurrentUserId();
         MemberReceiveAddressEntity memberReceiveAddressEntity = BeanCopy.convert(memberReceiveAddressDto, MemberReceiveAddressEntity.class);
-        memberReceiveAddressEntity.setMemberId(SecurityUtils.getCurrentUserId());
-        return updateById(memberReceiveAddressEntity);
+        memberReceiveAddressEntity.setMemberId(memberId);
+        // 判断是否修改的是默认地址
+        if (Objects.isNull(memberReceiveAddressDto.getDefaultStatus())) {
+            return updateById(memberReceiveAddressEntity);
+        } else {
+            // 要修改的 地址
+            Long memberReceiveAddressId = memberReceiveAddressEntity.getId();
+            MemberReceiveAddressEntity memberReceiveAddress = lambdaQuery().eq(MemberReceiveAddressEntity::getId, memberReceiveAddressId) // 以地址id为条件
+                    .eq(MemberReceiveAddressEntity::getMemberId, memberId) // 以会员id为条件
+                    .eq(MemberReceiveAddressEntity::getDefaultStatus, memberReceiveAddressDto.getDefaultStatus()).one(); // 是否为默认地址为条件
+            // 不为空说明 不修改默认地址
+            if (Objects.nonNull(memberReceiveAddress)) {
+                return updateById(memberReceiveAddressEntity);
+            } else {
+                // 简要修改默认地址
+                // 查询 会员的所有地址
+                List<MemberReceiveAddressEntity> memberReceiveAddressEntityList = lambdaQuery().eq(MemberReceiveAddressEntity::getMemberId, SecurityUtils.getCurrentUserId()).list();
+                List<MemberReceiveAddressEntity> newMemberReceiveAddressEntityList = new ArrayList<>();
+                newMemberReceiveAddressEntityList.add(memberReceiveAddressEntity);
+
+                for (MemberReceiveAddressEntity receiveAddressEntity : memberReceiveAddressEntityList) {
+                    if (!receiveAddressEntity.getId().equals(memberReceiveAddressId)) {
+                        receiveAddressEntity.setDefaultStatus(false);
+                        newMemberReceiveAddressEntityList.add(receiveAddressEntity);
+                    }
+                }
+                return updateBatchById(newMemberReceiveAddressEntityList);
+            }
+        }
     }
 
     @Override

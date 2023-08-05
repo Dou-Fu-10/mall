@@ -10,6 +10,7 @@ import org.example.modules.member.entity.MemberReceiveAddressEntity;
 import org.example.modules.member.entity.dto.MemberReceiveAddressDto;
 import org.example.modules.member.service.MemberReceiveAddressService;
 import org.example.security.annotaion.rest.AnonymousDeleteMapping;
+import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.example.security.utils.SecurityUtils;
@@ -43,12 +44,15 @@ public class MemberReceiveAddressController {
     /**
      * 通过主键查询单条数据
      *
-     * @param memberId 主键
+     * @param id 主键
      * @return 单条数据
      */
-//    @AnonymousGetMapping("/{memberId}")
-    public ResponseEntity<Object> selectOne(@PathVariable Serializable memberId) {
-        return ResponseEntity.ok(this.memberReceiveAddressService.getReceiveAddressByMemberId(memberId));
+    @AnonymousGetMapping("/{id}")
+    public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
+        MemberReceiveAddressEntity memberReceiveAddressEntity = memberReceiveAddressService.lambdaQuery()
+                .eq(MemberReceiveAddressEntity::getMemberId, SecurityUtils.getCurrentUserId())
+                .eq(MemberReceiveAddressEntity::getId, id).one();
+        return ResponseEntity.ok(memberReceiveAddressEntity);
     }
 
     /**

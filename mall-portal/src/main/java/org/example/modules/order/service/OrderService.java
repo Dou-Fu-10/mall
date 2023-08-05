@@ -60,5 +60,24 @@ public interface OrderService extends IService<OrderEntity> {
      * @return 生成结果
      */
     Map<String, Object> generateOrder(GenerateOrderDto generateOrderDto);
-
+    /**
+     * 确认收货
+     * @param orderId 订单id
+     * @return /
+     */
+    Boolean confirmReceiveOrder(Long orderId);
+    /**
+     * 用户删除订单
+     *
+     * @param orderId 订单id
+     * @return /
+     */
+    Boolean deleteOrder(Long orderId);
+    /**
+     * 用户取消订单
+     *
+     * @param orderId 订单id
+     * @return /
+     */
+    Boolean cancelOrder(Long orderId);
 }

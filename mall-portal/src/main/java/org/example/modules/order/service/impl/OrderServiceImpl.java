@@ -237,6 +237,58 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         return result;
     }
 
+    @Override
+    public Boolean confirmReceiveOrder(Long orderId) {
+        Long memberId = SecurityUtils.getCurrentUserId();
+        OrderEntity orderEntity = getById(orderId);
+        if (!memberId.equals(orderEntity.getMemberId())) {
+            throw new BaseRequestException("不能确认他人订单！");
+        }
+        if (orderEntity.getStatus() != 2) {
+            throw new BaseRequestException("该订单还未发货！");
+        }
+        orderEntity.setStatus(3);
+        orderEntity.setConfirmStatus(true);
+        orderEntity.setReceiveTime(new Date());
+        return updateById(orderEntity);
+    }
+
+    @Override
+    public Boolean deleteOrder(Long orderId) {
+        Long memberId = SecurityUtils.getCurrentUserId();
+        OrderEntity orderEntity = getById(orderId);
+        if (!memberId.equals(orderEntity.getMemberId())) {
+            throw new BaseRequestException("不能删除他人订单！！");
+        }
+        if (orderEntity.getStatus() == 3 || orderEntity.getStatus() == 4) {
+            return updateById(orderEntity);
+        } else {
+            throw new BaseRequestException("只能删除已完成或已关闭的订单！");
+        }
+    }
+
+    @Override
+    public Boolean cancelOrder(Long orderId) {
+        //查询未付款的取消订单
+        LambdaQueryWrapper<OrderEntity> orderEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        orderEntityLambdaQueryWrapper.eq(OrderEntity::getId, orderId);
+        orderEntityLambdaQueryWrapper.eq(OrderEntity::getStatus, 0);
+        OrderEntity orderEntity = getOne(orderEntityLambdaQueryWrapper);
+
+        if (Objects.isNull(orderEntity)) {
+            return false;
+        }
+        //修改订单状态为取消
+        orderEntity.setStatus(4);
+        updateById(orderEntity);
+        List<OrderItemVo> orderItemVoList = orderItemService.getByOrderIds(List.of(orderEntity.getId()));
+        if (CollectionUtils.isNotEmpty(orderItemVoList)) {
+            return skuStockService.releaseSkuStockLock(orderItemVoList);
+        }
+        return false;
+
+    }
+
     /**
      * 删除下单商品的购物车信息
      */

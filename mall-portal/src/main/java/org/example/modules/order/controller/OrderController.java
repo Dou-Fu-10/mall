@@ -10,13 +10,14 @@ import org.example.modules.order.entity.dto.GenerateOrderDto;
 import org.example.modules.order.entity.dto.OrderDto;
 import org.example.modules.order.entity.vo.ConfirmOrderVo;
 import org.example.modules.order.service.OrderService;
+import org.example.security.annotaion.rest.AnonymousDeleteMapping;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
+import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -97,6 +98,62 @@ public class OrderController {
     @AnonymousPostMapping(value = "/generateOrder")
     public ResponseEntity<Map<String, Object>> generateOrder(@RequestBody GenerateOrderDto generateOrderDto) {
         return ResponseEntity.ok(this.orderService.generateOrder(generateOrderDto));
+    }
+
+    @Operation(summary = "用户支付成功的回调")
+//    @AnonymousPostMapping(value = "/paySuccess")
+    @ResponseBody
+    public ResponseEntity<String> paySuccess(@RequestParam Long orderId, @RequestParam Integer payType) {
+//        if (this.orderService.paySuccess(orderId, payType)) {
+            return ResponseEntity.ok("支付成功");
+//        }
+        // 修改成自定义的 错误类型
+//        throw new RuntimeException("支付失败");
+    }
+
+    /**
+     * 确认收货
+     *
+     * @param orderId 订单id
+     * @return /
+     */
+    @Operation(summary = "用户确认收货")
+    @AnonymousPutMapping(value = "/confirmReceiveOrder")
+    public ResponseEntity<String> confirmReceiveOrder(Long orderId) {
+        if (this.orderService.confirmReceiveOrder(orderId)) {
+            return ResponseEntity.ok("确认成功");
+        }
+        return ResponseEntity.ok("确认失败");
+    }
+
+    /**
+     * 用户删除订单
+     *
+     * @param orderId 订单id
+     * @return /
+     */
+    @Operation(summary = "用户删除订单")
+    @AnonymousDeleteMapping(value = "/deleteOrder")
+    public ResponseEntity<String> deleteOrder(Long orderId) {
+        if (this.orderService.deleteOrder(orderId)) {
+            return ResponseEntity.ok("确认成功");
+        }
+        return ResponseEntity.ok("确认失败");
+    }
+    /**
+     * 用户取消订单
+     *
+     * @param orderId 订单id
+     * @return /
+     */
+    @Operation(summary = "用户取消订单")
+    @AnonymousPutMapping(value = "/cancelUserOrder")
+    @ResponseBody
+    public ResponseEntity<String> cancelUserOrder(Long orderId) {
+        if (this.orderService.cancelOrder(orderId)) {
+            return ResponseEntity.ok("取消订单成功");
+        }
+        return ResponseEntity.ok("取消订单失败");
     }
 }
 

@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
+import org.example.modules.order.entity.vo.OrderItemVo;
 import org.example.modules.product.entity.ProductEntity;
 import org.example.modules.product.entity.SkuStockEntity;
 import org.example.modules.product.entity.dto.SkuStockDto;
@@ -20,6 +21,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by Dou-Fu-10 2023-08-01 22:28:59
@@ -81,6 +84,18 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
         SkuStockVo skuStockVo = BeanCopy.convert(stockEntity, SkuStockVo.class);
         skuStockVo.setProduct(productEntity);
         return skuStockVo;
+    }
+
+    @Override
+    public Boolean releaseSkuStockLock(List<OrderItemVo> orderItemVoList) {
+        Set<Long> productIds = orderItemVoList.stream().map(OrderItemVo::getProductId).collect(Collectors.toSet());
+        return releaseSkuStockLock(productIds);
+    }
+
+    @Override
+    public Boolean releaseSkuStockLock(Set<Long> productIds) {
+        // TODO 解除取消订单的库存锁定
+        return false;
     }
 }
 

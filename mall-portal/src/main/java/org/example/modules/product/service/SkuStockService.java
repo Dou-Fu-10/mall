@@ -2,11 +2,13 @@ package org.example.modules.product.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.modules.order.entity.vo.OrderItemVo;
 import org.example.modules.product.entity.SkuStockEntity;
 import org.example.modules.product.entity.dto.SkuStockDto;
 import org.example.modules.product.entity.vo.SkuStockVo;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-08-01 22:28:59
@@ -57,4 +59,19 @@ public interface SkuStockService extends IService<SkuStockEntity> {
      * @return SkuStockVo
      */
     SkuStockVo getByIdAndProductId(Long productSkuId, Long productId);
+
+    /**
+     * 解除取消订单的库存锁定
+     *
+     * @param orderItemVoList 订单
+     * @return /
+     */
+    Boolean releaseSkuStockLock(List<OrderItemVo> orderItemVoList);
+    /**
+     * 解除取消订单的库存锁定
+     *
+     * @param productIds 商品id
+     * @return /
+     */
+    Boolean releaseSkuStockLock(Set<Long> productIds);
 }
