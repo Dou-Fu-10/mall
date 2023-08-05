@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Dou-Fu-10 2023-08-03 14:28:08
@@ -205,7 +206,7 @@ public class OrderVo {
      */
     @Schema(name = "deleteFlag", description = "逻辑删除（1 代表已删除），（0 代表未删除）")
     private Integer deleteFlag;
-
+    private List<OrderItemVo> orderItemList;
 
 }
 

@@ -77,6 +77,7 @@ public class MemberLoginLogEntity extends CommonEntity<MemberLoginLogEntity> imp
      */
     @TableField(exist = false)
     private Date updateTime;
+
     public MemberLoginLogEntity(Long memberId, Date createTime, String ip, String city, Integer loginType, String province) {
         this.memberId = memberId;
         this.createTime = createTime;

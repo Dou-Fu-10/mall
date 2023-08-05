@@ -108,6 +108,7 @@ public class ProductCategoryEntity extends CommonEntity<ProductCategoryEntity> i
      */
     @TableField(exist = false)
     private Date updateTime;
+
     public ProductCategoryEntity(Long id, Boolean navStatus, Boolean showStatus) {
         this.id = id;
         this.navStatus = navStatus;

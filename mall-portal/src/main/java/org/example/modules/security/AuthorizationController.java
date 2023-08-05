@@ -11,11 +11,11 @@ import org.example.modules.member.entity.dto.MemberDto;
 import org.example.modules.member.service.MemberService;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -29,7 +29,7 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/auth")
 @Tag(name = "AuthorizationController", description = "登录注册")
 public class AuthorizationController {
 
@@ -41,8 +41,7 @@ public class AuthorizationController {
 
 
     @Operation(summary = "退出功能")
-    @AnonymousPostMapping(value = "/logout")
-    @ResponseBody
+    @AnonymousGetMapping(value = "/logout")
     public ResponseEntity<String> logout() {
         // TODO 退出登录
         return ResponseEntity.ok("退出登录成功");

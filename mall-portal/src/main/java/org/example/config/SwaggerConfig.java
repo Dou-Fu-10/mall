@@ -57,7 +57,9 @@ public class SwaggerConfig {
     public GroupedOpenApi member() {
         return GroupedOpenApi.builder()
                 .group("会员")
-                .pathsToMatch(groupedApp("member"), groupedApp("memberReceiveAddress"), groupedApp("auth"))
+                .pathsToMatch(groupedApp("member"), groupedApp("memberReceiveAddress"),
+                        groupedApp("memberReadHistory"), groupedApp("memberCollection"),
+                        grouped("auth"))
                 .build();
     }
 

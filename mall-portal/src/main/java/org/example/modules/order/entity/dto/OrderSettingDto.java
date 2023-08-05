@@ -1,14 +1,10 @@
 package org.example.modules.order.entity.dto;
 
 
-import java.io.Serializable;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Created by Dou-Fu-10 2023-08-03 23:22:56

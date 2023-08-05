@@ -6,11 +6,9 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import jakarta.validation.constraints.NotNull;
-import org.apache.commons.collections4.SetUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
-import org.example.modules.cartItem.entity.vo.CartItemVo;
 import org.example.modules.product.entity.ProductEntity;
 import org.example.modules.product.entity.dto.ProductDto;
 import org.example.modules.product.entity.vo.*;
@@ -19,6 +17,7 @@ import org.example.modules.product.serveice.ProductService;
 import org.example.modules.product.service.ProductAttributeService;
 import org.example.modules.product.service.ProductAttributeValueService;
 import org.example.modules.product.service.SkuStockService;
+import org.example.security.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -35,6 +34,7 @@ import java.util.stream.Collectors;
  * @date 2023-07-27 13:05:47
  * @Description 商品信息(Product)表服务实现类
  */
+@Slf4j
 @Service("productService")
 public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity> implements ProductService {
 
@@ -54,6 +54,12 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     @Override
     public ProductDetail detail(Serializable id) {
         ProductVo productVo = findById(id);
+        try {
+            Long memberId = SecurityUtils.getCurrentUserId();
+            log.info("记录浏览日志 id=" + memberId);
+        } catch (BaseRequestException e) {
+            log.info("测试");
+        }
         if (Objects.isNull(productVo)) {
             return new ProductDetail();
         }

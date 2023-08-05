@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-08-03 14:28:08
@@ -43,7 +44,7 @@ public class OrderController {
      * @param orderDto 查询实体
      * @return 所有数据
      */
-    @GetMapping
+    @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<OrderEntity> page, OrderDto orderDto) {
         return ResponseEntity.ok(this.orderService.page(page, orderDto));
     }
@@ -54,7 +55,7 @@ public class OrderController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("detail/{id}")
+    @AnonymousGetMapping("detail/{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return ResponseEntity.ok(this.orderService.getById(id));
     }
@@ -65,7 +66,7 @@ public class OrderController {
      * @param orderDto 实体对象
      * @return 修改结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<Object> update(@RequestBody OrderDto orderDto) {
         if (this.orderService.updateById(orderDto)) {
             return ResponseEntity.ok("修改成功");
@@ -81,8 +82,8 @@ public class OrderController {
      * @return 生成结果
      */
     @Operation(summary = "根据购物车信息生成确认单", description = "根据购物车信息生成确认单")
-    @AnonymousGetMapping(value = "/generateConfirmationOrder")
-    public ResponseEntity<ConfirmOrderVo> generateConfirmOrder(@RequestBody List<Long> cartIds) {
+    @AnonymousPostMapping(value = "/generateConfirmationOrder")
+    public ResponseEntity<ConfirmOrderVo> generateConfirmOrder(@RequestBody Set<Long> cartIds) {
         return ResponseEntity.ok(orderService.generateConfirmOrder(cartIds));
     }
 
@@ -92,7 +93,7 @@ public class OrderController {
      * @param generateOrderDto 订单信息
      * @return 生成确认单
      */
-    @Operation(summary = "根据购物车信息生成确认单", description = "根据购物车信息生成确认单")
+    @Operation(summary = "生成订单", description = "生成订单")
     @AnonymousPostMapping(value = "/generateOrder")
     public ResponseEntity<Map<String, Object>> generateOrder(@RequestBody GenerateOrderDto generateOrderDto) {
         return ResponseEntity.ok(this.orderService.generateOrder(generateOrderDto));

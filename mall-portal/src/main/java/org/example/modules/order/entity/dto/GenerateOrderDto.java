@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-08-03 14:28:08
@@ -20,8 +21,8 @@ import java.util.List;
 public class GenerateOrderDto {
     @Schema(name = "memberReceiveAddressId", description = "收货地址ID")
     private Long memberReceiveAddressId;
-    @Schema(name = "payType", description = "支付方式")
+    @Schema(name = "payType", description = "支付方式 : 0->未支付；1->支付宝；2->微信")
     private Integer payType;
     @Schema(name = "cartIds", description = "被选中的购物车商品ID")
-    private List<Long> cartIds;
+    private Set<Long> cartIds;
 }

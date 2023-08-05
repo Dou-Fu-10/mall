@@ -1,6 +1,5 @@
 package org.example.modules.cartItem.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -27,10 +26,6 @@ import java.util.Date;
 @TableName("oms_cart_item")
 @Schema(name = "oms_cart_item", description = "购物车表(CartItem)表实体类")
 public class CartItemEntity extends CommonEntity<CartItemEntity> implements Serializable {
-    public CartItemEntity(Long id, Long memberId) {
-        this.id = id;
-        this.memberId = memberId;
-    }
     /**
      * ID
      */
@@ -112,7 +107,6 @@ public class CartItemEntity extends CommonEntity<CartItemEntity> implements Seri
      */
     @Schema(name = "deleteFlag", description = "逻辑删除（1 代表已删除），（0 代表未删除）")
     private Integer deleteFlag;
-
     /**
      * 创建人
      * 创建
@@ -125,6 +119,10 @@ public class CartItemEntity extends CommonEntity<CartItemEntity> implements Seri
      */
     @TableField(exist = false)
     private String updateBy;
+    public CartItemEntity(Long id, Long memberId) {
+        this.id = id;
+        this.memberId = memberId;
+    }
 
 }
 

@@ -1,10 +1,12 @@
 package org.example.modules.order.service;
 
-import org.example.modules.order.entity.OrderItemEntity;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.modules.order.entity.OrderItemEntity;
 import org.example.modules.order.entity.dto.OrderItemDto;
 import org.example.modules.order.entity.vo.OrderItemVo;
+
+import java.util.List;
 
 /**
  * Created by Dou-Fu-10 2023-08-04 11:32:58
@@ -38,4 +40,11 @@ public interface OrderItemService extends IService<OrderItemEntity> {
      * @return 所有数据
      */
     Page<OrderItemVo> page(Page<OrderItemEntity> page, OrderItemDto orderItemDto);
+
+    /**
+     * 通过订单 id列表 查询 订单中所包含的商品
+     * @param orderIds 订单id列表
+     * @return 订单中所包含的商品
+     */
+    List<OrderItemVo> getByOrderIds(List<Long> orderIds);
 }

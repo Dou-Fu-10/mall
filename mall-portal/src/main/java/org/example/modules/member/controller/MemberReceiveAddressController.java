@@ -44,7 +44,7 @@ public class MemberReceiveAddressController {
      * @param memberId 主键
      * @return 单条数据
      */
-    @AnonymousGetMapping("/memberId/{memberId}")
+    @AnonymousGetMapping("/{memberId}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable memberId) {
         return ResponseEntity.ok(this.memberReceiveAddressService.getReceiveAddressByMemberId(memberId));
     }

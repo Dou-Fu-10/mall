@@ -2,15 +2,12 @@ package org.example.modules.product.serveice;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.example.modules.cartItem.entity.vo.CartItemVo;
 import org.example.modules.product.entity.ProductEntity;
 import org.example.modules.product.entity.dto.ProductDto;
 import org.example.modules.product.entity.vo.ProductDetail;
 import org.example.modules.product.entity.vo.ProductVo;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -38,6 +35,11 @@ public interface ProductService extends IService<ProductEntity> {
      */
     Page<ProductVo> page(Page<ProductEntity> page, ProductDto product);
 
+    /**
+     * 获取商品详细信息
+     * @param id 商品id
+     * @return 商品信息
+     */
     ProductDetail detail(Serializable id);
 
     Page<ProductVo> search(Page<ProductEntity> page, ProductDto product);

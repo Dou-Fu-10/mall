@@ -52,8 +52,9 @@ public interface MemberReceiveAddressService extends IService<MemberReceiveAddre
 
     /**
      * 通过地址id 和 用户id 精确 地址
+     *
      * @param memberReceiveAddressId 地址id
-     * @param memberId 用户id
+     * @param memberId               用户id
      * @return 地址
      */
     MemberReceiveAddressVo getReceiveAddressByMemberIdAndMemberReceiveAddressId(Long memberReceiveAddressId, Long memberId);

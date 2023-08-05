@@ -9,6 +9,7 @@ import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.order.entity.OrderItemEntity;
 import org.example.modules.order.entity.dto.OrderItemDto;
 import org.example.modules.order.service.OrderItemService;
+import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +41,7 @@ public class OrderItemController {
      * @param orderItemDto 查询实体
      * @return 所有数据
      */
-    @GetMapping
+    @AnonymousGetMapping
     public ResponseEntity<Object> selectAll(Page<OrderItemEntity> page, OrderItemDto orderItemDto) {
         return ResponseEntity.ok(this.orderItemService.page(page, orderItemDto));
     }
@@ -51,7 +52,7 @@ public class OrderItemController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+    @AnonymousGetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return ResponseEntity.ok(this.orderItemService.getById(id));
     }

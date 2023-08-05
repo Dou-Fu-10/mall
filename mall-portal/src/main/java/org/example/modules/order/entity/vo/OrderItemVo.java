@@ -1,15 +1,12 @@
 package org.example.modules.order.entity.vo;
 
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.math.BigDecimal;
 
 /**
  * Created by Dou-Fu-10 2023-08-04 11:32:58

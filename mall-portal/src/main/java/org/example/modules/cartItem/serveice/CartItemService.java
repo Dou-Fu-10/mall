@@ -41,7 +41,7 @@ public interface CartItemService extends IService<CartItemEntity> {
      * @param cartIds  购物车id列表
      * @return 购物车信息
      */
-    List<CartItemVo> getCartItemByMemberIdAndCartIds(Long memberId, List<Long> cartIds);
+    List<CartItemVo> getCartItemByMemberIdAndCartIds(Long memberId, Set<Long> cartIds);
 
     /**
      * 删除购物车信息

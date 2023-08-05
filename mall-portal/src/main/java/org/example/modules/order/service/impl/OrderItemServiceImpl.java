@@ -2,15 +2,19 @@ package org.example.modules.order.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.order.entity.OrderItemEntity;
 import org.example.modules.order.entity.dto.OrderItemDto;
 import org.example.modules.order.entity.vo.OrderItemVo;
 import org.example.modules.order.mapper.OrderItemMapper;
 import org.example.modules.order.service.OrderItemService;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dou-Fu-10 2023-08-04 11:32:58
@@ -40,6 +44,15 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
         Page<OrderItemEntity> orderItemEntityPage = page(page, orderItemEntityLambdaQueryWrapper);
         IPage<OrderItemVo> orderItemEntityPageVoIpage = orderItemEntityPage.convert(orderItem -> BeanCopy.convert(orderItem, OrderItemVo.class));
         return (Page) orderItemEntityPageVoIpage;
+    }
+
+    @Override
+    public List<OrderItemVo> getByOrderIds(List<Long> orderIds) {
+        List<OrderItemEntity> orderItemEntityList = lambdaQuery().in(OrderItemEntity::getOrderId, orderIds).list();
+        if (CollectionUtils.isEmpty(orderItemEntityList)) {
+            return new ArrayList<>();
+        }
+        return BeanCopy.copytList(orderItemEntityList, OrderItemVo.class);
     }
 }
 

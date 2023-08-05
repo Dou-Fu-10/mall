@@ -107,7 +107,7 @@ public class CartItemServiceImpl extends ServiceImpl<CartItemMapper, CartItemEnt
     }
 
     @Override
-    public List<CartItemVo> getCartItemByMemberIdAndCartIds(Long memberId, List<Long> cartIds) {
+    public List<CartItemVo> getCartItemByMemberIdAndCartIds(Long memberId, Set<Long> cartIds) {
         // 获取购物车里的信息
         List<CartItemEntity> cartItemEntityList = lambdaQuery().eq(CartItemEntity::getMemberId, memberId).in(CartItemEntity::getId, cartIds).list();
         if (CollectionUtils.isEmpty(cartItemEntityList)) {

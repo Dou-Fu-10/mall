@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import jakarta.validation.constraints.NotNull;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.common.core.utils.OrderUtils;
@@ -18,16 +17,12 @@ import org.example.modules.order.entity.OrderEntity;
 import org.example.modules.order.entity.OrderItemEntity;
 import org.example.modules.order.entity.dto.GenerateOrderDto;
 import org.example.modules.order.entity.dto.OrderDto;
-import org.example.modules.order.entity.vo.CalculateAmountVo;
-import org.example.modules.order.entity.vo.ConfirmOrderVo;
-import org.example.modules.order.entity.vo.OrderSettingVo;
-import org.example.modules.order.entity.vo.OrderVo;
+import org.example.modules.order.entity.vo.*;
 import org.example.modules.order.mapper.OrderMapper;
 import org.example.modules.order.service.OrderItemService;
 import org.example.modules.order.service.OrderService;
 import org.example.modules.order.service.OrderSettingService;
 import org.example.modules.product.entity.SkuStockEntity;
-import org.example.modules.product.serveice.ProductService;
 import org.example.modules.product.service.SkuStockService;
 import org.example.security.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
@@ -39,6 +34,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by Dou-Fu-10 2023-08-03 14:28:08
@@ -55,8 +51,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     private CartItemService cartItemService;
     @Resource
     private OrderSettingService orderSettingService;
-    @Resource
-    private ProductService productService;
     @Resource
     private SkuStockService skuStockService;
     @Resource
@@ -102,14 +96,50 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         Long currentUserId = SecurityUtils.getCurrentUserId();
         // 只获取登录者的订单信息
         orderEntity.setMemberId(currentUserId);
+        // 获取 会员订单订单
         LambdaQueryWrapper<OrderEntity> orderEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(orderEntity);
         Page<OrderEntity> orderEntityPage = page(page, orderEntityLambdaQueryWrapper);
+        // 对订单进行转换
         IPage<OrderVo> orderEntityPageVoIpage = orderEntityPage.convert(order -> BeanCopy.convert(order, OrderVo.class));
+        List<OrderVo> orderVoList = orderEntityPageVoIpage.getRecords();
+        List<Long> orderIds = orderVoList.stream().map(OrderVo::getId).collect(Collectors.toList());
+        // 订单中所包含的商品
+        List<OrderItemVo> orderItemVo = orderItemService.getByOrderIds(orderIds);
+        Map<Long, List<OrderItemVo>> longOrderItemVoMap = longOrderItemVoMap(orderItemVo);
+        orderVoList.forEach(orderVo -> {
+            Long id = orderVo.getId();
+            if (longOrderItemVoMap.containsKey(id)) {
+                orderVo.setOrderItemList(longOrderItemVoMap.get(id));
+            }
+        });
+
         return (Page) orderEntityPageVoIpage;
     }
 
+    @org.jetbrains.annotations.NotNull
+    private Map<Long, List<OrderItemVo>> longOrderItemVoMap(@org.jetbrains.annotations.NotNull List<OrderItemVo> orderItemVo) {
+        // 将 订单中所包含的商品   以map 的形式进行存储    键为 订单的id   值为 订单中所包含的商品
+        Map<Long, List<OrderItemVo>> longListHashMap = new HashMap<>();
+        orderItemVo.forEach(orderItem -> {
+            Long orderId = orderItem.getOrderId();
+            // 判断 键是否存储
+            if (longListHashMap.containsKey(orderId)) {
+                // 存在就添加
+                List<OrderItemVo> orderItemVos = longListHashMap.get(orderId);
+                orderItemVos.add(orderItem);
+                longListHashMap.put(orderId, orderItemVos);
+            } else {
+                // 不存在就创建
+                List<OrderItemVo> list = Stream.of(orderItem).collect(Collectors.toList());
+                longListHashMap.put(orderId, list);
+            }
+        });
+        return longListHashMap;
+    }
+
+
     @Override
-    public ConfirmOrderVo generateConfirmOrder(@NotNull List<Long> cartIds) {
+    public ConfirmOrderVo generateConfirmOrder(Set<Long> cartIds) {
         Long memberId = SecurityUtils.getCurrentUserId();
         ConfirmOrderVo confirmOrderVo = new ConfirmOrderVo();
         // 获取会员地址
@@ -210,7 +240,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     /**
      * 删除下单商品的购物车信息
      */
-    private Boolean deleteCartItemList(@NotNull List<CartItemVo> cartItemVoList, Long memberId) {
+    private Boolean deleteCartItemList(@org.jetbrains.annotations.NotNull List<CartItemVo> cartItemVoList, Long memberId) {
         Set<Long> cartItemIds = cartItemVoList.stream().map(CartItemVo::getId).collect(Collectors.toSet());
         return cartItemService.removeBatchByIdsAndMemberId(cartItemIds, memberId);
     }
@@ -273,11 +303,17 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
             // 创建订单总金额
             BigDecimal totalAmount = new BigDecimal(BigInteger.ZERO);
             // 获取购物车的商品金额列表
-            List<BigDecimal> poriceList = cartItemVoList.stream().map(CartItemVo::getPrice).toList();
-            for (BigDecimal decimal : poriceList) {
-                if (Objects.nonNull(decimal)) {
+            for (CartItemVo cartItemVo : cartItemVoList) {
+                // 单个价格
+                BigDecimal price = cartItemVo.getPrice();
+                // 购买商品数量数量
+                Integer quantity = cartItemVo.getQuantity();
+                if (Objects.nonNull(price) && quantity >= 1) {
+                    BigDecimal totalPrice = price.multiply(new BigDecimal(quantity));
                     // 累加到 订单总金额里面
-                    totalAmount = totalAmount.add(decimal);
+                    totalAmount = totalAmount.add(totalPrice);
+                } else {
+                    throw new BaseRequestException("商品信息有误");
                 }
             }
             calculateAmountVo.setTotalAmount(totalAmount);
