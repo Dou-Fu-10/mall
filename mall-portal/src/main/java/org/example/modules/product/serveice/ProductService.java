@@ -8,6 +8,8 @@ import org.example.modules.product.entity.vo.ProductDetail;
 import org.example.modules.product.entity.vo.ProductVo;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -44,4 +46,10 @@ public interface ProductService extends IService<ProductEntity> {
 
     Page<ProductVo> search(Page<ProductEntity> page, ProductDto product);
 
+    /**
+     * 通过商品id 获取商品信息
+     * @param productIds 商品id列表
+     * @return 商品信息
+     */
+    List<ProductVo> getByIdsInVerifyStatusAndPublishStatus(Set<Long> productIds);
 }

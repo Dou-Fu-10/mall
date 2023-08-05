@@ -1,8 +1,8 @@
 package org.example.modules.member.service;
 
-import org.example.modules.member.entity.MemberReadHistoryEntity;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.modules.member.entity.MemberReadHistoryEntity;
 import org.example.modules.member.entity.dto.MemberReadHistoryDto;
 import org.example.modules.member.entity.vo.MemberReadHistoryVo;
 
@@ -33,9 +33,8 @@ public interface MemberReadHistoryService extends IService<MemberReadHistoryEnti
     /**
      * 分页查询所有数据
      *
-     * @param page                 分页对象
-     * @param memberReadHistoryDto 查询实体
+     * @param page 分页对象
      * @return 所有数据
      */
-    Page<MemberReadHistoryVo> page(Page<MemberReadHistoryEntity> page, MemberReadHistoryDto memberReadHistoryDto);
+    Page<MemberReadHistoryVo> page(Page<MemberReadHistoryEntity> page);
 }

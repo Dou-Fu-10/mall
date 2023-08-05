@@ -1,8 +1,10 @@
 package org.example.modules.member.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.example.security.utils.SecurityUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,12 +41,11 @@ public class MemberReadHistoryController {
      * 分页查询所有数据
      *
      * @param page                 分页对象
-     * @param memberReadHistoryDto 查询实体
      * @return 所有数据
      */
     @GetMapping
-    public ResponseEntity<Object> selectAll(Page<MemberReadHistoryEntity> page, MemberReadHistoryDto memberReadHistoryDto) {
-        return ResponseEntity.ok(this.memberReadHistoryService.page(page, memberReadHistoryDto));
+    public ResponseEntity<Object> selectAll(Page<MemberReadHistoryEntity> page ) {
+        return ResponseEntity.ok(this.memberReadHistoryService.page(page));
     }
 
     /**
@@ -53,7 +54,7 @@ public class MemberReadHistoryController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return ResponseEntity.ok(this.memberReadHistoryService.getById(id));
     }
@@ -79,7 +80,7 @@ public class MemberReadHistoryController {
      * @param memberReadHistoryDto 实体对象
      * @return 修改结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<String> update(@RequestBody MemberReadHistoryDto memberReadHistoryDto) {
         if (this.memberReadHistoryService.updateById(memberReadHistoryDto)) {
             return ResponseEntity.ok("修改成功");
@@ -99,8 +100,11 @@ public class MemberReadHistoryController {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");
         }
-        Set<Long> collect = idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() >= 1).limit(10).collect(Collectors.toSet());
-        return ResponseEntity.ok(this.memberReadHistoryService.removeByIds(collect) ? "删除成功" : "删除失败");
+        Set<Long> collect = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
+        LambdaQueryWrapper<MemberReadHistoryEntity> memberReadHistoryEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        memberReadHistoryEntityLambdaQueryWrapper.eq(MemberReadHistoryEntity::getMemberId, SecurityUtils.getCurrentUserId());
+        memberReadHistoryEntityLambdaQueryWrapper.in(MemberReadHistoryEntity::getId, collect);
+        return ResponseEntity.ok(this.memberReadHistoryService.remove(memberReadHistoryEntityLambdaQueryWrapper) ? "删除成功" : "删除失败");
     }
 }
 

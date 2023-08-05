@@ -1,5 +1,6 @@
 package org.example.modules.product.serveice.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -83,8 +84,24 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     }
 
     @Override
+    public List<ProductVo> getByIdsInVerifyStatusAndPublishStatus(Set<Long> productIds) {
+        if (CollectionUtils.isEmpty(productIds)) {
+            return new ArrayList<>();
+        }
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setVerifyStatus(true);
+        productEntity.setPublishStatus(true);
+        LambdaQueryWrapper<ProductEntity> productEntityList = new LambdaQueryWrapper<>(productEntity);
+        productEntityList.in(ProductEntity::getId, productIds);
+        List<ProductEntity> productEntities = list(productEntityList);
+        return BeanCopy.copytList(productEntities, ProductVo.class);
+    }
+
+    @Override
     public Page<ProductVo> page(Page<ProductEntity> page, ProductDto product) {
         ProductEntity convert = BeanCopy.convert(product, ProductEntity.class);
+        convert.setVerifyStatus(true);
+        convert.setPublishStatus(true);
         Page<ProductEntity> productEntityPage = this.page(page, new QueryWrapper<>(convert));
         IPage<ProductVo> productVoIpage = productEntityPage.convert(productEntity -> BeanCopy.convert(productEntity, ProductVo.class));
         List<ProductVo> productVoList = productVoIpage.getRecords();

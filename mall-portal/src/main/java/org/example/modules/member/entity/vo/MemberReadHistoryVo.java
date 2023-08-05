@@ -1,15 +1,13 @@
 package org.example.modules.member.entity.vo;
 
-import java.util.Date;
-
-import java.io.Serializable;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
+import org.example.modules.product.entity.vo.ProductVo;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Dou-Fu-10 2023-08-05 13:27:10
@@ -37,6 +35,8 @@ public class MemberReadHistoryVo {
      */
     @Schema(name = "productId", description = "商品id")
     private Long productId;
+
+    private ProductVo product;
 
     /**
      * 创建时间

@@ -1,16 +1,25 @@
 package org.example.modules.member.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
+import jakarta.annotation.Resource;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.member.entity.MemberCollectionEntity;
 import org.example.modules.member.entity.dto.MemberCollectionDto;
 import org.example.modules.member.entity.vo.MemberCollectionVo;
 import org.example.modules.member.mapper.MemberCollectionMapper;
 import org.example.modules.member.service.MemberCollectionService;
+import org.example.modules.product.entity.vo.ProductVo;
+import org.example.modules.product.serveice.ProductService;
+import org.example.security.utils.SecurityUtils;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by Dou-Fu-10 2023-08-05 13:27:10
@@ -21,6 +30,9 @@ import org.example.modules.member.service.MemberCollectionService;
  */
 @Service("memberCollectionService")
 public class MemberCollectionServiceImpl extends ServiceImpl<MemberCollectionMapper, MemberCollectionEntity> implements MemberCollectionService {
+    @Resource
+    private ProductService productService;
+
     @Override
     public Boolean save(MemberCollectionDto memberCollectionDto) {
         MemberCollectionEntity memberCollectionEntity = BeanCopy.convert(memberCollectionDto, MemberCollectionEntity.class);
@@ -34,12 +46,37 @@ public class MemberCollectionServiceImpl extends ServiceImpl<MemberCollectionMap
     }
 
     @Override
-    public Page<MemberCollectionVo> page(Page<MemberCollectionEntity> page, MemberCollectionDto memberCollectionDto) {
-        MemberCollectionEntity memberCollectionEntity = BeanCopy.convert(memberCollectionDto, MemberCollectionEntity.class);
-        LambdaQueryWrapper<MemberCollectionEntity> memberCollectionEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(memberCollectionEntity);
-        Page<MemberCollectionEntity> memberCollectionEntityPage = page(page, memberCollectionEntityLambdaQueryWrapper);
+    public Page<MemberCollectionVo> page(Page<MemberCollectionEntity> page) {
+        Long memberId = SecurityUtils.getCurrentUserId();
+        QueryWrapper<MemberCollectionEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("DISTINCT product_id").lambda()
+                .eq(MemberCollectionEntity::getMemberId,memberId );
+        Page<MemberCollectionEntity> memberCollectionEntityPage = page(page, queryWrapper);
+
         IPage<MemberCollectionVo> memberCollectionEntityPageVoIpage = memberCollectionEntityPage.convert(memberCollection -> BeanCopy.convert(memberCollection, MemberCollectionVo.class));
+        // 获取到 收藏历史
+        List<MemberCollectionVo> memberCollectionVoList = memberCollectionEntityPageVoIpage.getRecords();
+
+        if (CollectionUtils.isEmpty(memberCollectionVoList)) {
+            return (Page) memberCollectionEntityPageVoIpage;
+        }
+        // 获取商品 id列表
+        Set<Long> productIds = memberCollectionVoList.stream().map(MemberCollectionVo::getProductId).collect(Collectors.toSet());
+        // 获取到商品
+        List<ProductVo> productVoList = productService.getByIdsInVerifyStatusAndPublishStatus(productIds);
+
+        if (CollectionUtils.isEmpty(productVoList)) {
+            return (Page) memberCollectionEntityPageVoIpage;
+        }
+        MemberCollectionVo memberCollectionVo = new MemberCollectionVo();
+        memberCollectionVo.setProductList(productVoList);
+        memberCollectionVo.setMemberId(memberId);
+
+        memberCollectionEntityPageVoIpage.setRecords(List.of(memberCollectionVo));
+
+
         return (Page) memberCollectionEntityPageVoIpage;
     }
+
 }
 

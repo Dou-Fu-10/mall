@@ -1,8 +1,8 @@
 package org.example.modules.member.service;
 
-import org.example.modules.member.entity.MemberCollectionEntity;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.modules.member.entity.MemberCollectionEntity;
 import org.example.modules.member.entity.dto.MemberCollectionDto;
 import org.example.modules.member.entity.vo.MemberCollectionVo;
 
@@ -33,9 +33,8 @@ public interface MemberCollectionService extends IService<MemberCollectionEntity
     /**
      * 分页查询所有数据
      *
-     * @param page                分页对象
-     * @param memberCollectionDto 查询实体
+     * @param page 分页对象
      * @return 所有数据
      */
-    Page<MemberCollectionVo> page(Page<MemberCollectionEntity> page, MemberCollectionDto memberCollectionDto);
+    Page<MemberCollectionVo> page(Page<MemberCollectionEntity> page);
 }

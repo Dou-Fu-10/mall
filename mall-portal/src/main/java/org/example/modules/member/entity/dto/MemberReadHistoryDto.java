@@ -4,6 +4,7 @@ import java.util.Date;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,6 +42,7 @@ public class MemberReadHistoryDto {
     /**
      * 创建时间
      */
+    @JsonIgnore
     @Schema(name = "createTime", description = "创建时间")
     private Date createTime;
 

@@ -1,17 +1,18 @@
 package org.example.modules.member.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.example.common.core.exception.BaseRequestException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.example.modules.member.entity.dto.MemberCollectionDto;
-import org.example.modules.member.entity.MemberCollectionEntity;
-import org.example.modules.member.service.MemberCollectionService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.common.core.exception.BaseRequestException;
+import org.example.modules.member.entity.MemberCollectionEntity;
+import org.example.modules.member.entity.dto.MemberCollectionDto;
+import org.example.modules.member.service.MemberCollectionService;
+import org.example.security.annotaion.rest.AnonymousGetMapping;
+import org.example.security.utils.SecurityUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -38,13 +39,12 @@ public class MemberCollectionController {
     /**
      * 分页查询所有数据
      *
-     * @param page                分页对象
-     * @param memberCollectionDto 查询实体
+     * @param page 分页对象
      * @return 所有数据
      */
-    @GetMapping
-    public ResponseEntity<Object> selectAll(Page<MemberCollectionEntity> page, MemberCollectionDto memberCollectionDto) {
-        return ResponseEntity.ok(this.memberCollectionService.page(page, memberCollectionDto));
+    @AnonymousGetMapping
+    public ResponseEntity<Object> selectAll(Page<MemberCollectionEntity> page) {
+        return ResponseEntity.ok(this.memberCollectionService.page(page));
     }
 
     /**
@@ -53,7 +53,7 @@ public class MemberCollectionController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return ResponseEntity.ok(this.memberCollectionService.getById(id));
     }
@@ -79,7 +79,7 @@ public class MemberCollectionController {
      * @param memberCollectionDto 实体对象
      * @return 修改结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<String> update(@RequestBody MemberCollectionDto memberCollectionDto) {
         if (this.memberCollectionService.updateById(memberCollectionDto)) {
             return ResponseEntity.ok("修改成功");
@@ -99,8 +99,11 @@ public class MemberCollectionController {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");
         }
-        Set<Long> collect = idList.stream().filter(id -> String.valueOf(id).length() < 20 && String.valueOf(id).length() >= 1).limit(10).collect(Collectors.toSet());
-        return ResponseEntity.ok(this.memberCollectionService.removeByIds(collect) ? "删除成功" : "删除失败");
+        Set<Long> ids = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
+        LambdaQueryWrapper<MemberCollectionEntity> memberCollectionEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        memberCollectionEntityLambdaQueryWrapper.eq(MemberCollectionEntity::getMemberId, SecurityUtils.getCurrentUserId());
+        memberCollectionEntityLambdaQueryWrapper.in(MemberCollectionEntity::getId, ids);
+        return ResponseEntity.ok(this.memberCollectionService.remove(memberCollectionEntityLambdaQueryWrapper) ? "删除成功" : "删除失败");
     }
 }
 

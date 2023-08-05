@@ -53,21 +53,21 @@ public class ProductDto {
      */
     private String productSn;
     /**
-     * 上架状态：0->下架；1->上架
+     * 上架状态：0->下架；1->上架 (0=false，1=true)
      */
-    private Integer publishStatus;
+    private Boolean publishStatus;
     /**
-     * 新品状态:0->不是新品；1->新品
+     * 新品状态:0->不是新品；1->新品 (0=false，1=true)
      */
-    private Integer newStatus;
+    private Boolean newStatus;
     /**
-     * 推荐状态；0->不推荐；1->推荐
+     * 推荐状态；0->不推荐；1->推荐 (0=false，1=true)
      */
-    private Integer recommandStatus;
+    private Boolean recommandStatus;
     /**
-     * 审核状态：0->未审核；1->审核通过
+     * 审核状态：0->未审核；1->审核通过 (0=false，1=true)
      */
-    private Integer verifyStatus;
+    private Boolean verifyStatus;
     /**
      * 排序
      */

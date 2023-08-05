@@ -65,25 +65,25 @@ public class ProductEntity extends CommonEntity<ProductEntity> implements Serial
     @Schema(name = "productSn", description = "货号")
     private String productSn;
     /**
-     * 上架状态：0->下架；1->上架
+     * 上架状态：0->下架；1->上架 (0=false，1=true)
      */
-    @Schema(name = "publishStatus", description = "上架状态：0->下架；1->上架")
+    @Schema(name = "publishStatus", description = "上架状态：0->下架；1->上架 (0=false，1=true)")
     private Boolean publishStatus;
     /**
-     * 新品状态:0->不是新品；1->新品
+     * 新品状态:0->不是新品；1->新品 (0=false，1=true)
      */
-    @Schema(name = "newStatus", description = "新品状态:0->不是新品；1->新品")
-    private Integer newStatus;
+    @Schema(name = "newStatus", description = "新品状态:0->不是新品；1->新品 (0=false，1=true)")
+    private Boolean newStatus;
     /**
-     * 推荐状态；0->不推荐；1->推荐
+     * 推荐状态；0->不推荐；1->推荐 (0=false，1=true)
      */
-    @Schema(name = "recommandStatus", description = "推荐状态；0->不推荐；1->推荐")
-    private Integer recommandStatus;
+    @Schema(name = "recommandStatus", description = "推荐状态；0->不推荐；1->推荐 (0=false，1=true)")
+    private Boolean recommandStatus;
     /**
-     * 审核状态：0->未审核；1->审核通过
+     * 审核状态：0->未审核；1->审核通过 (0=false，1=true)
      */
-    @Schema(name = "verifyStatus", description = "审核状态：0->未审核；1->审核通过")
-    private Integer verifyStatus;
+    @Schema(name = "verifyStatus", description = "审核状态：0->未审核；1->审核通过 (0=false，1=true)")
+    private Boolean verifyStatus;
     /**
      * 排序
      */
