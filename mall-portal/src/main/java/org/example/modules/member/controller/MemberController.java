@@ -1,9 +1,11 @@
 package org.example.modules.member.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.common.core.entity.MemberEntity;
 import org.example.modules.member.entity.dto.MemberDto;
 import org.example.modules.member.service.MemberService;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
@@ -75,5 +77,28 @@ public class MemberController {
         Map<String, Object> data = memberService.info(principal);
         return ResponseEntity.ok(data);
     }
+
+    /**
+     * 获取下级
+     *
+     * @param page 分页数据
+     * @return 获取下级
+     */
+
+    @AnonymousGetMapping("children")
+    public ResponseEntity<Object> children(Page<MemberEntity> page) {
+        return ResponseEntity.ok(this.memberService.children(page));
+    }
+
+    /**
+     * 获取上级
+     *
+     * @return 获取上级
+     */
+    @AnonymousGetMapping("parent")
+    public ResponseEntity<Object> parent() {
+        return ResponseEntity.ok(this.memberService.parent());
+    }
+
 }
 

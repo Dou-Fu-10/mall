@@ -6,6 +6,8 @@ import org.example.modules.member.entity.MemberCollectionEntity;
 import org.example.modules.member.entity.dto.MemberCollectionDto;
 import org.example.modules.member.entity.vo.MemberCollectionVo;
 
+import java.io.Serializable;
+
 /**
  * Created by Dou-Fu-10 2023-08-05 13:27:10
  *
@@ -37,4 +39,11 @@ public interface MemberCollectionService extends IService<MemberCollectionEntity
      * @return 所有数据
      */
     Page<MemberCollectionVo> page(Page<MemberCollectionEntity> page);
+
+    /**
+     * 商品是否已收藏
+     * @param productId 商品id
+     * @return
+     */
+    Boolean collectOrNot(Serializable productId);
 }

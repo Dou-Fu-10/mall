@@ -19,6 +19,7 @@ import org.example.modules.security.service.OnlineMemberService;
 import org.example.security.config.SecurityProperties;
 import org.example.security.entity.JwtMember;
 import org.example.security.utils.JwtTokenUtil;
+import org.example.security.utils.SecurityUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -141,6 +142,23 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
     public Boolean register(MemberDto memberDto) {
         MemberEntity memberEntity = BeanCopy.convert(memberDto, MemberEntity.class);
         return memberEntity.insert();
+    }
+
+    @Override
+    public Page<MemberVo> children(Page<MemberEntity> page) {
+        LambdaQueryWrapper<MemberEntity> memberEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        memberEntityLambdaQueryWrapper.eq(MemberEntity::getParentId, SecurityUtils.getCurrentUserId());
+        Page<MemberEntity> memberEntityPage = page(page, memberEntityLambdaQueryWrapper);
+        return (Page) memberEntityPage.convert(memberEntity -> BeanCopy.convert(memberEntity, MemberVo.class));
+    }
+
+    @Override
+    public MemberVo parent() {
+        JwtMember jwtMember = (JwtMember) SecurityUtils.getCurrentUser();
+        MemberEntity memberEntity = jwtMember.getUser();
+        Long parentId = memberEntity.getParentId();
+        MemberEntity parentMember = getById(parentId);
+        return BeanCopy.convert(parentMember, MemberVo.class);
     }
 }
 

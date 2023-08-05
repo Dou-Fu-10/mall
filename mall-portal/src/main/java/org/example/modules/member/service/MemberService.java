@@ -9,6 +9,7 @@ import org.example.modules.member.entity.dto.MemberDto;
 import org.example.modules.member.entity.vo.MemberVo;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -84,4 +85,19 @@ public interface MemberService extends IService<MemberEntity> {
      * @return Boolean
      */
     Boolean register(MemberDto memberDto);
+
+    /**
+     * 获取下级
+     *
+     * @param page 分页数据
+     * @return 获取下级
+     */
+    Page<MemberVo> children(Page<MemberEntity> page);
+
+    /**
+     * 获取上级
+     *
+     * @return 获取上级
+     */
+    MemberVo parent();
 }

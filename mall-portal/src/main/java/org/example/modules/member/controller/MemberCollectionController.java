@@ -50,12 +50,12 @@ public class MemberCollectionController {
     /**
      * 通过主键查询单条数据
      *
-     * @param id 主键
+     * @param productId 商品id
      * @return 单条数据
      */
-//    @GetMapping("{id}")
-    public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return ResponseEntity.ok(this.memberCollectionService.getById(id));
+    @GetMapping("collection/{productId}")
+    public ResponseEntity<Object> collectOrNot(@PathVariable Serializable productId) {
+        return ResponseEntity.ok(this.memberCollectionService.collectOrNot(productId));
     }
 
     /**

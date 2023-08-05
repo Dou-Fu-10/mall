@@ -1,5 +1,6 @@
 package org.example.modules.member.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -17,7 +18,9 @@ import org.example.modules.product.serveice.ProductService;
 import org.example.security.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -50,7 +53,7 @@ public class MemberCollectionServiceImpl extends ServiceImpl<MemberCollectionMap
         Long memberId = SecurityUtils.getCurrentUserId();
         QueryWrapper<MemberCollectionEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.select("DISTINCT product_id").lambda()
-                .eq(MemberCollectionEntity::getMemberId,memberId );
+                .eq(MemberCollectionEntity::getMemberId, memberId);
         Page<MemberCollectionEntity> memberCollectionEntityPage = page(page, queryWrapper);
 
         IPage<MemberCollectionVo> memberCollectionEntityPageVoIpage = memberCollectionEntityPage.convert(memberCollection -> BeanCopy.convert(memberCollection, MemberCollectionVo.class));
@@ -76,6 +79,15 @@ public class MemberCollectionServiceImpl extends ServiceImpl<MemberCollectionMap
 
 
         return (Page) memberCollectionEntityPageVoIpage;
+    }
+
+    @Override
+    public Boolean collectOrNot(Serializable productId) {
+        LambdaQueryWrapper<MemberCollectionEntity> memberCollectionEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        memberCollectionEntityLambdaQueryWrapper.eq(MemberCollectionEntity::getProductId, productId);
+        memberCollectionEntityLambdaQueryWrapper.eq(MemberCollectionEntity::getMemberId, SecurityUtils.getCurrentUserId());
+        MemberCollectionEntity memberCollectionEntity = getOne(memberCollectionEntityLambdaQueryWrapper);
+        return Objects.nonNull(memberCollectionEntity);
     }
 
 }

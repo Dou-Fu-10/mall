@@ -14,6 +14,7 @@ import org.example.modules.member.entity.vo.MemberReceiveAddressVo;
 import org.example.modules.member.mapper.MemberReceiveAddressMapper;
 import org.example.modules.member.service.MemberReceiveAddressService;
 import org.example.modules.member.service.MemberService;
+import org.example.security.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -35,18 +36,14 @@ public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAd
     @Override
     public Boolean save(@NotNull MemberReceiveAddressDto memberReceiveAddressDto) {
         MemberReceiveAddressEntity memberReceiveAddressEntity = BeanCopy.convert(memberReceiveAddressDto, MemberReceiveAddressEntity.class);
-        if (Objects.isNull(memberService.getById(memberReceiveAddressEntity.getMemberId()))) {
-            throw new BaseRequestException("请正确的填写信息");
-        }
+        memberReceiveAddressEntity.setMemberId(SecurityUtils.getCurrentUserId());
         return save(memberReceiveAddressEntity);
     }
 
     @Override
     public Boolean updateById(@NotNull MemberReceiveAddressDto memberReceiveAddressDto) {
         MemberReceiveAddressEntity memberReceiveAddressEntity = BeanCopy.convert(memberReceiveAddressDto, MemberReceiveAddressEntity.class);
-        if (Objects.isNull(memberService.getById(memberReceiveAddressEntity.getMemberId()))) {
-            throw new BaseRequestException("请正确的填写信息");
-        }
+        memberReceiveAddressEntity.setMemberId(SecurityUtils.getCurrentUserId());
         return updateById(memberReceiveAddressEntity);
     }
 
