@@ -26,7 +26,7 @@ public interface RoleService extends IService<RoleEntity> {
      * @param user 用户信息
      * @return 权限信息
      */
-    List<Authority> mapToGrantedAuthorities(AdminEntity user);
+    List<Authority> GrantedAuthoritieList(AdminEntity user);
 
     /**
      * 修改角色状态

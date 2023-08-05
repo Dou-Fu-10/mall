@@ -51,10 +51,6 @@ public class AdminEntity extends CommonEntity<AdminEntity> implements Serializab
      */
     private String phone;
     /**
-     * 是否为admin账号
-     */
-    private Boolean isAdmin;
-    /**
      * 邮箱
      */
     private String email;

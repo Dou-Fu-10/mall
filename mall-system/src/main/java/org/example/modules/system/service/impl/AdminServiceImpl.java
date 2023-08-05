@@ -10,6 +10,7 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.example.common.core.entity.AdminEntity;
+import org.example.common.core.exception.AuthenticationException;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.server.MinioServer;
 import org.example.common.core.utils.BeanCopy;
@@ -88,16 +89,12 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         // 判断是否认证通过
         if (Objects.isNull(authentication)) {
-            throw new BaseRequestException("用户名或者密码错误");
+            throw new AuthenticationException("用户名或者密码错误");
         }
         // 获取到用户信息
         final JwtAdmin jwtAdmin = (JwtAdmin) authentication.getPrincipal();
         // 使用用户的username作为key获取token
         String token = jwtTokenUtil.createAdminToken(jwtAdmin);
-        // 确保token可以 功能非必须
-        if (!StringUtils.hasText(token)) {
-            throw new BaseRequestException("登录失败");
-        }
         Map<String, Object> tokenMap = new HashMap<>(2);
         tokenMap.put("token", securityProperties.getTokenStartWith() + token);
         // 是否唯一登录

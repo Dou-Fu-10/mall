@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 public class OnlineAdminServiceImpl implements OnlineAdminService {
 
     @Resource
-    private SecurityProperties properties;
+    private SecurityProperties securityProperties;
     @Resource
     private JwtTokenUtil jwtTokenUtil;
     @Resource
@@ -61,8 +61,8 @@ public class OnlineAdminServiceImpl implements OnlineAdminService {
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
-        // 以登录用户的username作为key保存在线用户信息
-        return redisService.set(properties.getOnlineKey() + jwtAdmin.getUsername(), onlineAdminDto, properties.getTokenValidityInSeconds(), TimeUnit.MILLISECONDS);
+        // 以登录用户的username作为key保存在线用户信息  过期时间以毫秒来计算 14400000  即 4小时
+        return redisService.set(securityProperties.getOnlineKey() + jwtAdmin.getUsername(), onlineAdminDto, securityProperties.getTokenValidityInSeconds(), TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -88,7 +88,7 @@ public class OnlineAdminServiceImpl implements OnlineAdminService {
      */
     @Override
     public List<OnlineUserVo> getAll(String username) {
-        String loginKey = properties.getOnlineKey() +
+        String loginKey = securityProperties.getOnlineKey() +
                 (StringUtils.isBlank(username) ? "" : "*" + username);
         List<String> keys = redisService.scan(loginKey + "*");
         Collections.reverse(keys);
@@ -152,7 +152,7 @@ public class OnlineAdminServiceImpl implements OnlineAdminService {
     @Override
     public void kickOutForUsername(String username) {
         // TODO 删除用户的 token
-        String loginKey = properties.getOnlineKey() + username + "*";
+        String loginKey = securityProperties.getOnlineKey() + username + "*";
 //        redisService.scanDel(loginKey);
     }
 }
