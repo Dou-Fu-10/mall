@@ -49,7 +49,7 @@ public class CommentReplayController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<CommentReplayEntity> page, CommentReplayEntity commentReplay) {
+    public ResponseEntity<Object> select(Page<CommentReplayEntity> page, CommentReplayEntity commentReplay) {
         return new ResponseEntity<>(this.commentReplayService.page(page, new QueryWrapper<>(commentReplay)), HttpStatus.OK);
     }
 

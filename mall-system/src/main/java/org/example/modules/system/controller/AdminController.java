@@ -54,7 +54,7 @@ public class AdminController {
     @Operation(summary = "获取分类用户信息列表", description = "admin::list")
     @GetMapping
     @PreAuthorize("@hasPermission.check('admin::select')")
-    public ResponseEntity<Object> selectAll(Page<AdminEntity> page, @Validated(ValidationDto.SelectPage.class) AdminDto adminDto) {
+    public ResponseEntity<Object> select(Page<AdminEntity> page, @Validated(ValidationDto.SelectPage.class) AdminDto adminDto) {
         return new ResponseEntity<>(this.adminService.page(page, adminDto), HttpStatus.OK);
     }
 

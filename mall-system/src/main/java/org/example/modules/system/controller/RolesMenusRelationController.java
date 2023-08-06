@@ -49,7 +49,7 @@ public class RolesMenusRelationController {
      * @return 所有数据
      */
 //    @AnonymousGetMapping
-//    public ResponseEntity<Object> selectAll(Page<RolesMenusRelationEntity> page, RolesMenusRelationEntity rolesMenus) {
+//    public ResponseEntity<Object> select(Page<RolesMenusRelationEntity> page, RolesMenusRelationEntity rolesMenus) {
 //        return new ResponseEntity<>(this.rolesMenusRelationService.page(page, new QueryWrapper<>(rolesMenus)), HttpStatus.OK);
 //    }
 

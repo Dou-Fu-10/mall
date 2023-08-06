@@ -48,7 +48,7 @@ public class HomeAdvertiseController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<HomeAdvertiseEntity> page, HomeAdvertiseDto homeAdvertiseDto) {
+    public ResponseEntity<Object> select(Page<HomeAdvertiseEntity> page, HomeAdvertiseDto homeAdvertiseDto) {
         return ResponseEntity.ok(this.homeAdvertiseService.page(page, homeAdvertiseDto));
     }
 

@@ -49,7 +49,7 @@ public class AdminLoginLogController {
      * @return 所有数据
      */
 //    @AnonymousGetMapping
-//    public ResponseEntity<Object> selectAll(Page<AdminLoginLogEntity> page, AdminLoginLogEntity umsAdminLoginLog) {
+//    public ResponseEntity<Object> select(Page<AdminLoginLogEntity> page, AdminLoginLogEntity umsAdminLoginLog) {
 //        return new ResponseEntity<>(this.adminLoginLogService.page(page, new QueryWrapper<>(umsAdminLoginLog)), HttpStatus.OK);
 //    }
 

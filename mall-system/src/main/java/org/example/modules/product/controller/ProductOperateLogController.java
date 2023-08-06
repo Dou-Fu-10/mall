@@ -49,7 +49,7 @@ public class ProductOperateLogController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<ProductOperateLogEntity> page, ProductOperateLogEntity productOperateLog) {
+    public ResponseEntity<Object> select(Page<ProductOperateLogEntity> page, ProductOperateLogEntity productOperateLog) {
         return ResponseEntity.ok(this.productOperateLogService.page(page, new QueryWrapper<>(productOperateLog)));
     }
 

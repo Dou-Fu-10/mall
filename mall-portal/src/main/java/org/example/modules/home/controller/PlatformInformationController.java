@@ -48,7 +48,7 @@ public class PlatformInformationController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<PlatformInformationEntity> page, PlatformInformationDto platformInformationDto) {
+    public ResponseEntity<Object> select(Page<PlatformInformationEntity> page, PlatformInformationDto platformInformationDto) {
         return ResponseEntity.ok(this.platformInformationService.page(page, platformInformationDto));
     }
 

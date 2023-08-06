@@ -47,7 +47,7 @@ public class MemberController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<MemberEntity> page, MemberDto memberDto) {
+    public ResponseEntity<Object> select(Page<MemberEntity> page, MemberDto memberDto) {
         return ResponseEntity.ok(this.memberService.page(page, memberDto));
     }
 

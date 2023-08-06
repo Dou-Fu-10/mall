@@ -49,7 +49,7 @@ public class ProductVertifyRecordController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<ProductVertifyRecordEntity> page, ProductVertifyRecordEntity productVertifyRecord) {
+    public ResponseEntity<Object> select(Page<ProductVertifyRecordEntity> page, ProductVertifyRecordEntity productVertifyRecord) {
         return ResponseEntity.ok(this.productVertifyRecordService.page(page, new QueryWrapper<>(productVertifyRecord)));
     }
 

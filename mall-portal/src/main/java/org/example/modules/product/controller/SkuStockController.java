@@ -48,7 +48,7 @@ public class SkuStockController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<SkuStockEntity> page, SkuStockDto skuStockDto) {
+    public ResponseEntity<Object> select(Page<SkuStockEntity> page, SkuStockDto skuStockDto) {
         return ResponseEntity.ok(this.skuStockService.page(page, skuStockDto));
     }
 

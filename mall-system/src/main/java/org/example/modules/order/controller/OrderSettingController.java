@@ -48,7 +48,7 @@ public class OrderSettingController {
      * @return 所有数据
      */
 //    @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<OrderSettingEntity> page, OrderSettingEntity orderSetting) {
+    public ResponseEntity<Object> select(Page<OrderSettingEntity> page, OrderSettingEntity orderSetting) {
         return ResponseEntity.ok(this.orderSettingService.page(page, new QueryWrapper<>(orderSetting)));
     }
 

@@ -43,7 +43,7 @@ public class PrizePoolController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<PrizePoolEntity> page, PrizePoolDto prizePool) {
+    public ResponseEntity<Object> select(Page<PrizePoolEntity> page, PrizePoolDto prizePool) {
         return ResponseEntity.ok(this.prizePoolService.page(page, prizePool));
     }
 

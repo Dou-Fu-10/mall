@@ -49,7 +49,7 @@ public class FeightTemplateController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<FeightTemplateEntity> page, FeightTemplateEntity feightTemplate) {
+    public ResponseEntity<Object> select(Page<FeightTemplateEntity> page, FeightTemplateEntity feightTemplate) {
         return ResponseEntity.ok(this.feightTemplateService.page(page, new QueryWrapper<>(feightTemplate)));
     }
 

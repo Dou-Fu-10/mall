@@ -52,7 +52,7 @@ public class CartItemController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<CartItemEntity> page) {
+    public ResponseEntity<Object> select(Page<CartItemEntity> page) {
         return ResponseEntity.ok(this.cartItemService.page(page));
     }
 

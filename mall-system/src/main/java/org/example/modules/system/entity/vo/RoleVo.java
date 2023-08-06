@@ -1,5 +1,6 @@
 package org.example.modules.system.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,18 +48,22 @@ public class RoleVo {
     /**
      * 创建者
      */
+    @JsonIgnore
     private String createBy;
     /**
      * 更新者
      */
+    @JsonIgnore
     private String updateBy;
     /**
      * 创建时间
      */
+    @JsonIgnore
     private Date createTime;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
+    @JsonIgnore
     private Integer deleteFlag;
     /**
      * 角色对应的菜单

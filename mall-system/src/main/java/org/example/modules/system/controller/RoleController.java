@@ -51,7 +51,7 @@ public class RoleController {
     @Operation(summary = "分页查询所有数据", description = "role::select")
     @GetMapping
     @PreAuthorize("@hasPermission.check('role::select')")
-    public ResponseEntity<Object> selectAll(Page<RoleEntity> page, RoleDto roleDto) {
+    public ResponseEntity<Object> select(Page<RoleEntity> page, RoleDto roleDto) {
         return new ResponseEntity<>(this.roleService.page(page, roleDto), HttpStatus.OK);
     }
 

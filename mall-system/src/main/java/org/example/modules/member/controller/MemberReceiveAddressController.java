@@ -48,7 +48,7 @@ public class MemberReceiveAddressController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<MemberReceiveAddressEntity> page, MemberReceiveAddressDto memberReceiveAddressDto) {
+    public ResponseEntity<Object> select(Page<MemberReceiveAddressEntity> page, MemberReceiveAddressDto memberReceiveAddressDto) {
         return ResponseEntity.ok(this.memberReceiveAddressService.page(page, memberReceiveAddressDto));
     }
 
@@ -69,14 +69,14 @@ public class MemberReceiveAddressController {
      * @param memberReceiveAddressDto 实体对象
      * @return 新增结果
      */
-    @AnonymousPostMapping
-    public ResponseEntity<Object> insert(@RequestBody MemberReceiveAddressDto memberReceiveAddressDto) {
-        if (this.memberReceiveAddressService.save(memberReceiveAddressDto)) {
-            return ResponseEntity.ok("添加成功");
-        }
-        // 修改成自定义的 错误类型
-        throw new RuntimeException("添加失败");
-    }
+//    @AnonymousPostMapping
+//    public ResponseEntity<Object> insert(@RequestBody MemberReceiveAddressDto memberReceiveAddressDto) {
+//        if (this.memberReceiveAddressService.save(memberReceiveAddressDto)) {
+//            return ResponseEntity.ok("添加成功");
+//        }
+//        // 修改成自定义的 错误类型
+//        throw new RuntimeException("添加失败");
+//    }
 
     /**
      * 修改数据
@@ -84,14 +84,14 @@ public class MemberReceiveAddressController {
      * @param memberReceiveAddressDto 实体对象
      * @return 修改结果
      */
-    @AnonymousPutMapping
-    public ResponseEntity<Object> update(@RequestBody MemberReceiveAddressDto memberReceiveAddressDto) {
-        if (this.memberReceiveAddressService.updateById(memberReceiveAddressDto)) {
-            return ResponseEntity.ok("修改成功");
-        }
-        // 修改成自定义的 错误类型
-        throw new RuntimeException("修改失败");
-    }
+//    @AnonymousPutMapping
+//    public ResponseEntity<Object> update(@RequestBody MemberReceiveAddressDto memberReceiveAddressDto) {
+//        if (this.memberReceiveAddressService.updateById(memberReceiveAddressDto)) {
+//            return ResponseEntity.ok("修改成功");
+//        }
+//        // 修改成自定义的 错误类型
+//        throw new RuntimeException("修改失败");
+//    }
 
     /**
      * 删除数据
@@ -99,13 +99,13 @@ public class MemberReceiveAddressController {
      * @param idList 主键结合
      * @return 删除结果
      */
-    @AnonymousDeleteMapping
-    public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
-        if (CollectionUtils.isEmpty(idList)) {
-            throw new BaseRequestException("请正确的填写id");
-        }
-        Set<Long> collect = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
-        return ResponseEntity.ok(this.memberReceiveAddressService.removeByIds(collect) ? "删除成功" : "删除失败");
-    }
+//    @AnonymousDeleteMapping
+//    public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
+//        if (CollectionUtils.isEmpty(idList)) {
+//            throw new BaseRequestException("请正确的填写id");
+//        }
+//        Set<Long> collect = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
+//        return ResponseEntity.ok(this.memberReceiveAddressService.removeByIds(collect) ? "删除成功" : "删除失败");
+//    }
 }
 

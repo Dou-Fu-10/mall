@@ -16,6 +16,7 @@ import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -46,8 +47,10 @@ public class OrderController {
      * @param orderDto 查询实体
      * @return 所有数据
      */
-    @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<OrderEntity> page, OrderDto orderDto) {
+    @Operation(summary = "分页查询所有数据", description = "order::select")
+    @GetMapping
+    @PreAuthorize("@hasPermission.check('order::select')")
+    public ResponseEntity<Object> select(Page<OrderEntity> page, OrderDto orderDto) {
         return ResponseEntity.ok(this.orderService.page(page, orderDto));
     }
 
@@ -57,20 +60,23 @@ public class OrderController {
      * @param id 主键
      * @return 单条数据
      */
+    @Operation(summary = "通过主键查询单条数据", description = "order::selectOne")
     @AnonymousGetMapping("{id}")
+    @PreAuthorize("@hasPermission.check('order::selectOne')")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return ResponseEntity.ok(this.orderService.getOrderById(id));
     }
 
     /**
-     * 修改帐号状态
+     * 修改订单状态
      *
      * @param id     用户id
      * @param status 状态
      * @return String
      */
-    @Operation(summary = "修改帐号状态")
+    @Operation(summary = "修改订单状态", description = "order::updateStatus")
     @AnonymousPutMapping(value = "/updateStatus/{id}")
+    @PreAuthorize("@hasPermission.check('order::updateStatus')")
     public ResponseEntity<String> updateStatus(@PathVariable Long id,
                                                @RequestParam(value = "status") Integer status,
                                                @RequestParam(value = "deliveryCompany") String deliveryCompany,
@@ -81,7 +87,16 @@ public class OrderController {
         throw new BaseRequestException("修改失败");
     }
 
+    /**
+     * 已完成订单月
+     *
+     * @param page     分页
+     * @param orderDto 实体类
+     * @return
+     */
+    @Operation(summary = "已完成订单月", description = "order::findCompletedOrdersByMonth")
     @AnonymousGetMapping("/completedOrdersMonth")
+    @PreAuthorize("@hasPermission.check('order::findCompletedOrdersByMonth')")
     public ResponseEntity<Object> findCompletedOrdersByMonth(Page<OrderEntity> page, OrderDto orderDto) {
         return ResponseEntity.ok(this.orderService.findCompletedOrdersByMonth(page, orderDto, new DateTime()));
     }
@@ -92,7 +107,9 @@ public class OrderController {
      * @param order 实体对象
      * @return 新增结果
      */
+    @Operation(summary = "新增数据", description = "order::insert")
     @AnonymousPostMapping
+    @PreAuthorize("@hasPermission.check('order::insert')")
     public ResponseEntity<Object> insert(@RequestBody OrderDto order) {
         if (this.orderService.save(order)) {
             return ResponseEntity.ok("添加成功");
@@ -107,7 +124,9 @@ public class OrderController {
      * @param order 实体对象
      * @return 修改结果
      */
+    @Operation(summary = "修改数据", description = "order::update")
     @AnonymousPutMapping
+    @PreAuthorize("@hasPermission.check('order::update')")
     public ResponseEntity<Object> update(@RequestBody OrderDto order) {
         if (this.orderService.updateById(order)) {
             return ResponseEntity.ok("修改成功");
@@ -122,12 +141,15 @@ public class OrderController {
      * @param idList 主键结合
      * @return 删除结果
      */
+    @Operation(summary = "删除数据", description = "order::remove")
     @AnonymousDeleteMapping
+    @PreAuthorize("@hasPermission.check('order::remove')")
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");
         }
-        return ResponseEntity.ok(this.orderService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败");
+        Set<Long> ids = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
+        return ResponseEntity.ok(this.orderService.removeByIds(ids) ? "删除成功" : "删除失败");
     }
 }
 

@@ -49,7 +49,7 @@ public class CommentController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<CommentEntity> page, CommentEntity comment) {
+    public ResponseEntity<Object> select(Page<CommentEntity> page, CommentEntity comment) {
         return new ResponseEntity<>(this.commentService.page(page, new QueryWrapper<>(comment)), HttpStatus.OK);
     }
 

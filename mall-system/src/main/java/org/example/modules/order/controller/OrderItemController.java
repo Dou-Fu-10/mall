@@ -49,7 +49,7 @@ public class OrderItemController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<OrderItemEntity> page, OrderItemEntity orderItem) {
+    public ResponseEntity<Object> select(Page<OrderItemEntity> page, OrderItemEntity orderItem) {
         return ResponseEntity.ok(this.orderItemService.page(page, new QueryWrapper<>(orderItem)));
     }
 

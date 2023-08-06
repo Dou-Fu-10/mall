@@ -47,7 +47,7 @@ public class OrderReturnReasonController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<OrderReturnReasonEntity> page, OrderReturnReasonEntity orderReturnReason) {
+    public ResponseEntity<Object> select(Page<OrderReturnReasonEntity> page, OrderReturnReasonEntity orderReturnReason) {
         return ResponseEntity.ok(this.orderReturnReasonService.page(page, new QueryWrapper<>(orderReturnReason)));
     }
 

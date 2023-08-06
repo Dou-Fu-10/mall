@@ -47,7 +47,7 @@ public class ProductCategoryController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<ProductCategoryEntity> page, ProductCategoryEntity productCategory) {
+    public ResponseEntity<Object> select(Page<ProductCategoryEntity> page, ProductCategoryEntity productCategory) {
         return ResponseEntity.ok(this.productCategoryService.page(page, productCategory));
     }
 

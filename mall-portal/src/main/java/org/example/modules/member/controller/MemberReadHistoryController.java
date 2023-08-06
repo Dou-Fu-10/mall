@@ -44,7 +44,7 @@ public class MemberReadHistoryController {
      * @return 所有数据
      */
     @GetMapping
-    public ResponseEntity<Object> selectAll(Page<MemberReadHistoryEntity> page ) {
+    public ResponseEntity<Object> select(Page<MemberReadHistoryEntity> page ) {
         return ResponseEntity.ok(this.memberReadHistoryService.page(page));
     }
 

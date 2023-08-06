@@ -50,7 +50,7 @@ public class MenuController {
     @Operation(summary = "分页查询所有数据", description = "menu::select")
     @GetMapping
     @PreAuthorize("@hasPermission.check('menu::select')")
-    public ResponseEntity<Object> selectAll(Page<MenuEntity> page, MenuDto menuDto) {
+    public ResponseEntity<Object> select(Page<MenuEntity> page, MenuDto menuDto) {
         return new ResponseEntity<>(this.menuService.page(page, menuDto), HttpStatus.OK);
     }
 

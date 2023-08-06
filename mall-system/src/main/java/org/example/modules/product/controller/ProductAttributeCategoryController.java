@@ -52,7 +52,7 @@ public class ProductAttributeCategoryController {
      */
     @AnonymousGetMapping
     @Operation(summary = "分页查询所有数据")
-    public ResponseEntity<Object> selectAll(Page<ProductAttributeCategoryEntity> page, ProductAttributeCategoryDto productAttributeCategory) {
+    public ResponseEntity<Object> select(Page<ProductAttributeCategoryEntity> page, ProductAttributeCategoryDto productAttributeCategory) {
         return ResponseEntity.ok(this.productAttributeCategoryService.page(page, productAttributeCategory));
     }
 

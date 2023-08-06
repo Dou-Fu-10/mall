@@ -43,7 +43,7 @@ public class MemberCollectionController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<MemberCollectionEntity> page) {
+    public ResponseEntity<Object> select(Page<MemberCollectionEntity> page) {
         return ResponseEntity.ok(this.memberCollectionService.page(page));
     }
 

@@ -48,7 +48,7 @@ public class MemberLoginLogController {
 //     * @return 所有数据
 //     */
 //    @AnonymousGetMapping
-//    public ResponseEntity<Object> selectAll(Page<MemberLoginLogEntity> page, MemberLoginLogDto memberLoginLogDto) {
+//    public ResponseEntity<Object> select(Page<MemberLoginLogEntity> page, MemberLoginLogDto memberLoginLogDto) {
 //        return ResponseEntity.ok(this.memberLoginLogService.page(page, memberLoginLogDto));
 //    }
 //

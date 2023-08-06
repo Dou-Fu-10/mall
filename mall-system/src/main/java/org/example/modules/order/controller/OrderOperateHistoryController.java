@@ -49,7 +49,7 @@ public class OrderOperateHistoryController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<OrderOperateHistoryEntity> page, OrderOperateHistoryEntity orderOperateHistory) {
+    public ResponseEntity<Object> select(Page<OrderOperateHistoryEntity> page, OrderOperateHistoryEntity orderOperateHistory) {
         return ResponseEntity.ok(this.orderOperateHistoryService.page(page, new QueryWrapper<>(orderOperateHistory)));
     }
 

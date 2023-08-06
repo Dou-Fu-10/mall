@@ -49,7 +49,7 @@ public class CompanyAddressController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<CompanyAddressEntity> page, CompanyAddressEntity companyAddress) {
+    public ResponseEntity<Object> select(Page<CompanyAddressEntity> page, CompanyAddressEntity companyAddress) {
         return ResponseEntity.ok(this.companyAddressService.page(page, new QueryWrapper<>(companyAddress)));
     }
 

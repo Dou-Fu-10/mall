@@ -48,7 +48,7 @@ public class ProductAttributeValueController {
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> selectAll(Page<ProductAttributeValueEntity> page, ProductAttributeValueDto productAttributeValueDto) {
+    public ResponseEntity<Object> select(Page<ProductAttributeValueEntity> page, ProductAttributeValueDto productAttributeValueDto) {
         return ResponseEntity.ok(this.productAttributeValueService.page(page, productAttributeValueDto));
     }
 

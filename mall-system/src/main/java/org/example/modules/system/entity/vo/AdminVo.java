@@ -35,6 +35,7 @@ public class AdminVo {
     /**
      * 密码
      */
+    @JsonIgnore
     private String password;
     /**
      * 昵称
