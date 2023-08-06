@@ -6,6 +6,7 @@ import org.example.modules.product.entity.ProductCategoryEntity;
 import org.example.modules.product.entity.dto.ProductCategoryDto;
 import org.example.modules.product.entity.vo.ProductCategoryVo;
 
+import java.io.Serializable;
 import java.util.Set;
 
 
@@ -77,4 +78,10 @@ public interface ProductCategoryService extends IService<ProductCategoryEntity> 
      */
     Boolean updateShowStatus(Set<Long> idList, Boolean showStatus);
 
+    /**
+     * 通过 商品分类id 查询
+     * @param productCategoryId 分类id
+     * @return /
+     */
+    ProductCategoryVo getByProductCategoryId(Serializable productCategoryId);
 }

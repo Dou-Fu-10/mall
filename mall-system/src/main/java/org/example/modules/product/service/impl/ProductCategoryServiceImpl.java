@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import jakarta.validation.constraints.NotEmpty;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.server.MinioServer;
 import org.example.common.core.utils.BeanCopy;
@@ -22,6 +21,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,12 +40,18 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
     private ProductCategoryAttributeRelationService productCategoryAttributeRelationService;
 
     @Override
-    public ProductCategoryEntity getByCategoryName(@NotEmpty String categoryName) {
+    public ProductCategoryEntity getByCategoryName(String categoryName) {
+        if (Objects.isNull(categoryName)) {
+            throw new BaseRequestException("参数有误");
+        }
         return lambdaQuery().eq(ProductCategoryEntity::getName, categoryName).one();
     }
 
     @Override
     public ProductCategoryEntity getByCategoryId(Long id) {
+        if (Objects.isNull(id)) {
+            throw new BaseRequestException("参数有误");
+        }
         return lambdaQuery().eq(ProductCategoryEntity::getId, id).one();
     }
 
@@ -122,28 +128,54 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
     @Override
     public Page<ProductCategoryVo> page(Page<ProductCategoryEntity> page, ProductCategoryEntity productCategory) {
         LambdaQueryWrapper<ProductCategoryEntity> productCategoryEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(productCategory);
+        // 排序
         productCategoryEntityLambdaQueryWrapper.orderByAsc(ProductCategoryEntity::getSort);
         Page<ProductCategoryEntity> productCategoryEntityPage = page(page, productCategoryEntityLambdaQueryWrapper);
-        if (CollectionUtils.isEmpty(productCategoryEntityPage.getRecords())) {
-            return (Page) productCategoryEntityPage;
+        IPage<ProductCategoryVo> productCategoryVoIpage = productCategoryEntityPage.convert(productCategoryEntity -> BeanCopy.convert(productCategoryEntity, ProductCategoryVo.class));
+        List<ProductCategoryVo> productCategoryVoList = productCategoryVoIpage.getRecords();
+        // 当分类为空时 直接返回
+        if (CollectionUtils.isEmpty(productCategoryVoList)) {
+            return (Page) productCategoryVoIpage;
         }
-        IPage<ProductCategoryVo> convert = productCategoryEntityPage.convert(productCategoryEntity -> BeanCopy.convert(productCategoryEntity, ProductCategoryVo.class));
-        List<ProductCategoryVo> records = convert.getRecords();
-        convert.setRecords(getProductCategoryVoListTree(records));
-        return (Page) convert;
+        // 对商品分类进行上下级的排序
+        List<ProductCategoryVo> productCategoryVoListTree = getProductCategoryVoListTree(productCategoryVoList);
+        // 返回排序好的信息
+        productCategoryVoIpage.setRecords(productCategoryVoListTree);
+        return (Page) productCategoryVoIpage;
     }
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean updateNavStatus(Set<Long> idList, Boolean navStatus) {
+        // 数据校验
+        if (CollectionUtils.isEmpty(idList) || Objects.isNull(navStatus)) {
+            return false;
+        }
         Set<ProductCategoryEntity> collect = idList.stream().map(id -> new ProductCategoryEntity(id, navStatus, null)).collect(Collectors.toSet());
+        // 当其中一个更新失败后数据回滚
         return updateBatchById(collect);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean updateShowStatus(Set<Long> idList, Boolean showStatus) {
+        // 数据校验
+        if (CollectionUtils.isEmpty(idList) || Objects.isNull(showStatus)) {
+            return false;
+        }
         Set<ProductCategoryEntity> collect = idList.stream().map(id -> new ProductCategoryEntity(id, null, showStatus)).collect(Collectors.toSet());
+        // 当其中一个更新失败后数据回滚
         return updateBatchById(collect);
+    }
+
+    @Override
+    public ProductCategoryVo getByProductCategoryId(Serializable productCategoryId) {
+        if (Objects.isNull(productCategoryId)) {
+            return null;
+        }
+        ProductCategoryEntity productCategoryEntity = getById(productCategoryId);
+        return BeanCopy.convert(productCategoryEntity, ProductCategoryVo.class);
     }
 
     @org.jetbrains.annotations.NotNull

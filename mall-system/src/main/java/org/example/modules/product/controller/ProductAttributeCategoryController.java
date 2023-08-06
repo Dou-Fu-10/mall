@@ -11,15 +11,9 @@ import org.example.modules.product.entity.ProductAttributeCategoryEntity;
 import org.example.modules.product.entity.dto.ProductAttributeCategoryDto;
 import org.example.modules.product.entity.vo.ProductAttributeCategoryVo;
 import org.example.modules.product.service.ProductAttributeCategoryService;
-import org.example.security.annotaion.rest.AnonymousDeleteMapping;
-import org.example.security.annotaion.rest.AnonymousGetMapping;
-import org.example.security.annotaion.rest.AnonymousPostMapping;
-import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -46,14 +40,14 @@ public class ProductAttributeCategoryController {
     /**
      * 分页查询所有数据
      *
-     * @param page                     分页对象
-     * @param productAttributeCategory 查询实体
+     * @param page 分页对象
      * @return 所有数据
      */
-    @AnonymousGetMapping
-    @Operation(summary = "分页查询所有数据")
-    public ResponseEntity<Object> select(Page<ProductAttributeCategoryEntity> page, ProductAttributeCategoryDto productAttributeCategory) {
-        return ResponseEntity.ok(this.productAttributeCategoryService.page(page, productAttributeCategory));
+    @GetMapping
+    @Operation(summary = "分页查询所有数据", description = "productAttributeCategory::select")
+    @PreAuthorize("@hasPermission.check('productAttributeCategory::select')")
+    public ResponseEntity<Object> select(Page<ProductAttributeCategoryEntity> page) {
+        return ResponseEntity.ok(this.productAttributeCategoryService.page(page, new ProductAttributeCategoryDto()));
     }
 
     /**
@@ -62,10 +56,11 @@ public class ProductAttributeCategoryController {
      * @param id 主键
      * @return 单条数据
      */
-    @AnonymousGetMapping("{id}")
-    @Operation(summary = "通过主键查询单条数据")
+    @GetMapping("{id}")
+    @Operation(summary = "通过主键查询单条数据", description = "productAttributeCategory::selectOne")
+    @PreAuthorize("@hasPermission.check('productAttributeCategory::selectOne')")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return ResponseEntity.ok(this.productAttributeCategoryService.getById(id));
+        return ResponseEntity.ok(this.productAttributeCategoryService.getByProductAttributeCategoryId(id));
     }
 
     /**
@@ -74,8 +69,9 @@ public class ProductAttributeCategoryController {
      * @param productAttributeCategory 实体对象
      * @return 新增结果
      */
-    @AnonymousPostMapping
-    @Operation(summary = "新增数据")
+    @PostMapping
+    @Operation(summary = "新增数据", description = "productAttributeCategory::insert")
+    @PreAuthorize("@hasPermission.check('productAttributeCategory::insert')")
     public ResponseEntity<Object> insert(@RequestBody ProductAttributeCategoryDto productAttributeCategory) {
         if (this.productAttributeCategoryService.save(productAttributeCategory)) {
             return ResponseEntity.ok("添加成功");
@@ -89,8 +85,9 @@ public class ProductAttributeCategoryController {
      * @param productAttributeCategory 实体对象
      * @return 修改结果
      */
-    @AnonymousPutMapping
-    @Operation(summary = "修改数据")
+    @PutMapping
+    @Operation(summary = "修改数据", description = "productAttributeCategory::update")
+    @PreAuthorize("@hasPermission.check('productAttributeCategory::update')")
     public ResponseEntity<Object> update(@RequestBody ProductAttributeCategoryDto productAttributeCategory) {
         if (this.productAttributeCategoryService.updateById(productAttributeCategory)) {
             return ResponseEntity.ok("修改成功");
@@ -104,21 +101,24 @@ public class ProductAttributeCategoryController {
      * @param idList 主键结合
      * @return 删除结果
      */
-    @AnonymousDeleteMapping
-    @Operation(summary = "删除数据")
+    @DeleteMapping
+    @Operation(summary = "删除数据", description = "productAttributeCategory::remove")
+    @PreAuthorize("@hasPermission.check('productAttributeCategory::remove')")
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");
         }
-        return ResponseEntity.ok(this.productAttributeCategoryService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败");
+        Set<Long> ids = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
+        return ResponseEntity.ok(this.productAttributeCategoryService.removeByIds(ids) ? "删除成功" : "删除失败");
     }
 
     /***
      * 获取所有商品属性分类及其下属性
      * @return 属性
      */
-    @AnonymousGetMapping(value = "/list/withAttr")
-    @Operation(summary = "获取所有商品属性分类及其下属性")
+    @GetMapping(value = "/list/withAttr")
+    @Operation(summary = "获取所有商品属性分类及其下属性", description = "productAttributeCategory::getListWithAttr")
+    @PreAuthorize("@hasPermission.check('productAttributeCategory::getListWithAttr')")
     public ResponseEntity<List<ProductAttributeCategoryVo>> getListWithAttr() {
         return ResponseEntity.ok(productAttributeCategoryService.getListWithAttr());
     }

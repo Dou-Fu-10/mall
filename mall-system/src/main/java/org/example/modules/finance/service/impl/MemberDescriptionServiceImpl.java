@@ -52,7 +52,7 @@ public class MemberDescriptionServiceImpl extends ServiceImpl<MemberDescriptionM
         MemberDescriptionEntity memberDescriptionEntity = BeanCopy.convert(memberDescriptionDto, MemberDescriptionEntity.class);
         LambdaQueryWrapper<MemberDescriptionEntity> memberDescriptionEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(memberDescriptionEntity);
         // 以id进行排序
-        memberDescriptionEntityLambdaQueryWrapper.orderByAsc(MemberDescriptionEntity::getId);
+        memberDescriptionEntityLambdaQueryWrapper.orderByDesc(MemberDescriptionEntity::getId);
         Page<MemberDescriptionEntity> memberDescriptionEntityPage = page(page, memberDescriptionEntityLambdaQueryWrapper);
         IPage<MemberDescriptionVo> memberDescriptionEntityPageVoIpage = memberDescriptionEntityPage.convert(memberDescription -> BeanCopy.convert(memberDescription, MemberDescriptionVo.class));
         return (Page) memberDescriptionEntityPageVoIpage;

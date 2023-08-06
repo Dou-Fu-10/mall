@@ -6,6 +6,7 @@ import org.example.modules.product.entity.ProductAttributeCategoryEntity;
 import org.example.modules.product.entity.dto.ProductAttributeCategoryDto;
 import org.example.modules.product.entity.vo.ProductAttributeCategoryVo;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -41,7 +42,13 @@ public interface ProductAttributeCategoryService extends IService<ProductAttribu
      * @return 分类信息
      */
     ProductAttributeCategoryEntity getByProductAttributeCategoryId(Long id);
-
+    /**
+     * 通过分类id查询分类信息
+     *
+     * @param id 分类名字
+     * @return 分类信息
+     */
+    ProductAttributeCategoryVo getByProductAttributeCategoryId(Serializable id);
     /**
      * 新增数据
      *

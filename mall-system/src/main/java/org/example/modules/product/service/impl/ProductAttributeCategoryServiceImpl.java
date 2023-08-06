@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
+import org.example.common.core.utils.StringUtils;
 import org.example.modules.product.entity.ProductAttributeCategoryEntity;
 import org.example.modules.product.entity.dto.ProductAttributeCategoryDto;
 import org.example.modules.product.entity.dto.ProductAttributeDto;
@@ -16,6 +17,7 @@ import org.example.modules.product.service.ProductAttributeCategoryService;
 import org.example.modules.product.service.ProductAttributeService;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,29 +37,44 @@ public class ProductAttributeCategoryServiceImpl extends ServiceImpl<ProductAttr
     @Override
     public Page<List<ProductAttributeCategoryVo>> page(Page<ProductAttributeCategoryEntity> page, ProductAttributeCategoryDto productAttributeCategory) {
         ProductAttributeCategoryEntity convert = BeanCopy.convert(productAttributeCategory, ProductAttributeCategoryEntity.class);
-        // TODO 对数据进行校验
         Page<ProductAttributeCategoryEntity> productAttributeCategoryEntityPage = page(page, new QueryWrapper<>(convert));
         return (Page) productAttributeCategoryEntityPage.convert(productAttributeCategoryEntity -> BeanCopy.convert(productAttributeCategoryEntity, ProductAttributeCategoryVo.class));
     }
 
     @Override
     public ProductAttributeCategoryEntity getByProductAttributeCategoryName(String productAttributeCategory) {
+        if (StringUtils.isBlank(productAttributeCategory)){
+            throw new BaseRequestException("参数有误");
+        }
         return lambdaQuery().eq(ProductAttributeCategoryEntity::getName, productAttributeCategory).one();
     }
 
     @Override
     public ProductAttributeCategoryEntity getByProductAttributeCategoryId(Long id) {
+        if (Objects.isNull(id)){
+            throw new BaseRequestException("参数有误");
+        }
         return lambdaQuery().eq(ProductAttributeCategoryEntity::getId, id).one();
     }
 
     @Override
+    public ProductAttributeCategoryVo getByProductAttributeCategoryId(Serializable id) {
+        if (Objects.isNull(id)){
+            throw new BaseRequestException("参数有误");
+        }
+        ProductAttributeCategoryEntity productAttributeCategoryEntity = getById(id);
+        return BeanCopy.convert(productAttributeCategoryEntity, ProductAttributeCategoryVo.class);
+    }
+
+    @Override
     public Boolean save(ProductAttributeCategoryDto productAttributeCategory) {
-        ProductAttributeCategoryEntity convert = BeanCopy.convert(productAttributeCategory, ProductAttributeCategoryEntity.class);
-        if (Objects.nonNull(getByProductAttributeCategoryName(convert.getName()))) {
+        ProductAttributeCategoryEntity productAttributeCategoryEntity = BeanCopy.convert(productAttributeCategory, ProductAttributeCategoryEntity.class);
+        // 校验商品分类名字是否唯一
+        if (Objects.nonNull(getByProductAttributeCategoryName(productAttributeCategoryEntity.getName()))) {
             throw new BaseRequestException("属性分类名不唯一");
         }
 
-        return convert.insert();
+        return productAttributeCategoryEntity.insert();
     }
 
     @Override
