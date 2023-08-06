@@ -15,6 +15,14 @@ import org.example.modules.finance.entity.vo.MemberDescriptionVo;
  */
 public interface MemberDescriptionService extends IService<MemberDescriptionEntity> {
     /**
+     * 通过标题获取
+     *
+     * @param title 标题
+     * @return /
+     */
+    MemberDescriptionEntity getByTitle(String title);
+
+    /**
      * 新增数据
      *
      * @param memberDescriptionDto 实体对象

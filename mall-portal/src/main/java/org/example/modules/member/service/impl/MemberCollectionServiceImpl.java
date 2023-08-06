@@ -38,6 +38,7 @@ public class MemberCollectionServiceImpl extends ServiceImpl<MemberCollectionMap
 
     @Override
     public Boolean save(MemberCollectionDto memberCollectionDto) {
+        memberCollectionDto.setMemberId(SecurityUtils.getCurrentUserId());
         MemberCollectionEntity memberCollectionEntity = BeanCopy.convert(memberCollectionDto, MemberCollectionEntity.class);
         return save(memberCollectionEntity);
     }

@@ -1,19 +1,15 @@
 package org.example.modules.finance.controller;
 
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import org.example.modules.finance.entity.PrizePoolEntity;
 import org.example.modules.finance.entity.dto.PrizePoolDto;
 import org.example.modules.finance.service.PrizePoolService;
-import org.example.security.annotaion.rest.AnonymousGetMapping;
-import org.example.security.annotaion.rest.AnonymousPostMapping;
-import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -36,23 +32,25 @@ public class PrizePoolController {
     private PrizePoolService prizePoolService;
 
     /**
-     * 分页查询所有数据
+     * 查找奖金池信息
      *
-     * @param page      分页对象
-     * @param prizePool 查询实体
-     * @return 所有数据
+     * @return 查找奖金池信息
      */
-    @AnonymousGetMapping
-    public ResponseEntity<Object> select(Page<PrizePoolEntity> page, PrizePoolDto prizePool) {
-        return ResponseEntity.ok(this.prizePoolService.page(page, prizePool));
+    @Operation(summary = "查找奖金池信息", description = "prizePool::select")
+    @GetMapping
+    @PreAuthorize("@hasPermission.check('prizePool::select')")
+    public ResponseEntity<Object> select() {
+        return ResponseEntity.ok(this.prizePoolService.select());
     }
 
     /**
-     * 通过主键查询单条数据
+     * 平台收益明细
      *
-     * @return 单条数据
+     * @return 平台收益明细
      */
-    @AnonymousGetMapping("/details")
+    @Operation(summary = "平台收益明细", description = "prizePool::details")
+    @GetMapping("/details")
+    @PreAuthorize("@hasPermission.check('prizePool::details')")
     public ResponseEntity<Object> details() {
         return ResponseEntity.ok(this.prizePoolService.details());
     }
@@ -63,14 +61,16 @@ public class PrizePoolController {
      * @param prizePool 实体对象
      * @return 新增结果
      */
-    @AnonymousPostMapping
-    public ResponseEntity<Object> insert(@RequestBody PrizePoolDto prizePool) {
-        if (this.prizePoolService.save(prizePool)) {
-            return ResponseEntity.ok("添加成功");
-        }
-        // 修改成自定义的 错误类型
-        throw new RuntimeException("添加失败");
-    }
+//    @Operation(summary = "新增数据", description = "prizePool::insert")
+//    @PostMapping
+//    @PreAuthorize("@hasPermission.check('prizePool::insert')")
+//    public ResponseEntity<Object> insert(@RequestBody @Validated PrizePoolDto prizePool) {
+//        if (this.prizePoolService.save(prizePool)) {
+//            return ResponseEntity.ok("添加成功");
+//        }
+//        // 修改成自定义的 错误类型
+//        throw new RuntimeException("添加失败");
+//    }
 
     /**
      * 修改数据
@@ -78,8 +78,10 @@ public class PrizePoolController {
      * @param prizePool 实体对象
      * @return 修改结果
      */
-    @AnonymousPutMapping
-    public ResponseEntity<Object> update(@RequestBody PrizePoolDto prizePool) {
+    @Operation(summary = "修改数据", description = "prizePool::update")
+    @PutMapping
+    @PreAuthorize("@hasPermission.check('prizePool::update')")
+    public ResponseEntity<Object> update(@RequestBody @Validated PrizePoolDto prizePool) {
         if (this.prizePoolService.updateById(prizePool)) {
             return ResponseEntity.ok("修改成功");
         }
@@ -87,7 +89,14 @@ public class PrizePoolController {
         throw new RuntimeException("修改失败");
     }
 
-    @AnonymousGetMapping("/memberFees")
+    /**
+     * 获得会员费用
+     *
+     * @return /
+     */
+    @Operation(summary = "获得会员费用", description = "prizePool::memberFees")
+    @GetMapping("/memberFees")
+    @PreAuthorize("@hasPermission.check('prizePool::memberFees')")
     public ResponseEntity<Object> getMemberFees() {
         BigDecimal memberFees = this.prizePoolService.getMemberFees();
         if (Objects.nonNull(memberFees)) {

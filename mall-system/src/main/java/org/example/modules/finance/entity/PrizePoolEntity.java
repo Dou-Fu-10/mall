@@ -1,5 +1,6 @@
 package org.example.modules.finance.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -59,18 +60,20 @@ public class PrizePoolEntity extends CommonEntity<PrizePoolEntity> implements Se
     /**
      * 修改时间
      */
-    @Schema(name = "updateTime", description = "修改时间")
+    @TableField(exist = false)
     private Date updateTime;
 
     /**
      * 创建人
      * 创建
      */
+    @TableField(exist = false)
     private String createBy;
     /**
      * 更新人
      * 创建、更新
      */
+    @TableField(exist = false)
     private String updateBy;
 }
 

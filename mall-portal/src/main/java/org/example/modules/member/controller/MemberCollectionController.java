@@ -42,7 +42,7 @@ public class MemberCollectionController {
      * @param page 分页对象
      * @return 所有数据
      */
-    @AnonymousGetMapping
+    @GetMapping
     public ResponseEntity<Object> select(Page<MemberCollectionEntity> page) {
         return ResponseEntity.ok(this.memberCollectionService.page(page));
     }
@@ -102,7 +102,7 @@ public class MemberCollectionController {
         Set<Long> ids = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
         LambdaQueryWrapper<MemberCollectionEntity> memberCollectionEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
         memberCollectionEntityLambdaQueryWrapper.eq(MemberCollectionEntity::getMemberId, SecurityUtils.getCurrentUserId());
-        memberCollectionEntityLambdaQueryWrapper.in(MemberCollectionEntity::getId, ids);
+        memberCollectionEntityLambdaQueryWrapper.in(MemberCollectionEntity::getProductId, ids);
         return ResponseEntity.ok(this.memberCollectionService.remove(memberCollectionEntityLambdaQueryWrapper) ? "删除成功" : "删除失败");
     }
 }

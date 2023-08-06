@@ -1,5 +1,6 @@
 package org.example.modules.finance.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,21 +43,7 @@ public class PrizePoolVo {
     /**
      * 创建日期
      */
+    @JsonIgnore
     private Date createTime;
-    /**
-     * 修改时间
-     */
-    private Date updateTime;
-
-    /**
-     * 创建人
-     * 创建
-     */
-    private String createBy;
-    /**
-     * 更新人
-     * 创建、更新
-     */
-    private String updateBy;
 }
 
