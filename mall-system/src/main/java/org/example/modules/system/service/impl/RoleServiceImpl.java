@@ -60,7 +60,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     }
 
     @Override
-    public boolean updateStatus(Long id, Boolean status) {
+    public Boolean updateStatus(Long id, Boolean status) {
         RoleEntity roleEntity = new RoleEntity();
         roleEntity.setEnabled(status);
         roleEntity.setId(id);
@@ -74,7 +74,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    public boolean allocMenu(Long roleId, List<Long> menuIds) {
+    public Boolean allocMenu(Long roleId, List<Long> menuIds) {
         if (Objects.isNull(roleId) || CollectionUtils.isEmpty(menuIds)) {
             return false;
         }

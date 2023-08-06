@@ -36,7 +36,7 @@ public interface RoleService extends IService<RoleEntity> {
      * @param status 角色状态
      * @return String
      */
-    boolean updateStatus(Long id, Boolean status);
+    Boolean updateStatus(Long id, Boolean status);
 
     /**
      * 获取角色相关菜单
@@ -53,7 +53,7 @@ public interface RoleService extends IService<RoleEntity> {
      * @param menuIds 菜单id列表
      * @return String
      */
-    boolean allocMenu(Long roleId, List<Long> menuIds);
+    Boolean allocMenu(Long roleId, List<Long> menuIds);
 
     /**
      * 根据用户ID查询 用户角色

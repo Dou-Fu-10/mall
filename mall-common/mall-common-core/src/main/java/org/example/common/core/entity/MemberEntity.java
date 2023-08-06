@@ -60,7 +60,7 @@ public class MemberEntity extends CommonEntity<MemberEntity> implements Serializ
     private Boolean isVip;
 
     /**
-     * 帐号启用状态；0->正常：1->禁用
+     * 帐号启用状态；1->正常：0->禁用
      */
     private Boolean enabled;
     /**
