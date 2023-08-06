@@ -1,9 +1,12 @@
 package org.example.modules.system.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.common.core.base.ValidationDto;
+import org.example.common.core.validation.UserNameValid;
 
 import java.util.Date;
 import java.util.Set;
@@ -22,15 +25,19 @@ public class AdminDto {
     /**
      * ID
      */
+    @Null(groups = ValidationDto.SelectPage.class, message = "不支持查找")
+    @Null(groups = ValidationDto.Insert.class, message = "参数传入错误")
     private Long id;
 
     /**
      * 用户
      */
+    @UserNameValid(isNotBlank = false, groups = ValidationDto.SelectPage.class)
     private String username;
     /**
      * 密码
      */
+    @JsonIgnore
     private String password;
     /**
      * 昵称
@@ -39,6 +46,7 @@ public class AdminDto {
     /**
      * 头像
      */
+    @Null(groups = ValidationDto.SelectPage.class, message = "不支持查找")
     private String icon;
     /**
      * 手机号码

@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 系统：在线用户管理
  *
- * @author Zheng Jie
+ * @author /
  */
-@RestController
-@RequiredArgsConstructor
-@RequestMapping("/auth/online")
+//@RestController
+//@RequiredArgsConstructor
+//@RequestMapping("/auth/online")
 public class OnlineController {
 
-    @Resource
-    private OnlineAdminService onlineAdminService;
+//    @Resource
+//    private OnlineAdminService onlineAdminService;
 
 //    /**
 //     * 查询在线用户

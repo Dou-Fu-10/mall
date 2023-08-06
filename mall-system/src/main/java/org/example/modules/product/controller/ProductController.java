@@ -95,13 +95,13 @@ public class ProductController {
     }
 
     /**
-     * 修改帐号状态
+     * 修改商品状态
      *
      * @param id     用户id
      * @param status 状态
      * @return String
      */
-    @Operation(summary = "修改帐号状态")
+    @Operation(summary = "修改商品状态")
     @AnonymousPutMapping(value = "/updateStatus/{id}")
     public ResponseEntity<String> updateStatus(@PathVariable Long id, @RequestParam(value = "status") Boolean status) {
         if (this.productService.updateStatus(id, status)) {

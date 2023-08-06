@@ -14,6 +14,7 @@ import org.example.common.core.exception.AuthenticationException;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.server.MinioServer;
 import org.example.common.core.utils.BeanCopy;
+import org.example.common.core.utils.StringUtils;
 import org.example.config.AuthAdmin;
 import org.example.config.UpdatePassword;
 import org.example.modules.security.service.OnlineAdminService;
@@ -29,6 +30,7 @@ import org.example.modules.system.service.RolesMenusRelationService;
 import org.example.security.config.SecurityProperties;
 import org.example.security.entity.JwtAdmin;
 import org.example.security.utils.JwtTokenUtil;
+import org.example.security.utils.SecurityUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -38,7 +40,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.security.Principal;
@@ -164,7 +165,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     }
 
     @Override
-    public AdminVo getAdminById(@NotNull Serializable id) {
+    public AdminVo getAdminById(Serializable id) {
         AdminEntity adminEntity = getById(id);
         if (Objects.nonNull(adminEntity)) {
             return BeanCopy.convert(adminEntity, AdminVo.class);
@@ -176,6 +177,9 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     public String refreshHeadToken(HttpServletRequest request) {
         // 获取token
         String token = jwtTokenUtil.resolveToken(request);
+        if (StringUtils.isBlank(token)) {
+            throw new BaseRequestException("续约失败");
+        }
         // 续约token
         return jwtTokenUtil.refreshHeadToken(token);
     }
@@ -202,6 +206,12 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
             data.put("roles", roleList);
         }
         return data;
+    }
+
+    @Override
+    public void logout() {
+        String adminName = SecurityUtils.getCurrentUsername();
+        onlineAdminService.kickOutForUsername(adminName);
     }
 
 

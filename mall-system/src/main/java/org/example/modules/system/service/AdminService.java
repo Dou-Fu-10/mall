@@ -158,4 +158,10 @@ public interface AdminService extends IService<AdminEntity> {
      * @return 用户登录信息
      */
     Map<String, Object> info(Principal principal);
+
+    /**
+     * 退出登录
+     */
+    void logout();
+
 }

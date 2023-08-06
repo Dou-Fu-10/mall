@@ -8,6 +8,7 @@ import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.member.entity.MemberReceiveAddressEntity;
 import org.example.modules.member.entity.dto.MemberReceiveAddressDto;
+import org.example.modules.member.entity.vo.MemberReceiveAddressVo;
 import org.example.modules.member.service.MemberReceiveAddressService;
 import org.example.security.annotaion.rest.AnonymousDeleteMapping;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -44,15 +46,24 @@ public class MemberReceiveAddressController {
     /**
      * 通过主键查询单条数据
      *
+     * @return 单条数据
+     */
+    @AnonymousGetMapping()
+    public ResponseEntity<Object> selectAll() {
+       List<MemberReceiveAddressVo> memberReceiveAddressEntity =  memberReceiveAddressService.selectAll();
+        return ResponseEntity.ok(memberReceiveAddressEntity);
+    }
+
+    /**
+     * 通过主键查询单条数据
+     *
      * @param id 主键
      * @return 单条数据
      */
     @AnonymousGetMapping("/{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        MemberReceiveAddressEntity memberReceiveAddressEntity = memberReceiveAddressService.lambdaQuery()
-                .eq(MemberReceiveAddressEntity::getMemberId, SecurityUtils.getCurrentUserId())
-                .eq(MemberReceiveAddressEntity::getId, id).one();
-        return ResponseEntity.ok(memberReceiveAddressEntity);
+        MemberReceiveAddressVo memberReceiveAddressVo = memberReceiveAddressService.selectOne(id);
+        return ResponseEntity.ok(memberReceiveAddressVo);
     }
 
     /**

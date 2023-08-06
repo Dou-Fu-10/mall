@@ -261,7 +261,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
             throw new BaseRequestException("不能删除他人订单！！");
         }
         if (orderEntity.getStatus() == 3 || orderEntity.getStatus() == 4) {
-            return updateById(orderEntity);
+            return removeById(orderEntity);
         } else {
             throw new BaseRequestException("只能删除已完成或已关闭的订单！");
         }

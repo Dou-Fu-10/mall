@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.annotation.Resource;
 import jakarta.validation.constraints.NotNull;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.member.entity.MemberReceiveAddressEntity;
@@ -12,7 +11,6 @@ import org.example.modules.member.entity.dto.MemberReceiveAddressDto;
 import org.example.modules.member.entity.vo.MemberReceiveAddressVo;
 import org.example.modules.member.mapper.MemberReceiveAddressMapper;
 import org.example.modules.member.service.MemberReceiveAddressService;
-import org.example.modules.member.service.MemberService;
 import org.example.security.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -40,10 +38,10 @@ public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAd
     public Boolean save(@NotNull MemberReceiveAddressDto memberReceiveAddressDto) {
         MemberReceiveAddressEntity memberReceiveAddressEntity = BeanCopy.convert(memberReceiveAddressDto, MemberReceiveAddressEntity.class);
         memberReceiveAddressEntity.setMemberId(SecurityUtils.getCurrentUserId());
-        if (Objects.nonNull(memberReceiveAddressDto.getDefaultStatus()) && memberReceiveAddressDto.getDefaultStatus()){
+        if (Objects.nonNull(memberReceiveAddressDto.getDefaultStatus()) && memberReceiveAddressDto.getDefaultStatus()) {
             List<MemberReceiveAddressEntity> memberReceiveAddressEntityList = lambdaQuery().eq(MemberReceiveAddressEntity::getMemberId, SecurityUtils.getCurrentUserId()).list();
             for (MemberReceiveAddressEntity receiveAddressEntity : memberReceiveAddressEntityList) {
-                    receiveAddressEntity.setDefaultStatus(false);
+                receiveAddressEntity.setDefaultStatus(false);
             }
             return updateBatchById(memberReceiveAddressEntityList);
         }
@@ -105,6 +103,22 @@ public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAd
     public MemberReceiveAddressVo getReceiveAddressByMemberIdAndMemberReceiveAddressId(Long memberReceiveAddressId, Long memberId) {
         MemberReceiveAddressEntity memberReceiveAddressEntity = lambdaQuery().eq(MemberReceiveAddressEntity::getMemberId, memberId).eq(MemberReceiveAddressEntity::getId, memberReceiveAddressId).one();
         return BeanCopy.convert(memberReceiveAddressEntity, MemberReceiveAddressVo.class);
+    }
+
+    @Override
+    public MemberReceiveAddressVo selectOne(Serializable id) {
+        MemberReceiveAddressEntity memberReceiveAddressEntity = lambdaQuery()
+                .eq(MemberReceiveAddressEntity::getMemberId, SecurityUtils.getCurrentUserId())
+                .eq(MemberReceiveAddressEntity::getId, id).one();
+
+        return BeanCopy.convert(memberReceiveAddressEntity, MemberReceiveAddressVo.class);
+    }
+
+    @Override
+    public List<MemberReceiveAddressVo> selectAll() {
+        List<MemberReceiveAddressEntity> memberReceiveAddressEntity = lambdaQuery()
+                .eq(MemberReceiveAddressEntity::getMemberId, SecurityUtils.getCurrentUserId()).list();
+        return BeanCopy.copytList(memberReceiveAddressEntity, MemberReceiveAddressVo.class);
     }
 }
 

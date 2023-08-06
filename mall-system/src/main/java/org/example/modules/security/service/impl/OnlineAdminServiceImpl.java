@@ -42,13 +42,12 @@ public class OnlineAdminServiceImpl implements OnlineAdminService {
     /**
      * 保存在线用户信息
      *
-     * @param jwtAdmin /
-     * @param token    /
-     * @param request  /
+     * @param jwtAdmin 登录信息
+     * @param token    token
+     * @param request  请求信息
      */
     @Override
     public Boolean save(JwtAdmin jwtAdmin, String token, HttpServletRequest request) {
-        // TODO 优化缓存设计
         // 获取登录者 ip
         String ip = StringUtils.getIp(request);
         // 浏览器
@@ -151,8 +150,7 @@ public class OnlineAdminServiceImpl implements OnlineAdminService {
     @Async
     @Override
     public void kickOutForUsername(String username) {
-        // TODO 删除用户的 token
-        String loginKey = securityProperties.getOnlineKey() + username + "*";
-//        redisService.scanDel(loginKey);
+        String loginKey = securityProperties.getOnlineKey() + username;
+        redisService.del(loginKey);
     }
 }

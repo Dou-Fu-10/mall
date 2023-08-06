@@ -9,13 +9,12 @@ import org.example.common.core.exception.BaseRequestException;
 import org.example.config.AuthAdmin;
 import org.example.modules.system.entity.dto.AdminDto;
 import org.example.modules.system.service.AdminService;
-import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -39,14 +38,18 @@ public class AuthorizationController {
     @Resource
     private AdminService adminService;
 
-
+    /**
+     * 退出功能
+     *
+     * @return /
+     */
     @Operation(summary = "退出功能")
-    @AnonymousPostMapping(value = "/logout")
-    @ResponseBody
+    @GetMapping(value = "/logout")
     public ResponseEntity<String> logout() {
-        // TODO 退出登录
+        adminService.logout();
         return ResponseEntity.ok("退出登录成功");
     }
+
 
     /**
      * 用户注册
@@ -54,20 +57,16 @@ public class AuthorizationController {
      * @param resources 注册用户
      * @return 是否成功
      */
-    @Operation(
-            summary = "注册",
-            description = "用户注册"
-    )
-    @AnonymousPostMapping(value = "/register")
-    public ResponseEntity<String> register(@Validated @RequestBody AdminDto resources) {
-        resources.setPassword("123456");
-        Boolean register = adminService.register(resources);
-        if (register) {
-            return ResponseEntity.ok("注册成功");
-
-        }
-        throw new BaseRequestException("注册失败");
-    }
+//    @Operation(summary = "注册")
+//    @AnonymousPostMapping(value = "/register")
+//    public ResponseEntity<String> register(@Validated @RequestBody AdminDto resources) {
+//        resources.setPassword("123456");
+//        if (adminService.register(resources)) {
+//            return ResponseEntity.ok("注册成功");
+//
+//        }
+//        throw new BaseRequestException("注册失败");
+//    }
 
     /**
      * 登录以后返回token
@@ -76,10 +75,7 @@ public class AuthorizationController {
      * @param request   Http Servlet请求
      * @return token
      */
-    @Operation(
-            summary = "登录",
-            description = "用户登录返回token"
-    )
+    @Operation(summary = "登录")
     @AnonymousPostMapping(value = "/login")
     public ResponseEntity<Map<String, Object>> login(@Validated @RequestBody AuthAdmin authAdmin, HttpServletRequest request) {
         return ResponseEntity.ok(adminService.login(authAdmin, request));
@@ -92,9 +88,8 @@ public class AuthorizationController {
      * @return token
      */
     @Operation(summary = "token续约")
-    @AnonymousGetMapping(value = "/refresh")
+    @GetMapping(value = "/refresh")
     public ResponseEntity<String> refresh(HttpServletRequest request) {
-        // Token 续期
         return ResponseEntity.ok(adminService.refreshHeadToken(request));
     }
 
