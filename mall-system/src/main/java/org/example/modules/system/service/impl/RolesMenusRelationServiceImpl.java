@@ -33,6 +33,7 @@ public class RolesMenusRelationServiceImpl extends ServiceImpl<RolesMenusRelatio
 
     @Override
     public List<RolesMenusRelationEntity> findByRoleIdsAndTypeNot(Set<Long> roleIds) {
+        // 校验
         if (CollectionUtils.isEmpty(roleIds)) {
             return new ArrayList<>();
         }
@@ -52,7 +53,8 @@ public class RolesMenusRelationServiceImpl extends ServiceImpl<RolesMenusRelatio
     }
 
     @Override
-    public Boolean removeByIds(Long roleId) {
+    public Boolean removeByRoleId(Long roleId) {
+        // 删除 角色所绑定的 信息
         return remove(lambdaQuery().eq(RolesMenusRelationEntity::getRoleId, roleId).getWrapper());
     }
 
@@ -68,9 +70,11 @@ public class RolesMenusRelationServiceImpl extends ServiceImpl<RolesMenusRelatio
 
     @Override
     public List<MenuVo> findMenusByRoleIds(Set<Long> roleId) {
+        // 校验
         if (CollectionUtils.isEmpty(roleId)) {
             return new ArrayList<>();
         }
+        // 获取 角色与 菜单的绑定
         List<RolesMenusRelationEntity> rolesMenusRelationEntityList = lambdaQuery().in(RolesMenusRelationEntity::getRoleId, roleId).list();
         if (CollectionUtils.isEmpty(rolesMenusRelationEntityList)) {
             return new ArrayList<>();
@@ -81,6 +85,10 @@ public class RolesMenusRelationServiceImpl extends ServiceImpl<RolesMenusRelatio
 
     @Override
     public Map<Long, List<MenuVo>> findMenusByRoleIdList(Set<Long> roleIds) {
+        // 校验
+        if (CollectionUtils.isEmpty(roleIds)) {
+            return new HashMap<>();
+        }
         List<MenuVo> menusByRoleIdList = getBaseMapper().findMenusByRoleIdList(roleIds);
         if (CollectionUtils.isEmpty(menusByRoleIdList)) {
             return new HashMap<>();

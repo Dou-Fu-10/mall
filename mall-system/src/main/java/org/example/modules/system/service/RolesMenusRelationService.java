@@ -40,7 +40,7 @@ public interface RolesMenusRelationService extends IService<RolesMenusRelationEn
      * @param roleId 角色id
      * @return Boolean
      */
-    Boolean removeByIds(Long roleId);
+    Boolean removeByRoleId(Long roleId);
 
     /**
      * 角色绑定菜单

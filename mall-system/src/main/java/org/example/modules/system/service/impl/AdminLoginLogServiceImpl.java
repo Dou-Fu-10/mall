@@ -9,6 +9,7 @@ import org.example.modules.system.service.AdminLoginLogService;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by Dou-Fu-10 2023-07-09 17:33:01
@@ -22,6 +23,9 @@ public class AdminLoginLogServiceImpl extends ServiceImpl<AdminLoginLogMapper, A
 
     @Override
     public Boolean insertLoginLog(String username, HttpServletRequest request) {
+        if (Objects.isNull(username) || Objects.isNull(request)) {
+            return false;
+        }
         // 获取ip地址
         String ip = StringUtils.getIp(request);
         // 获取Ip对应的地图地址
