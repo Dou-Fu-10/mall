@@ -39,6 +39,7 @@ public interface ProductService extends IService<ProductEntity> {
 
     /**
      * 获取商品详细信息
+     *
      * @param id 商品id
      * @return 商品信息
      */
@@ -48,6 +49,7 @@ public interface ProductService extends IService<ProductEntity> {
 
     /**
      * 通过商品id 获取商品信息
+     *
      * @param productIds 商品id列表
      * @return 商品信息
      */

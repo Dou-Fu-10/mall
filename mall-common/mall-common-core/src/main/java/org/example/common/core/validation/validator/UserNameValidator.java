@@ -4,7 +4,6 @@ package org.example.common.core.validation.validator;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.example.common.core.validation.PasswordValid;
 import org.example.common.core.validation.UserNameValid;
 
 import java.util.regex.Pattern;

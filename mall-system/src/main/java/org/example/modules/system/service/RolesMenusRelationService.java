@@ -58,11 +58,12 @@ public interface RolesMenusRelationService extends IService<RolesMenusRelationEn
      * @return /
      */
     List<MenuVo> findMenusByRoleIds(Set<Long> roleId);
+
     /**
      * 通过角色Id列表查找菜单
      *
      * @param roleIds 角色id 列表
      * @return /
      */
-    Map<Long, List<MenuVo>>  findMenusByRoleIdList(Set<Long> roleIds);
+    Map<Long, List<MenuVo>> findMenusByRoleIdList(Set<Long> roleIds);
 }

@@ -74,6 +74,7 @@ public class ConfigurerAdapter implements WebMvcConfigurer {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
+
     @Bean
     public CharacterEncodingFilter characterEncodingInterceptor() {
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
@@ -81,6 +82,7 @@ public class ConfigurerAdapter implements WebMvcConfigurer {
         filter.setForceEncoding(true);
         return filter;
     }
+
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         configurer.defaultContentType(MediaType.APPLICATION_JSON);

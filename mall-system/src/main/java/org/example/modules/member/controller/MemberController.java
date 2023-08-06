@@ -11,7 +11,6 @@ import org.example.modules.member.entity.dto.MemberDto;
 import org.example.modules.member.service.MemberService;
 import org.example.security.annotaion.rest.AnonymousDeleteMapping;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
-import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;

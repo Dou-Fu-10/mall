@@ -1,11 +1,5 @@
 package org.example.modules.security;
 
-import jakarta.annotation.Resource;
-import lombok.RequiredArgsConstructor;
-import org.example.modules.security.service.OnlineAdminService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 /**
  * 系统：在线用户管理
  *

@@ -11,7 +11,6 @@ import org.example.modules.member.entity.dto.MemberDto;
 import org.example.modules.member.service.MemberService;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;

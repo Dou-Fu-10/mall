@@ -10,16 +10,13 @@ import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.system.entity.RoleEntity;
 import org.example.modules.system.entity.dto.RoleDto;
 import org.example.modules.system.entity.vo.MenuVo;
-import org.example.modules.system.mapper.RolesMenusRelationMapper;
 import org.example.modules.system.service.RoleService;
-import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

@@ -119,6 +119,7 @@ public class CartItemEntity extends CommonEntity<CartItemEntity> implements Seri
      */
     @TableField(exist = false)
     private String updateBy;
+
     public CartItemEntity(Long id, Long memberId) {
         this.id = id;
         this.memberId = memberId;

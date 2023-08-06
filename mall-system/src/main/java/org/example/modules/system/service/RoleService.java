@@ -62,10 +62,11 @@ public interface RoleService extends IService<RoleEntity> {
      * @return 用户角色
      */
     List<RoleEntity> findByUsersId(Long adminId);
+
     /**
      * 分页查询所有数据
      *
-     * @param page 分页对象
+     * @param page    分页对象
      * @param roleDto 查询实体
      * @return 所有数据
      */

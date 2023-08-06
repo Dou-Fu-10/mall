@@ -36,7 +36,7 @@ public class AdminDto {
     /**
      * 用户
      */
-    @UserNameValid(allowNull = true , groups = {ValidationDto.SelectPage.class, ValidationDto.Update.class})
+    @UserNameValid(allowNull = true, groups = {ValidationDto.SelectPage.class, ValidationDto.Update.class})
     @UserNameValid(groups = ValidationDto.Insert.class)
     private String username;
     /**
@@ -47,7 +47,7 @@ public class AdminDto {
     /**
      * 昵称
      */
-    @UserNameValid(allowNull = true , groups = {ValidationDto.SelectPage.class, ValidationDto.Update.class})
+    @UserNameValid(allowNull = true, groups = {ValidationDto.SelectPage.class, ValidationDto.Update.class})
     @UserNameValid(groups = ValidationDto.Insert.class)
     private String nickName;
     /**

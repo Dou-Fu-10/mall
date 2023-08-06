@@ -236,11 +236,13 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         // TODO 做缓存
         return lambdaQuery().eq(AdminEntity::getUsername, userName).one();
     }
+
     @Override
     public AdminEntity getByEmail(@NotNull String email) {
         // 通过邮箱查询
         return lambdaQuery().eq(AdminEntity::getEmail, email).one();
     }
+
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean register(@NotNull AdminDto resources) {

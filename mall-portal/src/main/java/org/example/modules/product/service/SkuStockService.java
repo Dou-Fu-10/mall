@@ -67,6 +67,7 @@ public interface SkuStockService extends IService<SkuStockEntity> {
      * @return /
      */
     Boolean releaseSkuStockLock(List<OrderItemVo> orderItemVoList);
+
     /**
      * 解除取消订单的库存锁定
      *

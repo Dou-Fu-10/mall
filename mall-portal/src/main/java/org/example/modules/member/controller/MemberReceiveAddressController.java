@@ -50,7 +50,7 @@ public class MemberReceiveAddressController {
      */
     @AnonymousGetMapping()
     public ResponseEntity<Object> selectAll() {
-       List<MemberReceiveAddressVo> memberReceiveAddressEntity =  memberReceiveAddressService.selectAll();
+        List<MemberReceiveAddressVo> memberReceiveAddressEntity = memberReceiveAddressService.selectAll();
         return ResponseEntity.ok(memberReceiveAddressEntity);
     }
 

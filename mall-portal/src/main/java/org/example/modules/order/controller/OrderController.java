@@ -105,7 +105,7 @@ public class OrderController {
     @ResponseBody
     public ResponseEntity<String> paySuccess(@RequestParam Long orderId, @RequestParam Integer payType) {
 //        if (this.orderService.paySuccess(orderId, payType)) {
-            return ResponseEntity.ok("支付成功");
+        return ResponseEntity.ok("支付成功");
 //        }
         // 修改成自定义的 错误类型
 //        throw new RuntimeException("支付失败");
@@ -119,7 +119,7 @@ public class OrderController {
      */
     @Operation(summary = "用户确认收货")
     @AnonymousPutMapping(value = "/confirmReceiveOrder")
-    public ResponseEntity<String> confirmReceiveOrder(@RequestParam("orderId")Long orderId) {
+    public ResponseEntity<String> confirmReceiveOrder(@RequestParam("orderId") Long orderId) {
         if (this.orderService.confirmReceiveOrder(orderId)) {
             return ResponseEntity.ok("确认成功");
         }
@@ -140,6 +140,7 @@ public class OrderController {
         }
         return ResponseEntity.ok("确认失败");
     }
+
     /**
      * 用户取消订单
      *
@@ -148,7 +149,7 @@ public class OrderController {
      */
     @Operation(summary = "用户取消订单")
     @AnonymousPutMapping(value = "/cancelUserOrder")
-    public ResponseEntity<String> cancelUserOrder(@RequestParam("orderId")Long orderId) {
+    public ResponseEntity<String> cancelUserOrder(@RequestParam("orderId") Long orderId) {
         if (this.orderService.cancelOrder(orderId)) {
             return ResponseEntity.ok("取消订单成功");
         }

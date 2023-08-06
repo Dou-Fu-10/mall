@@ -109,10 +109,11 @@ public class ProductController {
         }
         throw new BaseRequestException("修改失败");
     }
+
     /**
      * 修改商品状态
      *
-     * @param id     用户id
+     * @param id    用户id
      * @param audit 状态
      * @return String
      */

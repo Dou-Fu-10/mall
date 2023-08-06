@@ -84,6 +84,7 @@ public interface MenuService extends IService<MenuEntity> {
      * @return 标题
      */
     MenuEntity getTitle(String title);
+
     /**
      * 修改数据
      *

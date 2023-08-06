@@ -3,17 +3,15 @@ package org.example.modules.member.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import org.example.common.core.exception.BaseRequestException;
+import org.example.modules.member.entity.MemberReadHistoryEntity;
+import org.example.modules.member.entity.dto.MemberReadHistoryDto;
+import org.example.modules.member.service.MemberReadHistoryService;
 import org.example.security.utils.SecurityUtils;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.example.common.core.exception.BaseRequestException;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.example.modules.member.entity.dto.MemberReadHistoryDto;
-import org.example.modules.member.entity.MemberReadHistoryEntity;
-import org.example.modules.member.service.MemberReadHistoryService;
-import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -40,11 +38,11 @@ public class MemberReadHistoryController {
     /**
      * 分页查询所有数据
      *
-     * @param page                 分页对象
+     * @param page 分页对象
      * @return 所有数据
      */
     @GetMapping
-    public ResponseEntity<Object> select(Page<MemberReadHistoryEntity> page ) {
+    public ResponseEntity<Object> select(Page<MemberReadHistoryEntity> page) {
         return ResponseEntity.ok(this.memberReadHistoryService.page(page));
     }
 

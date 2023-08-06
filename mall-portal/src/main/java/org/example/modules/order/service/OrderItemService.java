@@ -43,6 +43,7 @@ public interface OrderItemService extends IService<OrderItemEntity> {
 
     /**
      * 通过订单 id列表 查询 订单中所包含的商品
+     *
      * @param orderIds 订单id列表
      * @return 订单中所包含的商品
      */

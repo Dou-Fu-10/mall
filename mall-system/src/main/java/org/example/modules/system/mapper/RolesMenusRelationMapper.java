@@ -8,7 +8,6 @@ import org.example.modules.system.entity.RolesMenusRelationEntity;
 import org.example.modules.system.entity.vo.MenuVo;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -22,6 +21,7 @@ import java.util.Set;
 public interface RolesMenusRelationMapper extends BaseMapper<RolesMenusRelationEntity> {
     /**
      * 请确保 roleId 有效性
+     *
      * @param roleId 角色id
      * @return /
      */
@@ -41,7 +41,7 @@ public interface RolesMenusRelationMapper extends BaseMapper<RolesMenusRelationE
             "  </foreach>",
             "</script>"
     })
-    List<MenuVo> findMenusByRoleIdList(@Param("roleId")Set<Long> roleId);
+    List<MenuVo> findMenusByRoleIdList(@Param("roleId") Set<Long> roleId);
 
 }
 

@@ -8,7 +8,6 @@ import org.example.modules.order.entity.dto.OrderDto;
 import org.example.modules.order.entity.vo.ConfirmOrderVo;
 import org.example.modules.order.entity.vo.OrderVo;
 
-import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 
@@ -60,12 +59,15 @@ public interface OrderService extends IService<OrderEntity> {
      * @return 生成结果
      */
     Map<String, Object> generateOrder(GenerateOrderDto generateOrderDto);
+
     /**
      * 确认收货
+     *
      * @param orderId 订单id
      * @return /
      */
     Boolean confirmReceiveOrder(Long orderId);
+
     /**
      * 用户删除订单
      *
@@ -73,6 +75,7 @@ public interface OrderService extends IService<OrderEntity> {
      * @return /
      */
     Boolean deleteOrder(Long orderId);
+
     /**
      * 用户取消订单
      *
