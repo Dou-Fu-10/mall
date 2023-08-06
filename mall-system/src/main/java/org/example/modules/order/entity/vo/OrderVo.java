@@ -1,5 +1,6 @@
 package org.example.modules.order.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,7 +34,7 @@ public class OrderVo {
      */
     private String orderSn;
     /**
-     * 提交时间
+     * 创建时间
      */
     private Date createTime;
     /**
@@ -155,10 +156,12 @@ public class OrderVo {
     /**
      * 修改时间
      */
+    @JsonIgnore
     private Date updateTime;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
+    @JsonIgnore
     private Integer deleteFlag;
     /**
      * 订单中所包含的商品

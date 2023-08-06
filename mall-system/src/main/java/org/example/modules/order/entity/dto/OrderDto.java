@@ -1,5 +1,6 @@
 package org.example.modules.order.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +27,6 @@ public class OrderDto {
      * 会员id
      */
     private Long memberId;
-
     /**
      * 订单编号
      */
@@ -154,10 +154,12 @@ public class OrderDto {
     /**
      * 修改时间
      */
+    @JsonIgnore
     private Date updateTime;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
+    @JsonIgnore
     private Integer deleteFlag;
 
 

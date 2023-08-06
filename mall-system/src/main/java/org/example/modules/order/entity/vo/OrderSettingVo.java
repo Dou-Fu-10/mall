@@ -20,11 +20,6 @@ public class OrderSettingVo {
      * ID
      */
     private Long id;
-
-    /**
-     * 秒杀订单超时关闭时间(分)
-     */
-    private Integer flashOrderOvertime;
     /**
      * 正常订单超时时间(分)
      */

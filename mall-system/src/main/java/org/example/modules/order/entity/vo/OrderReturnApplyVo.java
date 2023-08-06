@@ -31,7 +31,9 @@ public class OrderReturnApplyVo {
      * 收货地址表id
      */
     private Long companyAddressId;
-
+    /**
+     * 公司收发货地址表
+     */
     private CompanyAddressVo companyAddress;
     /**
      * 退货商品id
