@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.common.core.entity.MemberEntity;
 import org.example.modules.member.entity.dto.MemberDto;
 import org.example.modules.member.service.MemberService;
@@ -99,6 +100,17 @@ public class MemberController {
     public ResponseEntity<Object> parent() {
         return ResponseEntity.ok(this.memberService.parent());
     }
-
+    /**
+     * token续约
+     *
+     * @param request token
+     * @return token
+     */
+    @Operation(summary = "token续约")
+    @AnonymousGetMapping(value = "/refresh")
+    public ResponseEntity<String> refresh(HttpServletRequest request) {
+        // Token 续期
+        return ResponseEntity.ok(memberService.refreshHeadToken(request));
+    }
 }
 

@@ -24,7 +24,7 @@ public interface OrderService extends IService<OrderEntity> {
      * @param order 实体对象
      * @return 新增结果
      */
-    boolean save(OrderDto order);
+    Boolean save(OrderDto order);
 
     /**
      * 修改数据
@@ -32,7 +32,7 @@ public interface OrderService extends IService<OrderEntity> {
      * @param order 实体对象
      * @return 修改结果
      */
-    boolean updateById(OrderDto order);
+    Boolean updateById(OrderDto order);
 
     /**
      * 获取订单信息

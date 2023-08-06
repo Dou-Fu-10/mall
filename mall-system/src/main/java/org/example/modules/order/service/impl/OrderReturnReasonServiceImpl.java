@@ -8,6 +8,8 @@ import org.example.modules.order.mapper.OrderReturnReasonMapper;
 import org.example.modules.order.service.OrderReturnReasonService;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 /**
  * Created by Dou-Fu-10 2023-07-14 14:34:30
  *
@@ -31,6 +33,9 @@ public class OrderReturnReasonServiceImpl extends ServiceImpl<OrderReturnReasonM
 
     @Override
     public Boolean updateStatus(Long id, Boolean status) {
+        if (Objects.isNull(id) || Objects.isNull(status)) {
+            return false;
+        }
         OrderReturnReasonEntity orderReturnReasonEntity = new OrderReturnReasonEntity();
         orderReturnReasonEntity.setStatus(status);
         orderReturnReasonEntity.setId(id);

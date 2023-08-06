@@ -22,13 +22,13 @@ import org.springframework.stereotype.Service;
 @Service("orderReturnApplyService")
 public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMapper, OrderReturnApplyEntity> implements OrderReturnApplyService {
     @Override
-    public boolean save(OrderReturnApplyDto orderReturnApply) {
+    public Boolean save(OrderReturnApplyDto orderReturnApply) {
         OrderReturnApplyEntity orderReturnApplyEntity = BeanCopy.convert(orderReturnApply, OrderReturnApplyEntity.class);
         return orderReturnApplyEntity.insert();
     }
 
     @Override
-    public boolean updateById(OrderReturnApplyDto orderReturnApply) {
+    public Boolean updateById(OrderReturnApplyDto orderReturnApply) {
         OrderReturnApplyEntity orderReturnApplyEntity = BeanCopy.convert(orderReturnApply, OrderReturnApplyEntity.class);
         return orderReturnApplyEntity.insert();
     }
@@ -37,7 +37,8 @@ public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMap
     public Page<OrderReturnApplyVo> page(Page<OrderReturnApplyEntity> page, OrderReturnApplyDto orderReturnApply) {
         OrderReturnApplyEntity orderReturnApplyEntity = BeanCopy.convert(orderReturnApply, OrderReturnApplyEntity.class);
         LambdaQueryWrapper<OrderReturnApplyEntity> orderEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(orderReturnApplyEntity);
-        orderEntityLambdaQueryWrapper.orderByAsc(OrderReturnApplyEntity::getId);
+        // 以创建时间进行排序
+        orderEntityLambdaQueryWrapper.orderByAsc(OrderReturnApplyEntity::getCreateTime);
         Page<OrderReturnApplyEntity> orderReturnApplyEntityPage = page(page, orderEntityLambdaQueryWrapper);
         IPage<OrderReturnApplyVo> orderReturnApplyVoIpage = orderReturnApplyEntityPage.convert(order -> BeanCopy.convert(order, OrderReturnApplyVo.class));
         return (Page) orderReturnApplyVoIpage;

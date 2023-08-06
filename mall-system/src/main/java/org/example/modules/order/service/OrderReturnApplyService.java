@@ -20,7 +20,7 @@ public interface OrderReturnApplyService extends IService<OrderReturnApplyEntity
      * @param orderReturnApply 实体对象
      * @return 新增结果
      */
-    boolean save(OrderReturnApplyDto orderReturnApply);
+    Boolean save(OrderReturnApplyDto orderReturnApply);
 
     /**
      * 修改数据
@@ -28,7 +28,7 @@ public interface OrderReturnApplyService extends IService<OrderReturnApplyEntity
      * @param orderReturnApply 实体对象
      * @return 修改结果
      */
-    boolean updateById(OrderReturnApplyDto orderReturnApply);
+    Boolean updateById(OrderReturnApplyDto orderReturnApply);
 
     /**
      * 分页查询所有数据

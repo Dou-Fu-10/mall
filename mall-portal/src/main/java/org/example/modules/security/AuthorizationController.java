@@ -83,17 +83,6 @@ public class AuthorizationController {
         return ResponseEntity.ok(memberService.login(authMember, request));
     }
 
-    /**
-     * token续约
-     *
-     * @param request token
-     * @return token
-     */
-    @Operation(summary = "token续约")
-    @AnonymousGetMapping(value = "/refresh")
-    public ResponseEntity<String> refresh(HttpServletRequest request) {
-        // Token 续期
-        return ResponseEntity.ok(memberService.refreshHeadToken(request));
-    }
+
 
 }

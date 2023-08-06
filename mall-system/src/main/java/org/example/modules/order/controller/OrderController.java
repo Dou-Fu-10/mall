@@ -62,7 +62,7 @@ public class OrderController {
      * @return 单条数据
      */
     @Operation(summary = "通过主键查询单条数据", description = "order::selectOne")
-    @AnonymousGetMapping("{id}")
+    @GetMapping("{id}")
     @PreAuthorize("@hasPermission.check('order::selectOne')")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return ResponseEntity.ok(this.orderService.getOrderById(id));
@@ -76,7 +76,7 @@ public class OrderController {
      * @return String
      */
     @Operation(summary = "修改订单状态", description = "order::updateStatus")
-    @AnonymousPutMapping(value = "/updateStatus/{id}")
+    @PutMapping(value = "/updateStatus/{id}")
     @PreAuthorize("@hasPermission.check('order::updateStatus')")
     public ResponseEntity<String> updateStatus(@PathVariable Long id,
                                                @RequestParam(value = "status") Integer status,
@@ -89,14 +89,14 @@ public class OrderController {
     }
 
     /**
-     * 已完成订单月
+     * 按传入的月份查找月份已完成的订单
      *
      * @param page     分页
      * @param orderDto 实体类
      * @return
      */
-    @Operation(summary = "已完成订单月", description = "order::findCompletedOrdersByMonth")
-    @AnonymousGetMapping("/completedOrdersMonth")
+    @Operation(summary = "按传入的月份查找月份已完成的订单", description = "order::findCompletedOrdersByMonth")
+    @GetMapping("/completedOrdersMonth")
     @PreAuthorize("@hasPermission.check('order::findCompletedOrdersByMonth')")
     public ResponseEntity<Object> findCompletedOrdersByMonth(Page<OrderEntity> page, OrderDto orderDto) {
         return ResponseEntity.ok(this.orderService.findCompletedOrdersByMonth(page, orderDto, new DateTime()));
@@ -108,16 +108,16 @@ public class OrderController {
      * @param order 实体对象
      * @return 新增结果
      */
-    @Operation(summary = "新增数据", description = "order::insert")
-    @AnonymousPostMapping
-    @PreAuthorize("@hasPermission.check('order::insert')")
-    public ResponseEntity<Object> insert(@RequestBody OrderDto order) {
-        if (this.orderService.save(order)) {
-            return ResponseEntity.ok("添加成功");
-        }
-        // 修改成自定义的 错误类型
-        throw new BaseRequestException("添加失败");
-    }
+//    @Operation(summary = "新增数据", description = "order::insert")
+//    @AnonymousPostMapping
+//    @PreAuthorize("@hasPermission.check('order::insert')")
+//    public ResponseEntity<Object> insert(@RequestBody OrderDto order) {
+//        if (this.orderService.save(order)) {
+//            return ResponseEntity.ok("添加成功");
+//        }
+//        // 修改成自定义的 错误类型
+//        throw new BaseRequestException("添加失败");
+//    }
 
     /**
      * 修改数据
@@ -126,7 +126,7 @@ public class OrderController {
      * @return 修改结果
      */
     @Operation(summary = "修改数据", description = "order::update")
-    @AnonymousPutMapping
+    @PutMapping
     @PreAuthorize("@hasPermission.check('order::update')")
     public ResponseEntity<Object> update(@RequestBody OrderDto order) {
         if (this.orderService.updateById(order)) {
@@ -142,15 +142,15 @@ public class OrderController {
      * @param idList 主键结合
      * @return 删除结果
      */
-    @Operation(summary = "删除数据", description = "order::remove")
-    @AnonymousDeleteMapping
-    @PreAuthorize("@hasPermission.check('order::remove')")
-    public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
-        if (CollectionUtils.isEmpty(idList)) {
-            throw new BaseRequestException("请正确的填写id");
-        }
-        Set<Long> ids = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
-        return ResponseEntity.ok(this.orderService.removeByIds(ids) ? "删除成功" : "删除失败");
-    }
+//    @Operation(summary = "删除数据", description = "order::remove")
+//    @DeleteMapping
+//    @PreAuthorize("@hasPermission.check('order::remove')")
+//    public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
+//        if (CollectionUtils.isEmpty(idList)) {
+//            throw new BaseRequestException("请正确的填写id");
+//        }
+//        Set<Long> ids = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
+//        return ResponseEntity.ok(this.orderService.removeByIds(ids) ? "删除成功" : "删除失败");
+//    }
 }
 

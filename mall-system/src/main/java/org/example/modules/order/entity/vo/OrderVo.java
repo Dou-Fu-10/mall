@@ -37,9 +37,9 @@ public class OrderVo {
      */
     private Date createTime;
     /**
-     * 用户帐号
+     * 会员昵称
      */
-    private String memberUsername;
+    private String nickname;
     /**
      * 订单总金额
      */
@@ -53,10 +53,6 @@ public class OrderVo {
      */
     private BigDecimal freightAmount;
     /**
-     * 管理员后台调整订单使用的折扣金额
-     */
-    private BigDecimal discountAmount;
-    /**
      * 支付方式：0->未支付；1->支付宝；2->微信
      */
     private Integer payType;
@@ -68,10 +64,6 @@ public class OrderVo {
      * 订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单
      */
     private Integer status;
-    /**
-     * 订单类型：0->正常订单；1->秒杀订单
-     */
-    private Integer orderType;
     /**
      * 物流公司(配送方式)
      */

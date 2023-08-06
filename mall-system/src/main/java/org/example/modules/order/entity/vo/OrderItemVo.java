@@ -68,22 +68,6 @@ public class OrderItemVo {
      */
     private String productSkuCode;
     /**
-     * 商品促销名称
-     */
-    private String promotionName;
-    /**
-     * 商品促销分解金额
-     */
-    private BigDecimal promotionAmount;
-    /**
-     * 积分优惠分解金额
-     */
-    private BigDecimal integrationAmount;
-    /**
-     * 该商品经过优惠后的分解金额
-     */
-    private BigDecimal realAmount;
-    /**
      * 商品销售属性:[{"key":"颜色","value":"颜色"},{"key":"容量","value":"4G"}]
      */
     private String productAttr;

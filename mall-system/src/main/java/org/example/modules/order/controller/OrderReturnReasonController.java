@@ -2,23 +2,22 @@ package org.example.modules.order.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
+import org.example.common.core.utils.BeanCopy;
 import org.example.modules.order.entity.OrderReturnReasonEntity;
 import org.example.modules.order.entity.dto.OrderReturnReasonDto;
+import org.example.modules.order.entity.vo.OrderReturnReasonVo;
 import org.example.modules.order.service.OrderReturnReasonService;
-import org.example.security.annotaion.rest.AnonymousDeleteMapping;
-import org.example.security.annotaion.rest.AnonymousGetMapping;
-import org.example.security.annotaion.rest.AnonymousPostMapping;
-import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Serializable;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,13 +41,16 @@ public class OrderReturnReasonController {
     /**
      * 分页查询所有数据
      *
-     * @param page              分页对象
-     * @param orderReturnReason 查询实体
+     * @param page 分页对象
      * @return 所有数据
      */
-    @AnonymousGetMapping
-    public ResponseEntity<Object> select(Page<OrderReturnReasonEntity> page, OrderReturnReasonEntity orderReturnReason) {
-        return ResponseEntity.ok(this.orderReturnReasonService.page(page, new QueryWrapper<>(orderReturnReason)));
+    @Operation(summary = "分页查询所有数据", description = "orderReturnReason::select")
+    @GetMapping
+    @PreAuthorize("@hasPermission.check('orderReturnReason::update')")
+    public ResponseEntity<Object> select(Page<OrderReturnReasonEntity> page) {
+        Page<OrderReturnReasonEntity> orderReturnReasonEntityPage = this.orderReturnReasonService.page(page, new QueryWrapper<>());
+        IPage<OrderReturnReasonVo> orderReturnReasonVoIpage = orderReturnReasonEntityPage.convert(orderReturnReasonEntity -> BeanCopy.convert(orderReturnReasonEntity, OrderReturnReasonVo.class));
+        return ResponseEntity.ok(orderReturnReasonVoIpage);
     }
 
     /**
@@ -57,10 +59,10 @@ public class OrderReturnReasonController {
      * @param id 主键
      * @return 单条数据
      */
-    @AnonymousGetMapping("{id}")
-    public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return ResponseEntity.ok(this.orderReturnReasonService.getById(id));
-    }
+//    @GetMapping("{id}")
+//    public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
+//        return ResponseEntity.ok(this.orderReturnReasonService.getById(id));
+//    }
 
     /**
      * 新增数据
@@ -68,7 +70,9 @@ public class OrderReturnReasonController {
      * @param orderReturnReason 实体对象
      * @return 新增结果
      */
-    @AnonymousPostMapping
+    @Operation(summary = "新增数据", description = "orderReturnReason::update")
+    @PostMapping
+    @PreAuthorize("@hasPermission.check('orderReturnReason::insert')")
     public ResponseEntity<Object> insert(@RequestBody OrderReturnReasonDto orderReturnReason) {
         if (this.orderReturnReasonService.save(orderReturnReason)) {
             return ResponseEntity.ok("添加成功");
@@ -83,7 +87,9 @@ public class OrderReturnReasonController {
      * @param orderReturnReason 实体对象
      * @return 修改结果
      */
-    @AnonymousPutMapping
+    @Operation(summary = "修改数据", description = "orderReturnReason::update")
+    @PutMapping
+    @PreAuthorize("@hasPermission.check('orderReturnReason::update')")
     public ResponseEntity<Object> update(@RequestBody OrderReturnReasonDto orderReturnReason) {
         if (this.orderReturnReasonService.updateById(orderReturnReason)) {
             return ResponseEntity.ok("修改成功");
@@ -99,8 +105,9 @@ public class OrderReturnReasonController {
      * @param status 状态
      * @return String
      */
-    @Operation(summary = "修改帐号状态")
-    @AnonymousPutMapping(value = "/updateStatus/{id}")
+    @Operation(summary = "修改帐号状态", description = "orderReturnReason::update")
+    @PutMapping(value = "/updateStatus/{id}")
+    @PreAuthorize("@hasPermission.check('orderReturnReason::updateStatus')")
     public ResponseEntity<String> updateStatus(@PathVariable Long id, @RequestParam(value = "status") Boolean status) {
         if (this.orderReturnReasonService.updateStatus(id, status)) {
             return ResponseEntity.ok("修改成功");
@@ -114,12 +121,15 @@ public class OrderReturnReasonController {
      * @param idList 主键结合
      * @return 删除结果
      */
-    @AnonymousDeleteMapping
+    @Operation(summary = "删除数据", description = "orderReturnReason::update")
+    @DeleteMapping
+    @PreAuthorize("@hasPermission.check('orderReturnReason::remove')")
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");
         }
-        return ResponseEntity.ok(this.orderReturnReasonService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败");
+        Set<Long> ids = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
+        return ResponseEntity.ok(this.orderReturnReasonService.removeByIds(ids) ? "删除成功" : "删除失败");
     }
 }
 

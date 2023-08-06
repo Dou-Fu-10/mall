@@ -9,7 +9,9 @@ import org.example.modules.order.mapper.OrderOperateHistoryMapper;
 import org.example.modules.order.service.OrderOperateHistoryService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:34:29
@@ -34,8 +36,11 @@ public class OrderOperateHistoryServiceImpl extends ServiceImpl<OrderOperateHist
 
     @Override
     public List<OrderOperateHistoryVo> getOrderOperateHistoryByOrderId(Long orderId) {
-        List<OrderOperateHistoryEntity> list = lambdaQuery().eq(OrderOperateHistoryEntity::getOrderId, orderId).list();
-        return BeanCopy.copytList(list, OrderOperateHistoryVo.class);
+        if (Objects.isNull(orderId)) {
+            return new ArrayList<>();
+        }
+        List<OrderOperateHistoryEntity> orderOperateHistoryEntityList = lambdaQuery().eq(OrderOperateHistoryEntity::getOrderId, orderId).list();
+        return BeanCopy.copytList(orderOperateHistoryEntityList, OrderOperateHistoryVo.class);
     }
 }
 

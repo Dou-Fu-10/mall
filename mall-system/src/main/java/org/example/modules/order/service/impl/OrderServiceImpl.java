@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:34:29
@@ -43,14 +44,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     private OrderOperateHistoryService orderOperateHistoryService;
 
     @Override
-    public boolean save(OrderDto order) {
+    public Boolean save(OrderDto order) {
         // TODO 数据校验
         OrderEntity orderEntity = BeanCopy.convert(order, OrderEntity.class);
         return orderEntity.insert();
     }
 
     @Override
-    public boolean updateById(OrderDto order) {
+    public Boolean updateById(OrderDto order) {
         // TODO 数据校验
         OrderEntity orderEntity = BeanCopy.convert(order, OrderEntity.class);
         return orderEntity.updateById();
@@ -58,9 +59,17 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
 
     @Override
     public OrderVo getOrderById(Serializable id) {
+        if (Objects.isNull(id)){
+            return null;
+        }
         OrderEntity orderEntity = getById(id);
         OrderVo orderVo = BeanCopy.convert(orderEntity, OrderVo.class);
+        if (Objects.isNull(orderVo)) {
+            return null;
+        }
+        // 数据可能返回为空   订单中所包含的商品
         List<OrderItemVo> orderItemVoList = orderItemService.getOrderItemByOrderId(orderEntity.getId());
+        // 数据可能返回为空   订单操作历史记录
         List<OrderOperateHistoryVo> orderOperateHistoryVoList = orderOperateHistoryService.getOrderOperateHistoryByOrderId(orderEntity.getId());
         orderVo.setOrderItemList(orderItemVoList);
         orderVo.setHistoryList(orderOperateHistoryVoList);
@@ -109,8 +118,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         // 查询时间范围
         orderEntityLambdaQueryWrapper.between(OrderEntity::getPaymentTime, firstDayOfMonth, lastDayOfMonth);
         Page<OrderEntity> orderEntityPage = page(page, orderEntityLambdaQueryWrapper);
-        IPage<OrderVo> convert = orderEntityPage.convert(order -> BeanCopy.convert(order, OrderVo.class));
-        return (Page) convert;
+        IPage<OrderVo> orderVoIpage = orderEntityPage.convert(order -> BeanCopy.convert(order, OrderVo.class));
+        return (Page) orderVoIpage;
     }
 
     @Override
@@ -155,6 +164,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
 
     @Override
     public Boolean updateStatus(Long id, Integer status, String deliveryCompany, String deliverySn) {
+        // id 必传
+        if (Objects.isNull(id)) {
+            return false;
+        }
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setId(id);
         orderEntity.setStatus(status);
