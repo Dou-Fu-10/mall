@@ -1,5 +1,6 @@
 package org.example.modules.system.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MenuVo {
+
+    @JsonIgnore
+    private Long roleId;
 
     private Long id;
     /**

@@ -11,6 +11,7 @@ import org.example.common.core.utils.BeanCopy;
 import org.example.common.core.utils.StringUtils;
 import org.example.modules.system.entity.AdminRolesRelationEntity;
 import org.example.modules.system.entity.RoleEntity;
+import org.example.modules.system.entity.dto.RoleDto;
 import org.example.modules.system.entity.vo.MenuVo;
 import org.example.modules.system.entity.vo.RoleVo;
 import org.example.modules.system.mapper.RoleMapper;
@@ -19,11 +20,11 @@ import org.example.modules.system.service.RoleService;
 import org.example.modules.system.service.RolesMenusRelationService;
 import org.example.security.entity.Authority;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -72,23 +73,62 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public boolean allocMenu(Long roleId, List<Long> menuIds) {
-        rolesMenusRelationService.removeByIds(roleId);
-        return rolesMenusRelationService.saveBatch(roleId, menuIds);
+        if (Objects.isNull(roleId) || CollectionUtils.isEmpty(menuIds)) {
+            return false;
+        }
+        // 校验角色是否存在
+        RoleEntity roleEntity = getById(roleId);
+        if (Objects.isNull(roleEntity)) {
+            return false;
+        }
+        // 删除角色对应的 菜单 删除成功才能绑定
+        if (rolesMenusRelationService.removeByIds(roleId)) {
+            return rolesMenusRelationService.saveBatch(roleId, menuIds);
+        } else {
+            return false;
+        }
     }
 
     @Override
     public List<RoleEntity> findByUsersId(Long adminId) {
+        // 获取管理员所绑定的角色信息
         List<AdminRolesRelationEntity> list = adminRolesRelationService.lambdaQuery().eq(AdminRolesRelationEntity::getAdminId, adminId).list();
+        if (CollectionUtils.isEmpty(list)) {
+            return new ArrayList<>();
+        }
         Set<Long> collect = list.stream().map(AdminRolesRelationEntity::getRoleId).collect(Collectors.toSet());
         return lambdaQuery().in(RoleEntity::getId, collect).list();
     }
 
     @Override
-    public Page<RoleVo> page(Page<RoleEntity> page, RoleEntity role) {
-        Page<RoleEntity> roleEntityPage = page(page, new QueryWrapper<>(role));
-        IPage<RoleVo> roleVoIPage = roleEntityPage.convert(roleEntity -> BeanCopy.convert(roleEntity, RoleVo.class));
-        roleVoIPage.getRecords().stream().forEach(roleVo -> roleVo.setMenu(rolesMenusRelationService.findMenusByRoleId(roleVo.getId())));
+    public Page<RoleVo> page(Page<RoleEntity> page, RoleDto roleDto) {
+        RoleEntity roleEntity = BeanCopy.convert(roleDto, RoleEntity.class);
+        Page<RoleEntity> roleEntityPage = page(page, new QueryWrapper<>(roleEntity));
+        // 获取角色信息
+        IPage<RoleVo> roleVoIPage = roleEntityPage.convert(role -> BeanCopy.convert(role, RoleVo.class));
+        // 校验角色不等于空
+        List<RoleVo> roleVoList = roleVoIPage.getRecords();
+        if (CollectionUtils.isEmpty(roleVoList)) {
+            return (Page) roleVoIPage;
+        }
+        // 获取角色 id
+        Set<Long> roleIdList = roleVoList.stream().map(RoleVo::getId).collect(Collectors.toSet());
+
+        // 获取角色id 对应的 菜单
+        Map<Long, List<MenuVo>> menusByRoleIdList = rolesMenusRelationService.findMenusByRoleIdList(roleIdList);
+        // 校验不等于空
+        if (CollectionUtils.isEmpty(menusByRoleIdList)) {
+            return (Page) roleVoIPage;
+        }
+        roleVoList.forEach(roleVo -> {
+            Long roleId = roleVo.getId();
+            if (menusByRoleIdList.containsKey(roleId)) {
+                List<MenuVo> menuVos = menusByRoleIdList.get(roleId);
+                roleVo.setMenu(menuVos);
+            }
+        });
         return (Page) roleVoIPage;
     }
 }

@@ -58,7 +58,7 @@ public class AdminDto {
     /**
      * 手机号码
      */
-    @PhoneValid
+    @PhoneValid(allowNull = true)
     private String phone;
     /**
      * 邮箱

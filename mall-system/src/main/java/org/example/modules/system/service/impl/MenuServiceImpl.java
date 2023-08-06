@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.common.core.utils.StringUtils;
 import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.entity.RoleEntity;
 import org.example.modules.system.entity.RolesMenusRelationEntity;
+import org.example.modules.system.entity.dto.MenuDto;
 import org.example.modules.system.entity.vo.MenuMetaVo;
 import org.example.modules.system.entity.vo.MenuVo;
 import org.example.modules.system.mapper.MenuMapper;
@@ -20,6 +22,7 @@ import org.example.modules.system.service.RolesMenusRelationService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,53 +42,112 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
     private RolesMenusRelationService rolesMenusRelationService;
 
     @Override
-    public boolean updateHidden(Long id, Integer hidden) {
-        return false;
+    public Boolean updateHidden(Long id, Boolean hidden) {
+        if (Objects.isNull(id) || Objects.isNull(hidden)) {
+            return false;
+        }
+        MenuEntity menuEntity = new MenuEntity();
+        menuEntity.setId(id);
+        menuEntity.setHidden(hidden);
+        return menuEntity.updateById();
     }
 
     @Override
-    public List<MenuVo> findByUser(Long currentUserId) {
-        // TODO 校验是否为空 优化代码
+    public List<MenuVo> findByUser(Long adminId) {
+        if (Objects.isNull(adminId)) {
+            throw new BaseRequestException("获取失败");
+        }
         // 获取用户对应的角色
-        List<RoleEntity> roles = roleService.findByUsersId(currentUserId);
+        List<RoleEntity> roles = roleService.findByUsersId(adminId);
+        if (CollectionUtils.isEmpty(roles)) {
+            return new ArrayList<>();
+        }
+        // 获取角色id
         Set<Long> roleIds = roles.stream().map(RoleEntity::getId).collect(Collectors.toSet());
 
         // 获取角色对应的菜单
         List<RolesMenusRelationEntity> rolesMenusRelationEntityList = rolesMenusRelationService.findByRoleIdsAndTypeNot(roleIds);
+        if (CollectionUtils.isEmpty(rolesMenusRelationEntityList)) {
+            return new ArrayList<>();
+        }
         Set<Long> menuId = rolesMenusRelationEntityList.stream().map(RolesMenusRelationEntity::getMenuId).collect(Collectors.toSet());
         List<MenuEntity> menus = lambdaQuery().in(MenuEntity::getId, menuId).ne(MenuEntity::getType, 2L).list();
+        // getMenuVoListTree 会判断是否为空 为空即返回空
         return getMenuVoListTree(BeanCopy.copytList(menus, MenuVo.class));
     }
 
     @Override
     public List<MenuVo> findByMenusId(Set<Long> menusId) {
+        // 判断是否为空
+        if (CollectionUtils.isEmpty(menusId)) {
+            return new ArrayList<>();
+        }
+        // 获取菜单列表
         List<MenuEntity> menuEntityList = lambdaQuery().in(MenuEntity::getId, menusId).list();
+        // 判断是否为空
         if (CollectionUtils.isEmpty(menuEntityList)) {
             return new ArrayList<>();
         }
         List<MenuVo> menuVoList = BeanCopy.copytList(menuEntityList, MenuVo.class);
+        // getMenuVoListTree 会判断是否为空 为空即返回空
         return getMenuVoListTree(menuVoList);
     }
 
     @Override
+    public MenuVo getByMenuId(Serializable id) {
+        if (Objects.isNull(id)) {
+            return null;
+        }
+        MenuEntity menuEntity = getById(id);
+        return BeanCopy.convert(menuEntity, MenuVo.class);
+    }
+
+    @Override
+    public Boolean save(MenuDto menuDto) {
+        MenuEntity menuEntity = BeanCopy.convert(menuDto, MenuEntity.class);
+        String title = menuEntity.getTitle();
+        // 校验标题
+        if (Objects.nonNull(getTitle(title))) {
+            throw new BaseRequestException("标题输入错误或者标题已被占用");
+        }
+        return menuEntity.insert();
+    }
+
+    @Override
+    public MenuEntity getTitle(@NotNull String title) {
+        return lambdaQuery().eq(MenuEntity::getTitle, title).one();
+    }
+
+    @Override
+    public Boolean updateById(MenuDto menuDto) {
+        MenuEntity menuEntity = BeanCopy.convert(menuDto, MenuEntity.class);
+        return menuEntity.updateById();
+    }
+
+    @Override
     public List<MenuVo> getOneLevelMenu() {
-        // TODO 修改一级菜单
+        // 查询所有 一级分类
         List<MenuEntity> list = lambdaQuery().eq(MenuEntity::getParentId, 0L).list();
         return BeanCopy.copytList(list, MenuVo.class);
     }
 
     @Override
-    public Page<MenuVo> page(Page<MenuEntity> page, MenuEntity menu) {
-        LambdaQueryWrapper<MenuEntity> menuEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(menu);
+    public Page<MenuVo> page(Page<MenuEntity> page, MenuDto menuDto) {
+        MenuEntity menuEntity = BeanCopy.convert(menuDto, MenuEntity.class);
+        LambdaQueryWrapper<MenuEntity> menuEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(menuEntity);
+        // 排序
         menuEntityLambdaQueryWrapper.orderByAsc(MenuEntity::getSort);
         Page<MenuEntity> menuEntityPage = page(page, menuEntityLambdaQueryWrapper);
-        IPage<MenuVo> menuVoIpage = menuEntityPage.convert(menuEntity -> BeanCopy.convert(menuEntity, MenuVo.class));
+        // 转换
+        IPage<MenuVo> menuVoIpage = menuEntityPage.convert(menu -> BeanCopy.convert(menu, MenuVo.class));
+        // 当菜单不为空是 对菜单进行 上下级排序
         if (CollectionUtils.isNotEmpty(menuVoIpage.getRecords())) {
             List<MenuVo> menuVoListTree = getMenuVoListTree(menuVoIpage.getRecords());
             menuVoIpage.setRecords(menuVoListTree);
         }
         return (Page) menuVoIpage;
     }
+
 
     @NotNull
     private List<MenuVo> getMenuVoListTree(List<MenuVo> menuVo) {

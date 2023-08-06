@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.common.core.entity.AdminEntity;
 import org.example.modules.system.entity.RoleEntity;
+import org.example.modules.system.entity.dto.RoleDto;
 import org.example.modules.system.entity.vo.MenuVo;
 import org.example.modules.system.entity.vo.RoleVo;
 import org.example.security.entity.Authority;
@@ -61,6 +62,12 @@ public interface RoleService extends IService<RoleEntity> {
      * @return 用户角色
      */
     List<RoleEntity> findByUsersId(Long adminId);
-
-    Page<RoleVo> page(Page<RoleEntity> page, RoleEntity role);
+    /**
+     * 分页查询所有数据
+     *
+     * @param page 分页对象
+     * @param roleDto 查询实体
+     * @return 所有数据
+     */
+    Page<RoleVo> page(Page<RoleEntity> page, RoleDto roleDto);
 }

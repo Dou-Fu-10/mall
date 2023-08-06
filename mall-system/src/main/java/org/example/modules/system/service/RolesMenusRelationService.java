@@ -5,6 +5,7 @@ import org.example.modules.system.entity.RolesMenusRelationEntity;
 import org.example.modules.system.entity.vo.MenuVo;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -57,4 +58,11 @@ public interface RolesMenusRelationService extends IService<RolesMenusRelationEn
      * @return /
      */
     List<MenuVo> findMenusByRoleIds(Set<Long> roleId);
+    /**
+     * 通过角色Id列表查找菜单
+     *
+     * @param roleIds 角色id 列表
+     * @return /
+     */
+    Map<Long, List<MenuVo>>  findMenusByRoleIdList(Set<Long> roleIds);
 }

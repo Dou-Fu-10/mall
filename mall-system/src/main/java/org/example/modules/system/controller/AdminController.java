@@ -53,7 +53,7 @@ public class AdminController {
      */
     @Operation(summary = "获取分类用户信息列表", description = "admin::list")
     @GetMapping
-    @PreAuthorize("@hasPermission.check('admin::list')")
+    @PreAuthorize("@hasPermission.check('admin::select')")
     public ResponseEntity<Object> selectAll(Page<AdminEntity> page, @Validated(ValidationDto.SelectPage.class) AdminDto adminDto) {
         return new ResponseEntity<>(this.adminService.page(page, adminDto), HttpStatus.OK);
     }
@@ -64,7 +64,7 @@ public class AdminController {
      * @param id 主键
      * @return 单条数据
      */
-    @Operation(summary = "获取指定用户信息")
+    @Operation(summary = "获取指定用户信息", description = "admin::selectOne")
     @GetMapping("{id}")
     @PreAuthorize("@hasPermission.check('admin::selectOne')")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
@@ -77,7 +77,7 @@ public class AdminController {
      * @param adminDto 实体对象
      * @return 新增结果
      */
-    @Operation(summary = "添加用户")
+    @Operation(summary = "添加用户", description = "admin::insert")
     @PostMapping
     @PreAuthorize("@hasPermission.check('admin::insert')")
     public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class) AdminDto adminDto) {
@@ -94,7 +94,7 @@ public class AdminController {
      * @param adminDto 实体对象
      * @return 修改结果
      */
-    @Operation(summary = "修改指定用户信息")
+    @Operation(summary = "修改指定用户信息", description = "admin::update")
     @PutMapping
     @PreAuthorize("@hasPermission.check('admin::update')")
     public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class) AdminDto adminDto) {
@@ -111,7 +111,7 @@ public class AdminController {
      * @param idList 主键结合
      * @return 删除结果
      */
-    @Operation(summary = "删除指定用户信息")
+    @Operation(summary = "删除指定用户信息", description = "admin::remove")
     @DeleteMapping
     @PreAuthorize("@hasPermission.check('admin::remove')")
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
@@ -123,7 +123,7 @@ public class AdminController {
         return new ResponseEntity<>(this.adminService.removeByIds(ids) ? "删除成功" : "删除失败", HttpStatus.OK);
     }
 
-    @Operation(summary = "修改指定用户密码")
+    @Operation(summary = "修改指定用户密码", description = "admin::updatePassword")
     @PostMapping(value = "/updatePassword")
     @PreAuthorize("@hasPermission.check('admin::updatePassword')")
     public ResponseEntity<Object> updatePassword(@Validated @RequestBody UpdatePassword updatePassword) {
@@ -140,7 +140,7 @@ public class AdminController {
      * @param status 状态
      * @return String
      */
-    @Operation(summary = "修改帐号状态")
+    @Operation(summary = "修改帐号状态", description = "admin::updateStatus")
     @PutMapping(value = "/updateStatus/{id}")
     @PreAuthorize("@hasPermission.check('admin::updateStatus')")
     public ResponseEntity<String> updateStatus(@PathVariable Long id, @RequestParam(value = "status") Boolean status) {
@@ -157,7 +157,7 @@ public class AdminController {
      * @param roleIds 角色id 列表
      * @return String
      */
-    @Operation(summary = "给用户分配角色")
+    @Operation(summary = "给用户分配角色", description = "admin::updateRole")
     @PostMapping(value = "/role/update")
     @PreAuthorize("@hasPermission.check('admin::updateRole')")
     public ResponseEntity<String> updateRole(@RequestParam("adminId") Long adminId, @RequestBody Set<Long> roleIds) {
@@ -173,7 +173,7 @@ public class AdminController {
      * @param adminId 用户id
      * @return 角色信息
      */
-    @Operation(summary = "获取指定用户的角色")
+    @Operation(summary = "获取指定用户的角色", description = "admin::roleList")
     @GetMapping(value = "/role/{adminId}")
     @PreAuthorize("@hasPermission.check('admin::getRoleList')")
     public ResponseEntity<List<RoleVo>> getRoleList(@PathVariable Long adminId) {
@@ -187,7 +187,7 @@ public class AdminController {
      * @param principal 主要
      * @return 用户登录信息
      */
-    @Operation(summary = "获取当前登录用户信息", description = "登录后获取登录信息")
+    @Operation(summary = "获取当前登录用户信息", description = "admin::info")
     @GetMapping(value = "/info")
     @PreAuthorize("@hasPermission.check('admin::getAdminInfo')")
     public ResponseEntity<Map<String, Object>> getAdminInfo(Principal principal) {

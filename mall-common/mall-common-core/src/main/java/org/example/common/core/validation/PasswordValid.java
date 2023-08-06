@@ -3,7 +3,7 @@ package org.example.common.core.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import org.example.common.core.aspect.PasswordValidator;
+import org.example.common.core.validation.validator.PasswordValidator;
 
 import java.lang.annotation.*;
 

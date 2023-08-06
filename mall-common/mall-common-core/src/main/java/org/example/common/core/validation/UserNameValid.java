@@ -3,7 +3,7 @@ package org.example.common.core.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import org.example.common.core.aspect.UserNameValidator;
+import org.example.common.core.validation.validator.UserNameValidator;
 
 import java.lang.annotation.*;
 

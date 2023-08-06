@@ -8,16 +8,13 @@ import org.example.modules.system.entity.vo.MenuVo;
 import org.example.modules.system.mapper.RolesMenusRelationMapper;
 import org.example.modules.system.service.MenuService;
 import org.example.modules.system.service.RolesMenusRelationService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -36,11 +33,17 @@ public class RolesMenusRelationServiceImpl extends ServiceImpl<RolesMenusRelatio
 
     @Override
     public List<RolesMenusRelationEntity> findByRoleIdsAndTypeNot(Set<Long> roleIds) {
+        if (CollectionUtils.isEmpty(roleIds)) {
+            return new ArrayList<>();
+        }
         return lambdaQuery().in(RolesMenusRelationEntity::getRoleId, roleIds).list();
     }
 
     @Override
     public List<MenuVo> findMenusByRoleId(Long roleId) {
+        if (Objects.isNull(roleId)) {
+            return new ArrayList<>();
+        }
         Set<Long> menusId = lambdaQuery().eq(RolesMenusRelationEntity::getRoleId, roleId).list().stream().map(RolesMenusRelationEntity::getMenuId).collect(Collectors.toSet());
         if (CollectionUtils.isEmpty(menusId)) {
             return new ArrayList<>();
@@ -55,7 +58,10 @@ public class RolesMenusRelationServiceImpl extends ServiceImpl<RolesMenusRelatio
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    public Boolean saveBatch(Long roleId, @NotNull List<Long> menuIds) {
+    public Boolean saveBatch(Long roleId, List<Long> menuIds) {
+        if (Objects.isNull(roleId) || CollectionUtils.isEmpty(menuIds)) {
+            return false;
+        }
         Set<RolesMenusRelationEntity> rolesMenusRelationEntitySet = menuIds.stream().map(id -> new RolesMenusRelationEntity(roleId, id)).collect(Collectors.toSet());
         return saveBatch(rolesMenusRelationEntitySet);
     }
@@ -71,6 +77,20 @@ public class RolesMenusRelationServiceImpl extends ServiceImpl<RolesMenusRelatio
         }
         Set<Long> menuIdList = rolesMenusRelationEntityList.stream().map(RolesMenusRelationEntity::getMenuId).collect(Collectors.toSet());
         return menuService.findByMenusId(menuIdList);
+    }
+
+    @Override
+    public Map<Long, List<MenuVo>> findMenusByRoleIdList(Set<Long> roleIds) {
+        List<MenuVo> menusByRoleIdList = getBaseMapper().findMenusByRoleIdList(roleIds);
+        if (CollectionUtils.isEmpty(menusByRoleIdList)) {
+            return new HashMap<>();
+        }
+        Map<Long, List<MenuVo>> longListMap = new HashMap<>();
+        menusByRoleIdList.forEach(menuVo -> {
+            Long roleId = menuVo.getRoleId();
+            longListMap.computeIfAbsent(roleId, k -> new ArrayList<>()).add(menuVo);
+        });
+        return longListMap;
     }
 }
 

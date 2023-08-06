@@ -1,4 +1,4 @@
-package org.example.common.core.aspect;
+package org.example.common.core.validation.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
