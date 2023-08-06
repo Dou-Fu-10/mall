@@ -1,8 +1,8 @@
 package org.example.config;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import org.example.common.core.validation.UserNameValid;
 
 /**
  * Created by Dou-Fu-10 2023/7/9
@@ -17,7 +17,7 @@ public class AuthAdmin {
      * 用户
      */
     @Schema(name = "username", description = "用户")
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{8,16}$", message = "账户必须由8到16个字符组成，包含至少一个字母和一个数字。")
+    @UserNameValid
     private String username;
     /**
      * 密码

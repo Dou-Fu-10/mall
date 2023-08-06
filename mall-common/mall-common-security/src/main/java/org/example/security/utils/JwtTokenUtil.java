@@ -6,6 +6,7 @@ import cn.hutool.core.util.IdUtil;
 import io.jsonwebtoken.*;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.security.config.SecurityProperties;
@@ -16,10 +17,7 @@ import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -197,7 +195,7 @@ public class JwtTokenUtil implements InitializingBean {
      * @param userDetails 用户信息
      * @return token
      */
-    public String createAdminToken(UserDetails userDetails) {
+    public String createAdminToken(@NotNull UserDetails userDetails) {
         // 准备一个空荷载claims，用于存储生成的key和value键值对（下面是存储生成token的时间和用户名）
         Map<String, Object> claims = new HashMap<>(2);
         // 用户名

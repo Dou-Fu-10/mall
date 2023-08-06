@@ -3,7 +3,7 @@ package org.example.modules.system.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import jakarta.validation.constraints.NotNull;
+import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.system.entity.AdminRolesRelationEntity;
 import org.example.modules.system.entity.vo.RoleVo;
@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,18 +38,31 @@ public class AdminRolesRelationServiceImpl extends ServiceImpl<AdminRolesRelatio
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    public Boolean updateRole(Long adminId, @NotNull Set<Long> roleIds) {
+    public Boolean updateRole(Long adminId, Set<Long> roleIds) {
+        // 校验 管理员 id 和 角色id不为空
+        if (Objects.isNull(getById(adminId)) || CollectionUtils.isEmpty(roleIds)) {
+            return false;
+        }
+        // 先删除  管理员 对应的角色
         remove(lambdaQuery().eq(AdminRolesRelationEntity::getAdminId, adminId).getWrapper());
+        // 在 修改 管理员对应的角色
         Set<AdminRolesRelationEntity> adminRolesRelationEntitySet = roleIds.stream().map(id -> new AdminRolesRelationEntity(adminId, id)).collect(Collectors.toSet());
         return saveBatch(adminRolesRelationEntitySet);
     }
 
     @Override
     public List<RoleVo> getRoleListByAdminId(Long adminId) {
-        Set<Long> roleIdList = lambdaQuery().eq(AdminRolesRelationEntity::getAdminId, adminId).list().stream().map(AdminRolesRelationEntity::getRoleId).collect(Collectors.toSet());
-        if (CollectionUtils.isEmpty(roleIdList)) {
+        // 校验管理员id
+        if (Objects.isNull(adminId)) {
+            throw new BaseRequestException("请传入正确的参数");
+        }
+        // 获取管理员对应的角色信息
+        List<AdminRolesRelationEntity> adminRolesRelationEntityList = lambdaQuery().eq(AdminRolesRelationEntity::getAdminId, adminId).list();
+        if (CollectionUtils.isEmpty(adminRolesRelationEntityList)) {
             return new ArrayList<>();
         }
+        // 通过对应的角色信息查找 对应的角色
+        Set<Long> roleIdList = adminRolesRelationEntityList.stream().map(AdminRolesRelationEntity::getRoleId).collect(Collectors.toSet());
         return BeanCopy.copytList(roleService.listByIds(roleIdList), RoleVo.class);
     }
 }

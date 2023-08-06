@@ -109,7 +109,21 @@ public class ProductController {
         }
         throw new BaseRequestException("修改失败");
     }
-
+    /**
+     * 修改商品状态
+     *
+     * @param id     用户id
+     * @param audit 状态
+     * @return String
+     */
+    @Operation(summary = "修改商品状态")
+    @AnonymousPutMapping(value = "/updateAudit/{id}")
+    public ResponseEntity<String> updateAudit(@PathVariable Long id, @RequestParam(value = "audit") Boolean audit) {
+        if (this.productService.updateAudit(id, audit)) {
+            return ResponseEntity.ok("修改成功");
+        }
+        throw new BaseRequestException("修改失败");
+    }
 
     /**
      * 删除数据

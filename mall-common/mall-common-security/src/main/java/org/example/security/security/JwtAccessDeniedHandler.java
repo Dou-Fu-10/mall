@@ -26,7 +26,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
         response.setHeader("Cache-Control", "no-cache");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        response.getWriter().println(accessDeniedException == null ? "拒绝访问处理程序" : accessDeniedException.getMessage());
+        response.getWriter().println("访问被拒绝");
         response.getWriter().flush();
     }
 }

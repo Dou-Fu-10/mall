@@ -3,7 +3,7 @@ package org.example.common.core.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import org.example.common.core.aspect.PasswordValidator;
+import org.example.common.core.aspect.UserNameValidator;
 
 import java.lang.annotation.*;
 
@@ -12,9 +12,11 @@ import java.lang.annotation.*;
  *
  * @author IKUN
  */
+@Documented
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = PasswordValidator.class)
+@Constraint(validatedBy = UserNameValidator.class)
+@Repeatable(UserNameValid.List.class)
 public @interface UserNameValid {
     // 最小长度，默认8位
     int min() default 6;
@@ -37,8 +39,8 @@ public @interface UserNameValid {
 
     Class<? extends Payload>[] payload() default {};
 
-    // 默认不能提交空白
-    boolean isNotBlank() default true;
+    // 允许为空  默认不允许为空
+    boolean allowNull() default false;
 
 
     @Target({ElementType.FIELD, ElementType.PARAMETER})

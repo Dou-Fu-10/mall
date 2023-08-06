@@ -26,11 +26,13 @@ public class MemberReadHistoryDto {
     /**
      * ID
      */
+    @JsonIgnore
     @Schema(name = "id", description = "ID")
     private Long id;
     /**
      * 会员id
      */
+    @JsonIgnore
     @Schema(name = "memberId", description = "会员id")
     private Long memberId;
     /**

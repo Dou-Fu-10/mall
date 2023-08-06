@@ -76,11 +76,6 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     private MinioServer minioServer;
 
     @Override
-    public AdminEntity getByEmail(@NotNull String email) {
-        return lambdaQuery().eq(AdminEntity::getEmail, email).one();
-    }
-
-    @Override
     public Map<String, Object> login(@NotNull AuthAdmin authAdmin, HttpServletRequest request) {
 
         // 调用 UserDetailsServiceImpl 获取身份信息 同时存储用户信息 判断身份信息是否合法
@@ -113,21 +108,22 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     }
 
     @Override
-    public Boolean updatePassword(UpdatePassword updatePassword) {
+    public Boolean updatePassword(@NotNull UpdatePassword updatePassword) {
+        // 获取 用户名信息
         AdminEntity adminEntity = lambdaQuery().eq(AdminEntity::getUsername, updatePassword.getUsername()).one();
+        // 判断密码是否正确
         if (passwordEncoder.matches(updatePassword.getOldPassword(), adminEntity.getPassword())) {
+            // 修改密码
             adminEntity.setPassword(passwordEncoder.encode(updatePassword.getNewPassword()));
+            // 更新
             return adminEntity.updateById();
         }
         return false;
     }
 
     @Override
-    public Boolean updateRole(Long adminId, @NotNull Set<Long> roleIds) {
-        // TODO 数据校验
-        if (Objects.isNull(getById(adminId))) {
-            return false;
-        }
+    public Boolean updateRole(Long adminId, Set<Long> roleIds) {
+        // 更新角色
         return adminRolesRelationService.updateRole(adminId, roleIds);
     }
 
@@ -138,20 +134,25 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
 
     @Override
     public List<MenuVo> getMenuList(Long adminId) {
+        // 获取 管理员对应的角色信息
         List<RoleVo> roleListByAdminId = adminRolesRelationService.getRoleListByAdminId(adminId);
         if (CollectionUtils.isEmpty(roleListByAdminId)) {
             return new ArrayList<>();
         }
+        // 通过角色id 获取对应的 菜单
         Set<Long> roleId = roleListByAdminId.stream().map(RoleVo::getId).collect(Collectors.toSet());
         return rolesMenusRelationService.findMenusByRoleIds(roleId);
     }
 
     @Override
-    public Boolean updateStatus(Long id, @NotNull Boolean status) {
+    public Boolean updateStatus(Long id, Boolean status) {
+        // 校验数据
+        if (Objects.isNull(id) || Objects.isNull(status)) {
+            return false;
+        }
         AdminEntity adminEntity = new AdminEntity();
         adminEntity.setEnabled(status);
         adminEntity.setId(id);
-        // TODO 不允许修改上级的或者同级的
         return adminEntity.updateById();
     }
 
@@ -159,6 +160,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     public Page<AdminVo> page(Page<AdminEntity> page, AdminDto adminDto) {
         AdminEntity adminEntity = BeanCopy.convert(adminDto, AdminEntity.class);
         LambdaQueryWrapper<AdminEntity> adminEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(adminEntity);
+        // 分页查找
         Page<AdminEntity> adminEntityPage = page(page, adminEntityLambdaQueryWrapper);
         IPage<AdminVo> adminVoIpage = adminEntityPage.convert(admin -> BeanCopy.convert(admin, AdminVo.class));
         return (Page) adminVoIpage;
@@ -166,11 +168,14 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
 
     @Override
     public AdminVo getAdminById(Serializable id) {
-        AdminEntity adminEntity = getById(id);
-        if (Objects.nonNull(adminEntity)) {
-            return BeanCopy.convert(adminEntity, AdminVo.class);
+        if (Objects.isNull(id)) {
+            return null;
         }
-        return null;
+        AdminEntity adminEntity = getById(id);
+        if (Objects.isNull(adminEntity)) {
+            return null;
+        }
+        return BeanCopy.convert(adminEntity, AdminVo.class);
     }
 
     @Override
@@ -186,11 +191,12 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
 
     @Override
     public Map<String, Object> info(Principal principal) {
-        // TODO 用户登录用户自己
         if (Objects.isNull(principal)) {
             throw new BaseRequestException("请登录！");
         }
+        // 获取登录者账号
         String username = principal.getName();
+        // 获取登陆者信息
         AdminEntity adminEntity = getByUsername(username);
         Map<String, Object> data = new HashMap<>(3);
         data.put("username", adminEntity.getUsername());
@@ -198,6 +204,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         data.put("menus", getMenuList(adminEntity.getId()));
         // 头像
         data.put("icon", adminEntity.getIcon());
+        // 获取登录的角色信息
         List<RoleVo> roleList = getRoleListByAdminId(adminEntity.getId());
         if (CollUtil.isNotEmpty(roleList)) {
             List<String> roles = roleList.stream().map(RoleVo::getName).collect(Collectors.toList());
@@ -210,26 +217,33 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
 
     @Override
     public void logout() {
+        // 获取登陆 信息
         String adminName = SecurityUtils.getCurrentUsername();
+        //退出登录
         onlineAdminService.kickOutForUsername(adminName);
     }
 
 
     @Override
     public AdminEntity getByPhone(@NotNull String phone) {
+        // 通过手机号查询
         return lambdaQuery().eq(AdminEntity::getPhone, phone).one();
     }
 
     @Override
     public AdminEntity getByUsername(@NotNull String userName) {
+        // 通过用户名查询
         // TODO 做缓存
         return lambdaQuery().eq(AdminEntity::getUsername, userName).one();
     }
-
+    @Override
+    public AdminEntity getByEmail(@NotNull String email) {
+        // 通过邮箱查询
+        return lambdaQuery().eq(AdminEntity::getEmail, email).one();
+    }
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean register(@NotNull AdminDto resources) {
-        // TODO 对数据进行校验
         AdminEntity user = getByUsername(resources.getUsername());
         // 用户名是否唯一
         if (Objects.nonNull(user)) {
@@ -238,7 +252,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         // 邮箱是否唯一
         user = getByEmail(resources.getEmail());
         if (Objects.nonNull(user)) {
-            throw new BaseRequestException("邮箱输入错误或邮箱已被暂用");
+            throw new BaseRequestException("邮箱输入错误或邮箱已被占用");
         }
         // 手机号是否唯一
         user = getByPhone(resources.getPhone());
@@ -254,6 +268,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         adminEntity.setPassword(encodePassword);
         // 保存到数据库
         if (adminEntity.insert()) {
+            // 当 设置了角色信息的时候 添加角色信息
             if (CollectionUtils.isNotEmpty(resources.getRoleIds())) {
                 return adminRolesRelationService.updateRole(adminEntity.getId(), resources.getRoleIds());
             }
@@ -266,9 +281,11 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean save(@NotNull AdminDto adminDto) {
         adminDto.setPassword("123456");
+        // 校验 头像不等于空 ，和头像存在于minio
         if (Objects.nonNull(adminDto.getIcon()) && minioServer.checkObjectIsExist(adminDto.getIcon())) {
             return register(adminDto);
         }
+        // 当头像校验不通过时 将头像制空
         adminDto.setIcon(null);
         return register(adminDto);
     }

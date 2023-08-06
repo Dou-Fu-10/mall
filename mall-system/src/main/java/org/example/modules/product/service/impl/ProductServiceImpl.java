@@ -187,5 +187,13 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
         // TODO 不允许修改上级的或者同级的
         return productEntity.updateById();
     }
+
+    @Override
+    public Boolean updateAudit(Long id, Boolean audit) {
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setVerifyStatus(audit);
+        productEntity.setId(id);
+        return productEntity.updateById();
+    }
 }
 

@@ -59,4 +59,12 @@ public interface ProductService extends IService<ProductEntity> {
      * @return boolean
      */
     Boolean updateStatus(Long id, Boolean status);
+    /**
+     * 修改商品状态
+     *
+     * @param id     用户id
+     * @param audit 状态
+     * @return String
+     */
+    Boolean updateAudit(Long id, Boolean audit);
 }

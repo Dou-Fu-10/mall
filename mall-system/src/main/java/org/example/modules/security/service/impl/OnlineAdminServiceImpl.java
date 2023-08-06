@@ -3,6 +3,7 @@ package org.example.modules.security.service.impl;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.common.core.utils.BeanCopy;
@@ -15,6 +16,7 @@ import org.example.security.config.SecurityProperties;
 import org.example.security.entity.JwtAdmin;
 import org.example.security.entity.OnlineAdminDto;
 import org.example.security.utils.JwtTokenUtil;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +49,7 @@ public class OnlineAdminServiceImpl implements OnlineAdminService {
      * @param request  请求信息
      */
     @Override
-    public Boolean save(JwtAdmin jwtAdmin, String token, HttpServletRequest request) {
+    public Boolean save(@NotNull JwtAdmin jwtAdmin, @NotEmpty(message = "token不能为空") String token, HttpServletRequest request) {
         // 获取登录者 ip
         String ip = StringUtils.getIp(request);
         // 浏览器

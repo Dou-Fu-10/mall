@@ -26,7 +26,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setHeader("Cache-Control", "no-cache");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        response.getWriter().println(authException == null ? "认证或者授权失败" : authException.getMessage());
+        response.getWriter().println("认证或者授权失败");
         response.getWriter().flush();
     }
 }

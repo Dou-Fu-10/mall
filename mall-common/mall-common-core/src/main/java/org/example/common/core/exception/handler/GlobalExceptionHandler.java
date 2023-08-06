@@ -1,5 +1,6 @@
 package org.example.common.core.exception.handler;
 
+import jakarta.validation.ConstraintDefinitionException;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -53,6 +54,24 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> methodArgumentNotValidExceptionHandler(@NotNull MethodArgumentNotValidException e) {
         log.error("------->MethodArgumentNotValidException参数异常-------- " + Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage());
         return buildResponseEntity(BaseError.error(Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage()));
+    }
+
+    /**
+     * 参数不匹配异常
+     */
+    @ExceptionHandler(value = {ConstraintDefinitionException.class})
+    public ResponseEntity<?> constraintDefinitionExceptionExceptionHandler(@NotNull ConstraintDefinitionException e) {
+        log.error("------->数据校验失败-------- " + e.getMessage());
+        return buildResponseEntity(BaseError.error(e.getMessage()));
+    }
+
+    /**
+     * 参数不匹配异常
+     */
+    @ExceptionHandler(value = {IllegalArgumentException.class})
+    public ResponseEntity<?> IllegalArgumentExceptionExceptionHandler(@NotNull IllegalArgumentException e) {
+        log.error("------->非法参数-------- " + e.getMessage());
+        return buildResponseEntity(BaseError.error("非法参数"));
     }
 
 

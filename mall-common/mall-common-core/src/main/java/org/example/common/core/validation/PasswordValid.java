@@ -12,9 +12,11 @@ import java.lang.annotation.*;
  *
  * @author IKUN
  */
+@Documented
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PasswordValidator.class)
+@Repeatable(PasswordValid.List.class)
 public @interface PasswordValid {
     // 最小长度，默认8位
     int min() default 8;
@@ -37,8 +39,8 @@ public @interface PasswordValid {
 
     Class<? extends Payload>[] payload() default {};
 
-    // 默认不能提交空白
-    boolean isNotBlank() default true;
+    // 允许为空  默认不允许为空
+    boolean allowNull() default false;
 
 
     @Target({ElementType.FIELD, ElementType.PARAMETER})

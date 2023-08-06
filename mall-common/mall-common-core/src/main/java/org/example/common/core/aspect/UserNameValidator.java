@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.example.common.core.validation.PasswordValid;
+import org.example.common.core.validation.UserNameValid;
 
 import java.util.regex.Pattern;
 
@@ -13,7 +14,7 @@ import java.util.regex.Pattern;
  *
  * @author IKUN
  */
-public class PasswordValidator implements ConstraintValidator<PasswordValid, String> {
+public class UserNameValidator implements ConstraintValidator<UserNameValid, String> {
 
     private static final Pattern NUMBER_PATTERN = Pattern.compile(".*\\d+.*");
     private static final Pattern LETTER_PATTERN = Pattern.compile(".*[a-zA-Z]+.*");
@@ -27,7 +28,7 @@ public class PasswordValidator implements ConstraintValidator<PasswordValid, Str
     private boolean allowNull;
 
     @Override
-    public void initialize(PasswordValid constraintAnnotation) {
+    public void initialize(UserNameValid constraintAnnotation) {
         this.needNumber = constraintAnnotation.number();
         this.needLetter = constraintAnnotation.letter();
         this.needSpecialChar = constraintAnnotation.specialChar();

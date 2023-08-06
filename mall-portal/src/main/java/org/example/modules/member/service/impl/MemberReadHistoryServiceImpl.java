@@ -37,6 +37,7 @@ public class MemberReadHistoryServiceImpl extends ServiceImpl<MemberReadHistoryM
 
     @Override
     public Boolean save(MemberReadHistoryDto memberReadHistoryDto) {
+        memberReadHistoryDto.setMemberId(SecurityUtils.getCurrentUserId());
         MemberReadHistoryEntity memberReadHistoryEntity = BeanCopy.convert(memberReadHistoryDto, MemberReadHistoryEntity.class);
         return save(memberReadHistoryEntity);
     }

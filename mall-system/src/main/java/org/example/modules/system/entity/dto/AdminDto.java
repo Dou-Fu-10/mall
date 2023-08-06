@@ -1,11 +1,15 @@
 package org.example.modules.system.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.common.core.base.ValidationDto;
+import org.example.common.core.validation.GenderValid;
+import org.example.common.core.validation.PhoneValid;
 import org.example.common.core.validation.UserNameValid;
 
 import java.util.Date;
@@ -25,14 +29,15 @@ public class AdminDto {
     /**
      * ID
      */
-    @Null(groups = ValidationDto.SelectPage.class, message = "不支持查找")
-    @Null(groups = ValidationDto.Insert.class, message = "参数传入错误")
+    @Null(groups = {ValidationDto.SelectPage.class, ValidationDto.Insert.class}, message = "参数传入错误")
+    @NotNull(groups = ValidationDto.Update.class, message = "参数传入错误")
     private Long id;
 
     /**
      * 用户
      */
-    @UserNameValid(isNotBlank = false, groups = ValidationDto.SelectPage.class)
+    @UserNameValid(allowNull = true , groups = {ValidationDto.SelectPage.class, ValidationDto.Update.class})
+    @UserNameValid(groups = ValidationDto.Insert.class)
     private String username;
     /**
      * 密码
@@ -42,27 +47,33 @@ public class AdminDto {
     /**
      * 昵称
      */
+    @UserNameValid(allowNull = true , groups = {ValidationDto.SelectPage.class, ValidationDto.Update.class})
+    @UserNameValid(groups = ValidationDto.Insert.class)
     private String nickName;
     /**
      * 头像
      */
-    @Null(groups = ValidationDto.SelectPage.class, message = "不支持查找")
+    @Null(groups = ValidationDto.SelectPage.class, message = "参数传入错误")
     private String icon;
     /**
      * 手机号码
      */
+    @PhoneValid
     private String phone;
     /**
      * 邮箱
      */
+    @Email
     private String email;
     /**
      * 性别
      */
+    @GenderValid(allowNull = true)
     private String gender;
     /**
      * 备注信息
      */
+    @Null(groups = {ValidationDto.SelectPage.class}, message = "参数传入错误")
     private String note;
     /**
      * 最后登录时间

@@ -62,7 +62,13 @@ public class RolesMenusRelationServiceImpl extends ServiceImpl<RolesMenusRelatio
 
     @Override
     public List<MenuVo> findMenusByRoleIds(Set<Long> roleId) {
+        if (CollectionUtils.isEmpty(roleId)) {
+            return new ArrayList<>();
+        }
         List<RolesMenusRelationEntity> rolesMenusRelationEntityList = lambdaQuery().in(RolesMenusRelationEntity::getRoleId, roleId).list();
+        if (CollectionUtils.isEmpty(rolesMenusRelationEntityList)) {
+            return new ArrayList<>();
+        }
         Set<Long> menuIdList = rolesMenusRelationEntityList.stream().map(RolesMenusRelationEntity::getMenuId).collect(Collectors.toSet());
         return menuService.findByMenusId(menuIdList);
     }
