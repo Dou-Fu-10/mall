@@ -197,8 +197,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         orderEntity.setSourceType(1);
         // 订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单
         orderEntity.setStatus(0);
-        // 订单类型：0->正常订单；1->秒杀订单
-        orderEntity.setOrderType(0);
         // 自动确认时间（天）
         orderEntity.setAutoConfirmDay(orderSettingVo.getConfirmOvertime());
         // 收货人姓名

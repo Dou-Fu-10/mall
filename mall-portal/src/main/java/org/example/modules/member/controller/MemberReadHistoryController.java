@@ -98,11 +98,15 @@ public class MemberReadHistoryController {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");
         }
-        Set<Long> collect = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
+        Set<Long> ids = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
         LambdaQueryWrapper<MemberReadHistoryEntity> memberReadHistoryEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
         memberReadHistoryEntityLambdaQueryWrapper.eq(MemberReadHistoryEntity::getMemberId, SecurityUtils.getCurrentUserId());
-        memberReadHistoryEntityLambdaQueryWrapper.in(MemberReadHistoryEntity::getId, collect);
-        return ResponseEntity.ok(this.memberReadHistoryService.remove(memberReadHistoryEntityLambdaQueryWrapper) ? "删除成功" : "删除失败");
+        memberReadHistoryEntityLambdaQueryWrapper.in(MemberReadHistoryEntity::getId, ids);
+
+        if (this.memberReadHistoryService.remove(memberReadHistoryEntityLambdaQueryWrapper)) {
+            return ResponseEntity.ok("删除成功");
+        }
+        throw new BaseRequestException("删除失败");
     }
 }
 

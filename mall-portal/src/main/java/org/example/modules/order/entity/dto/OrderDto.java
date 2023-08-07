@@ -61,11 +61,6 @@ public class OrderDto {
     @Schema(name = "freightAmount", description = "运费金额")
     private BigDecimal freightAmount;
     /**
-     * 管理员后台调整订单使用的折扣金额
-     */
-    @Schema(name = "discountAmount", description = "管理员后台调整订单使用的折扣金额")
-    private BigDecimal discountAmount;
-    /**
      * 支付方式：0->未支付；1->支付宝；2->微信
      */
     @Schema(name = "payType", description = "支付方式：0->未支付；1->支付宝；2->微信")
@@ -80,11 +75,6 @@ public class OrderDto {
      */
     @Schema(name = "status", description = "订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单")
     private Integer status;
-    /**
-     * 订单类型：0->正常订单；1->秒杀订单
-     */
-    @Schema(name = "orderType", description = "订单类型：0->正常订单；1->秒杀订单")
-    private Integer orderType;
     /**
      * 物流公司(配送方式)
      */

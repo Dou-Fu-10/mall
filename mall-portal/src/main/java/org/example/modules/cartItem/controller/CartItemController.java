@@ -110,8 +110,11 @@ public class CartItemController {
             throw new BaseRequestException("请正确的填写id");
         }
         idList = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
-        List<CartItemEntity> collect = idList.stream().map(id -> new CartItemEntity(id, SecurityUtils.getCurrentUserId())).collect(Collectors.toList());
-        return ResponseEntity.ok(this.cartItemService.removeByIds(collect) ? "删除成功" : "删除失败");
+        List<CartItemEntity> cartItemEntityList = idList.stream().map(id -> new CartItemEntity(id, SecurityUtils.getCurrentUserId())).collect(Collectors.toList());
+        if (this.cartItemService.removeByIds(cartItemEntityList)) {
+            return ResponseEntity.ok("删除成功");
+        }
+        throw new BaseRequestException("删除失败");
     }
 }
 

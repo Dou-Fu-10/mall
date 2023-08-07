@@ -103,7 +103,10 @@ public class MemberCollectionController {
         LambdaQueryWrapper<MemberCollectionEntity> memberCollectionEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
         memberCollectionEntityLambdaQueryWrapper.eq(MemberCollectionEntity::getMemberId, SecurityUtils.getCurrentUserId());
         memberCollectionEntityLambdaQueryWrapper.in(MemberCollectionEntity::getProductId, ids);
-        return ResponseEntity.ok(this.memberCollectionService.remove(memberCollectionEntityLambdaQueryWrapper) ? "删除成功" : "删除失败");
+        if (this.memberCollectionService.remove(memberCollectionEntityLambdaQueryWrapper)) {
+            return ResponseEntity.ok("删除成功");
+        }
+        throw new BaseRequestException("删除失败");
     }
 }
 

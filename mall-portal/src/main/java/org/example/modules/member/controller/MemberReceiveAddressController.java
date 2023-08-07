@@ -111,7 +111,11 @@ public class MemberReceiveAddressController {
         LambdaQueryWrapper<MemberReceiveAddressEntity> memberReceiveAddressEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
         memberReceiveAddressEntityLambdaQueryWrapper.eq(MemberReceiveAddressEntity::getMemberId, SecurityUtils.getCurrentUserId());
         memberReceiveAddressEntityLambdaQueryWrapper.in(MemberReceiveAddressEntity::getId, ids);
-        return ResponseEntity.ok(this.memberReceiveAddressService.remove(memberReceiveAddressEntityLambdaQueryWrapper) ? "删除成功" : "删除失败");
+
+        if (this.memberReceiveAddressService.remove(memberReceiveAddressEntityLambdaQueryWrapper)) {
+            return ResponseEntity.ok("删除成功");
+        }
+        throw new BaseRequestException("删除失败");
     }
 }
 

@@ -96,8 +96,8 @@ public class MemberReceiveAddressController {
 //        if (CollectionUtils.isEmpty(idList)) {
 //            throw new BaseRequestException("请正确的填写id");
 //        }
-//        Set<Long> collect = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
-//        return ResponseEntity.ok(this.memberReceiveAddressService.removeByIds(collect) ? "删除成功" : "删除失败");
+//        Set<Long> ids = idListt.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
+//        return ResponseEntity.ok(this.memberReceiveAddressService.removeByIds(ids) ? "删除成功" : "删除失败");
 //    }
 }
 
