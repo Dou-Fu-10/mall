@@ -29,12 +29,14 @@ public class SkuStockVo {
     /**
      * 商品id
      */
+    @JsonIgnore
     @Schema(name = "productId", description = "商品id")
     private Long productId;
 
     /**
      * sku编码
      */
+    @JsonIgnore
     @Schema(name = "skuCode", description = "sku编码")
     private String skuCode;
     /**
@@ -50,6 +52,7 @@ public class SkuStockVo {
     /**
      * 预警库存
      */
+    @JsonIgnore
     @Schema(name = "lowStock", description = "预警库存")
     private Integer lowStock;
     /**
@@ -65,11 +68,13 @@ public class SkuStockVo {
     /**
      * 单品促销价格
      */
+    @JsonIgnore
     @Schema(name = "promotionPrice", description = "单品促销价格")
     private BigDecimal promotionPrice;
     /**
      * 锁定库存
      */
+    @JsonIgnore
     @Schema(name = "lockStock", description = "锁定库存")
     private Integer lockStock;
     /**
@@ -80,26 +85,31 @@ public class SkuStockVo {
     /**
      * 创建者
      */
+    @JsonIgnore
     @Schema(name = "createBy", description = "创建者")
     private String createBy;
     /**
      * 更新者
      */
+    @JsonIgnore
     @Schema(name = "updateBy", description = "更新者")
     private String updateBy;
     /**
      * 创建日期
      */
+    @JsonIgnore
     @Schema(name = "createTime", description = "创建日期")
     private Date createTime;
     /**
      * 更新时间
      */
+    @JsonIgnore
     @Schema(name = "updateTime", description = "更新时间")
     private Date updateTime;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
+    @JsonIgnore
     @Schema(name = "deleteFlag", description = "逻辑删除（1 代表已删除），（0 代表未删除）")
     private Integer deleteFlag;
     @JsonIgnore

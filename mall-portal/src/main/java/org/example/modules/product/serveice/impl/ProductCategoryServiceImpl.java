@@ -26,24 +26,24 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
 
 
     @Override
-    public List<ProductCategoryVo> selectProductCategory(ProductCategoryEntity productCategory) {
-        Page<ProductCategoryVo> page = page(new Page<>(1, 500), productCategory);
-        List<ProductCategoryVo> records = page.getRecords();
-        return BeanCopy.copytList(records, ProductCategoryVo.class);
+    public List<ProductCategoryVo> selectProductCategory() {
+        Page<ProductCategoryVo> page = page(new Page<>(1, 500), new ProductCategoryEntity());
+        return page.getRecords();
     }
 
     @Override
     public Page<ProductCategoryVo> page(Page<ProductCategoryEntity> page, ProductCategoryEntity productCategory) {
         LambdaQueryWrapper<ProductCategoryEntity> productCategoryEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(productCategory);
+        // 排序
         productCategoryEntityLambdaQueryWrapper.orderByAsc(ProductCategoryEntity::getSort);
         Page<ProductCategoryEntity> productCategoryEntityPage = page(page, productCategoryEntityLambdaQueryWrapper);
         if (CollectionUtils.isEmpty(productCategoryEntityPage.getRecords())) {
             return (Page) productCategoryEntityPage;
         }
-        IPage<ProductCategoryVo> convert = productCategoryEntityPage.convert(productCategoryEntity -> BeanCopy.convert(productCategoryEntity, ProductCategoryVo.class));
-        List<ProductCategoryVo> records = convert.getRecords();
-        convert.setRecords(getProductCategoryVoListTree(records));
-        return (Page) convert;
+        IPage<ProductCategoryVo> productCategoryVoIpage = productCategoryEntityPage.convert(productCategoryEntity -> BeanCopy.convert(productCategoryEntity, ProductCategoryVo.class));
+        List<ProductCategoryVo> productCategoryVoList = productCategoryVoIpage.getRecords();
+        productCategoryVoIpage.setRecords(getProductCategoryVoListTree(productCategoryVoList));
+        return (Page) productCategoryVoIpage;
     }
 
     @org.jetbrains.annotations.NotNull

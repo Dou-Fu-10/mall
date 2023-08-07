@@ -121,8 +121,7 @@ public class OnlineMemberServiceImpl implements OnlineMemberService {
     @Async
     @Override
     public void kickOutForUsername(String username) {
-        // TODO 删除用户的 token
-        String loginKey = properties.getOnlineKey() + username + "*";
-//        redisService.scanDel(loginKey);
+        String loginKey = properties.getOnlineKey() + username;
+        redisService.del(loginKey);
     }
 }

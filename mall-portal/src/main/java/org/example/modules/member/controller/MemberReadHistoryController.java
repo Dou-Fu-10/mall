@@ -4,6 +4,7 @@ package org.example.modules.member.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
@@ -41,20 +42,10 @@ public class MemberReadHistoryController {
      * @param page 分页对象
      * @return 所有数据
      */
+    @Operation(summary = "分页查询所有数据")
     @GetMapping
     public ResponseEntity<Object> select(Page<MemberReadHistoryEntity> page) {
         return ResponseEntity.ok(this.memberReadHistoryService.page(page));
-    }
-
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-//    @GetMapping("{id}")
-    public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return ResponseEntity.ok(this.memberReadHistoryService.getById(id));
     }
 
     /**
@@ -63,6 +54,7 @@ public class MemberReadHistoryController {
      * @param memberReadHistoryDto 实体对象
      * @return 新增结果
      */
+    @Operation(summary = "新增数据")
     @PostMapping
     public ResponseEntity<String> insert(@RequestBody MemberReadHistoryDto memberReadHistoryDto) {
         if (this.memberReadHistoryService.save(memberReadHistoryDto)) {
@@ -73,26 +65,12 @@ public class MemberReadHistoryController {
     }
 
     /**
-     * 修改数据
-     *
-     * @param memberReadHistoryDto 实体对象
-     * @return 修改结果
-     */
-//    @PutMapping
-    public ResponseEntity<String> update(@RequestBody MemberReadHistoryDto memberReadHistoryDto) {
-        if (this.memberReadHistoryService.updateById(memberReadHistoryDto)) {
-            return ResponseEntity.ok("修改成功");
-        }
-        // 修改成自定义的 错误类型
-        throw new RuntimeException("修改失败");
-    }
-
-    /**
      * 删除数据
      *
      * @param idList 主键结合
      * @return 删除结果
      */
+    @Operation(summary = "删除数据")
     @DeleteMapping
     public ResponseEntity<String> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {

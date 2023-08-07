@@ -1,6 +1,7 @@
 package org.example.modules.product.entity.vo;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class ProductCategoryVo {
     /**
      * 上级分类的编号：0表示一级分类
      */
+    @JsonIgnore
     private Long parentId;
 
     /**
@@ -34,14 +36,17 @@ public class ProductCategoryVo {
     /**
      * 产品计量单位
      */
+    @JsonIgnore
     private String productUnit;
     /**
      * 是否显示在导航栏：0->不显示；1->显示
      */
+    @JsonIgnore
     private Boolean navStatus;
     /**
      * 显示状态：0->不显示；1->显示
      */
+    @JsonIgnore
     private Boolean showStatus;
     /**
      * 排序
@@ -54,10 +59,12 @@ public class ProductCategoryVo {
     /**
      * 关键词
      */
+    @JsonIgnore
     private String keywords;
     /**
      * 分类描述
      */
+    @JsonIgnore
     private String description;
 
     private List<ProductCategoryVo> children;

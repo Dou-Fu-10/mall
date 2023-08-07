@@ -30,12 +30,11 @@ public class ProductCategoryController {
     /**
      * 分页查询所有数据
      *
-     * @param productCategory 查询实体
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> select(ProductCategoryEntity productCategory) {
-        return ResponseEntity.ok(this.productCategoryService.selectProductCategory(productCategory));
+    public ResponseEntity<Object> select() {
+        return ResponseEntity.ok(this.productCategoryService.selectProductCategory());
     }
 }
 

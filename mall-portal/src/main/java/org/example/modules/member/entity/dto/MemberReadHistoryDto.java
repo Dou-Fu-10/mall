@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 
@@ -35,6 +36,7 @@ public class MemberReadHistoryDto {
      * 商品id
      */
     @Schema(name = "productId", description = "商品id")
+    @NotNull
     private Long productId;
 
     /**

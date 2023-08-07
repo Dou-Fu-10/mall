@@ -75,4 +75,11 @@ public interface SkuStockService extends IService<SkuStockEntity> {
      * @return /
      */
     Boolean releaseSkuStockLock(Set<Long> productIds);
+    /**
+     * 通过商品id列表 获取 sku列表
+     *
+     * @param productIds 商品id
+     * @return sku列表
+     */
+    List<SkuStockVo> getSkuStockByProductIds(Set<Long> productIds);
 }

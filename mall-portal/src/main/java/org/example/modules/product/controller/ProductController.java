@@ -4,11 +4,13 @@ package org.example.modules.product.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.common.core.base.ValidationDto;
 import org.example.modules.product.entity.ProductEntity;
 import org.example.modules.product.entity.dto.ProductDto;
 import org.example.modules.product.serveice.ProductService;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,12 +38,12 @@ public class ProductController {
      * 分页查询所有数据
      *
      * @param page    分页对象
-     * @param product 查询实体
+     * @param productDto 查询实体
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> select(Page<ProductEntity> page, ProductDto product) {
-        return ResponseEntity.ok(productService.page(page, product));
+    public ResponseEntity<Object> select(Page<ProductEntity> page,@Validated(ValidationDto.SelectPage.class) ProductDto productDto) {
+        return ResponseEntity.ok(productService.page(page, productDto));
     }
 
     /**

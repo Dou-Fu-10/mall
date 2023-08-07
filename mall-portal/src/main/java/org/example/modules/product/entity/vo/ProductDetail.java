@@ -1,5 +1,6 @@
 package org.example.modules.product.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,10 +25,12 @@ public class ProductDetail {
     /**
      * 商品属性参数表
      */
+    @JsonIgnore
     private List<ProductAttributeVo> productAttributeList;
     /**
      * 存储产品参数信息的表
      */
+    @JsonIgnore
     private List<ProductAttributeValueVo> productAttributeValueList;
     /**
      * sku的库存

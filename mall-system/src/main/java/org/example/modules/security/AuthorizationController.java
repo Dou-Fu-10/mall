@@ -75,7 +75,7 @@ public class AuthorizationController {
      */
     @Operation(summary = "登录")
     @AnonymousPostMapping(value = "/login")
-    public ResponseEntity<Map<String, Object>> login(@Validated @RequestBody AuthAdmin authAdmin, HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody @Validated AuthAdmin authAdmin, HttpServletRequest request) {
         return ResponseEntity.ok(adminService.login(authAdmin, request));
     }
 

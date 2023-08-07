@@ -53,23 +53,26 @@ public class MemberReadHistoryServiceImpl extends ServiceImpl<MemberReadHistoryM
         Long memberId = SecurityUtils.getCurrentUserId();
         LambdaQueryWrapper<MemberReadHistoryEntity> memberReadHistoryEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
         memberReadHistoryEntityLambdaQueryWrapper.eq(MemberReadHistoryEntity::getMemberId, memberId);
+        // 获取浏览历史
         Page<MemberReadHistoryEntity> memberReadHistoryEntityPage = page(page, memberReadHistoryEntityLambdaQueryWrapper);
+        // 获取浏览历史
         IPage<MemberReadHistoryVo> memberReadHistoryEntityPageVoIpage = memberReadHistoryEntityPage.convert(memberReadHistory -> BeanCopy.convert(memberReadHistory, MemberReadHistoryVo.class));
-
+        // 获取浏览历史
         List<MemberReadHistoryVo> memberReadHistoryVoList = memberReadHistoryEntityPageVoIpage.getRecords();
-
+        // 校验是否为空
         if (CollectionUtils.isEmpty(memberReadHistoryVoList)) {
             return (Page) memberReadHistoryEntityPageVoIpage;
         }
-
+        // 获取到浏览的商品ids
         Set<Long> productIdList = memberReadHistoryVoList.stream().map(MemberReadHistoryVo::getProductId).collect(Collectors.toSet());
-
+        // 获取到浏览的商品
         List<ProductVo> productVoList = productService.getByIdsInVerifyStatusAndPublishStatus(productIdList);
+        // 校验是否为空
         if (CollectionUtils.isEmpty(productVoList)) {
             return (Page) memberReadHistoryEntityPageVoIpage;
         }
+        // 对 商品进行排序
         Map<Long, ProductVo> longProductVoMap = longProductVoMap(productVoList);
-
         memberReadHistoryVoList.forEach(memberReadHistoryVo -> {
             Long productId = memberReadHistoryVo.getProductId();
             if (longProductVoMap.containsKey(productId)) {

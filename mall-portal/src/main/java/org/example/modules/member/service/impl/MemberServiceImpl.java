@@ -111,17 +111,26 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
 
     @Override
     public MemberEntity getByPhone(String phone) {
+        if (org.example.common.core.utils.StringUtils.isBlank(phone)) {
+            throw new BaseRequestException("参数有误");
+        }
         return lambdaQuery().eq(MemberEntity::getPhone, phone).one();
     }
 
     @Override
     public Map<String, Object> info(Principal principal) {
-        // TODO 用户登录用户自己
+        // 判断是否登录
         if (Objects.isNull(principal)) {
             throw new BaseRequestException("请登录");
         }
         String phone = principal.getName();
+        if (org.example.common.core.utils.StringUtils.isBlank(phone)) {
+            throw new BaseRequestException("请登录");
+        }
         MemberEntity memberEntity = getByPhone(phone);
+        if (Objects.isNull(memberEntity)) {
+            throw new BaseRequestException("请登录");
+        }
         Map<String, Object> data = new HashMap<>(3);
         data.put("phone", memberEntity.getPhone());
         // 头像
@@ -140,6 +149,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
 
     @Override
     public Boolean register(MemberDto memberDto) {
+        // TODO 校验
         MemberEntity memberEntity = BeanCopy.convert(memberDto, MemberEntity.class);
         return memberEntity.insert();
     }
@@ -147,18 +157,35 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
     @Override
     public Page<MemberVo> children(Page<MemberEntity> page) {
         LambdaQueryWrapper<MemberEntity> memberEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        // 谁登录获取谁的下级
         memberEntityLambdaQueryWrapper.eq(MemberEntity::getParentId, SecurityUtils.getCurrentUserId());
         Page<MemberEntity> memberEntityPage = page(page, memberEntityLambdaQueryWrapper);
-        return (Page) memberEntityPage.convert(memberEntity -> BeanCopy.convert(memberEntity, MemberVo.class));
+        IPage<MemberVo> memberVoIpage = memberEntityPage.convert(memberEntity -> BeanCopy.convert(memberEntity, MemberVo.class));
+        // TODO 过滤信息
+        return (Page) memberVoIpage;
     }
 
     @Override
     public MemberVo parent() {
+        // 获取登录信息
         JwtMember jwtMember = (JwtMember) SecurityUtils.getCurrentUser();
+        // 获取登陆信息
         MemberEntity memberEntity = jwtMember.getUser();
+        // 获取登陆者的上级
         Long parentId = memberEntity.getParentId();
+        // 获取上级信息
         MemberEntity parentMember = getById(parentId);
+        // TODO 过滤信息
         return BeanCopy.convert(parentMember, MemberVo.class);
     }
+
+    @Override
+    public void logout() {
+        // 获取登陆 信息
+        String adminName = SecurityUtils.getCurrentUsername();
+        //退出登录
+        onlineMemberService.kickOutForUsername(adminName);
+    }
+
 }
 

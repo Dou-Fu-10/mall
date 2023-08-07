@@ -11,11 +11,10 @@ import org.example.modules.member.entity.dto.MemberDto;
 import org.example.modules.member.service.MemberService;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -38,29 +37,17 @@ public class AuthorizationController {
     @Resource
     private MemberService memberService;
 
-
-    @Operation(summary = "退出功能")
-    @AnonymousGetMapping(value = "/logout")
-    public ResponseEntity<String> logout() {
-        // TODO 退出登录
-        return ResponseEntity.ok("退出登录成功");
-    }
-
     /**
      * 用户注册
      *
      * @param memberDto 注册用户
      * @return 是否成功
      */
-    @Operation(
-            summary = "注册",
-            description = "用户注册"
-    )
+    @Operation(summary = "注册", description = "用户注册")
     @AnonymousPostMapping(value = "/register")
-    public ResponseEntity<String> register(@Validated @RequestBody MemberDto memberDto) {
+    public ResponseEntity<String> register(@NotNull @Validated @RequestBody MemberDto memberDto) {
         memberDto.setPassword("123456");
-        Boolean register = memberService.register(memberDto);
-        if (register) {
+        if (memberService.register(memberDto)) {
             return ResponseEntity.ok("注册成功");
 
         }
@@ -74,10 +61,7 @@ public class AuthorizationController {
      * @param request    Http Servlet请求
      * @return token
      */
-    @Operation(
-            summary = "登录",
-            description = "用户登录返回token"
-    )
+    @Operation(summary = "登录", description = "用户登录返回token")
     @AnonymousPostMapping(value = "/login")
     public ResponseEntity<Map<String, Object>> login(@Validated @RequestBody AuthMember authMember, HttpServletRequest request) {
         return ResponseEntity.ok(memberService.login(authMember, request));

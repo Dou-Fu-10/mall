@@ -12,7 +12,10 @@ import org.example.modules.product.mapper.ProductAttributeValueMapper;
 import org.example.modules.product.service.ProductAttributeValueService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-08-01 22:28:59
@@ -47,6 +50,14 @@ public class ProductAttributeValueServiceImpl extends ServiceImpl<ProductAttribu
     @Override
     public List<ProductAttributeValueVo> getProductAttributeValueByProductId(Long productId) {
         List<ProductAttributeValueEntity> productAttributeValueEntityList = lambdaQuery().eq(ProductAttributeValueEntity::getProductId, productId).list();
+        return BeanCopy.copytList(productAttributeValueEntityList, ProductAttributeValueVo.class);
+    }
+    @Override
+    public List<ProductAttributeValueVo> getByProductAttributeIds(Set<Long> productIds) {
+        if (Objects.isNull(productIds)) {
+            return new ArrayList<>();
+        }
+        List<ProductAttributeValueEntity> productAttributeValueEntityList = lambdaQuery().in(ProductAttributeValueEntity::getProductId, productIds).list();
         return BeanCopy.copytList(productAttributeValueEntityList, ProductAttributeValueVo.class);
     }
 }

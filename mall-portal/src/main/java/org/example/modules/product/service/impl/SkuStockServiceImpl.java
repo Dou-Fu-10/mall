@@ -19,6 +19,7 @@ import org.example.modules.product.service.SkuStockService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -60,6 +61,9 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
 
     @Override
     public List<SkuStockVo> getSkuStockByProductId(Long productId) {
+        if (Objects.isNull(productId)) {
+            throw new BaseRequestException("参数有误");
+        }
         List<SkuStockEntity> skuStockEntityList = lambdaQuery().eq(SkuStockEntity::getProductId, productId).list();
         return BeanCopy.copytList(skuStockEntityList, SkuStockVo.class);
     }
@@ -96,6 +100,15 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
     public Boolean releaseSkuStockLock(Set<Long> productIds) {
         // TODO 解除取消订单的库存锁定
         return false;
+    }
+
+    @Override
+    public List<SkuStockVo> getSkuStockByProductIds(Set<Long> productIds) {
+        if (Objects.isNull(productIds)) {
+            return new ArrayList<>();
+        }
+        List<SkuStockEntity> skuStockEntityList = lambdaQuery().in(SkuStockEntity::getProductId, productIds).list();
+        return BeanCopy.copytList(skuStockEntityList, SkuStockVo.class);
     }
 }
 

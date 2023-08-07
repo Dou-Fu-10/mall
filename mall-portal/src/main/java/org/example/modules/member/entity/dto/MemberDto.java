@@ -1,5 +1,6 @@
 package org.example.modules.member.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,7 @@ public class MemberDto {
     /**
      * 钱包
      */
+    @JsonIgnore
     private BigDecimal money;
     /**
      * 昵称
@@ -46,10 +48,12 @@ public class MemberDto {
     /**
      * 是否是vip
      */
+    @JsonIgnore
     private Boolean isVip;
     /**
      * 帐号启用状态；1->正常：0->禁用
      */
+    @JsonIgnore
     private Boolean enabled;
     /**
      * 头像
@@ -82,14 +86,17 @@ public class MemberDto {
     /**
      * 注册时间
      */
+    @JsonIgnore
     private Date createTime;
     /**
      * 更新时间
      */
+    @JsonIgnore
     private Date updateTime;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
+    @JsonIgnore
     private Integer deleteFlag;
 
 

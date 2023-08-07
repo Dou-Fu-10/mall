@@ -24,5 +24,10 @@ public interface ProductCategoryService extends IService<ProductCategoryEntity> 
      */
     Page<ProductCategoryVo> page(Page<ProductCategoryEntity> page, ProductCategoryEntity productCategory);
 
-    List<ProductCategoryVo> selectProductCategory(ProductCategoryEntity productCategory);
+    /**
+     * 查询分类
+     *
+     * @return /
+     */
+    List<ProductCategoryVo> selectProductCategory();
 }

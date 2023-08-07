@@ -7,6 +7,7 @@ import org.example.modules.product.entity.dto.ProductAttributeValueDto;
 import org.example.modules.product.entity.vo.ProductAttributeValueVo;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-08-01 22:28:59
@@ -48,4 +49,11 @@ public interface ProductAttributeValueService extends IService<ProductAttributeV
      * @return 商品属性 value
      */
     List<ProductAttributeValueVo> getProductAttributeValueByProductId(Long productId);
+    /**
+     * 通过商品id列表获取 商品属性 value
+     *
+     * @param productIds 商品id列表
+     * @return 商品属性 value
+     */
+    List<ProductAttributeValueVo> getByProductAttributeIds(Set<Long> productIds);
 }

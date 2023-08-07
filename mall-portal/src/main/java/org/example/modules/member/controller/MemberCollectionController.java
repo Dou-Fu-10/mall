@@ -4,6 +4,7 @@ package org.example.modules.member.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
@@ -12,6 +13,9 @@ import org.example.modules.member.entity.dto.MemberCollectionDto;
 import org.example.modules.member.service.MemberCollectionService;
 import org.example.security.utils.SecurityUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -41,17 +45,19 @@ public class MemberCollectionController {
      * @param page 分页对象
      * @return 所有数据
      */
+    @Operation(summary = "分页查询所有数据")
     @GetMapping
     public ResponseEntity<Object> select(Page<MemberCollectionEntity> page) {
         return ResponseEntity.ok(this.memberCollectionService.page(page));
     }
 
     /**
-     * 通过主键查询单条数据
+     * 商品是否收藏
      *
      * @param productId 商品id
      * @return 单条数据
      */
+    @Operation(summary = "商品是否收藏")
     @GetMapping("collection/{productId}")
     public ResponseEntity<Object> collectOrNot(@PathVariable Serializable productId) {
         return ResponseEntity.ok(this.memberCollectionService.collectOrNot(productId));
@@ -63,6 +69,7 @@ public class MemberCollectionController {
      * @param memberCollectionDto 实体对象
      * @return 新增结果
      */
+    @Operation(summary = "新增数据")
     @PostMapping
     public ResponseEntity<String> insert(@RequestBody MemberCollectionDto memberCollectionDto) {
         if (this.memberCollectionService.save(memberCollectionDto)) {
@@ -73,27 +80,14 @@ public class MemberCollectionController {
     }
 
     /**
-     * 修改数据
-     *
-     * @param memberCollectionDto 实体对象
-     * @return 修改结果
-     */
-//    @PutMapping
-    public ResponseEntity<String> update(@RequestBody MemberCollectionDto memberCollectionDto) {
-        if (this.memberCollectionService.updateById(memberCollectionDto)) {
-            return ResponseEntity.ok("修改成功");
-        }
-        // 修改成自定义的 错误类型
-        throw new RuntimeException("修改失败");
-    }
-
-    /**
      * 删除数据
      *
      * @param idList 主键结合
      * @return 删除结果
      */
+    @Operation(summary = "删除数据")
     @DeleteMapping
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public ResponseEntity<String> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");

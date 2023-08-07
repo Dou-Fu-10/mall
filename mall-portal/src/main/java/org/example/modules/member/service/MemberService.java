@@ -99,4 +99,9 @@ public interface MemberService extends IService<MemberEntity> {
      * @return 获取上级
      */
     MemberVo parent();
+    /**
+     * 退出登录
+     */
+    void logout();
+
 }

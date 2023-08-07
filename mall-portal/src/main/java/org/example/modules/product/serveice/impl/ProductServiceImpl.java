@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.product.entity.ProductEntity;
 import org.example.modules.product.entity.dto.ProductDto;
@@ -18,14 +17,10 @@ import org.example.modules.product.serveice.ProductService;
 import org.example.modules.product.service.ProductAttributeService;
 import org.example.modules.product.service.ProductAttributeValueService;
 import org.example.modules.product.service.SkuStockService;
-import org.example.security.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -47,29 +42,26 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     private ProductAttributeService productAttributeService;
 
     @Override
-    public ProductVo findById(Serializable id) {
+    public ProductVo getByProductId(Serializable id) {
         ProductEntity productEntity = getById(id);
         return BeanCopy.convert(productEntity, ProductVo.class);
     }
 
     @Override
     public ProductDetail detail(Serializable id) {
-        ProductVo productVo = findById(id);
-        try {
-            Long memberId = SecurityUtils.getCurrentUserId();
-            log.info("记录浏览日志 id=" + memberId);
-        } catch (BaseRequestException e) {
-            log.info("测试");
-        }
+        ProductVo productVo = getByProductId(id);
         if (Objects.isNull(productVo)) {
             return new ProductDetail();
         }
+        // 获取商品的sku
         List<SkuStockVo> skuStockList = skuStockService.getSkuStockByProductId(productVo.getId());
+        // 获取商品的 存储产品参数信息的表
         List<ProductAttributeValueVo> productAttributeValueList = productAttributeValueService.getProductAttributeValueByProductId(productVo.getId());
+        // 获取商品的 商品属性参数表
         List<ProductAttributeVo> productAttributeList = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(productAttributeValueList)) {
             Set<Long> productAttributeIds = productAttributeValueList.stream().map(ProductAttributeValueVo::getProductAttributeId).collect(Collectors.toSet());
-            productAttributeService.findListByIds(productAttributeIds);
+            productAttributeList = productAttributeService.findListByIds(productAttributeIds);
         }
 
 
@@ -98,29 +90,65 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     }
 
     @Override
-    public Page<ProductVo> page(Page<ProductEntity> page, ProductDto product) {
-        ProductEntity convert = BeanCopy.convert(product, ProductEntity.class);
-        convert.setVerifyStatus(true);
-        convert.setPublishStatus(true);
-        Page<ProductEntity> productEntityPage = this.page(page, new QueryWrapper<>(convert));
-        IPage<ProductVo> productVoIpage = productEntityPage.convert(productEntity -> BeanCopy.convert(productEntity, ProductVo.class));
+    public Page<ProductVo> page(Page<ProductEntity> page, ProductDto productDto) {
+        ProductEntity productEntity = BeanCopy.convert(productDto, ProductEntity.class);
+        // 审核状态：0->未审核；1->审核通过 (0=false，1=true)
+        // 确保商品已审核
+        productEntity.setVerifyStatus(true);
+        // 上架状态：0->下架；1->上架 (0=false，1=true)
+        // 确保商品以上架
+        productEntity.setPublishStatus(true);
+        Page<ProductEntity> productEntityPage = this.page(page, new QueryWrapper<>(productEntity));
+        IPage<ProductVo> productVoIpage = productEntityPage.convert(product -> BeanCopy.convert(product, ProductVo.class));
         List<ProductVo> productVoList = productVoIpage.getRecords();
-        // TODO 优化查询逻辑
+        // 获取商品id
+        Set<Long> productIds = productVoList.stream().map(ProductVo::getId).collect(Collectors.toSet());
+        // 获取商品 sku
+        List<SkuStockVo> skuStockVos = skuStockService.getSkuStockByProductIds(productIds);
+        Map<Long, List<SkuStockVo>> longListMapSkuStockVo = longListMapSkuStockVo(skuStockVos);
+        // 获取商品 属性value
+        List<ProductAttributeValueVo> productAttributeValueVoList = productAttributeValueService.getByProductAttributeIds(productIds);
+        Map<Long, List<ProductAttributeValueVo>> longListMapProductAttributeValueVo = longListMapProductAttributeValueVo(productAttributeValueVoList);
         productVoList.forEach(productVo -> {
-            Long productId = productVo.getId();
-            // 获取 sku
-            List<SkuStockVo> skuStockByProductId = skuStockService.getSkuStockByProductId(productId);
-            // 获取 存储产品参数信息的表
-            List<ProductAttributeValueVo> productAttributeValueByProductId = productAttributeValueService.getProductAttributeValueByProductId(productId);
-            if (CollectionUtils.isNotEmpty(skuStockByProductId)) {
-                productVo.setSkuStockList(skuStockByProductId);
+            Long productVoId = productVo.getId();
+            // 获取每个商品的sku
+            if (longListMapSkuStockVo.containsKey(productVoId)) {
+                List<SkuStockVo> stockVos = longListMapSkuStockVo.get(productVoId);
+                productVo.setSkuStockList(stockVos);
             }
-            if (CollectionUtils.isNotEmpty(productAttributeValueByProductId)) {
-                productVo.setProductAttributeValueList(productAttributeValueByProductId);
+            // 获取每个商品的 属性value
+            if (longListMapProductAttributeValueVo.containsKey(productVoId)) {
+                List<ProductAttributeValueVo> productAttributeValueVos = longListMapProductAttributeValueVo.get(productVoId);
+                productVo.setProductAttributeValueList(productAttributeValueVos);
             }
+
         });
 
         return (Page) productVoIpage;
+    }
+
+    private Map<Long, List<SkuStockVo>> longListMapSkuStockVo(List<SkuStockVo> skuStockVos) {
+        if (CollectionUtils.isEmpty(skuStockVos)) {
+            return new HashMap<>();
+        }
+        Map<Long, List<SkuStockVo>> longListMap = new HashMap<>();
+        skuStockVos.forEach(skuStockVo -> {
+            Long productId = skuStockVo.getProductId();
+            longListMap.computeIfAbsent(productId, k -> new ArrayList<>()).add(skuStockVo);
+        });
+        return longListMap;
+    }
+
+    private Map<Long, List<ProductAttributeValueVo>> longListMapProductAttributeValueVo(List<ProductAttributeValueVo> productAttributeValueVoList) {
+        if (CollectionUtils.isEmpty(productAttributeValueVoList)) {
+            return new HashMap<>();
+        }
+        Map<Long, List<ProductAttributeValueVo>> longListMap = new HashMap<>();
+        productAttributeValueVoList.forEach(productAttributeValueVo -> {
+            Long productId = productAttributeValueVo.getProductId();
+            longListMap.computeIfAbsent(productId, k -> new ArrayList<>()).add(productAttributeValueVo);
+        });
+        return longListMap;
     }
 }
 

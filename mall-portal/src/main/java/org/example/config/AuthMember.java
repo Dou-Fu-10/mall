@@ -2,6 +2,8 @@ package org.example.config;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.example.common.core.validation.PasswordValid;
+import org.example.common.core.validation.PhoneValid;
 
 /**
  * Created by Dou-Fu-10 2023/8/1
@@ -16,11 +18,13 @@ public class AuthMember {
      * 用户
      */
     @Schema(name = "username", description = "用户")
+//    @PhoneValid
     private String phone;
     /**
      * 密码
      */
     @Schema(name = "password", description = "密码")
+//    @PasswordValid
     private String password;
     /**
      * 验证码
