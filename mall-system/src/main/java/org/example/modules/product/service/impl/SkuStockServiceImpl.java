@@ -12,7 +12,9 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -49,6 +51,15 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
     }
 
     @Override
+    public List<SkuStockVo> getSkuStockByProductIds(Set<Long> productIds) {
+        if (Objects.isNull(productIds)) {
+            return new ArrayList<>();
+        }
+        List<SkuStockEntity> skuStockEntityList = lambdaQuery().in(SkuStockEntity::getProductId, productIds).list();
+        return BeanCopy.copytList(skuStockEntityList, SkuStockVo.class);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean saveOrUpdate(List<SkuStockDto> skuStock) {
         List<SkuStockEntity> skuStockEntityList = BeanCopy.copytList(skuStock, SkuStockEntity.class);
@@ -61,6 +72,14 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
     public Boolean updateBatchById(Set<SkuStockDto> skuStock) {
         Set<SkuStockEntity> skuStockEntities = BeanCopy.copySet(skuStock, SkuStockEntity.class);
         return updateBatchById(skuStockEntities);
+    }
+
+    @Override
+    public Boolean removeByProductId(Long productId) {
+        if (Objects.isNull(productId)) {
+            return false;
+        }
+        return remove(lambdaQuery().eq(SkuStockEntity::getProductId, productId).getWrapper());
     }
 }
 

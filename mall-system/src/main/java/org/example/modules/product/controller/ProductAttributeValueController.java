@@ -44,7 +44,7 @@ public class ProductAttributeValueController {
      * @return 所有数据
      */
     @GetMapping
-    @Operation(summary = "修改数据", description = "productAttributeValue::select")
+    @Operation(summary = "分页查询所有数据", description = "productAttributeValue::select")
     @PreAuthorize("@hasPermission.check('productAttributeValue::select')")
     public ResponseEntity<Object> select(Page<ProductAttributeValueEntity> page, ProductAttributeValueEntity productAttributeValue) {
         return ResponseEntity.ok(this.productAttributeValueService.page(page, new QueryWrapper<>(productAttributeValue)));
@@ -57,7 +57,7 @@ public class ProductAttributeValueController {
      * @return 单条数据
      */
     @GetMapping("{id}")
-    @Operation(summary = "修改数据", description = "productAttributeValue::selectOne")
+    @Operation(summary = "通过主键查询单条数据", description = "productAttributeValue::selectOne")
     @PreAuthorize("@hasPermission.check('productAttributeValue::selectOne')")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return ResponseEntity.ok(this.productAttributeValueService.getByProductAttributeId(id));
@@ -70,7 +70,7 @@ public class ProductAttributeValueController {
      * @return 新增结果
      */
     @PostMapping
-    @Operation(summary = "修改数据", description = "productAttributeValue::insert")
+    @Operation(summary = "新增数据", description = "productAttributeValue::insert")
     @PreAuthorize("@hasPermission.check('productAttributeValue::insert')")
     public ResponseEntity<Object> insert(@RequestBody ProductAttributeValueDto productAttributeValue) {
         if (this.productAttributeValueService.save(productAttributeValue)) {
@@ -104,7 +104,7 @@ public class ProductAttributeValueController {
      * @return 删除结果
      */
     @DeleteMapping
-    @Operation(summary = "修改数据", description = "productAttributeValue::remove")
+    @Operation(summary = "删除数据", description = "productAttributeValue::remove")
     @PreAuthorize("@hasPermission.check('productAttributeValue::remove')")
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {

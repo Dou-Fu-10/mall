@@ -42,7 +42,7 @@ public class ProductAttributeController {
      * @return 所有数据
      */
     @GetMapping
-    @Operation(summary = "修改数据", description = "productAttribute::select")
+    @Operation(summary = "分页查询所有数据", description = "productAttribute::select")
     @PreAuthorize("@hasPermission.check('productAttribute::select')")
     public ResponseEntity<Object> select(Page<ProductAttributeEntity> page) {
         return ResponseEntity.ok(this.productAttributeService.page(page, new ProductAttributeDto()));
@@ -69,7 +69,7 @@ public class ProductAttributeController {
      * @return 单条数据
      */
     @GetMapping("{id}")
-    @Operation(summary = "修改数据", description = "productAttribute::selectOne")
+    @Operation(summary = "通过主键查询单条数据", description = "productAttribute::selectOne")
     @PreAuthorize("@hasPermission.check('productAttribute::selectOne')")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return ResponseEntity.ok(this.productAttributeService.getByProductAttributeId(id));
@@ -82,7 +82,7 @@ public class ProductAttributeController {
      * @return 新增结果
      */
     @PostMapping
-    @Operation(summary = "修改数据", description = "productAttribute::insert")
+    @Operation(summary = "新增数据", description = "productAttribute::insert")
     @PreAuthorize("@hasPermission.check('productAttribute::insert')")
     public ResponseEntity<Object> insert(@RequestBody ProductAttributeDto productAttribute) {
         if (this.productAttributeService.save(productAttribute)) {
@@ -114,7 +114,7 @@ public class ProductAttributeController {
      * @return 删除结果
      */
     @DeleteMapping
-    @Operation(summary = "修改数据", description = "productAttribute::remove")
+    @Operation(summary = "删除数据", description = "productAttribute::remove")
     @PreAuthorize("@hasPermission.check('productAttribute::remove')")
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {

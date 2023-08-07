@@ -7,6 +7,7 @@ import org.example.modules.product.entity.vo.ProductAttributeValueVo;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 13:54:16
@@ -63,4 +64,19 @@ public interface ProductAttributeValueService extends IService<ProductAttributeV
      * @return 单条数据
      */
     ProductAttributeValueVo getByProductAttributeId(Serializable id);
+    /**
+     * 通过商品id 商品属性
+     *
+     * @param productId 商品id
+     * @return /
+     */
+    Boolean removeByProductId(Long productId);
+
+    /**
+     * 通过商品id列表获取 商品属性 value
+     *
+     * @param productIds 商品id列表
+     * @return 商品属性 value
+     */
+    List<ProductAttributeValueVo> getByProductAttributeIds(Set<Long> productIds);
 }

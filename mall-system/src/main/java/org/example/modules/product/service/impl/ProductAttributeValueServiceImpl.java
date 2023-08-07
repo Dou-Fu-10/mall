@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -129,6 +130,23 @@ public class ProductAttributeValueServiceImpl extends ServiceImpl<ProductAttribu
         }
         ProductAttributeValueEntity productAttributeValueEntity = getById(id);
         return BeanCopy.convert(productAttributeValueEntity, ProductAttributeValueVo.class);
+    }
+
+    @Override
+    public Boolean removeByProductId(Long productId) {
+        if (Objects.isNull(productId)) {
+            return false;
+        }
+        return remove(lambdaQuery().eq(ProductAttributeValueEntity::getProductId, productId).getWrapper());
+    }
+
+    @Override
+    public List<ProductAttributeValueVo> getByProductAttributeIds(Set<Long> productIds) {
+        if (Objects.isNull(productIds)) {
+            return new ArrayList<>();
+        }
+        List<ProductAttributeValueEntity> productAttributeValueEntityList = lambdaQuery().in(ProductAttributeValueEntity::getProductId, productIds).list();
+        return BeanCopy.copytList(productAttributeValueEntityList, ProductAttributeValueVo.class);
     }
 }
 

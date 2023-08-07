@@ -15,6 +15,7 @@ import org.example.modules.product.entity.vo.ProductAttributeVo;
 import org.example.modules.product.mapper.ProductAttributeMapper;
 import org.example.modules.product.service.ProductAttributeCategoryService;
 import org.example.modules.product.service.ProductAttributeService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -32,6 +33,7 @@ import java.util.Set;
 @Service("productAttributeService")
 public class ProductAttributeServiceImpl extends ServiceImpl<ProductAttributeMapper, ProductAttributeEntity> implements ProductAttributeService {
     @Resource
+    @Lazy
     private ProductAttributeCategoryService productAttributeCategoryService;
 
     @Override

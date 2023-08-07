@@ -24,10 +24,10 @@ public interface ProductService extends IService<ProductEntity> {
      * 分页查询所有数据
      *
      * @param page    分页对象
-     * @param product 查询实体
+     * @param productDto 查询实体
      * @return 所有数据
      */
-    Page<ProductVo> page(Page<ProductEntity> page, ProductDto product);
+    Page<ProductVo> page(Page<ProductEntity> page, ProductDto productDto);
 
     /**
      * 新增数据
@@ -51,7 +51,7 @@ public interface ProductService extends IService<ProductEntity> {
      * @param id 商品id
      * @return 结果
      */
-    ProductVo findById(Serializable id);
+    ProductVo getByProductId(Serializable id);
 
     /**
      * 修改帐号状态

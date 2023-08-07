@@ -47,7 +47,13 @@ public interface SkuStockService extends IService<SkuStockEntity> {
      * @return sku列表
      */
     List<SkuStockVo> getSkuStockByProductId(Long productId);
-
+    /**
+     * 通过商品id列表 获取 sku列表
+     *
+     * @param productIds 商品id
+     * @return sku列表
+     */
+    List<SkuStockVo> getSkuStockByProductIds(Set<Long> productIds);
     /**
      * 新增数据
      *
@@ -63,4 +69,12 @@ public interface SkuStockService extends IService<SkuStockEntity> {
      * @return 修改结果
      */
     Boolean updateBatchById(Set<SkuStockDto> skuStock);
+
+    /**
+     * 通过商品id 删除sku
+     *
+     * @param productId 商品id
+     * @return /
+     */
+    Boolean removeByProductId(Long productId);
 }
