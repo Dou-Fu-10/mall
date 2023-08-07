@@ -51,7 +51,7 @@ public class AdminController {
      * @param adminDto 查询实体
      * @return 所有数据
      */
-    @Operation(summary = "获取分类用户信息列表", description = "admin::list")
+    @Operation(summary = "获取分类用户信息列表", description = "admin::select")
     @GetMapping
     @PreAuthorize("@hasPermission.check('admin::select')")
     public ResponseEntity<Object> select(Page<AdminEntity> page, @Validated(ValidationDto.SelectPage.class) AdminDto adminDto) {
@@ -120,7 +120,10 @@ public class AdminController {
         }
         // 校验 id 能为空 不得大于20  单次删除不能超过10个
         Set<Long> ids = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
-        return new ResponseEntity<>(this.adminService.removeByIds(ids) ? "删除成功" : "删除失败", HttpStatus.OK);
+        if (this.adminService.removeByIds(ids)) {
+            return ResponseEntity.ok("删除成功");
+        }
+        throw new BaseRequestException("删除失败");
     }
 
     @Operation(summary = "修改指定用户密码", description = "admin::updatePassword")
@@ -175,7 +178,7 @@ public class AdminController {
      */
     @Operation(summary = "获取指定用户的角色", description = "admin::roleList")
     @GetMapping(value = "/role/{adminId}")
-    @PreAuthorize("@hasPermission.check('admin::getRoleList')")
+    @PreAuthorize("@hasPermission.check('admin::roleList')")
     public ResponseEntity<List<RoleVo>> getRoleList(@PathVariable Long adminId) {
         return ResponseEntity.ok(adminService.getRoleListByAdminId(adminId));
     }
@@ -189,15 +192,9 @@ public class AdminController {
      */
     @Operation(summary = "获取当前登录用户信息", description = "admin::info")
     @GetMapping(value = "/info")
-    @PreAuthorize("@hasPermission.check('admin::getAdminInfo')")
+    @PreAuthorize("@hasPermission.check('admin::info')")
     public ResponseEntity<Map<String, Object>> getAdminInfo(Principal principal) {
         return ResponseEntity.ok(adminService.info(principal));
-    }
-
-    @AnonymousGetMapping("/test")
-    public String test() {
-        adminService.login(null, null);
-        return "test";
     }
 }
 

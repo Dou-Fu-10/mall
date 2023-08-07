@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.common.core.base.ValidationDto;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.product.entity.ProductAttributeCategoryEntity;
 import org.example.modules.product.entity.dto.ProductAttributeCategoryDto;
@@ -13,6 +14,7 @@ import org.example.modules.product.entity.vo.ProductAttributeCategoryVo;
 import org.example.modules.product.service.ProductAttributeCategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -72,7 +74,7 @@ public class ProductAttributeCategoryController {
     @PostMapping
     @Operation(summary = "新增数据", description = "productAttributeCategory::insert")
     @PreAuthorize("@hasPermission.check('productAttributeCategory::insert')")
-    public ResponseEntity<Object> insert(@RequestBody ProductAttributeCategoryDto productAttributeCategory) {
+    public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class)  ProductAttributeCategoryDto productAttributeCategory) {
         if (this.productAttributeCategoryService.save(productAttributeCategory)) {
             return ResponseEntity.ok("添加成功");
         }
@@ -88,7 +90,7 @@ public class ProductAttributeCategoryController {
     @PutMapping
     @Operation(summary = "修改数据", description = "productAttributeCategory::update")
     @PreAuthorize("@hasPermission.check('productAttributeCategory::update')")
-    public ResponseEntity<Object> update(@RequestBody ProductAttributeCategoryDto productAttributeCategory) {
+    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class)  ProductAttributeCategoryDto productAttributeCategory) {
         if (this.productAttributeCategoryService.updateById(productAttributeCategory)) {
             return ResponseEntity.ok("修改成功");
         }
@@ -109,7 +111,10 @@ public class ProductAttributeCategoryController {
             throw new BaseRequestException("请正确的填写id");
         }
         Set<Long> ids = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
-        return ResponseEntity.ok(this.productAttributeCategoryService.removeByIds(ids) ? "删除成功" : "删除失败");
+        if (this.productAttributeCategoryService.removeByIds(ids)) {
+            return ResponseEntity.ok("删除成功");
+        }
+        throw new BaseRequestException("删除失败");
     }
 
     /***

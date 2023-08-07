@@ -6,12 +6,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.common.core.base.ValidationDto;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.product.entity.ProductCategoryEntity;
 import org.example.modules.product.entity.dto.ProductCategoryDto;
 import org.example.modules.product.service.ProductCategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -72,7 +74,7 @@ public class ProductCategoryController {
     @Operation(summary = "新增数据", description = "productCategory::insert")
     @PostMapping
     @PreAuthorize("@hasPermission.check('productCategory::insert')")
-    public ResponseEntity<Object> insert(@RequestBody ProductCategoryDto productCategory) {
+    public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class)  ProductCategoryDto productCategory) {
         if (this.productCategoryService.save(productCategory)) {
             return ResponseEntity.ok("添加成功");
         }
@@ -88,7 +90,7 @@ public class ProductCategoryController {
     @Operation(summary = "修改数据", description = "productCategory::update")
     @PutMapping
     @PreAuthorize("@hasPermission.check('productCategory::update')")
-    public ResponseEntity<Object> update(@RequestBody ProductCategoryDto productCategory) {
+    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class)  ProductCategoryDto productCategory) {
         if (this.productCategoryService.updateById(productCategory)) {
             return ResponseEntity.ok("修改成功");
         }

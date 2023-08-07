@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.common.core.base.ValidationDto;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.product.entity.ProductEntity;
 import org.example.modules.product.entity.dto.ProductDto;
@@ -13,6 +14,7 @@ import org.example.modules.product.entity.dto.ProductDtoParam;
 import org.example.modules.product.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -46,7 +48,7 @@ public class ProductController {
     @GetMapping
     @Operation(summary = "分页查询所有数据", description = "product::select")
     @PreAuthorize("@hasPermission.check('product::select')")
-    public ResponseEntity<Object> select(Page<ProductEntity> page, ProductDto productDto) {
+    public ResponseEntity<Object> select(Page<ProductEntity> page, @Validated(ValidationDto.SelectPage.class)  ProductDto productDto) {
         return ResponseEntity.ok(this.productService.page(page, productDto));
     }
 
@@ -74,7 +76,7 @@ public class ProductController {
     @PostMapping
     @Operation(summary = "新增数据", description = "product::insert")
     @PreAuthorize("@hasPermission.check('product::insert')")
-    public ResponseEntity<Object> insert(@RequestBody ProductDtoParam product) {
+    public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class)  ProductDtoParam product) {
         if (this.productService.save(product)) {
             return ResponseEntity.ok("添加成功");
         }
@@ -91,7 +93,7 @@ public class ProductController {
     @PutMapping
     @Operation(summary = "修改数据", description = "product::update")
     @PreAuthorize("@hasPermission.check('product::update')")
-    public ResponseEntity<Object> update(@RequestBody ProductDtoParam product) {
+    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class)  ProductDtoParam product) {
         if (this.productService.updateById(product)) {
             return ResponseEntity.ok("修改成功");
         }

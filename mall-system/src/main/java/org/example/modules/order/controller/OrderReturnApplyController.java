@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.common.core.base.ValidationDto;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.order.entity.OrderReturnApplyEntity;
@@ -16,6 +17,7 @@ import org.example.modules.tools.entity.vo.CompanyAddressVo;
 import org.example.modules.tools.service.CompanyAddressService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -51,7 +53,7 @@ public class OrderReturnApplyController {
     @Operation(summary = "分页查询所有数据", description = "orderReturnApply::select")
     @GetMapping
     @PreAuthorize("@hasPermission.check('orderReturnApply::select')")
-    public ResponseEntity<Object> select(Page<OrderReturnApplyEntity> page, OrderReturnApplyDto orderReturnApply) {
+    public ResponseEntity<Object> select(Page<OrderReturnApplyEntity> page, @Validated(ValidationDto.SelectPage.class) OrderReturnApplyDto orderReturnApply) {
         return ResponseEntity.ok(this.orderReturnApplyService.page(page, orderReturnApply));
     }
 
@@ -104,7 +106,7 @@ public class OrderReturnApplyController {
     @Operation(summary = "修改数据", description = "orderReturnApply::update")
     @PutMapping
     @PreAuthorize("@hasPermission.check('orderReturnApply::update')")
-    public ResponseEntity<Object> update(@RequestBody OrderReturnApplyDto orderReturnApply) {
+    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class)  OrderReturnApplyDto orderReturnApply) {
         if (this.orderReturnApplyService.updateById(orderReturnApply)) {
             return ResponseEntity.ok("修改成功");
         }

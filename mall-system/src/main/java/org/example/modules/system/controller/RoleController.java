@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.common.core.base.ValidationDto;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.system.entity.RoleEntity;
 import org.example.modules.system.entity.dto.RoleDto;
@@ -14,6 +15,7 @@ import org.example.modules.system.service.RoleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -48,7 +50,7 @@ public class RoleController {
     @Operation(summary = "分页查询所有数据", description = "role::select")
     @GetMapping
     @PreAuthorize("@hasPermission.check('role::select')")
-    public ResponseEntity<Object> select(Page<RoleEntity> page, RoleDto roleDto) {
+    public ResponseEntity<Object> select(Page<RoleEntity> page, @Validated(ValidationDto.SelectPage.class) RoleDto roleDto) {
         return new ResponseEntity<>(this.roleService.page(page, roleDto), HttpStatus.OK);
     }
 
@@ -58,7 +60,7 @@ public class RoleController {
      * @param id 主键
      * @return 单条数据
      */
-    @Operation(summary = "通过主键查询单条数据", description = "role::selectOne")
+//    @Operation(summary = "通过主键查询单条数据", description = "role::selectOne")
 //    @GetMapping("{id}")
 //    @PreAuthorize("@hasPermission.check('role::selectOne')")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
@@ -74,7 +76,7 @@ public class RoleController {
     @Operation(summary = "新增数据", description = "role::insert")
     @PostMapping
     @PreAuthorize("@hasPermission.check('role::insert')")
-    public ResponseEntity<Object> insert(@RequestBody RoleEntity role) {
+    public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class) RoleEntity role) {
         return new ResponseEntity<>(this.roleService.save(role), HttpStatus.OK);
     }
 
@@ -87,7 +89,7 @@ public class RoleController {
     @Operation(summary = "修改数据", description = "role::update")
     @PutMapping
     @PreAuthorize("@hasPermission.check('role::update')")
-    public ResponseEntity<Object> update(@RequestBody RoleEntity role) {
+    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class) RoleEntity role) {
         return new ResponseEntity<>(this.roleService.updateById(role), HttpStatus.OK);
     }
 
@@ -104,7 +106,11 @@ public class RoleController {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");
         }
-        return new ResponseEntity<>(this.roleService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败", HttpStatus.OK);
+        Set<Long> ids = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
+        if (this.roleService.removeByIds(ids)) {
+            return ResponseEntity.ok("删除成功");
+        }
+        throw new BaseRequestException("删除失败");
     }
 
     /**

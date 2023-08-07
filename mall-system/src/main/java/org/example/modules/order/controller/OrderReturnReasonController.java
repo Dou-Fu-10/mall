@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.common.core.base.ValidationDto;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.order.entity.OrderReturnReasonEntity;
@@ -16,6 +17,7 @@ import org.example.modules.order.entity.vo.OrderReturnReasonVo;
 import org.example.modules.order.service.OrderReturnReasonService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -73,7 +75,7 @@ public class OrderReturnReasonController {
     @Operation(summary = "新增数据", description = "orderReturnReason::update")
     @PostMapping
     @PreAuthorize("@hasPermission.check('orderReturnReason::insert')")
-    public ResponseEntity<Object> insert(@RequestBody OrderReturnReasonDto orderReturnReason) {
+    public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class) OrderReturnReasonDto orderReturnReason) {
         if (this.orderReturnReasonService.save(orderReturnReason)) {
             return ResponseEntity.ok("添加成功");
         }
@@ -90,7 +92,7 @@ public class OrderReturnReasonController {
     @Operation(summary = "修改数据", description = "orderReturnReason::update")
     @PutMapping
     @PreAuthorize("@hasPermission.check('orderReturnReason::update')")
-    public ResponseEntity<Object> update(@RequestBody OrderReturnReasonDto orderReturnReason) {
+    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class) OrderReturnReasonDto orderReturnReason) {
         if (this.orderReturnReasonService.updateById(orderReturnReason)) {
             return ResponseEntity.ok("修改成功");
         }
@@ -129,7 +131,10 @@ public class OrderReturnReasonController {
             throw new BaseRequestException("请正确的填写id");
         }
         Set<Long> ids = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
-        return ResponseEntity.ok(this.orderReturnReasonService.removeByIds(ids) ? "删除成功" : "删除失败");
+        if (this.orderReturnReasonService.removeByIds(ids)) {
+            return ResponseEntity.ok("删除成功");
+        }
+        throw new BaseRequestException("删除失败");
     }
 }
 

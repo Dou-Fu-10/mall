@@ -6,12 +6,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.common.core.base.ValidationDto;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.product.entity.ProductAttributeEntity;
 import org.example.modules.product.entity.dto.ProductAttributeDto;
 import org.example.modules.product.service.ProductAttributeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -58,7 +60,7 @@ public class ProductAttributeController {
     @GetMapping("/getProductAttributeByProductAttributeCategoryId")
     @Operation(summary = "通过商品属性分类id 查询商品属性 分页后所有数据", description = "productAttribute::update")
     @PreAuthorize("@hasPermission.check('productAttribute::update')")
-    public ResponseEntity<Object> getProductAttributeByProductAttributeCategoryId(Page<ProductAttributeEntity> page, ProductAttributeDto productAttribute) {
+    public ResponseEntity<Object> getProductAttributeByProductAttributeCategoryId(Page<ProductAttributeEntity> page,  @Validated(ValidationDto.SelectList.class) ProductAttributeDto productAttribute) {
         return ResponseEntity.ok(this.productAttributeService.getProductAttributeByProductAttributeCategoryId(page, productAttribute));
     }
 
@@ -84,7 +86,7 @@ public class ProductAttributeController {
     @PostMapping
     @Operation(summary = "新增数据", description = "productAttribute::insert")
     @PreAuthorize("@hasPermission.check('productAttribute::insert')")
-    public ResponseEntity<Object> insert(@RequestBody ProductAttributeDto productAttribute) {
+    public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class)  ProductAttributeDto productAttribute) {
         if (this.productAttributeService.save(productAttribute)) {
             return ResponseEntity.ok("添加成功");
         }
@@ -100,7 +102,7 @@ public class ProductAttributeController {
     @PutMapping
     @Operation(summary = "修改数据", description = "productAttribute::update")
     @PreAuthorize("@hasPermission.check('productAttribute::update')")
-    public ResponseEntity<Object> update(@RequestBody ProductAttributeDto productAttribute) {
+    public ResponseEntity<Object> update(@RequestBody  @Validated(ValidationDto.Update.class) ProductAttributeDto productAttribute) {
         if (this.productAttributeService.updateById(productAttribute)) {
             return ResponseEntity.ok("修改成功");
         }

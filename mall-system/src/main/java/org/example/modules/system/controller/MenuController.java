@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.common.core.base.ValidationDto;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.system.entity.MenuEntity;
 import org.example.modules.system.entity.dto.MenuDto;
@@ -16,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -50,7 +52,7 @@ public class MenuController {
     @Operation(summary = "分页查询所有数据", description = "menu::select")
     @GetMapping
     @PreAuthorize("@hasPermission.check('menu::select')")
-    public ResponseEntity<Object> select(Page<MenuEntity> page, MenuDto menuDto) {
+    public ResponseEntity<Object> select(Page<MenuEntity> page,@Validated(ValidationDto.SelectPage.class) MenuDto menuDto) {
         return new ResponseEntity<>(this.menuService.page(page, menuDto), HttpStatus.OK);
     }
 
@@ -88,7 +90,7 @@ public class MenuController {
     @Operation(summary = "新增数据", description = "menu::insert")
     @PostMapping
     @PreAuthorize("@hasPermission.check('menu::insert')")
-    public ResponseEntity<Object> insert(@RequestBody MenuDto menuDto) {
+    public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class) MenuDto menuDto) {
         return new ResponseEntity<>(this.menuService.save(menuDto), HttpStatus.OK);
     }
 
@@ -101,7 +103,7 @@ public class MenuController {
     @Operation(summary = "修改数据", description = "menu::update")
     @PutMapping
     @PreAuthorize("@hasPermission.check('menu::update')")
-    public ResponseEntity<Object> update(@RequestBody MenuDto menuDto) {
+    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class) MenuDto menuDto) {
         return new ResponseEntity<>(this.menuService.updateById(menuDto), HttpStatus.OK);
     }
 
@@ -131,7 +133,7 @@ public class MenuController {
      * @return String
      */
     @Operation(summary = "修改菜单显示状态", description = "menu::updateHidden")
-    @RequestMapping(value = "/updateHidden/{id}", method = RequestMethod.POST)
+    @PostMapping(value = "/updateHidden/{id}")
     @PreAuthorize("@hasPermission.check('menu::updateHidden')")
     public ResponseEntity<String> updateHidden(@PathVariable Long id, @RequestParam("hidden") Boolean hidden) {
         if (menuService.updateHidden(id, hidden)) {

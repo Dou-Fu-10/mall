@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.common.core.base.ValidationDto;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.order.entity.OrderEntity;
 import org.example.modules.order.entity.dto.OrderDto;
@@ -17,6 +18,7 @@ import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -50,7 +52,7 @@ public class OrderController {
     @Operation(summary = "分页查询所有数据", description = "order::select")
     @GetMapping
     @PreAuthorize("@hasPermission.check('order::select')")
-    public ResponseEntity<Object> select(Page<OrderEntity> page, OrderDto orderDto) {
+    public ResponseEntity<Object> select(Page<OrderEntity> page,@Validated(ValidationDto.SelectPage.class)  OrderDto orderDto) {
         // TODO 对orderDto 进行数据校验
         return ResponseEntity.ok(this.orderService.page(page, orderDto));
     }
@@ -98,7 +100,7 @@ public class OrderController {
     @Operation(summary = "按传入的月份查找月份已完成的订单", description = "order::findCompletedOrdersByMonth")
     @GetMapping("/completedOrdersMonth")
     @PreAuthorize("@hasPermission.check('order::findCompletedOrdersByMonth')")
-    public ResponseEntity<Object> findCompletedOrdersByMonth(Page<OrderEntity> page, OrderDto orderDto) {
+    public ResponseEntity<Object> findCompletedOrdersByMonth(Page<OrderEntity> page,@Validated(ValidationDto.SelectList.class)  OrderDto orderDto) {
         return ResponseEntity.ok(this.orderService.findCompletedOrdersByMonth(page, orderDto, new DateTime()));
     }
 
@@ -128,7 +130,7 @@ public class OrderController {
     @Operation(summary = "修改数据", description = "order::update")
     @PutMapping
     @PreAuthorize("@hasPermission.check('order::update')")
-    public ResponseEntity<Object> update(@RequestBody OrderDto order) {
+    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class) OrderDto order) {
         if (this.orderService.updateById(order)) {
             return ResponseEntity.ok("修改成功");
         }
