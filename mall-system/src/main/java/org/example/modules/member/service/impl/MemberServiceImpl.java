@@ -12,6 +12,8 @@ import org.example.modules.member.mapper.MemberMapper;
 import org.example.modules.member.service.MemberService;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
+
 
 /**
  * Created by Dou-Fu-10 2023-07-31 15:49:05
@@ -42,6 +44,12 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
         Page<MemberEntity> memberEntityPage = page(page, memberEntityLambdaQueryWrapper);
         IPage<MemberVo> memberEntityPageVoIpage = memberEntityPage.convert(member -> BeanCopy.convert(member, MemberVo.class));
         return (Page) memberEntityPageVoIpage;
+    }
+
+    @Override
+    public MemberVo getByMemberId(Serializable id) {
+        MemberEntity memberEntity = getById(id);
+        return BeanCopy.convert(memberEntity, MemberVo.class);
     }
 }
 

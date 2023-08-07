@@ -2,13 +2,17 @@ package org.example.modules.member.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.common.core.base.ValidationDto;
 import org.example.modules.member.entity.MemberReceiveAddressEntity;
 import org.example.modules.member.entity.dto.MemberReceiveAddressDto;
 import org.example.modules.member.service.MemberReceiveAddressService;
-import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,8 +43,10 @@ public class MemberReceiveAddressController {
      * @param memberReceiveAddressDto 查询实体
      * @return 所有数据
      */
-    @AnonymousGetMapping
-    public ResponseEntity<Object> select(Page<MemberReceiveAddressEntity> page, MemberReceiveAddressDto memberReceiveAddressDto) {
+    @GetMapping
+    @Operation(summary = "分页查询所有数据", description = "memberReceiveAddress::select")
+    @PreAuthorize("@hasPermission.check('memberReceiveAddress::select')")
+    public ResponseEntity<Object> select(Page<MemberReceiveAddressEntity> page, @Validated(ValidationDto.SelectPage.class) MemberReceiveAddressDto memberReceiveAddressDto) {
         return ResponseEntity.ok(this.memberReceiveAddressService.page(page, memberReceiveAddressDto));
     }
 
@@ -50,18 +56,34 @@ public class MemberReceiveAddressController {
      * @param id 主键
      * @return 单条数据
      */
-    @AnonymousGetMapping("{id}")
+    @GetMapping("{id}")
+    @Operation(summary = "通过主键查询单条数据", description = "memberReceiveAddress::selectOne")
+    @PreAuthorize("@hasPermission.check('memberReceiveAddress::selectOne')")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return ResponseEntity.ok(this.memberReceiveAddressService.getById(id));
+        return ResponseEntity.ok(this.memberReceiveAddressService.getByMemberReceiveAddressId(id));
     }
 
+    /**
+     * 通过会员id 查询所有数据
+     *
+     * @param id 会员id
+     * @return 所有数据
+     */
+    @GetMapping("/memberId/{id}")
+    @Operation(summary = "通过主键查询单条数据", description = "memberReceiveAddress::memberId")
+    @PreAuthorize("@hasPermission.check('memberReceiveAddress::memberId')")
+    public ResponseEntity<Object> selectByMemberId(@PathVariable Serializable id) {
+        return ResponseEntity.ok(this.memberReceiveAddressService.getByMemberId(id));
+    }
     /**
      * 新增数据
      *
      * @param memberReceiveAddressDto 实体对象
      * @return 新增结果
      */
-//    @AnonymousPostMapping
+//    @PostMapping
+//        @Operation(summary = "分页查询所有数据", description = "member::select")
+//    @PreAuthorize("@hasPermission.check('member::select')")
 //    public ResponseEntity<Object> insert(@RequestBody MemberReceiveAddressDto memberReceiveAddressDto) {
 //        if (this.memberReceiveAddressService.save(memberReceiveAddressDto)) {
 //            return ResponseEntity.ok("添加成功");
@@ -76,8 +98,10 @@ public class MemberReceiveAddressController {
      * @param memberReceiveAddressDto 实体对象
      * @return 修改结果
      */
-//    @AnonymousPutMapping
-//    public ResponseEntity<Object> update(@RequestBody MemberReceiveAddressDto memberReceiveAddressDto) {
+//    @PutMapping
+//        @Operation(summary = "分页查询所有数据", description = "member::select")
+//        @PreAuthorize("@hasPermission.check('member::select')")
+//        public ResponseEntity<Object> update (@RequestBody MemberReceiveAddressDto memberReceiveAddressDto){
 //        if (this.memberReceiveAddressService.updateById(memberReceiveAddressDto)) {
 //            return ResponseEntity.ok("修改成功");
 //        }
@@ -91,8 +115,10 @@ public class MemberReceiveAddressController {
      * @param idList 主键结合
      * @return 删除结果
      */
-//    @AnonymousDeleteMapping
-//    public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
+//    @DeleteMapping
+//        @Operation(summary = "分页查询所有数据", description = "member::select")
+//            @PreAuthorize("@hasPermission.check('member::select')")
+//            public ResponseEntity<Object> remove (@RequestBody Set < Long > idList) {
 //        if (CollectionUtils.isEmpty(idList)) {
 //            throw new BaseRequestException("请正确的填写id");
 //        }

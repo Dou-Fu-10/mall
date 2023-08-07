@@ -6,6 +6,8 @@ import org.example.common.core.entity.MemberEntity;
 import org.example.modules.member.entity.dto.MemberDto;
 import org.example.modules.member.entity.vo.MemberVo;
 
+import java.io.Serializable;
+
 
 /**
  * Created by Dou-Fu-10 2023-07-31 15:49:04
@@ -39,4 +41,11 @@ public interface MemberService extends IService<MemberEntity> {
      * @return 所有数据
      */
     Page<MemberVo> page(Page<MemberEntity> page, MemberDto memberDto);
+    /**
+     * 通过主键查询单条数据
+     *
+     * @param id 主键
+     * @return 单条数据
+     */
+    MemberVo getByMemberId(Serializable id);
 }
