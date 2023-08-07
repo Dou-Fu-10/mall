@@ -10,16 +10,9 @@ import org.example.modules.member.entity.MemberReceiveAddressEntity;
 import org.example.modules.member.entity.dto.MemberReceiveAddressDto;
 import org.example.modules.member.entity.vo.MemberReceiveAddressVo;
 import org.example.modules.member.service.MemberReceiveAddressService;
-import org.example.security.annotaion.rest.AnonymousDeleteMapping;
-import org.example.security.annotaion.rest.AnonymousGetMapping;
-import org.example.security.annotaion.rest.AnonymousPostMapping;
-import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.example.security.utils.SecurityUtils;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -48,7 +41,7 @@ public class MemberReceiveAddressController {
      *
      * @return 单条数据
      */
-    @AnonymousGetMapping()
+    @GetMapping
     public ResponseEntity<Object> selectAll() {
         List<MemberReceiveAddressVo> memberReceiveAddressEntity = memberReceiveAddressService.selectAll();
         return ResponseEntity.ok(memberReceiveAddressEntity);
@@ -60,7 +53,7 @@ public class MemberReceiveAddressController {
      * @param id 主键
      * @return 单条数据
      */
-    @AnonymousGetMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         MemberReceiveAddressVo memberReceiveAddressVo = memberReceiveAddressService.selectOne(id);
         return ResponseEntity.ok(memberReceiveAddressVo);
@@ -72,7 +65,7 @@ public class MemberReceiveAddressController {
      * @param memberReceiveAddressDto 实体对象
      * @return 新增结果
      */
-    @AnonymousPostMapping
+    @PostMapping
     public ResponseEntity<Object> insert(@RequestBody MemberReceiveAddressDto memberReceiveAddressDto) {
         if (this.memberReceiveAddressService.save(memberReceiveAddressDto)) {
             return ResponseEntity.ok("添加成功");
@@ -87,7 +80,7 @@ public class MemberReceiveAddressController {
      * @param memberReceiveAddressDto 实体对象
      * @return 修改结果
      */
-    @AnonymousPutMapping
+    @PutMapping
     public ResponseEntity<Object> update(@RequestBody MemberReceiveAddressDto memberReceiveAddressDto) {
         if (this.memberReceiveAddressService.updateById(memberReceiveAddressDto)) {
             return ResponseEntity.ok("修改成功");
@@ -102,7 +95,7 @@ public class MemberReceiveAddressController {
      * @param idList 主键结合
      * @return 删除结果
      */
-    @AnonymousDeleteMapping
+    @DeleteMapping
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");

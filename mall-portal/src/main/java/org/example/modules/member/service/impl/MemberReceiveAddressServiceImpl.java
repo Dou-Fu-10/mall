@@ -35,23 +35,39 @@ public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAd
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    public Boolean save(@NotNull MemberReceiveAddressDto memberReceiveAddressDto) {
+    public Boolean save(MemberReceiveAddressDto memberReceiveAddressDto) {
         MemberReceiveAddressEntity memberReceiveAddressEntity = BeanCopy.convert(memberReceiveAddressDto, MemberReceiveAddressEntity.class);
+        // 设置会员的 id
         memberReceiveAddressEntity.setMemberId(SecurityUtils.getCurrentUserId());
+        // 校验是否是默认的
         if (Objects.nonNull(memberReceiveAddressDto.getDefaultStatus()) && memberReceiveAddressDto.getDefaultStatus()) {
+            // 如果要设置成默认的 就获取之前全部的 地址
             List<MemberReceiveAddressEntity> memberReceiveAddressEntityList = lambdaQuery().eq(MemberReceiveAddressEntity::getMemberId, SecurityUtils.getCurrentUserId()).list();
+            // 将地址设置成 非默认
             for (MemberReceiveAddressEntity receiveAddressEntity : memberReceiveAddressEntityList) {
                 receiveAddressEntity.setDefaultStatus(false);
             }
+            // 更新
             return updateBatchById(memberReceiveAddressEntityList);
         }
+        // 保证
         return save(memberReceiveAddressEntity);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    public Boolean updateById(@NotNull MemberReceiveAddressDto memberReceiveAddressDto) {
+    public Boolean updateById(MemberReceiveAddressDto memberReceiveAddressDto) {
+
+        Long memberReceiveAddressDtoId = memberReceiveAddressDto.getId();
+
         Long memberId = SecurityUtils.getCurrentUserId();
+
+        MemberReceiveAddressEntity one = lambdaQuery().eq(MemberReceiveAddressEntity::getId, memberReceiveAddressDtoId).eq(MemberReceiveAddressEntity::getMemberId, memberId).one();
+
+        if (Objects.isNull(one)) {
+            return false;
+        }
+
         MemberReceiveAddressEntity memberReceiveAddressEntity = BeanCopy.convert(memberReceiveAddressDto, MemberReceiveAddressEntity.class);
         memberReceiveAddressEntity.setMemberId(memberId);
         // 判断是否修改的是默认地址
@@ -72,7 +88,7 @@ public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAd
                 List<MemberReceiveAddressEntity> memberReceiveAddressEntityList = lambdaQuery().eq(MemberReceiveAddressEntity::getMemberId, SecurityUtils.getCurrentUserId()).list();
                 List<MemberReceiveAddressEntity> newMemberReceiveAddressEntityList = new ArrayList<>();
                 newMemberReceiveAddressEntityList.add(memberReceiveAddressEntity);
-
+                // 设置成非默认的
                 for (MemberReceiveAddressEntity receiveAddressEntity : memberReceiveAddressEntityList) {
                     if (!receiveAddressEntity.getId().equals(memberReceiveAddressId)) {
                         receiveAddressEntity.setDefaultStatus(false);
@@ -107,6 +123,7 @@ public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAd
 
     @Override
     public MemberReceiveAddressVo selectOne(Serializable id) {
+        // 只能获取会员的地址
         MemberReceiveAddressEntity memberReceiveAddressEntity = lambdaQuery()
                 .eq(MemberReceiveAddressEntity::getMemberId, SecurityUtils.getCurrentUserId())
                 .eq(MemberReceiveAddressEntity::getId, id).one();

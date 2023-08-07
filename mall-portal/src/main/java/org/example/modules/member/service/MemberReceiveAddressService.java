@@ -59,8 +59,18 @@ public interface MemberReceiveAddressService extends IService<MemberReceiveAddre
      */
     MemberReceiveAddressVo getReceiveAddressByMemberIdAndMemberReceiveAddressId(Long memberReceiveAddressId, Long memberId);
 
+    /**
+     * 通过主键查询单条数据
+     *
+     * @param id 主键
+     * @return 单条数据
+     */
     MemberReceiveAddressVo selectOne(Serializable id);
 
+    /**
+     * 获取全部地址
+     * @return /
+     */
     List<MemberReceiveAddressVo> selectAll();
 
 }
