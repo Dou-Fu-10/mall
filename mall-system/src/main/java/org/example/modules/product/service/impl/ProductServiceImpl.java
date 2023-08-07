@@ -54,7 +54,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     public Page<ProductVo> page(Page<ProductEntity> page, ProductDto productDto) {
         ProductEntity productEntity = BeanCopy.convert(productDto, ProductEntity.class);
         Page<ProductEntity> productEntityPage = page(page, new QueryWrapper<>(productEntity));
-        IPage<ProductVo> productVoIpage = productEntityPage.convert(product-> BeanCopy.convert(product, ProductVo.class));
+        IPage<ProductVo> productVoIpage = productEntityPage.convert(product -> BeanCopy.convert(product, ProductVo.class));
         List<ProductVo> productVoList = productVoIpage.getRecords();
 
         if (CollectionUtils.isEmpty(productVoList)) {

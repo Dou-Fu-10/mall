@@ -23,7 +23,7 @@ public interface ProductService extends IService<ProductEntity> {
     /**
      * 分页查询所有数据
      *
-     * @param page    分页对象
+     * @param page       分页对象
      * @param productDto 查询实体
      * @return 所有数据
      */
@@ -73,6 +73,7 @@ public interface ProductService extends IService<ProductEntity> {
 
     /**
      * 通过商品id列表 获取商品信息
+     *
      * @param productIds id列表
      * @return 获取商品信息
      */

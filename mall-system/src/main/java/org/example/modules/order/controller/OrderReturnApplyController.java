@@ -106,7 +106,7 @@ public class OrderReturnApplyController {
     @Operation(summary = "修改数据", description = "orderReturnApply::update")
     @PutMapping
     @PreAuthorize("@hasPermission.check('orderReturnApply::update')")
-    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class)  OrderReturnApplyDto orderReturnApply) {
+    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class) OrderReturnApplyDto orderReturnApply) {
         if (this.orderReturnApplyService.updateById(orderReturnApply)) {
             return ResponseEntity.ok("修改成功");
         }

@@ -87,7 +87,7 @@ public class PrizePoolServiceImpl extends ServiceImpl<PrizePoolMapper, PrizePool
         prizePoolEntityLambdaQueryWrapper.between(PrizePoolEntity::getCreateTime, firstDayOfMonth, lastDayOfMonth);
         // 获取 奖金池
         PrizePoolEntity prizePoolEntity = getOne(prizePoolEntityLambdaQueryWrapper);
-        if (Objects.isNull(prizePoolEntity)){
+        if (Objects.isNull(prizePoolEntity)) {
             throw new BaseRequestException("请联系管理员");
         }
         // 获取 商品奖金池百分比

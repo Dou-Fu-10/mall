@@ -1,24 +1,6 @@
 package org.example.modules.product.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
-import org.example.common.core.exception.BaseRequestException;
-import org.example.modules.product.entity.ProductCategoryAttributeRelationEntity;
-import org.example.modules.product.entity.dto.ProductCategoryAttributeRelationDto;
-import org.example.modules.product.service.ProductCategoryAttributeRelationService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.Serializable;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 /**
  * Created by Dou-Fu-10 2023-07-14 13:54:17
  *

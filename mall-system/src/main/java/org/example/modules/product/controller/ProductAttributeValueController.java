@@ -48,7 +48,7 @@ public class ProductAttributeValueController {
     @GetMapping
     @Operation(summary = "分页查询所有数据", description = "productAttributeValue::select")
     @PreAuthorize("@hasPermission.check('productAttributeValue::select')")
-    public ResponseEntity<Object> select(Page<ProductAttributeValueEntity> page, @Validated(ValidationDto.SelectPage.class)  ProductAttributeValueEntity productAttributeValue) {
+    public ResponseEntity<Object> select(Page<ProductAttributeValueEntity> page, @Validated(ValidationDto.SelectPage.class) ProductAttributeValueEntity productAttributeValue) {
         return ResponseEntity.ok(this.productAttributeValueService.page(page, new QueryWrapper<>(productAttributeValue)));
     }
 
@@ -74,7 +74,7 @@ public class ProductAttributeValueController {
     @PostMapping
     @Operation(summary = "新增数据", description = "productAttributeValue::insert")
     @PreAuthorize("@hasPermission.check('productAttributeValue::insert')")
-    public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class)  ProductAttributeValueDto productAttributeValue) {
+    public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class) ProductAttributeValueDto productAttributeValue) {
         if (this.productAttributeValueService.save(productAttributeValue)) {
             return ResponseEntity.ok("添加成功");
         }
@@ -91,7 +91,7 @@ public class ProductAttributeValueController {
     @PutMapping
     @Operation(summary = "修改数据", description = "productAttributeValue::update")
     @PreAuthorize("@hasPermission.check('productAttributeValue::update')")
-    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class)  ProductAttributeValueDto productAttributeValue) {
+    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class) ProductAttributeValueDto productAttributeValue) {
         if (this.productAttributeValueService.updateById(productAttributeValue)) {
             return ResponseEntity.ok("修改成功");
         }

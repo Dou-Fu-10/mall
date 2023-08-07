@@ -64,6 +64,7 @@ public interface ProductAttributeValueService extends IService<ProductAttributeV
      * @return 单条数据
      */
     ProductAttributeValueVo getByProductAttributeId(Serializable id);
+
     /**
      * 通过商品id 商品属性
      *

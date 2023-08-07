@@ -100,6 +100,7 @@ public class MemberController {
     public ResponseEntity<Object> parent() {
         return ResponseEntity.ok(this.memberService.parent());
     }
+
     /**
      * token续约
      *

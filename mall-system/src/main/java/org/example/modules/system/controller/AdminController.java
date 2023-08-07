@@ -13,7 +13,6 @@ import org.example.config.UpdatePassword;
 import org.example.modules.system.entity.dto.AdminDto;
 import org.example.modules.system.entity.vo.RoleVo;
 import org.example.modules.system.service.AdminService;
-import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

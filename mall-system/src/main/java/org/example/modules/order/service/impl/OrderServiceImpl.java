@@ -59,7 +59,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
 
     @Override
     public OrderVo getOrderById(Serializable id) {
-        if (Objects.isNull(id)){
+        if (Objects.isNull(id)) {
             return null;
         }
         OrderEntity orderEntity = getById(id);

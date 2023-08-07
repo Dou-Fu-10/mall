@@ -76,8 +76,10 @@ public interface ProductAttributeService extends IService<ProductAttributeEntity
      * @return 单条数据
      */
     ProductAttributeVo getByProductAttributeId(Serializable id);
+
     /**
      * 通过商品id属性列表 获取商品属性信息
+     *
      * @param productAttributeIds 商品id属性列表
      * @return 获取商品属性信息
      */

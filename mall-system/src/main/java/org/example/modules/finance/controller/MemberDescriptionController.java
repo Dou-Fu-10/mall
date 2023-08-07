@@ -10,8 +10,6 @@ import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.finance.entity.MemberDescriptionEntity;
 import org.example.modules.finance.entity.dto.MemberDescriptionDto;
 import org.example.modules.finance.service.MemberDescriptionService;
-import org.example.security.annotaion.rest.AnonymousDeleteMapping;
-import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

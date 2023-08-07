@@ -10,7 +10,6 @@ import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.member.entity.MemberCollectionEntity;
 import org.example.modules.member.entity.dto.MemberCollectionDto;
 import org.example.modules.member.service.MemberCollectionService;
-import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.utils.SecurityUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

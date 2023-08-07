@@ -1,6 +1,5 @@
 package org.example.modules.finance.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.finance.entity.PrizePoolEntity;
 import org.example.modules.finance.entity.dto.PrizePoolDto;
@@ -46,6 +45,7 @@ public interface PrizePoolService extends IService<PrizePoolEntity> {
      * @return 金额
      */
     BigDecimal getMemberFees();
+
     /**
      * 查询单月奖金池数据
      *

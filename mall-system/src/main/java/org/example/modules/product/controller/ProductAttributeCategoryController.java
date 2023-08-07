@@ -74,7 +74,7 @@ public class ProductAttributeCategoryController {
     @PostMapping
     @Operation(summary = "新增数据", description = "productAttributeCategory::insert")
     @PreAuthorize("@hasPermission.check('productAttributeCategory::insert')")
-    public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class)  ProductAttributeCategoryDto productAttributeCategory) {
+    public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class) ProductAttributeCategoryDto productAttributeCategory) {
         if (this.productAttributeCategoryService.save(productAttributeCategory)) {
             return ResponseEntity.ok("添加成功");
         }
@@ -90,7 +90,7 @@ public class ProductAttributeCategoryController {
     @PutMapping
     @Operation(summary = "修改数据", description = "productAttributeCategory::update")
     @PreAuthorize("@hasPermission.check('productAttributeCategory::update')")
-    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class)  ProductAttributeCategoryDto productAttributeCategory) {
+    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class) ProductAttributeCategoryDto productAttributeCategory) {
         if (this.productAttributeCategoryService.updateById(productAttributeCategory)) {
             return ResponseEntity.ok("修改成功");
         }

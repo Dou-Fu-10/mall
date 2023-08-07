@@ -42,6 +42,7 @@ public interface ProductAttributeCategoryService extends IService<ProductAttribu
      * @return 分类信息
      */
     ProductAttributeCategoryEntity getByProductAttributeCategoryId(Long id);
+
     /**
      * 通过分类id查询分类信息
      *
@@ -49,6 +50,7 @@ public interface ProductAttributeCategoryService extends IService<ProductAttribu
      * @return 分类信息
      */
     ProductAttributeCategoryVo getByProductAttributeCategoryId(Serializable id);
+
     /**
      * 新增数据
      *

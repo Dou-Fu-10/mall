@@ -41,6 +41,7 @@ public interface MemberService extends IService<MemberEntity> {
      * @return 所有数据
      */
     Page<MemberVo> page(Page<MemberEntity> page, MemberDto memberDto);
+
     /**
      * 通过主键查询单条数据
      *

@@ -60,7 +60,7 @@ public class ProductAttributeController {
     @GetMapping("/getProductAttributeByProductAttributeCategoryId")
     @Operation(summary = "通过商品属性分类id 查询商品属性 分页后所有数据", description = "productAttribute::update")
     @PreAuthorize("@hasPermission.check('productAttribute::update')")
-    public ResponseEntity<Object> getProductAttributeByProductAttributeCategoryId(Page<ProductAttributeEntity> page,  @Validated(ValidationDto.SelectList.class) ProductAttributeDto productAttribute) {
+    public ResponseEntity<Object> getProductAttributeByProductAttributeCategoryId(Page<ProductAttributeEntity> page, @Validated(ValidationDto.SelectList.class) ProductAttributeDto productAttribute) {
         return ResponseEntity.ok(this.productAttributeService.getProductAttributeByProductAttributeCategoryId(page, productAttribute));
     }
 
@@ -86,7 +86,7 @@ public class ProductAttributeController {
     @PostMapping
     @Operation(summary = "新增数据", description = "productAttribute::insert")
     @PreAuthorize("@hasPermission.check('productAttribute::insert')")
-    public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class)  ProductAttributeDto productAttribute) {
+    public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class) ProductAttributeDto productAttribute) {
         if (this.productAttributeService.save(productAttribute)) {
             return ResponseEntity.ok("添加成功");
         }
@@ -102,7 +102,7 @@ public class ProductAttributeController {
     @PutMapping
     @Operation(summary = "修改数据", description = "productAttribute::update")
     @PreAuthorize("@hasPermission.check('productAttribute::update')")
-    public ResponseEntity<Object> update(@RequestBody  @Validated(ValidationDto.Update.class) ProductAttributeDto productAttribute) {
+    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class) ProductAttributeDto productAttribute) {
         if (this.productAttributeService.updateById(productAttribute)) {
             return ResponseEntity.ok("修改成功");
         }

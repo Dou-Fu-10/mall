@@ -47,6 +47,7 @@ public interface SkuStockService extends IService<SkuStockEntity> {
      * @return sku列表
      */
     List<SkuStockVo> getSkuStockByProductId(Long productId);
+
     /**
      * 通过商品id列表 获取 sku列表
      *
@@ -54,6 +55,7 @@ public interface SkuStockService extends IService<SkuStockEntity> {
      * @return sku列表
      */
     List<SkuStockVo> getSkuStockByProductIds(Set<Long> productIds);
+
     /**
      * 新增数据
      *
