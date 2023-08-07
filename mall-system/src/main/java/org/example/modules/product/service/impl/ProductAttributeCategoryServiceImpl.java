@@ -1,6 +1,7 @@
 package org.example.modules.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
@@ -9,7 +10,6 @@ import org.example.common.core.utils.BeanCopy;
 import org.example.common.core.utils.StringUtils;
 import org.example.modules.product.entity.ProductAttributeCategoryEntity;
 import org.example.modules.product.entity.dto.ProductAttributeCategoryDto;
-import org.example.modules.product.entity.dto.ProductAttributeDto;
 import org.example.modules.product.entity.vo.ProductAttributeCategoryVo;
 import org.example.modules.product.entity.vo.ProductAttributeVo;
 import org.example.modules.product.mapper.ProductAttributeCategoryMapper;
@@ -18,8 +18,8 @@ import org.example.modules.product.service.ProductAttributeService;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 11:03:43
@@ -37,13 +37,14 @@ public class ProductAttributeCategoryServiceImpl extends ServiceImpl<ProductAttr
     @Override
     public Page<List<ProductAttributeCategoryVo>> page(Page<ProductAttributeCategoryEntity> page, ProductAttributeCategoryDto productAttributeCategory) {
         ProductAttributeCategoryEntity convert = BeanCopy.convert(productAttributeCategory, ProductAttributeCategoryEntity.class);
+        // 获取全部的属性分类
         Page<ProductAttributeCategoryEntity> productAttributeCategoryEntityPage = page(page, new QueryWrapper<>(convert));
         return (Page) productAttributeCategoryEntityPage.convert(productAttributeCategoryEntity -> BeanCopy.convert(productAttributeCategoryEntity, ProductAttributeCategoryVo.class));
     }
 
     @Override
     public ProductAttributeCategoryEntity getByProductAttributeCategoryName(String productAttributeCategory) {
-        if (StringUtils.isBlank(productAttributeCategory)){
+        if (StringUtils.isBlank(productAttributeCategory)) {
             throw new BaseRequestException("参数有误");
         }
         return lambdaQuery().eq(ProductAttributeCategoryEntity::getName, productAttributeCategory).one();
@@ -51,7 +52,7 @@ public class ProductAttributeCategoryServiceImpl extends ServiceImpl<ProductAttr
 
     @Override
     public ProductAttributeCategoryEntity getByProductAttributeCategoryId(Long id) {
-        if (Objects.isNull(id)){
+        if (Objects.isNull(id)) {
             throw new BaseRequestException("参数有误");
         }
         return lambdaQuery().eq(ProductAttributeCategoryEntity::getId, id).one();
@@ -59,7 +60,7 @@ public class ProductAttributeCategoryServiceImpl extends ServiceImpl<ProductAttr
 
     @Override
     public ProductAttributeCategoryVo getByProductAttributeCategoryId(Serializable id) {
-        if (Objects.isNull(id)){
+        if (Objects.isNull(id)) {
             throw new BaseRequestException("参数有误");
         }
         ProductAttributeCategoryEntity productAttributeCategoryEntity = getById(id);
@@ -81,21 +82,35 @@ public class ProductAttributeCategoryServiceImpl extends ServiceImpl<ProductAttr
     public List<ProductAttributeCategoryVo> getListWithAttr() {
         // 获取商品属性分类
         List<ProductAttributeCategoryEntity> productAttributeCategoryEntityList = list();
-        // 转换成vo
         List<ProductAttributeCategoryVo> productAttributeCategoryVoList = BeanCopy.copytList(productAttributeCategoryEntityList, ProductAttributeCategoryVo.class);
-        // 遍历商品属性分类
-        for (ProductAttributeCategoryVo productAttributeCategoryVo : productAttributeCategoryVoList) {
-            // 查询商品属性分类下的商品属性
-            ProductAttributeDto productAttributeDto = new ProductAttributeDto();
-            productAttributeDto.setProductAttributeCategoryId(productAttributeCategoryVo.getId());
-
-            Page<ProductAttributeVo> byProductAttributeCategoryId = productAttributeService.getProductAttributeByProductAttributeCategoryId(new Page<>(1, 500), productAttributeDto);
-            // 获取到商品属性分类下的 商品属性
-            List<ProductAttributeVo> records = byProductAttributeCategoryId.getRecords();
-            // 简历父子关系
-            productAttributeCategoryVo.setProductAttributeVoList(records);
+        // 属性分类为空即返回
+        if (CollectionUtils.isEmpty(productAttributeCategoryVoList)) {
+            return new ArrayList<>();
         }
+        Set<Long> productAttributeCategoryId = productAttributeCategoryVoList.stream().map(ProductAttributeCategoryVo::getId).collect(Collectors.toSet());
+        // 通过属性分类id 查询属性
+        List<ProductAttributeVo> productAttributeVoList = productAttributeService.getByProductAttributeCategoryIds(productAttributeCategoryId);
+        Map<Long, List<ProductAttributeVo>> longListMap = longListMap(productAttributeVoList);
+        // 将属性分配到属性分类下
+        productAttributeCategoryVoList.forEach(productAttributeCategoryVo -> {
+            Long productAttributeCategoryVoId = productAttributeCategoryVo.getId();
+            if (longListMap.containsKey(productAttributeCategoryVoId)) {
+                productAttributeCategoryVo.setProductAttributeVoList(longListMap.get(productAttributeCategoryVoId));
+            }
+        });
         return productAttributeCategoryVoList;
+    }
+
+    private Map<Long, List<ProductAttributeVo>> longListMap(List<ProductAttributeVo> productAttributeVoList) {
+        if (CollectionUtils.isEmpty(productAttributeVoList)) {
+            return new HashMap<>();
+        }
+        Map<Long, List<ProductAttributeVo>> longListMap = new HashMap<>();
+        productAttributeVoList.forEach(productAttributeVo -> {
+            Long productAttributeCategoryId = productAttributeVo.getProductAttributeCategoryId();
+            longListMap.computeIfAbsent(productAttributeCategoryId, k -> new ArrayList<>()).add(productAttributeVo);
+        });
+        return longListMap;
     }
 
     @Override

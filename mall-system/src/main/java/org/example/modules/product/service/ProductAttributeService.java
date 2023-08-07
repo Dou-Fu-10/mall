@@ -6,6 +6,7 @@ import org.example.modules.product.entity.ProductAttributeEntity;
 import org.example.modules.product.entity.dto.ProductAttributeDto;
 import org.example.modules.product.entity.vo.ProductAttributeVo;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
@@ -32,7 +33,7 @@ public interface ProductAttributeService extends IService<ProductAttributeEntity
      * @param productAttribute 实体对象
      * @return 修改结果
      */
-    boolean updateById(ProductAttributeDto productAttribute);
+    Boolean updateById(ProductAttributeDto productAttribute);
 
     /**
      * 分页查询所有数据
@@ -59,4 +60,26 @@ public interface ProductAttributeService extends IService<ProductAttributeEntity
      * @return 属性
      */
     List<ProductAttributeVo> findListByIds(Set<Long> productAttributeIds);
+
+    /**
+     * 通过属性分类id列表查询 属性
+     *
+     * @param productAttributeCategoryId 属性分类id
+     * @return 属性
+     */
+    List<ProductAttributeVo> getByProductAttributeCategoryIds(Set<Long> productAttributeCategoryId);
+
+    /**
+     * 通过主键查询单条数据
+     *
+     * @param id 主键
+     * @return 单条数据
+     */
+    ProductAttributeVo getByProductAttributeId(Serializable id);
+    /**
+     * 通过商品id属性列表 获取商品属性信息
+     * @param productAttributeIds 商品id属性列表
+     * @return 获取商品属性信息
+     */
+    List<ProductAttributeVo> getByIds(Set<Long> productAttributeIds);
 }

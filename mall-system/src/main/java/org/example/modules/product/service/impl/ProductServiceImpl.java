@@ -190,10 +190,22 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
 
     @Override
     public Boolean updateAudit(Long id, Boolean audit) {
+        if (Objects.isNull(id) || Objects.isNull(audit)) {
+            throw new BaseRequestException("参数有误");
+        }
         ProductEntity productEntity = new ProductEntity();
         productEntity.setVerifyStatus(audit);
         productEntity.setId(id);
         return productEntity.updateById();
+    }
+
+    @Override
+    public List<ProductVo> getByIds(Set<Long> productIds) {
+        if (CollectionUtils.isEmpty(productIds)) {
+            throw new BaseRequestException("参数有误");
+        }
+        List<ProductEntity> productEntityList = listByIds(productIds);
+        return BeanCopy.copytList(productEntityList, ProductVo.class);
     }
 }
 

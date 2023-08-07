@@ -3,21 +3,16 @@ package org.example.modules.product.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.product.entity.ProductAttributeEntity;
 import org.example.modules.product.entity.dto.ProductAttributeDto;
 import org.example.modules.product.service.ProductAttributeService;
-import org.example.security.annotaion.rest.AnonymousDeleteMapping;
-import org.example.security.annotaion.rest.AnonymousGetMapping;
-import org.example.security.annotaion.rest.AnonymousPostMapping;
-import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -43,13 +38,14 @@ public class ProductAttributeController {
     /**
      * 分页查询所有数据
      *
-     * @param page             分页对象
-     * @param productAttribute 查询实体
+     * @param page 分页对象
      * @return 所有数据
      */
-    @AnonymousGetMapping
-    public ResponseEntity<Object> select(Page<ProductAttributeEntity> page, ProductAttributeDto productAttribute) {
-        return ResponseEntity.ok(this.productAttributeService.page(page, productAttribute));
+    @GetMapping
+    @Operation(summary = "修改数据", description = "productAttribute::select")
+    @PreAuthorize("@hasPermission.check('productAttribute::select')")
+    public ResponseEntity<Object> select(Page<ProductAttributeEntity> page) {
+        return ResponseEntity.ok(this.productAttributeService.page(page, new ProductAttributeDto()));
     }
 
     /**
@@ -59,7 +55,9 @@ public class ProductAttributeController {
      * @param productAttribute 查询实体
      * @return 所有数据
      */
-    @AnonymousGetMapping("/getProductAttributeByProductAttributeCategoryId")
+    @GetMapping("/getProductAttributeByProductAttributeCategoryId")
+    @Operation(summary = "通过商品属性分类id 查询商品属性 分页后所有数据", description = "productAttribute::update")
+    @PreAuthorize("@hasPermission.check('productAttribute::update')")
     public ResponseEntity<Object> getProductAttributeByProductAttributeCategoryId(Page<ProductAttributeEntity> page, ProductAttributeDto productAttribute) {
         return ResponseEntity.ok(this.productAttributeService.getProductAttributeByProductAttributeCategoryId(page, productAttribute));
     }
@@ -70,9 +68,11 @@ public class ProductAttributeController {
      * @param id 主键
      * @return 单条数据
      */
-    @AnonymousGetMapping("{id}")
+    @GetMapping("{id}")
+    @Operation(summary = "修改数据", description = "productAttribute::selectOne")
+    @PreAuthorize("@hasPermission.check('productAttribute::selectOne')")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return ResponseEntity.ok(this.productAttributeService.getById(id));
+        return ResponseEntity.ok(this.productAttributeService.getByProductAttributeId(id));
     }
 
     /**
@@ -81,7 +81,9 @@ public class ProductAttributeController {
      * @param productAttribute 实体对象
      * @return 新增结果
      */
-    @AnonymousPostMapping
+    @PostMapping
+    @Operation(summary = "修改数据", description = "productAttribute::insert")
+    @PreAuthorize("@hasPermission.check('productAttribute::insert')")
     public ResponseEntity<Object> insert(@RequestBody ProductAttributeDto productAttribute) {
         if (this.productAttributeService.save(productAttribute)) {
             return ResponseEntity.ok("添加成功");
@@ -95,7 +97,9 @@ public class ProductAttributeController {
      * @param productAttribute 实体对象
      * @return 修改结果
      */
-    @AnonymousPutMapping
+    @PutMapping
+    @Operation(summary = "修改数据", description = "productAttribute::update")
+    @PreAuthorize("@hasPermission.check('productAttribute::update')")
     public ResponseEntity<Object> update(@RequestBody ProductAttributeDto productAttribute) {
         if (this.productAttributeService.updateById(productAttribute)) {
             return ResponseEntity.ok("修改成功");
@@ -109,12 +113,18 @@ public class ProductAttributeController {
      * @param idList 主键结合
      * @return 删除结果
      */
-    @AnonymousDeleteMapping
+    @DeleteMapping
+    @Operation(summary = "修改数据", description = "productAttribute::remove")
+    @PreAuthorize("@hasPermission.check('productAttribute::remove')")
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");
         }
-        return ResponseEntity.ok(this.productAttributeService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败");
+        Set<Long> ids = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
+        if (this.productAttributeService.removeByIds(ids)) {
+            return ResponseEntity.ok("删除成功");
+        }
+        throw new BaseRequestException("删除失败");
     }
 }
 

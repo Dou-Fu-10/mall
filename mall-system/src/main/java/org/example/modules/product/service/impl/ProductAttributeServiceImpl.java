@@ -2,16 +2,22 @@ package org.example.modules.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
+import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
+import org.example.modules.product.entity.ProductAttributeCategoryEntity;
 import org.example.modules.product.entity.ProductAttributeEntity;
 import org.example.modules.product.entity.dto.ProductAttributeDto;
 import org.example.modules.product.entity.vo.ProductAttributeVo;
 import org.example.modules.product.mapper.ProductAttributeMapper;
+import org.example.modules.product.service.ProductAttributeCategoryService;
 import org.example.modules.product.service.ProductAttributeService;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -25,16 +31,34 @@ import java.util.Set;
  */
 @Service("productAttributeService")
 public class ProductAttributeServiceImpl extends ServiceImpl<ProductAttributeMapper, ProductAttributeEntity> implements ProductAttributeService {
+    @Resource
+    private ProductAttributeCategoryService productAttributeCategoryService;
 
     @Override
     public Boolean save(ProductAttributeDto productAttribute) {
+        Long productAttributeCategoryId = productAttribute.getProductAttributeCategoryId();
+        if (Objects.isNull(productAttributeCategoryService)) {
+            throw new BaseRequestException("请输入商品属性分类");
+        }
+        ProductAttributeCategoryEntity productAttributeCategoryEntity = productAttributeCategoryService.getByProductAttributeCategoryId(productAttributeCategoryId);
+        if (Objects.isNull(productAttributeCategoryEntity)) {
+            throw new BaseRequestException("商品属性分类错误");
+        }
         ProductAttributeEntity convert = BeanCopy.convert(productAttribute, ProductAttributeEntity.class);
         // TODO 校验数据
         return save(convert);
     }
 
     @Override
-    public boolean updateById(ProductAttributeDto productAttribute) {
+    public Boolean updateById(ProductAttributeDto productAttribute) {
+        Long productAttributeCategoryId = productAttribute.getProductAttributeCategoryId();
+        if (Objects.isNull(productAttributeCategoryService)) {
+            throw new BaseRequestException("请输入商品属性分类");
+        }
+        ProductAttributeCategoryEntity productAttributeCategoryEntity = productAttributeCategoryService.getByProductAttributeCategoryId(productAttributeCategoryId);
+        if (Objects.isNull(productAttributeCategoryEntity)) {
+            throw new BaseRequestException("商品属性分类错误");
+        }
         ProductAttributeEntity convert = BeanCopy.convert(productAttribute, ProductAttributeEntity.class);
         // TODO 校验数据
         return updateById(convert);
@@ -65,6 +89,31 @@ public class ProductAttributeServiceImpl extends ServiceImpl<ProductAttributeMap
     public List<ProductAttributeVo> findListByIds(Set<Long> productAttributeIds) {
         List<ProductAttributeEntity> productAttributeEntityList = listByIds(productAttributeIds);
         return BeanCopy.copytList(productAttributeEntityList, ProductAttributeVo.class);
+    }
+
+    @Override
+    public List<ProductAttributeVo> getByProductAttributeCategoryIds(Set<Long> productAttributeCategoryId) {
+        List<ProductAttributeEntity> productAttributeEntityList = lambdaQuery().in(ProductAttributeEntity::getProductAttributeCategoryId, productAttributeCategoryId).list();
+        return BeanCopy.copytList(productAttributeEntityList, ProductAttributeVo.class);
+    }
+
+    @Override
+    public ProductAttributeVo getByProductAttributeId(Serializable id) {
+        if (Objects.isNull(id)) {
+            throw new BaseRequestException("参数错误");
+        }
+        ProductAttributeEntity productAttributeEntity = getById(id);
+        return BeanCopy.convert(productAttributeEntity, ProductAttributeVo.class);
+    }
+
+    @Override
+    public List<ProductAttributeVo> getByIds(Set<Long> productAttributeIds) {
+        if (CollectionUtils.isEmpty(productAttributeIds)) {
+            throw new BaseRequestException("参数有误");
+        }
+        List<ProductAttributeEntity> productAttributeEntityList = listByIds(productAttributeIds);
+        return BeanCopy.copytList(productAttributeEntityList, ProductAttributeVo.class);
+
     }
 }
 

@@ -117,8 +117,8 @@ public class ProductAttributeCategoryController {
      * @return 属性
      */
     @GetMapping(value = "/list/withAttr")
-    @Operation(summary = "获取所有商品属性分类及其下属性", description = "productAttributeCategory::getListWithAttr")
-    @PreAuthorize("@hasPermission.check('productAttributeCategory::getListWithAttr')")
+    @Operation(summary = "获取所有商品属性分类及其下属性", description = "productAttributeCategory::listWithAttr")
+    @PreAuthorize("@hasPermission.check('productAttributeCategory::listWithAttr')")
     public ResponseEntity<List<ProductAttributeCategoryVo>> getListWithAttr() {
         return ResponseEntity.ok(productAttributeCategoryService.getListWithAttr());
     }

@@ -5,6 +5,7 @@ import org.example.modules.product.entity.ProductAttributeValueEntity;
 import org.example.modules.product.entity.dto.ProductAttributeValueDto;
 import org.example.modules.product.entity.vo.ProductAttributeValueVo;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -54,4 +55,12 @@ public interface ProductAttributeValueService extends IService<ProductAttributeV
      * @return 新增结果
      */
     Boolean saveOrUpdate(List<ProductAttributeValueDto> productAttributeValue);
+
+    /**
+     * 通过主键查询单条数据
+     *
+     * @param id 主键
+     * @return 单条数据
+     */
+    ProductAttributeValueVo getByProductAttributeId(Serializable id);
 }

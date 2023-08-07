@@ -8,6 +8,8 @@ import org.example.modules.product.entity.dto.ProductDtoParam;
 import org.example.modules.product.entity.vo.ProductVo;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -68,4 +70,11 @@ public interface ProductService extends IService<ProductEntity> {
      * @return String
      */
     Boolean updateAudit(Long id, Boolean audit);
+
+    /**
+     * 通过商品id列表 获取商品信息
+     * @param productIds id列表
+     * @return 获取商品信息
+     */
+    List<ProductVo> getByIds(Set<Long> productIds);
 }
