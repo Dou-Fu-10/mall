@@ -3,7 +3,6 @@ package org.example.modules.product.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import org.example.modules.product.entity.ProductCategoryEntity;
 import org.example.modules.product.serveice.ProductCategoryService;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.springframework.http.ResponseEntity;

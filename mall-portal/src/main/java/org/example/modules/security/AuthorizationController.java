@@ -7,14 +7,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.config.AuthMember;
-import org.example.modules.member.entity.dto.MemberDto;
 import org.example.modules.member.service.MemberService;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
@@ -40,18 +41,23 @@ public class AuthorizationController {
     /**
      * 用户注册
      *
-     * @param memberDto 注册用户
+     * @param authMember 注册用户
      * @return 是否成功
      */
     @Operation(summary = "注册", description = "用户注册")
     @AnonymousPostMapping(value = "/register")
-    public ResponseEntity<String> register(@NotNull @Validated @RequestBody MemberDto memberDto) {
-        memberDto.setPassword("123456");
-        if (memberService.register(memberDto)) {
+    public ResponseEntity<String> register(@NotNull @Validated @RequestBody AuthMember authMember) {
+        if (memberService.register(authMember)) {
             return ResponseEntity.ok("注册成功");
 
         }
         throw new BaseRequestException("注册失败");
+    }
+
+    @Operation(summary = "获取验证码")
+    @AnonymousGetMapping(value = "/captcha")
+    public ResponseEntity<Object> getCode() {
+        return ResponseEntity.ok(memberService.generateVerificationCode());
     }
 
     /**

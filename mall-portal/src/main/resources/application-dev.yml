@@ -5,11 +5,11 @@ spring:
         enabled: false
       timeout: 5000
       database: ${REDIS_DB:0}
-      host: ${REDIS_HOST:192.168.1.100}
+      host: ${REDIS_HOST:192.168.100.100}
       port: ${REDIS_PORT:6379}
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.1.100:3306/mall?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
+    url: jdbc:mysql://192.168.100.100:3306/mall?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
     username: root
     password: root
     druid:
@@ -71,7 +71,7 @@ mybatis-plus:
 
 minio:
   # 文件地址
-  endpoint: http://192.168.1.100:9000
+  endpoint: http://192.168.100.100:9000
   # key
   accessKey: 7ET58ISWWL78V1HBYN3W
   # 密钥

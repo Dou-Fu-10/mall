@@ -1,8 +1,11 @@
 package org.example.modules.cartItem.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.modules.product.entity.vo.ProductVo;
+import org.example.modules.product.entity.vo.SkuStockVo;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -25,6 +28,7 @@ public class CartItemVo {
     /**
      * 商品ID
      */
+    @JsonIgnore
     private Long productId;
     /**
      * 商品SKUid
@@ -33,16 +37,13 @@ public class CartItemVo {
     /**
      * 商品分类
      */
+    @JsonIgnore
     private Long productCategoryId;
     /**
      * 会员id
      */
+    @JsonIgnore
     private Long memberId;
-
-    /**
-     * 商品销售属性:[{"key":"颜色","value":"颜色"},{"key":"容量","value":"4G"}]
-     */
-    private String productAttr;
     /**
      * 商品编码
      */
@@ -52,45 +53,36 @@ public class CartItemVo {
      */
     private Integer quantity;
     /**
-     * 添加到购物车的价格
+     * 添加到购物车的商品单价
      */
     private BigDecimal price;
     /**
-     * 商品主图
-     */
-    private String productPic;
-    /**
-     * 商品名称
-     */
-    private String productName;
-    /**
-     * 商品副标题（卖点）
-     */
-    private String productSubTitle;
-    /**
-     * 商品sku条码
-     */
-    private String productSkuCode;
-    /**
      * 会员昵称
      */
+    @JsonIgnore
     private String memberNickname;
     /**
      * 创建时间
      */
+    @JsonIgnore
     private Date createTime;
     /**
      * 修改时间
      */
+    @JsonIgnore
     private Date updateTime;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
+    @JsonIgnore
     private Integer deleteFlag;
     /**
      * 剩余库存
      */
     private Integer realStock;
+
+    private ProductVo product;
+    private SkuStockVo skuStock;
 
 }
 

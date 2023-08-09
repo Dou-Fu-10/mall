@@ -3,27 +3,20 @@ package org.example.modules.cartItem.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.cartItem.entity.CartItemEntity;
 import org.example.modules.cartItem.entity.dto.AddCartItemDto;
-import org.example.modules.cartItem.entity.dto.CartItemDto;
 import org.example.modules.cartItem.serveice.CartItemService;
-import org.example.security.annotaion.rest.AnonymousDeleteMapping;
-import org.example.security.annotaion.rest.AnonymousGetMapping;
-import org.example.security.annotaion.rest.AnonymousPostMapping;
 import org.example.security.utils.SecurityUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -51,20 +44,10 @@ public class CartItemController {
      * @param page 分页对象
      * @return 所有数据
      */
-    @AnonymousGetMapping
+    @Operation(summary = "分页查询所有数据")
+    @GetMapping
     public ResponseEntity<Object> select(Page<CartItemEntity> page) {
         return ResponseEntity.ok(this.cartItemService.page(page));
-    }
-
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-//    @AnonymousGetMapping("{id}")
-    public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return ResponseEntity.ok(this.cartItemService.getById(id));
     }
 
     /**
@@ -73,7 +56,8 @@ public class CartItemController {
      * @param cartItem 实体对象
      * @return 新增结果
      */
-    @AnonymousPostMapping
+    @Operation(summary = "新增数据")
+    @PostMapping
     public ResponseEntity<String> insert(@RequestBody AddCartItemDto cartItem) {
         if (this.cartItemService.save(cartItem)) {
             return ResponseEntity.ok("添加成功");
@@ -83,14 +67,16 @@ public class CartItemController {
     }
 
     /**
-     * 修改数据
+     * 修改数量
      *
-     * @param cartItem 实体对象
+     * @param id       修改数量id
+     * @param quantity 修改数量
      * @return 修改结果
      */
-//    @AnonymousPutMapping
-    public ResponseEntity<String> update(@RequestBody CartItemDto cartItem) {
-        if (this.cartItemService.updateById(cartItem)) {
+    @Operation(summary = "修改数量")
+    @PutMapping("/modifiedQuantity/{id}")
+    public ResponseEntity<String> modifiedQuantity(@PathVariable("id") Long id, @RequestParam("quantity") Integer quantity) {
+        if (this.cartItemService.modifiedQuantity(id, quantity)) {
             return ResponseEntity.ok("修改成功");
         }
         // 修改成自定义的 错误类型
@@ -103,13 +89,15 @@ public class CartItemController {
      * @param idList 主键结合
      * @return 删除结果
      */
-    @AnonymousDeleteMapping
+    @Operation(summary = "删除数据")
+    @DeleteMapping
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");
         }
         idList = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
+        // 要删除的
         List<CartItemEntity> cartItemEntityList = idList.stream().map(id -> new CartItemEntity(id, SecurityUtils.getCurrentUserId())).collect(Collectors.toList());
         if (this.cartItemService.removeByIds(cartItemEntityList)) {
             return ResponseEntity.ok("删除成功");

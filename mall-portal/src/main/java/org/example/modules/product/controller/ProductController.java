@@ -37,12 +37,12 @@ public class ProductController {
     /**
      * 分页查询所有数据
      *
-     * @param page    分页对象
+     * @param page       分页对象
      * @param productDto 查询实体
      * @return 所有数据
      */
     @AnonymousGetMapping
-    public ResponseEntity<Object> select(Page<ProductEntity> page,@Validated(ValidationDto.SelectPage.class) ProductDto productDto) {
+    public ResponseEntity<Object> select(Page<ProductEntity> page, @Validated(ValidationDto.SelectPage.class) ProductDto productDto) {
         return ResponseEntity.ok(productService.page(page, productDto));
     }
 

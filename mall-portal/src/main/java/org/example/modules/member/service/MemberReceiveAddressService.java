@@ -69,6 +69,7 @@ public interface MemberReceiveAddressService extends IService<MemberReceiveAddre
 
     /**
      * 获取全部地址
+     *
      * @return /
      */
     List<MemberReceiveAddressVo> selectAll();

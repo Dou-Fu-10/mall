@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.product.entity.ProductEntity;
 import org.example.modules.product.entity.dto.ProductDto;
@@ -44,6 +45,8 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     @Override
     public ProductVo getByProductId(Serializable id) {
         ProductEntity productEntity = getById(id);
+        productEntity.setVerifyStatus(true);
+        productEntity.setPublishStatus(true);
         return BeanCopy.convert(productEntity, ProductVo.class);
     }
 
@@ -70,6 +73,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
 
     @Override
     public Page<ProductVo> search(Page<ProductEntity> page, ProductDto product) {
+        // TODO 不可用
         Page<ProductEntity> productVoPage = page(page, new QueryWrapper<>(BeanCopy.convert(product, ProductEntity.class)));
         IPage<ProductVo> publicProductVoPage = productVoPage.convert(productVo -> BeanCopy.convert(productVo, ProductVo.class));
         return (Page) publicProductVoPage;
@@ -81,12 +85,34 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
             return new ArrayList<>();
         }
         ProductEntity productEntity = new ProductEntity();
+        // 审核状态：0->未审核；1->审核通过 (0=false，1=true)
+        // 确保商品已审核
         productEntity.setVerifyStatus(true);
+        // 上架状态：0->下架；1->上架 (0=false，1=true)
+        // 确保商品以上架
         productEntity.setPublishStatus(true);
         LambdaQueryWrapper<ProductEntity> productEntityList = new LambdaQueryWrapper<>(productEntity);
         productEntityList.in(ProductEntity::getId, productIds);
         List<ProductEntity> productEntities = list(productEntityList);
         return BeanCopy.copytList(productEntities, ProductVo.class);
+    }
+
+    @Override
+    public List<ProductVo> getByProductIds(Set<Long> productIds) {
+        if (CollectionUtils.isEmpty(productIds)) {
+            throw new BaseRequestException("获取商品失败");
+        }
+        LambdaQueryWrapper<ProductEntity> productEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        // 审核状态：0->未审核；1->审核通过 (0=false，1=true)
+        // 确保商品已审核
+        productEntityLambdaQueryWrapper.eq(ProductEntity::getVerifyStatus, true);
+        // 上架状态：0->下架；1->上架 (0=false，1=true)
+        // 确保商品以上架
+        productEntityLambdaQueryWrapper.eq(ProductEntity::getPublishStatus, true);
+
+        productEntityLambdaQueryWrapper.in(ProductEntity::getId, productIds);
+        // 获取已上架的商品并返回
+        return BeanCopy.copytList(list(productEntityLambdaQueryWrapper), ProductVo.class);
     }
 
     @Override

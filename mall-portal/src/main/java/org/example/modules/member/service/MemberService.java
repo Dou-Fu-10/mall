@@ -80,10 +80,10 @@ public interface MemberService extends IService<MemberEntity> {
     /**
      * 注册功能
      *
-     * @param memberDto 注册用户
-     * @return Boolean
+     * @param authMember 注册用户
+     * @return authMember
      */
-    Boolean register(MemberDto memberDto);
+    Boolean register(AuthMember authMember);
 
     /**
      * 获取下级
@@ -99,9 +99,17 @@ public interface MemberService extends IService<MemberEntity> {
      * @return 获取上级
      */
     MemberVo parent();
+
     /**
      * 退出登录
      */
     void logout();
+
+    /**
+     * 验证码
+     *
+     * @return /
+     */
+    Map<String, Object> generateVerificationCode();
 
 }

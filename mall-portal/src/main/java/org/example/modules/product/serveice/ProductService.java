@@ -31,7 +31,7 @@ public interface ProductService extends IService<ProductEntity> {
     /**
      * 分页查询所有数据
      *
-     * @param page    分页对象
+     * @param page       分页对象
      * @param productDto 查询实体
      * @return 所有数据
      */
@@ -54,4 +54,12 @@ public interface ProductService extends IService<ProductEntity> {
      * @return 商品信息
      */
     List<ProductVo> getByIdsInVerifyStatusAndPublishStatus(Set<Long> productIds);
+
+    /**
+     * 通过商品id 列表获取商品
+     *
+     * @param productIds 商品id列表
+     * @return 商品列表
+     */
+    List<ProductVo> getByProductIds(Set<Long> productIds);
 }

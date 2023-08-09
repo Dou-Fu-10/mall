@@ -12,6 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties(prefix = "jwt")
 public class SecurityProperties {
+
     /**
      * JWT负载中拿到开头
      */
@@ -45,7 +46,7 @@ public class SecurityProperties {
     /**
      * 验证码 key
      */
-    private String codeKey;
+    private String captchaKey;
 
     /**
      * token 续期检查

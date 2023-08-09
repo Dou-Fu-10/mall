@@ -15,7 +15,6 @@ import org.example.security.utils.SecurityUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Serializable;
 import java.util.Set;
 import java.util.stream.Collectors;
 

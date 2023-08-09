@@ -59,7 +59,7 @@ public class SwaggerConfig {
                 .group("会员")
                 .pathsToMatch(groupedApp("member"), groupedApp("memberReceiveAddress"),
                         groupedApp("memberReadHistory"), groupedApp("memberCollection"),
-                        grouped("auth"))
+                        grouped("auth"), groupedApp("memberReferralCode"))
                 .build();
     }
 

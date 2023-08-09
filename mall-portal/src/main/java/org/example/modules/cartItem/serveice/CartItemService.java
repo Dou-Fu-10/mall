@@ -56,8 +56,16 @@ public interface CartItemService extends IService<CartItemEntity> {
      * 按传入的月份查找月份已完成的订单
      *
      * @param page 分页对象
-     * @param page 查询实体
      * @return 已完成的订单
      */
     Page<CartItemVo> page(Page<CartItemEntity> page);
+
+    /**
+     * 修改数量
+     *
+     * @param cartItemId 修改数量id
+     * @param quantity   修改数量
+     * @return 修改结果
+     */
+    Boolean modifiedQuantity(Long cartItemId, Integer quantity);
 }

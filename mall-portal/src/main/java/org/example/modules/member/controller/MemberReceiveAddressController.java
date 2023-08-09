@@ -3,6 +3,7 @@ package org.example.modules.member.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
@@ -37,10 +38,11 @@ public class MemberReceiveAddressController {
     private MemberReceiveAddressService memberReceiveAddressService;
 
     /**
-     * 通过主键查询单条数据
+     * 查询全部数据
      *
-     * @return 单条数据
+     * @return 查询全部数据
      */
+    @Operation(summary = "查询全部数据")
     @GetMapping
     public ResponseEntity<Object> selectAll() {
         List<MemberReceiveAddressVo> memberReceiveAddressEntity = memberReceiveAddressService.selectAll();
@@ -53,6 +55,7 @@ public class MemberReceiveAddressController {
      * @param id 主键
      * @return 单条数据
      */
+    @Operation(summary = "通过主键查询单条数据")
     @GetMapping("/{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         MemberReceiveAddressVo memberReceiveAddressVo = memberReceiveAddressService.selectOne(id);
@@ -65,6 +68,7 @@ public class MemberReceiveAddressController {
      * @param memberReceiveAddressDto 实体对象
      * @return 新增结果
      */
+    @Operation(summary = "新增数据")
     @PostMapping
     public ResponseEntity<Object> insert(@RequestBody MemberReceiveAddressDto memberReceiveAddressDto) {
         if (this.memberReceiveAddressService.save(memberReceiveAddressDto)) {
@@ -80,6 +84,7 @@ public class MemberReceiveAddressController {
      * @param memberReceiveAddressDto 实体对象
      * @return 修改结果
      */
+    @Operation(summary = "修改数据")
     @PutMapping
     public ResponseEntity<Object> update(@RequestBody MemberReceiveAddressDto memberReceiveAddressDto) {
         if (this.memberReceiveAddressService.updateById(memberReceiveAddressDto)) {
@@ -95,6 +100,7 @@ public class MemberReceiveAddressController {
      * @param idList 主键结合
      * @return 删除结果
      */
+    @Operation(summary = "删除数据")
     @DeleteMapping
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
@@ -102,7 +108,9 @@ public class MemberReceiveAddressController {
         }
         Set<Long> ids = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
         LambdaQueryWrapper<MemberReceiveAddressEntity> memberReceiveAddressEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        // 会员id
         memberReceiveAddressEntityLambdaQueryWrapper.eq(MemberReceiveAddressEntity::getMemberId, SecurityUtils.getCurrentUserId());
+        // 要删除的 浏览记录
         memberReceiveAddressEntityLambdaQueryWrapper.in(MemberReceiveAddressEntity::getId, ids);
 
         if (this.memberReceiveAddressService.remove(memberReceiveAddressEntityLambdaQueryWrapper)) {

@@ -1,19 +1,26 @@
 package org.example.modules.member.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wf.captcha.base.Captcha;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import org.example.common.core.config.CaptchaCodeConfig;
 import org.example.common.core.entity.MemberEntity;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
+import org.example.common.core.utils.StringUtils;
+import org.example.common.redis.service.RedisService;
 import org.example.config.AuthMember;
 import org.example.modules.member.entity.dto.MemberDto;
+import org.example.modules.member.entity.vo.MemberReferralCodeVo;
 import org.example.modules.member.entity.vo.MemberVo;
 import org.example.modules.member.mapper.MemberMapper;
 import org.example.modules.member.service.MemberLoginLogService;
+import org.example.modules.member.service.MemberReferralCodeService;
 import org.example.modules.member.service.MemberService;
 import org.example.modules.security.service.OnlineMemberService;
 import org.example.security.config.SecurityProperties;
@@ -24,12 +31,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Dou-Fu-10 2023-07-31 15:49:05
@@ -50,6 +57,12 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
     private OnlineMemberService onlineMemberService;
     @Resource
     private MemberLoginLogService memberLoginLogService;
+    @Resource
+    private RedisService redisService;
+    @Resource
+    private CaptchaCodeConfig captchaCodeConfig;
+    @Resource
+    private MemberReferralCodeService memberReferralCodeService;
 
     @Override
     public Boolean save(MemberDto memberDto) {
@@ -90,7 +103,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
         // 使用用户的username作为key获取token
         String token = jwtTokenUtil.createMemberToken(jwtMember);
         // 确保token可以 功能非必须
-        if (!StringUtils.hasText(token)) {
+        if (StringUtils.isBlank(token)) {
             throw new BaseRequestException("登录失败");
         }
         Map<String, Object> tokenMap = new HashMap<>(2);
@@ -111,7 +124,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
 
     @Override
     public MemberEntity getByPhone(String phone) {
-        if (org.example.common.core.utils.StringUtils.isBlank(phone)) {
+        if (StringUtils.isBlank(phone)) {
             throw new BaseRequestException("参数有误");
         }
         return lambdaQuery().eq(MemberEntity::getPhone, phone).one();
@@ -124,7 +137,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
             throw new BaseRequestException("请登录");
         }
         String phone = principal.getName();
-        if (org.example.common.core.utils.StringUtils.isBlank(phone)) {
+        if (StringUtils.isBlank(phone)) {
             throw new BaseRequestException("请登录");
         }
         MemberEntity memberEntity = getByPhone(phone);
@@ -148,9 +161,34 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
     }
 
     @Override
-    public Boolean register(MemberDto memberDto) {
-        // TODO 校验
-        MemberEntity memberEntity = BeanCopy.convert(memberDto, MemberEntity.class);
+    public Boolean register(AuthMember authMember) {
+
+        // 获取验证码
+        String imageCaptcha = authMember.getImageCaptcha();
+        // 获取 redis 的key
+        String uuid = authMember.getUuid();
+        String uuidKey = securityProperties.getCaptchaKey() + uuid;
+        // 查询验证码
+        String code = (String) redisService.get(uuidKey);
+        // 清除验证码
+        redisService.del(uuidKey);
+        if (StringUtils.isBlank(code)) {
+            throw new BaseRequestException("验证码不存在或已过期");
+        }
+        // 忽略大小写校验
+        if (StringUtils.isBlank(imageCaptcha) || !imageCaptcha.equalsIgnoreCase(code)) {
+            throw new BaseRequestException("验证码错误");
+        }
+
+        String referralCode = authMember.getReferralCode();
+        MemberReferralCodeVo memberReferralCodeVo = memberReferralCodeService.getByCode(referralCode);
+        if (Objects.isNull(memberReferralCodeVo)) {
+            throw new BaseRequestException("推荐码错误");
+        }
+        MemberEntity memberEntity = new MemberEntity();
+        // 设置上级id
+        memberEntity.setParentId(memberReferralCodeVo.getMemberId());
+
         return memberEntity.insert();
     }
 
@@ -185,6 +223,20 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
         String adminName = SecurityUtils.getCurrentUsername();
         //退出登录
         onlineMemberService.kickOutForUsername(adminName);
+    }
+
+    @Override
+    public Map<String, Object> generateVerificationCode() {
+        Captcha captcha = captchaCodeConfig.switchCaptcha();
+        // 设置 验证的key
+        String uuid = IdUtil.simpleUUID();
+        String captchaValue = captcha.text();
+        redisService.set(securityProperties.getCaptchaKey() + uuid, captchaValue, captchaCodeConfig.getExpiration(), TimeUnit.MINUTES);
+        // 验证码信息
+        return new HashMap<>(2) {{
+            put("img", captcha.toBase64());
+            put("uuid", uuid);
+        }};
     }
 
 }

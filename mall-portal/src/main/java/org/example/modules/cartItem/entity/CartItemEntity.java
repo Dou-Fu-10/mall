@@ -53,11 +53,6 @@ public class CartItemEntity extends CommonEntity<CartItemEntity> implements Seri
     @Schema(name = "memberNickname", description = "会员昵称")
     private String memberNickname;
     /**
-     * 商品销售属性:[{"key":"颜色","value":"颜色"},{"key":"容量","value":"4G"}]
-     */
-    @Schema(name = "productAttr", description = "商品销售属性")
-    private String productAttr;
-    /**
      * 商品编码
      */
     @Schema(name = "productSn", description = "商品编码")
@@ -68,30 +63,10 @@ public class CartItemEntity extends CommonEntity<CartItemEntity> implements Seri
     @Schema(name = "quantity", description = "购买数量")
     private Integer quantity;
     /**
-     * 添加到购物车的价格
+     * 添加到购物车的商品单价
      */
-    @Schema(name = "price", description = "添加到购物车的价格")
+    @Schema(name = "price", description = "添加到购物车的商品单价")
     private BigDecimal price;
-    /**
-     * 商品主图
-     */
-    @Schema(name = "productPic", description = "商品主图")
-    private String productPic;
-    /**
-     * 商品名称
-     */
-    @Schema(name = "productName", description = "商品名称")
-    private String productName;
-    /**
-     * 商品副标题（卖点）
-     */
-    @Schema(name = "productSubTitle", description = "商品副标题（卖点）")
-    private String productSubTitle;
-    /**
-     * 商品sku条码
-     */
-    @Schema(name = "productSkuCode", description = "商品sku条码")
-    private String productSkuCode;
     /**
      * 创建时间
      */

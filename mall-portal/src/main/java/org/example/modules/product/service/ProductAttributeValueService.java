@@ -49,6 +49,7 @@ public interface ProductAttributeValueService extends IService<ProductAttributeV
      * @return 商品属性 value
      */
     List<ProductAttributeValueVo> getProductAttributeValueByProductId(Long productId);
+
     /**
      * 通过商品id列表获取 商品属性 value
      *

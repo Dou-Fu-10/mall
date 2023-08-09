@@ -38,11 +38,6 @@ public class CartItemDto {
      * 会员id
      */
     private Long memberId;
-
-    /**
-     * 商品销售属性:[{"key":"颜色","value":"颜色"},{"key":"容量","value":"4G"}]
-     */
-    private String productAttr;
     /**
      * 商品编码
      */
@@ -52,25 +47,9 @@ public class CartItemDto {
      */
     private Integer quantity;
     /**
-     * 添加到购物车的价格
+     * 添加到购物车的商品单价
      */
     private BigDecimal price;
-    /**
-     * 商品主图
-     */
-    private String productPic;
-    /**
-     * 商品名称
-     */
-    private String productName;
-    /**
-     * 商品副标题（卖点）
-     */
-    private String productSubTitle;
-    /**
-     * 商品sku条码
-     */
-    private String productSkuCode;
     /**
      * 会员昵称
      */

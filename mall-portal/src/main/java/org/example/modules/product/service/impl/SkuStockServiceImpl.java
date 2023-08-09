@@ -3,6 +3,7 @@ package org.example.modules.product.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
@@ -19,7 +20,6 @@ import org.example.modules.product.service.SkuStockService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -77,13 +77,15 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
             throw new BaseRequestException("请正确的填写商品数据");
         }
         SkuStockEntity skuStockEntity = new SkuStockEntity();
+        // 通过 sku 码
         skuStockEntity.setId(productSkuId);
+        // 通过商品id
         skuStockEntity.setProductId(productEntity.getId());
         // 获取sku
         SkuStockEntity stockEntity = getOne(new QueryWrapper<>(skuStockEntity));
         // 确保sku不为空
         if (Objects.isNull(stockEntity)) {
-            throw new BaseRequestException("请正确的填写商品数据");
+            return null;
         }
         SkuStockVo skuStockVo = BeanCopy.convert(stockEntity, SkuStockVo.class);
         skuStockVo.setProduct(productEntity);
@@ -104,11 +106,29 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
 
     @Override
     public List<SkuStockVo> getSkuStockByProductIds(Set<Long> productIds) {
-        if (Objects.isNull(productIds)) {
-            return new ArrayList<>();
+        if (CollectionUtils.isEmpty(productIds)) {
+            throw new BaseRequestException("参数有误");
         }
         List<SkuStockEntity> skuStockEntityList = lambdaQuery().in(SkuStockEntity::getProductId, productIds).list();
         return BeanCopy.copytList(skuStockEntityList, SkuStockVo.class);
+    }
+
+    @Override
+    public List<SkuStockVo> getByIds(Set<Long> productSkuIds) {
+        if (CollectionUtils.isEmpty(productSkuIds)) {
+            throw new BaseRequestException("参数有误");
+        }
+        List<SkuStockEntity> skuStockEntityList = listByIds(productSkuIds);
+        return BeanCopy.copytList(skuStockEntityList, SkuStockVo.class);
+    }
+
+    @Override
+    public SkuStockVo getBySkuStockId(Long productSkuId) {
+        if (Objects.isNull(productSkuId)) {
+            throw new BaseRequestException("参数有误");
+        }
+        SkuStockEntity skuStockEntity = getById(productSkuId);
+        return BeanCopy.convert(skuStockEntity, SkuStockVo.class);
     }
 }
 

@@ -25,6 +25,7 @@ import org.example.modules.order.service.OrderSettingService;
 import org.example.modules.product.entity.SkuStockEntity;
 import org.example.modules.product.service.SkuStockService;
 import org.example.security.utils.SecurityUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -34,7 +35,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by Dou-Fu-10 2023-08-03 14:28:08
@@ -57,20 +57,17 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     private OrderItemService orderItemService;
 
     @org.jetbrains.annotations.NotNull
-    private static List<OrderItemEntity> getOrderItemEntities(List<CartItemVo> cartItemVoList) {
+    private static List<OrderItemEntity> getOrderItemEntities(@NotNull List<CartItemVo> cartItemVoList) {
         List<OrderItemEntity> orderItemEntityList = new ArrayList<>();
         for (CartItemVo cartItemVo : cartItemVoList) {
             // 生成下单商品信息
             OrderItemEntity orderItem = new OrderItemEntity();
             orderItem.setProductId(cartItemVo.getProductId());
-            orderItem.setProductName(cartItemVo.getProductName());
-            orderItem.setProductPic(cartItemVo.getProductPic());
-            orderItem.setProductAttr(cartItemVo.getProductAttr());
             orderItem.setProductSn(cartItemVo.getProductSn());
-            orderItem.setProductPrice(cartItemVo.getPrice());
+            // 使用下单时商品的实时价格
+            orderItem.setProductPrice(cartItemVo.getProduct().getPrice());
             orderItem.setProductQuantity(cartItemVo.getQuantity());
             orderItem.setProductSkuId(cartItemVo.getProductSkuId());
-            orderItem.setProductSkuCode(cartItemVo.getProductSkuCode());
             orderItem.setProductCategoryId(cartItemVo.getProductCategoryId());
             orderItemEntityList.add(orderItem);
         }
@@ -105,41 +102,36 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         List<Long> orderIds = orderVoList.stream().map(OrderVo::getId).collect(Collectors.toList());
         // 订单中所包含的商品
         List<OrderItemVo> orderItemVo = orderItemService.getByOrderIds(orderIds);
+        // 将订单中所包含的商品 商品的id为key 以map 的形式进行存储
         Map<Long, List<OrderItemVo>> longOrderItemVoMap = longOrderItemVoMap(orderItemVo);
         orderVoList.forEach(orderVo -> {
+            // 商品的id
             Long id = orderVo.getId();
             if (longOrderItemVoMap.containsKey(id)) {
+                // 将订单中所包含的商品 存储到 orderVo里面
                 orderVo.setOrderItemList(longOrderItemVoMap.get(id));
             }
         });
-
         return (Page) orderEntityPageVoIpage;
     }
 
-    @org.jetbrains.annotations.NotNull
-    private Map<Long, List<OrderItemVo>> longOrderItemVoMap(@org.jetbrains.annotations.NotNull List<OrderItemVo> orderItemVo) {
+
+    @NotNull
+    private Map<Long, List<OrderItemVo>> longOrderItemVoMap(@NotNull List<OrderItemVo> orderItemVo) {
         // 将 订单中所包含的商品   以map 的形式进行存储    键为 订单的id   值为 订单中所包含的商品
         Map<Long, List<OrderItemVo>> longListHashMap = new HashMap<>();
-        orderItemVo.forEach(orderItem -> {
+        for (OrderItemVo orderItem : orderItemVo) {
             Long orderId = orderItem.getOrderId();
-            // 判断 键是否存储
-            if (longListHashMap.containsKey(orderId)) {
-                // 存在就添加
-                List<OrderItemVo> orderItemVos = longListHashMap.get(orderId);
-                orderItemVos.add(orderItem);
-                longListHashMap.put(orderId, orderItemVos);
-            } else {
-                // 不存在就创建
-                List<OrderItemVo> list = Stream.of(orderItem).collect(Collectors.toList());
-                longListHashMap.put(orderId, list);
-            }
-        });
+            // 使用computeIfAbsent方法来避免重复的get和put操作
+            longListHashMap.computeIfAbsent(orderId, k -> new ArrayList<>()).add(orderItem);
+        }
         return longListHashMap;
     }
 
 
     @Override
     public ConfirmOrderVo generateConfirmOrder(Set<Long> cartIds) {
+        // 获取会员id
         Long memberId = SecurityUtils.getCurrentUserId();
         ConfirmOrderVo confirmOrderVo = new ConfirmOrderVo();
         // 获取会员地址
@@ -152,9 +144,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         return confirmOrderVo;
     }
 
+
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    public Map<String, Object> generateOrder(GenerateOrderDto generateOrderDto) {
+    public Map<String, Object> generateOrder(@NotNull GenerateOrderDto generateOrderDto) {
         // 获取下单用户
         Long memberId = SecurityUtils.getCurrentUserId();
         Long memberReceiveAddressId = generateOrderDto.getMemberReceiveAddressId();
@@ -163,7 +156,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         if (Objects.isNull(address)) {
             throw new BaseRequestException("请正确的填写地址");
         }
-
         // 获取用户购物车信息
         List<CartItemVo> cartItemVoList = cartItemService.getCartItemByMemberIdAndCartIds(memberId, generateOrderDto.getCartIds());
         // 判断购物车中商品是否都有库存
@@ -175,7 +167,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
 
         // 获取 平台制定信息
         OrderSettingVo orderSettingVo = orderSettingService.getOne();
-        //进行库存锁定
+        // TODO 进行库存锁定
         lockStock(cartItemVoList);
 
         OrderEntity orderEntity = new OrderEntity();
@@ -290,15 +282,17 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     /**
      * 删除下单商品的购物车信息
      */
-    private Boolean deleteCartItemList(@org.jetbrains.annotations.NotNull List<CartItemVo> cartItemVoList, Long memberId) {
+    private Boolean deleteCartItemList(@NotNull List<CartItemVo> cartItemVoList, Long memberId) {
+        // 获取购物车id 列表
         Set<Long> cartItemIds = cartItemVoList.stream().map(CartItemVo::getId).collect(Collectors.toSet());
+
         return cartItemService.removeBatchByIdsAndMemberId(cartItemIds, memberId);
     }
 
     /**
      * 锁定下单商品的所有库存
      */
-    private void lockStock(List<CartItemVo> cartItemVoList) {
+    private void lockStock(@NotNull List<CartItemVo> cartItemVoList) {
         for (CartItemVo cartItemVo : cartItemVoList) {
             SkuStockEntity skuStockEntity = skuStockService.getById(cartItemVo.getProductSkuId());
             skuStockEntity.setLockStock(skuStockEntity.getLockStock() + cartItemVo.getQuantity());
@@ -309,7 +303,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     /**
      * 判断下单商品是否都有库存
      */
-    private Boolean hasInventory(List<CartItemVo> cartItemVoList) {
+    @NotNull
+    private Boolean hasInventory(@NotNull List<CartItemVo> cartItemVoList) {
         for (CartItemVo cartItemVo : cartItemVoList) {
             //判断真实库存是否为空  判断真实库存是否小于0  判断真实库存是否小于下单的数量
             if (cartItemVo.getRealStock() == null || cartItemVo.getRealStock() <= 0 || cartItemVo.getRealStock() < cartItemVo.getQuantity()) {
@@ -325,11 +320,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
      * @param cartItemVoList 购物车列表
      * @return CalculateAmountVo
      */
+    @NotNull
     private CalculateAmountVo calcTotalAmount(List<CartItemVo> cartItemVoList) {
         // 创建 运费
         BigDecimal freightAmount = new BigDecimal(BigInteger.ZERO);
         // 计算订单
         CalculateAmountVo calculateAmountVo = calculateAmount(cartItemVoList);
+        // TODO 设置运费
         calculateAmountVo.setFreightAmount(freightAmount);
         // 获取订单总金额
         BigDecimal totalAmount = calculateAmountVo.getTotalAmount();
@@ -345,20 +342,22 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
      * @param cartItemVoList 购物车列表
      * @return CalculateAmountVo
      */
+    @NotNull
     private CalculateAmountVo calculateAmount(List<CartItemVo> cartItemVoList) {
+        // 创建订单总金额
+        BigDecimal totalAmount = new BigDecimal(BigInteger.ZERO);
         // 计算金额
         CalculateAmountVo calculateAmountVo = new CalculateAmountVo();
         // 判断购物车是否为空
         if (CollectionUtils.isNotEmpty(cartItemVoList)) {
-            // 创建订单总金额
-            BigDecimal totalAmount = new BigDecimal(BigInteger.ZERO);
             // 获取购物车的商品金额列表
             for (CartItemVo cartItemVo : cartItemVoList) {
-                // 单个价格
+                // 购物车里的下单数量
                 BigDecimal price = cartItemVo.getPrice();
                 // 购买商品数量数量
                 Integer quantity = cartItemVo.getQuantity();
                 if (Objects.nonNull(price) && quantity >= 1) {
+                    // 商品单价 乘以商品数量
                     BigDecimal totalPrice = price.multiply(new BigDecimal(quantity));
                     // 累加到 订单总金额里面
                     totalAmount = totalAmount.add(totalPrice);
@@ -368,8 +367,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
             }
             calculateAmountVo.setTotalAmount(totalAmount);
         } else {
-            // 创建订单总金额
-            BigDecimal totalAmount = new BigDecimal(BigInteger.ZERO);
             calculateAmountVo.setTotalAmount(totalAmount);
         }
         return calculateAmountVo;
