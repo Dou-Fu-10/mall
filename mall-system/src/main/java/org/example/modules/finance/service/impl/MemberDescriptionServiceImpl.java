@@ -55,7 +55,7 @@ public class MemberDescriptionServiceImpl extends ServiceImpl<MemberDescriptionM
         memberDescriptionEntityLambdaQueryWrapper.orderByDesc(MemberDescriptionEntity::getId);
         Page<MemberDescriptionEntity> memberDescriptionEntityPage = page(page, memberDescriptionEntityLambdaQueryWrapper);
         IPage<MemberDescriptionVo> memberDescriptionEntityPageVoIpage = memberDescriptionEntityPage.convert(memberDescription -> BeanCopy.convert(memberDescription, MemberDescriptionVo.class));
-        return (Page) memberDescriptionEntityPageVoIpage;
+        return (Page<MemberDescriptionVo>) memberDescriptionEntityPageVoIpage;
     }
 }
 

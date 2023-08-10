@@ -163,7 +163,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         // 分页查找
         Page<AdminEntity> adminEntityPage = page(page, adminEntityLambdaQueryWrapper);
         IPage<AdminVo> adminVoIpage = adminEntityPage.convert(admin -> BeanCopy.convert(admin, AdminVo.class));
-        return (Page) adminVoIpage;
+        return (Page<AdminVo>) adminVoIpage;
     }
 
     @Override

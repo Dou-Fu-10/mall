@@ -39,7 +39,7 @@ public class MemberLoginLogServiceImpl extends ServiceImpl<MemberLoginLogMapper,
         LambdaQueryWrapper<MemberLoginLogEntity> memberLoginLogEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(memberLoginLogEntity);
         Page<MemberLoginLogEntity> memberLoginLogEntityPage = page(page, memberLoginLogEntityLambdaQueryWrapper);
         IPage<MemberLoginLogVo> memberLoginLogEntityPageVoIpage = memberLoginLogEntityPage.convert(memberLoginLog -> BeanCopy.convert(memberLoginLog, MemberLoginLogVo.class));
-        return (Page) memberLoginLogEntityPageVoIpage;
+        return (Page<MemberLoginLogVo>) memberLoginLogEntityPageVoIpage;
     }
 }
 

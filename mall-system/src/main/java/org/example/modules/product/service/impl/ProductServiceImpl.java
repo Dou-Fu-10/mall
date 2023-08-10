@@ -58,7 +58,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
         List<ProductVo> productVoList = productVoIpage.getRecords();
 
         if (CollectionUtils.isEmpty(productVoList)) {
-            return (Page) productVoIpage;
+            return (Page<ProductVo>) productVoIpage;
         }
         // 获取商品id
         Set<Long> productIds = productVoList.stream().map(ProductVo::getId).collect(Collectors.toSet());
@@ -84,7 +84,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
         });
 
         productVoIpage.setRecords(productVoList);
-        return (Page) productVoIpage;
+        return (Page<ProductVo>) productVoIpage;
     }
 
     private Map<Long, List<SkuStockVo>> longListMapSkuStockVo(List<SkuStockVo> skuStockVos) {

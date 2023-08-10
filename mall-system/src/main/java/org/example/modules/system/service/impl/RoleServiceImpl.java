@@ -111,7 +111,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         // 校验角色不等于空
         List<RoleVo> roleVoList = roleVoIPage.getRecords();
         if (CollectionUtils.isEmpty(roleVoList)) {
-            return (Page) roleVoIPage;
+            return (Page<RoleVo>) roleVoIPage;
         }
         // 获取角色 id
         Set<Long> roleIdList = roleVoList.stream().map(RoleVo::getId).collect(Collectors.toSet());
@@ -120,7 +120,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         Map<Long, List<MenuVo>> menusByRoleIdList = rolesMenusRelationService.findMenusByRoleIdList(roleIdList);
         // 校验不等于空
         if (CollectionUtils.isEmpty(menusByRoleIdList)) {
-            return (Page) roleVoIPage;
+            return (Page<RoleVo>) roleVoIPage;
         }
         roleVoList.forEach(roleVo -> {
             Long roleId = roleVo.getId();
@@ -129,7 +129,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
                 roleVo.setMenu(menuVos);
             }
         });
-        return (Page) roleVoIPage;
+        return (Page<RoleVo>) roleVoIPage;
     }
 }
 

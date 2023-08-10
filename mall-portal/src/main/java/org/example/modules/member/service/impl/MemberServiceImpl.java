@@ -17,6 +17,7 @@ import org.example.common.core.utils.StringUtils;
 import org.example.common.redis.service.RedisService;
 import org.example.config.AuthMember;
 import org.example.modules.member.entity.dto.MemberDto;
+import org.example.modules.member.entity.vo.MemberReceiveAddressVo;
 import org.example.modules.member.entity.vo.MemberVo;
 import org.example.modules.member.mapper.MemberMapper;
 import org.example.modules.member.service.MemberLoginLogService;
@@ -82,7 +83,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
         LambdaQueryWrapper<MemberEntity> memberEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(memberEntity);
         Page<MemberEntity> memberEntityPage = page(page, memberEntityLambdaQueryWrapper);
         IPage<MemberVo> memberEntityPageVoIpage = memberEntityPage.convert(member -> BeanCopy.convert(member, MemberVo.class));
-        return (Page) memberEntityPageVoIpage;
+        return (Page<MemberVo>) memberEntityPageVoIpage;
     }
 
     @Override
@@ -241,7 +242,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
         Page<MemberEntity> memberEntityPage = page(page, memberEntityLambdaQueryWrapper);
         IPage<MemberVo> memberVoIpage = memberEntityPage.convert(memberEntity -> BeanCopy.convert(memberEntity, MemberVo.class));
         // TODO 过滤信息
-        return (Page) memberVoIpage;
+        return (Page<MemberVo>) memberVoIpage;
     }
 
     @Override

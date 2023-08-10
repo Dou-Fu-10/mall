@@ -70,7 +70,6 @@ public class CommentDto {
      * 评论用户头像
      */
     private String memberIcon;
-    private Integer replayCount;
     /**
      * 创建时间
      */

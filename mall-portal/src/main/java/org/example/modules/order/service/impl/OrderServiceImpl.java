@@ -134,7 +134,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
                 orderVo.setOrderItemList(longOrderItemVoMap.get(id));
             }
         });
-        return (Page) orderEntityPageVoIpage;
+        return (Page<OrderVo>) orderEntityPageVoIpage;
     }
 
 
@@ -322,6 +322,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
 
     @Override
     public OrderVo getByOrderIdAndMemberId(Serializable id, Long memberId) {
+        if (Objects.isNull(id) || Objects.isNull(memberId)) {
+            throw new BaseRequestException("参数错误");
+        }
         OrderEntity orderEntity = getById(id);
         if (Objects.isNull(orderEntity)) {
             return null;
@@ -330,6 +333,34 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
             throw new BaseRequestException("获取订单失败");
         }
 
+        OrderVo orderVo = BeanCopy.convert(orderEntity, OrderVo.class);
+
+        // 订单中所包含的商品
+        List<OrderItemVo> orderItemVo = orderItemService.getByOrderIds(Set.of(orderEntity.getId()));
+        // 将订单中所包含的商品 商品的id为key 以map 的形式进行存储
+        Map<Long, List<OrderItemVo>> longOrderItemVoMap = longOrderItemVoMap(orderItemVo);
+        if (longOrderItemVoMap.containsKey(orderVo.getId())) {
+            // 将订单中所包含的商品 存储到 orderVo里面
+            orderVo.setOrderItemList(longOrderItemVoMap.get(orderVo.getId()));
+        }
+        return orderVo;
+    }
+
+    @Override
+    public OrderVo getCompletedOrderByOrderIdAndMemberId(Long orderId, Long memberId) {
+        if (Objects.isNull(orderId) || Objects.isNull(memberId)) {
+            throw new BaseRequestException("参数错误");
+        }
+        OrderEntity orderEntity = getById(orderId);
+        if (Objects.isNull(orderEntity)) {
+            return null;
+        }
+        if (orderEntity.getStatus() != 3) {
+            throw new BaseRequestException("订单未完成");
+        }
+        if (!orderEntity.getMemberId().equals(memberId)) {
+            throw new BaseRequestException("获取订单失败");
+        }
         OrderVo orderVo = BeanCopy.convert(orderEntity, OrderVo.class);
 
         // 订单中所包含的商品

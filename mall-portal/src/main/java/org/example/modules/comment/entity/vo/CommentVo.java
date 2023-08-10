@@ -1,39 +1,43 @@
-package org.example.modules.comment.entity;
+package org.example.modules.comment.entity.vo;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.Date;
+
+import java.io.Serializable;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.common.core.base.CommonEntity;
-
-import java.io.Serializable;
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * Created by Dou-Fu-10 2023-07-13 21:35:10
+ * Created by Dou-Fu-10 2023-08-10 15:24:17
  *
  * @author Dou-Fu-10
- * @date 2023-07-13 21:35:10
+ * @date 2023-08-10 15:24:17
  * @Description 商品评价表(Comment)表实体类
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("pms_comment")
-@Schema(name = "pms_comment", description = "商品评价表(Comment)表实体类")
-public class CommentEntity extends CommonEntity<CommentEntity> implements Serializable {
+public class CommentVo {
     /**
      * ID
      */
-    @TableId
+    @Schema(name = "id", description = "ID")
     private Long id;
     /**
      * 商品id
      */
+    @Schema(name = "productId", description = "商品id")
     private Long productId;
-
+    /**
+     * 会员id
+     */
+    @Schema(name = "memberId", description = "会员id")
+    private Long memberId;
     /**
      * 会员昵称
      */
@@ -94,7 +98,10 @@ public class CommentEntity extends CommonEntity<CommentEntity> implements Serial
      */
     @Schema(name = "createTime", description = "创建时间")
     private Date createTime;
-
-
+    /**
+     * 追评
+     */
+    @Schema(name = "commentReplayList", description = "追评")
+    private List<CommentReplayVo> commentReplayList;
 }
 

@@ -1,21 +1,24 @@
 package org.example.modules.comment.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.Date;
+
+import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.common.core.base.CommonEntity;
 
-import java.io.Serializable;
-import java.util.Date;
-
 /**
- * Created by Dou-Fu-10 2023-07-13 21:35:10
+ * Created by Dou-Fu-10 2023-08-10 15:24:17
  *
  * @author Dou-Fu-10
- * @date 2023-07-13 21:35:10
+ * @date 2023-08-10 15:24:17
  * @Description 商品评价表(Comment)表实体类
  */
 @Data
@@ -33,7 +36,10 @@ public class CommentEntity extends CommonEntity<CommentEntity> implements Serial
      * 商品id
      */
     private Long productId;
-
+    /**
+     * 会员id
+     */
+    private Long memberId;
     /**
      * 会员昵称
      */
@@ -94,7 +100,23 @@ public class CommentEntity extends CommonEntity<CommentEntity> implements Serial
      */
     @Schema(name = "createTime", description = "创建时间")
     private Date createTime;
-
-
+    /**
+     * 创建人
+     * 创建
+     */
+    @TableField(exist = false)
+    private String createBy;
+    /**
+     * 更新人
+     * 创建、更新
+     */
+    @TableField(exist = false)
+    private String updateBy;
+    /**
+     * 更新时间
+     * 创建、更新
+     */
+    @TableField(exist = false)
+    private Date updateTime;
 }
 

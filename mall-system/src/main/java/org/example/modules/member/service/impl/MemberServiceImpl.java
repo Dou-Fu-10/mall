@@ -43,7 +43,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
         LambdaQueryWrapper<MemberEntity> memberEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(memberEntity);
         Page<MemberEntity> memberEntityPage = page(page, memberEntityLambdaQueryWrapper);
         IPage<MemberVo> memberEntityPageVoIpage = memberEntityPage.convert(member -> BeanCopy.convert(member, MemberVo.class));
-        return (Page) memberEntityPageVoIpage;
+        return (Page<MemberVo>) memberEntityPageVoIpage;
     }
 
     @Override

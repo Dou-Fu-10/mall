@@ -135,13 +135,13 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
         List<ProductCategoryVo> productCategoryVoList = productCategoryVoIpage.getRecords();
         // 当分类为空时 直接返回
         if (CollectionUtils.isEmpty(productCategoryVoList)) {
-            return (Page) productCategoryVoIpage;
+            return (Page<ProductCategoryVo>) productCategoryVoIpage;
         }
         // 对商品分类进行上下级的排序
         List<ProductCategoryVo> productCategoryVoListTree = getProductCategoryVoListTree(productCategoryVoList);
         // 返回排序好的信息
         productCategoryVoIpage.setRecords(productCategoryVoListTree);
-        return (Page) productCategoryVoIpage;
+        return (Page<ProductCategoryVo>) productCategoryVoIpage;
     }
 
 

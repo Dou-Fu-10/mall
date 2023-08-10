@@ -76,7 +76,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
         // TODO 不可用
         Page<ProductEntity> productVoPage = page(page, new QueryWrapper<>(BeanCopy.convert(product, ProductEntity.class)));
         IPage<ProductVo> publicProductVoPage = productVoPage.convert(productVo -> BeanCopy.convert(productVo, ProductVo.class));
-        return (Page) publicProductVoPage;
+        return (Page<ProductVo>) publicProductVoPage;
     }
 
     @Override
@@ -150,7 +150,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
 
         });
 
-        return (Page) productVoIpage;
+        return (Page<ProductVo>) productVoIpage;
     }
 
     private Map<Long, List<SkuStockVo>> longListMapSkuStockVo(List<SkuStockVo> skuStockVos) {

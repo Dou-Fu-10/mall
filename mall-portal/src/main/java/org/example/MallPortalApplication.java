@@ -30,6 +30,7 @@ import java.util.List;
         "org.example.modules.product.mapper",
         "org.example.modules.home.mapper",
         "org.example.modules.order.mapper",
+        "org.example.modules.comment.mapper",
 })
 @EnableTransactionManagement
 public class MallPortalApplication {

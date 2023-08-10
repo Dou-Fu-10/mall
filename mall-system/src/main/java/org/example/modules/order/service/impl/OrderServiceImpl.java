@@ -93,7 +93,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         Page<OrderEntity> orderEntityPage = page(page, orderEntityLambdaQueryWrapper);
         // 分页展示
         IPage<OrderVo> orderVoIpage = orderEntityPage.convert(order -> BeanCopy.convert(order, OrderVo.class));
-        return (Page) orderVoIpage;
+        return (Page<OrderVo>) orderVoIpage;
     }
 
     @Override
@@ -127,7 +127,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         orderEntityLambdaQueryWrapper.between(OrderEntity::getPaymentTime, firstDayOfMonth, lastDayOfMonth);
         Page<OrderEntity> orderEntityPage = page(page, orderEntityLambdaQueryWrapper);
         IPage<OrderVo> orderVoIpage = orderEntityPage.convert(order -> BeanCopy.convert(order, OrderVo.class));
-        return (Page) orderVoIpage;
+        return (Page<OrderVo>) orderVoIpage;
     }
 
     @Override

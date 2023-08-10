@@ -69,7 +69,7 @@ public class MemberCollectionServiceImpl extends ServiceImpl<MemberCollectionMap
         List<MemberCollectionVo> memberCollectionVoList = memberCollectionEntityPageVoIpage.getRecords();
         // 校验是否为空
         if (CollectionUtils.isEmpty(memberCollectionVoList)) {
-            return (Page) memberCollectionEntityPageVoIpage;
+            return (Page<MemberCollectionVo>) memberCollectionEntityPageVoIpage;
         }
         // 获取收藏的商品 id列表
         Set<Long> productIds = memberCollectionVoList.stream().map(MemberCollectionVo::getProductId).collect(Collectors.toSet());
@@ -77,7 +77,7 @@ public class MemberCollectionServiceImpl extends ServiceImpl<MemberCollectionMap
         List<ProductVo> productVoList = productService.getByIdsInVerifyStatusAndPublishStatus(productIds);
 
         if (CollectionUtils.isEmpty(productVoList)) {
-            return (Page) memberCollectionEntityPageVoIpage;
+            return (Page<MemberCollectionVo>) memberCollectionEntityPageVoIpage;
         }
         MemberCollectionVo memberCollectionVo = new MemberCollectionVo();
         memberCollectionVo.setProductList(productVoList);
@@ -86,7 +86,7 @@ public class MemberCollectionServiceImpl extends ServiceImpl<MemberCollectionMap
         memberCollectionEntityPageVoIpage.setRecords(List.of(memberCollectionVo));
 
 
-        return (Page) memberCollectionEntityPageVoIpage;
+        return (Page<MemberCollectionVo>) memberCollectionEntityPageVoIpage;
     }
 
     @Override

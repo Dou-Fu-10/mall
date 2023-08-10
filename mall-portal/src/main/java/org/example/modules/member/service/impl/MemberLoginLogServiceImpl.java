@@ -9,6 +9,7 @@ import org.example.common.core.utils.BeanCopy;
 import org.example.common.core.utils.StringUtils;
 import org.example.modules.member.entity.MemberLoginLogEntity;
 import org.example.modules.member.entity.dto.MemberLoginLogDto;
+import org.example.modules.member.entity.vo.MemberCollectionVo;
 import org.example.modules.member.entity.vo.MemberLoginLogVo;
 import org.example.modules.member.mapper.MemberLoginLogMapper;
 import org.example.modules.member.service.MemberLoginLogService;
@@ -43,7 +44,7 @@ public class MemberLoginLogServiceImpl extends ServiceImpl<MemberLoginLogMapper,
         LambdaQueryWrapper<MemberLoginLogEntity> memberLoginLogEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(memberLoginLogEntity);
         Page<MemberLoginLogEntity> memberLoginLogEntityPage = page(page, memberLoginLogEntityLambdaQueryWrapper);
         IPage<MemberLoginLogVo> memberLoginLogEntityPageVoIpage = memberLoginLogEntityPage.convert(memberLoginLog -> BeanCopy.convert(memberLoginLog, MemberLoginLogVo.class));
-        return (Page) memberLoginLogEntityPageVoIpage;
+        return (Page<MemberLoginLogVo>) memberLoginLogEntityPageVoIpage;
     }
 
     @Override

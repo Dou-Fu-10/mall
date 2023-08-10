@@ -61,7 +61,7 @@ public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMap
         orderEntityLambdaQueryWrapper.orderByAsc(OrderReturnApplyEntity::getCreateTime);
         Page<OrderReturnApplyEntity> orderReturnApplyEntityPage = page(page, orderEntityLambdaQueryWrapper);
         IPage<OrderReturnApplyVo> orderReturnApplyVoIpage = orderReturnApplyEntityPage.convert(order -> BeanCopy.convert(order, OrderReturnApplyVo.class));
-        return (Page) orderReturnApplyVoIpage;
+        return (Page<OrderReturnApplyVo>) orderReturnApplyVoIpage;
     }
 
     @Override

@@ -70,7 +70,7 @@ public class ProductAttributeServiceImpl extends ServiceImpl<ProductAttributeMap
     public Page<ProductAttributeVo> page(Page<ProductAttributeEntity> page, ProductAttributeDto productAttribute) {
         ProductAttributeEntity convert = BeanCopy.convert(productAttribute, ProductAttributeEntity.class);
         Page<ProductAttributeEntity> productAttributeEntityPage = page(page, new QueryWrapper<>(convert));
-        return (Page) productAttributeEntityPage.convert(productAttributeEntity -> BeanCopy.convert(productAttributeEntity, ProductAttributeVo.class));
+        return (Page<ProductAttributeVo>) productAttributeEntityPage.convert(productAttributeEntity -> BeanCopy.convert(productAttributeEntity, ProductAttributeVo.class));
     }
 
     @Override
@@ -84,7 +84,7 @@ public class ProductAttributeServiceImpl extends ServiceImpl<ProductAttributeMap
         // 排序
         productAttributeEntityLambdaQueryWrapper.orderByDesc(ProductAttributeEntity::getSort);
         Page<ProductAttributeEntity> productAttributeEntityPage = page(page, productAttributeEntityLambdaQueryWrapper);
-        return (Page) productAttributeEntityPage.convert(productAttribute -> BeanCopy.convert(productAttribute, ProductAttributeVo.class));
+        return (Page<ProductAttributeVo>) productAttributeEntityPage.convert(productAttribute -> BeanCopy.convert(productAttribute, ProductAttributeVo.class));
     }
 
     @Override

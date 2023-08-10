@@ -42,7 +42,7 @@ public class ProductAttributeServiceImpl extends ServiceImpl<ProductAttributeMap
         LambdaQueryWrapper<ProductAttributeEntity> productAttributeEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(productAttributeEntity);
         Page<ProductAttributeEntity> productAttributeEntityPage = page(page, productAttributeEntityLambdaQueryWrapper);
         IPage<ProductAttributeVo> productAttributeEntityPageVoIpage = productAttributeEntityPage.convert(productAttribute -> BeanCopy.convert(productAttribute, ProductAttributeVo.class));
-        return (Page) productAttributeEntityPageVoIpage;
+        return (Page<ProductAttributeVo>) productAttributeEntityPageVoIpage;
     }
 
     @Override

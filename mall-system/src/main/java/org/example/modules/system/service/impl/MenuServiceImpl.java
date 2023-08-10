@@ -145,7 +145,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
             List<MenuVo> menuVoListTree = getMenuVoListTree(menuVoIpage.getRecords());
             menuVoIpage.setRecords(menuVoListTree);
         }
-        return (Page) menuVoIpage;
+        return (Page<MenuVo>) menuVoIpage;
     }
 
 

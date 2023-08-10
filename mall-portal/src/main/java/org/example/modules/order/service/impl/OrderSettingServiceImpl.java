@@ -45,7 +45,7 @@ public class OrderSettingServiceImpl extends ServiceImpl<OrderSettingMapper, Ord
         LambdaQueryWrapper<OrderSettingEntity> orderSettingEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(orderSettingEntity);
         Page<OrderSettingEntity> orderSettingEntityPage = page(page, orderSettingEntityLambdaQueryWrapper);
         IPage<OrderSettingVo> orderSettingEntityPageVoIpage = orderSettingEntityPage.convert(orderSetting -> BeanCopy.convert(orderSetting, OrderSettingVo.class));
-        return (Page) orderSettingEntityPageVoIpage;
+        return (Page<OrderSettingVo>) orderSettingEntityPageVoIpage;
     }
 }
 
