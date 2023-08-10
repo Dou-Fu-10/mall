@@ -1,15 +1,17 @@
 package org.example.modules.order.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.modules.order.entity.OrderItemEntity;
+import org.example.modules.order.entity.OrderReturnApplyEntity;
+import org.example.modules.order.entity.dto.OrderItemDto;
 import org.example.modules.order.entity.dto.OrderReturnApplyDto;
 import org.example.modules.order.service.OrderReturnApplyService;
+import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Dou-Fu-10 2023-08-05 17:04:10
@@ -27,6 +29,18 @@ public class OrderReturnApplyController {
      */
     @Resource
     private OrderReturnApplyService orderReturnApplyService;
+
+    /**
+     * 分页查询所有数据
+     *
+     * @param page         分页对象
+     * @param orderReturnApplyDto 查询实体
+     * @return 所有数据
+     */
+    @GetMapping
+    public ResponseEntity<Object> select(Page<OrderReturnApplyEntity> page, OrderReturnApplyDto orderReturnApplyDto) {
+        return ResponseEntity.ok(this.orderReturnApplyService.page(page, orderReturnApplyDto));
+    }
 
     /**
      * 新增数据

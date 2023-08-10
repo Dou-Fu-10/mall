@@ -54,6 +54,8 @@ public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMap
         }
         // 退货订单id
         orderReturnApplyEntity.setOrderId(orderVo.getId());
+        // 会员id
+        orderReturnApplyEntity.setMemberId(memberEntity.getId());
         // 订单编号
         orderReturnApplyEntity.setOrderSn(orderVo.getOrderSn());
         // 申请时间
@@ -86,6 +88,7 @@ public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMap
 
     @Override
     public Page<OrderReturnApplyVo> page(Page<OrderReturnApplyEntity> page, OrderReturnApplyDto orderReturnApplyDto) {
+        orderReturnApplyDto.setMemberId(SecurityUtils.getCurrentUserId());
         OrderReturnApplyEntity orderReturnApplyEntity = BeanCopy.convert(orderReturnApplyDto, OrderReturnApplyEntity.class);
         LambdaQueryWrapper<OrderReturnApplyEntity> orderReturnApplyEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(orderReturnApplyEntity);
         Page<OrderReturnApplyEntity> orderReturnApplyEntityPage = page(page, orderReturnApplyEntityLambdaQueryWrapper);

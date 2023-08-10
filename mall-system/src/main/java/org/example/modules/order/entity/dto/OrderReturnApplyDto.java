@@ -30,7 +30,11 @@ public class OrderReturnApplyDto {
      */
     @Schema(name = "orderId", description = "订单id")
     private Long orderId;
-
+    /**
+     * 会员id
+     */
+    @Schema(name = "memberId", description = "会员id")
+    private Long memberId;
     /**
      * 公司收货地址id
      */
