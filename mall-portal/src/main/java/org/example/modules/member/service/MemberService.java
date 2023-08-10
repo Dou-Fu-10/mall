@@ -9,6 +9,7 @@ import org.example.modules.member.entity.dto.MemberDto;
 import org.example.modules.member.entity.vo.MemberVo;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -75,7 +76,7 @@ public interface MemberService extends IService<MemberEntity> {
      * @param request token
      * @return token
      */
-    String refreshHeadToken(HttpServletRequest request);
+    HashMap<String, String> refreshHeadToken(HttpServletRequest request);
 
     /**
      * 注册功能

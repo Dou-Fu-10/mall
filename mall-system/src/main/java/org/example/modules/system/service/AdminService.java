@@ -13,6 +13,7 @@ import org.example.modules.system.entity.vo.RoleVo;
 
 import java.io.Serializable;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -149,7 +150,7 @@ public interface AdminService extends IService<AdminEntity> {
      * @param request token
      * @return token
      */
-    String refreshHeadToken(HttpServletRequest request);
+    HashMap<String, String> refreshHeadToken(HttpServletRequest request);
 
     /**
      * 获取当前登录用户信息

@@ -17,7 +17,6 @@ import org.example.common.core.utils.StringUtils;
 import org.example.common.redis.service.RedisService;
 import org.example.config.AuthMember;
 import org.example.modules.member.entity.dto.MemberDto;
-import org.example.modules.member.entity.vo.MemberReceiveAddressVo;
 import org.example.modules.member.entity.vo.MemberVo;
 import org.example.modules.member.mapper.MemberMapper;
 import org.example.modules.member.service.MemberLoginLogService;
@@ -157,11 +156,16 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
     }
 
     @Override
-    public String refreshHeadToken(HttpServletRequest request) {
+    public HashMap<String, String> refreshHeadToken(HttpServletRequest request) {
         // 获取token
         String token = jwtTokenUtil.resolveToken(request);
+        if (StringUtils.isBlank(token)) {
+            throw new BaseRequestException("续约失败");
+        }
         // 续约token
-        return jwtTokenUtil.refreshHeadToken(token);
+        HashMap<String, String> hashMap = new HashMap<>(1);
+        hashMap.put("token", securityProperties.getTokenStartWith() + jwtTokenUtil.refreshHeadToken(token));
+        return hashMap;
     }
 
     private MemberEntity getByInvitationCode(String invitationCode) {

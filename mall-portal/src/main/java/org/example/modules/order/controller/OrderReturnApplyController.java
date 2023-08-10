@@ -4,6 +4,7 @@ package org.example.modules.order.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.modules.order.entity.OrderItemEntity;
 import org.example.modules.order.entity.OrderReturnApplyEntity;
 import org.example.modules.order.entity.dto.OrderItemDto;
@@ -49,7 +50,7 @@ public class OrderReturnApplyController {
      * @return 新增结果
      */
     @PostMapping
-    public ResponseEntity<String> insert(@RequestBody OrderReturnApplyDto orderReturnApplyDto) {
+    public ResponseEntity<String> insert(@RequestBody OrderReturnApplyDto orderReturnApplyDto, HttpServletRequest request) {
         if (this.orderReturnApplyService.save(orderReturnApplyDto)) {
             return ResponseEntity.ok("退货申请提交成功");
         }

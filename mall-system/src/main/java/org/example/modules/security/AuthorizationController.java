@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -48,23 +49,17 @@ public class AuthorizationController {
         return ResponseEntity.ok("退出登录成功");
     }
 
-
     /**
-     * 用户注册
+     * token续约
      *
-     * @param resources 注册用户
-     * @return 是否成功
+     * @param request token
+     * @return token
      */
-//    @Operation(summary = "注册")
-//    @AnonymousPostMapping(value = "/register")
-//    public ResponseEntity<String> register(@Validated @RequestBody AdminDto resources) {
-//        resources.setPassword("123456");
-//        if (adminService.register(resources)) {
-//            return ResponseEntity.ok("注册成功");
-//
-//        }
-//        throw new BaseRequestException("注册失败");
-//    }
+    @Operation(summary = "token续约")
+    @GetMapping(value = "/refresh")
+    public ResponseEntity<HashMap<String, String>> refresh(HttpServletRequest request) {
+        return ResponseEntity.ok(adminService.refreshHeadToken(request));
+    }
 
     /**
      * 登录以后返回token
@@ -78,17 +73,4 @@ public class AuthorizationController {
     public ResponseEntity<Map<String, Object>> login(@RequestBody @Validated AuthAdmin authAdmin, HttpServletRequest request) {
         return ResponseEntity.ok(adminService.login(authAdmin, request));
     }
-
-    /**
-     * token续约
-     *
-     * @param request token
-     * @return token
-     */
-    @Operation(summary = "token续约")
-    @GetMapping(value = "/refresh")
-    public ResponseEntity<String> refresh(HttpServletRequest request) {
-        return ResponseEntity.ok(adminService.refreshHeadToken(request));
-    }
-
 }

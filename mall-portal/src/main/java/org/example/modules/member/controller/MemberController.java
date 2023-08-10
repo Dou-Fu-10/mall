@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -93,7 +94,7 @@ public class MemberController {
      */
     @Operation(summary = "token续约")
     @GetMapping(value = "/refresh")
-    public ResponseEntity<String> refresh(HttpServletRequest request) {
+    public ResponseEntity<HashMap<String, String>> refresh(HttpServletRequest request) {
         // Token 续期
         return ResponseEntity.ok(memberService.refreshHeadToken(request));
     }

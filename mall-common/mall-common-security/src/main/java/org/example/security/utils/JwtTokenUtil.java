@@ -17,10 +17,7 @@ import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -233,12 +230,12 @@ public class JwtTokenUtil implements InitializingBean {
      */
     public String refreshHeadToken(String oldToken) {
         String token = resolveToken(oldToken);
-        if (StringUtils.hasText(token)) {
+        if (org.example.common.core.utils.StringUtils.isBlank(token)) {
             throw new BaseRequestException("登录信息校验失败");
         }
         // token校验不通过
         Claims claims = getClaimsByToken(token);
-        if (claims == null) {
+        if (Objects.isNull(claims)) {
             throw new BaseRequestException("登录信息校验失败");
         }
         // 如果token已经过期，不支持刷新
