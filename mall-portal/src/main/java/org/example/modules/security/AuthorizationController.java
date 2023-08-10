@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -54,10 +55,25 @@ public class AuthorizationController {
         throw new BaseRequestException("注册失败");
     }
 
+    /**
+     * 获取验证码
+     * @return /
+     */
     @Operation(summary = "获取验证码")
     @AnonymousGetMapping(value = "/captcha")
     public ResponseEntity<Object> getCode() {
         return ResponseEntity.ok(memberService.generateVerificationCode());
+    }
+
+    /**
+     * 获取短信验证码
+     * @param phone 手机号码
+     * @return /
+     */
+    @Operation(summary = "获取短信验证码")
+    @AnonymousGetMapping(value = "/sms")
+    public ResponseEntity<Object> sendSMS(@RequestParam("phone") String phone) {
+        return ResponseEntity.ok(memberService.sendSMS());
     }
 
     /**

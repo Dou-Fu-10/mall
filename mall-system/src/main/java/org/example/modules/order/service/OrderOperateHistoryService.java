@@ -6,6 +6,7 @@ import org.example.modules.order.entity.dto.OrderOperateHistoryDto;
 import org.example.modules.order.entity.vo.OrderOperateHistoryVo;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:34:29
@@ -38,4 +39,6 @@ public interface OrderOperateHistoryService extends IService<OrderOperateHistory
      * @return 订单操作历史记录
      */
     List<OrderOperateHistoryVo> getOrderOperateHistoryByOrderId(Long orderId);
+
+    void addOperationRecord(Set<Long> orderEntityIds);
 }

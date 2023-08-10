@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-08-04 11:32:58
@@ -47,7 +48,7 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
     }
 
     @Override
-    public List<OrderItemVo> getByOrderIds(List<Long> orderIds) {
+    public List<OrderItemVo> getByOrderIds(Set<Long> orderIds) {
         if (CollectionUtils.isEmpty(orderIds)) {
             return new ArrayList<>();
         }

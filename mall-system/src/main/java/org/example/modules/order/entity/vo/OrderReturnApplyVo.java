@@ -49,9 +49,9 @@ public class OrderReturnApplyVo {
      */
     private Date createTime;
     /**
-     * 会员用户名
+     * 会员昵称
      */
-    private String memberUsername;
+    private String memberNickname;
     /**
      * 退款金额
      */
@@ -80,10 +80,6 @@ public class OrderReturnApplyVo {
      * 商品名称
      */
     private String productName;
-    /**
-     * 商品品牌
-     */
-    private String productBrand;
     /**
      * 商品销售属性：颜色：红色；尺码：xl;
      */

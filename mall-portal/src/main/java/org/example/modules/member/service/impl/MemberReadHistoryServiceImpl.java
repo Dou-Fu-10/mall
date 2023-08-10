@@ -6,21 +6,20 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.member.entity.MemberReadHistoryEntity;
 import org.example.modules.member.entity.dto.MemberReadHistoryDto;
 import org.example.modules.member.entity.vo.MemberReadHistoryVo;
 import org.example.modules.member.mapper.MemberReadHistoryMapper;
 import org.example.modules.member.service.MemberReadHistoryService;
+import org.example.modules.product.entity.ProductEntity;
 import org.example.modules.product.entity.vo.ProductVo;
 import org.example.modules.product.serveice.ProductService;
 import org.example.security.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -37,8 +36,15 @@ public class MemberReadHistoryServiceImpl extends ServiceImpl<MemberReadHistoryM
 
     @Override
     public Boolean save(MemberReadHistoryDto memberReadHistoryDto) {
+        Long productId = memberReadHistoryDto.getProductId();
+        ProductEntity productEntity = productService.getById(productId);
+        if (Objects.isNull(productEntity)) {
+            throw new BaseRequestException("商品信息错误");
+        }
         memberReadHistoryDto.setMemberId(SecurityUtils.getCurrentUserId());
-        MemberReadHistoryEntity memberReadHistoryEntity = BeanCopy.convert(memberReadHistoryDto, MemberReadHistoryEntity.class);
+        MemberReadHistoryEntity memberReadHistoryEntity = new MemberReadHistoryEntity();
+        memberReadHistoryEntity.setMemberId(SecurityUtils.getCurrentUserId());
+        memberReadHistoryEntity.setProductId(productId);
         return save(memberReadHistoryEntity);
     }
 
@@ -61,7 +67,7 @@ public class MemberReadHistoryServiceImpl extends ServiceImpl<MemberReadHistoryM
         List<MemberReadHistoryVo> memberReadHistoryVoList = memberReadHistoryEntityPageVoIpage.getRecords();
         // 校验是否为空
         if (CollectionUtils.isEmpty(memberReadHistoryVoList)) {
-            return (Page) memberReadHistoryEntityPageVoIpage;
+            return (Page<MemberReadHistoryVo>) memberReadHistoryEntityPageVoIpage;
         }
         // 获取到浏览的商品ids
         Set<Long> productIdList = memberReadHistoryVoList.stream().map(MemberReadHistoryVo::getProductId).collect(Collectors.toSet());
@@ -69,18 +75,33 @@ public class MemberReadHistoryServiceImpl extends ServiceImpl<MemberReadHistoryM
         List<ProductVo> productVoList = productService.getByIdsInVerifyStatusAndPublishStatus(productIdList);
         // 校验是否为空
         if (CollectionUtils.isEmpty(productVoList)) {
-            return (Page) memberReadHistoryEntityPageVoIpage;
+            memberReadHistoryEntityPageVoIpage.setRecords(new ArrayList<>());
+            return (Page<MemberReadHistoryVo>) memberReadHistoryEntityPageVoIpage;
         }
         // 对 商品进行排序
         Map<Long, ProductVo> longProductVoMap = longProductVoMap(productVoList);
-        memberReadHistoryVoList.forEach(memberReadHistoryVo -> {
-            Long productId = memberReadHistoryVo.getProductId();
-            if (longProductVoMap.containsKey(productId)) {
-                memberReadHistoryVo.setProduct(longProductVoMap.get(productId));
-            }
-        });
 
-        return (Page) memberReadHistoryEntityPageVoIpage;
+
+//        List<MemberReadHistoryVo> memberReadHistoryVos = memberReadHistoryVoList.stream().map(memberReadHistoryVo -> {
+//            // 获取商品id
+//            Long productId = memberReadHistoryVo.getProductId();
+//            // 判断 商品是否存在
+//            if (longProductVoMap.containsKey(productId)) {
+//                memberReadHistoryVo.setProduct(longProductVoMap.get(productId));
+//                // 商品存在即返回  创建一个新的数组
+//                return memberReadHistoryVo;
+//            }
+//            return null;
+//        }).collect(Collectors.toList());
+
+        List<MemberReadHistoryVo> memberReadHistoryVos = memberReadHistoryVoList.stream().filter(memberReadHistoryVo ->
+                        longProductVoMap.containsKey(memberReadHistoryVo.getProductId())
+                )
+                .peek(memberReadHistoryVo -> memberReadHistoryVo.setProduct(longProductVoMap.get(memberReadHistoryVo.getProductId())))
+                .collect(Collectors.toList());
+        memberReadHistoryEntityPageVoIpage.setRecords(memberReadHistoryVos);
+
+        return (Page<MemberReadHistoryVo>) memberReadHistoryEntityPageVoIpage;
     }
 
     private Map<Long, ProductVo> longProductVoMap(List<ProductVo> productVoList) {

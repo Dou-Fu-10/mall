@@ -27,9 +27,11 @@ import org.example.security.config.SecurityProperties;
 import org.example.security.entity.JwtMember;
 import org.example.security.utils.JwtTokenUtil;
 import org.example.security.utils.SecurityUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -63,6 +65,8 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
     private CaptchaCodeConfig captchaCodeConfig;
     @Resource
     private MemberReferralCodeService memberReferralCodeService;
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Boolean save(MemberDto memberDto) {
@@ -86,7 +90,9 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
     }
 
     @Override
-    public Map<String, Object> login(AuthMember authMember, HttpServletRequest request) {
+    public Map<String, Object> login(@NotNull AuthMember authMember, HttpServletRequest request) {
+        // 验证码校验
+        verificationCode(authMember);
 
         // 调用 UserDetailsServiceImpl 获取身份信息 同时存储用户信息 判断身份信息是否合法
         UsernamePasswordAuthenticationToken authenticationToken =
@@ -161,34 +167,39 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
     }
 
     @Override
-    public Boolean register(AuthMember authMember) {
+    public Boolean register(@NotNull AuthMember authMember) {
+        // 验证码校验
+        verificationCode(authMember);
 
-        // 获取验证码
-        String imageCaptcha = authMember.getImageCaptcha();
-        // 获取 redis 的key
-        String uuid = authMember.getUuid();
-        String uuidKey = securityProperties.getCaptchaKey() + uuid;
-        // 查询验证码
-        String code = (String) redisService.get(uuidKey);
-        // 清除验证码
-        redisService.del(uuidKey);
-        if (StringUtils.isBlank(code)) {
-            throw new BaseRequestException("验证码不存在或已过期");
-        }
-        // 忽略大小写校验
-        if (StringUtils.isBlank(imageCaptcha) || !imageCaptcha.equalsIgnoreCase(code)) {
-            throw new BaseRequestException("验证码错误");
+        String phone = authMember.getPhone();
+        // 验证手机号
+        MemberEntity memberPhone = getByPhone(phone);
+        if (Objects.nonNull(memberPhone)) {
+            throw new BaseRequestException("手机号已被占用");
         }
 
-        String referralCode = authMember.getReferralCode();
-        MemberReferralCodeVo memberReferralCodeVo = memberReferralCodeService.getByCode(referralCode);
-        if (Objects.isNull(memberReferralCodeVo)) {
-            throw new BaseRequestException("推荐码错误");
-        }
         MemberEntity memberEntity = new MemberEntity();
-        // 设置上级id
-        memberEntity.setParentId(memberReferralCodeVo.getMemberId());
+        // 推荐码
+        String referralCode = authMember.getReferralCode();
+        // 当填写了推荐码在校验
+        if (Objects.nonNull(referralCode)) {
+            MemberReferralCodeVo memberReferralCodeVo = memberReferralCodeService.getByCode(referralCode);
+            if (Objects.isNull(memberReferralCodeVo)) {
+                throw new BaseRequestException("推荐码错误");
+            }
+            MemberEntity parentMember = getById(memberReferralCodeVo.getMemberId());
+            if (Objects.isNull(parentMember)) {
+                throw new BaseRequestException("推荐码错误");
+            }
+            // 设置上级id
+            memberEntity.setParentId(memberReferralCodeVo.getMemberId());
+        }
 
+        // 设置手机号
+        memberEntity.setPhone(phone);
+        String encode = passwordEncoder.encode(authMember.getPassword());
+        // 密码
+        memberEntity.setPassword(encode);
         return memberEntity.insert();
     }
 
@@ -235,9 +246,35 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
         // 验证码信息
         return new HashMap<>(2) {{
             put("img", captcha.toBase64());
-            put("uuid", uuid);
+            put("captchaUuid", uuid);
         }};
     }
 
+    @Override
+    public Object sendSMS() {
+        return null;
+    }
+
+    private void verificationCode(@NotNull AuthMember authMember) {
+        // 获取验证码
+        String imageCaptcha = authMember.getImageCaptcha();
+        // 获取 redis 的key
+        String uuid = authMember.getCaptchaUuid();
+        if (Objects.isNull(uuid)) {
+            throw new BaseRequestException("验证码错误");
+        }
+        String uuidKey = securityProperties.getCaptchaKey() + uuid;
+        // 查询验证码
+        String code = (String) redisService.get(uuidKey);
+        // 清除验证码
+        redisService.del(uuidKey);
+        if (StringUtils.isBlank(code)) {
+            throw new BaseRequestException("验证码不存在或已过期");
+        }
+        // 忽略大小写校验
+        if (StringUtils.isBlank(imageCaptcha) || !imageCaptcha.equalsIgnoreCase(code)) {
+            throw new BaseRequestException("验证码错误");
+        }
+    }
 }
 

@@ -56,10 +56,10 @@ public class OrderReturnApplyEntity extends CommonEntity<OrderReturnApplyEntity>
     @Schema(name = "createTime", description = "申请时间")
     private Date createTime;
     /**
-     * 会员用户名
+     * 会员昵称
      */
-    @Schema(name = "memberUsername", description = "会员用户名")
-    private String memberUsername;
+    @Schema(name = "memberNickname", description = "会员昵称")
+    private String memberNickname;
     /**
      * 退款金额
      */
@@ -95,11 +95,6 @@ public class OrderReturnApplyEntity extends CommonEntity<OrderReturnApplyEntity>
      */
     @Schema(name = "productName", description = "商品名称")
     private String productName;
-    /**
-     * 商品品牌
-     */
-    @Schema(name = "productBrand", description = "商品品牌")
-    private String productBrand;
     /**
      * 商品销售属性：颜色：红色；尺码：xl;
      */

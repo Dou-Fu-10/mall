@@ -112,4 +112,10 @@ public interface MemberService extends IService<MemberEntity> {
      */
     Map<String, Object> generateVerificationCode();
 
+    /**
+     *
+     * @return /
+     */
+    Object sendSMS();
+
 }

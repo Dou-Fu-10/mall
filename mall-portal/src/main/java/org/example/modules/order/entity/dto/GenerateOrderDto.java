@@ -20,7 +20,7 @@ import java.util.Set;
 public class GenerateOrderDto {
     @Schema(name = "memberReceiveAddressId", description = "收货地址ID")
     private Long memberReceiveAddressId;
-    @Schema(name = "payType", description = "支付方式 : 0->未支付；1->支付宝；2->微信")
+    @Schema(name = "payType", description = "0->未支付；1->支付宝；2->微信；3->本地钱包支付")
     private Integer payType;
     @Schema(name = "cartIds", description = "被选中的购物车商品ID")
     private Set<Long> cartIds;

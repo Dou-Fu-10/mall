@@ -152,8 +152,10 @@ public class CartItemServiceImpl extends ServiceImpl<CartItemMapper, CartItemEnt
             if (longProductVoMap.containsKey(productId)) {
                 // 获取购物车的商品id
                 ProductVo productVo = longProductVoMap.get(productId);
+                SkuStockVo skuStockVo = longSkuStockVoMap.get(productSkuId);
                 cartItemVo.setRealStock(productVo.getStock());
                 cartItemVo.setProduct(productVo);
+                cartItemVo.setPrice(skuStockVo.getPrice());
                 cartItemVo.setSkuStock(longSkuStockVoMap.get(productSkuId));
             }
         });

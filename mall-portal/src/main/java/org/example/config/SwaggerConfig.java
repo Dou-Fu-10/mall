@@ -67,7 +67,7 @@ public class SwaggerConfig {
     public GroupedOpenApi order() {
         return GroupedOpenApi.builder()
                 .group("订单")
-                .pathsToMatch(groupedApp("order"), groupedApp("orderItem"))
+                .pathsToMatch(groupedApp("order"), groupedApp("orderItem"),groupedApp("orderReturnApply"))
                 .build();
     }
 

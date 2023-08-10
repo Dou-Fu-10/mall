@@ -17,6 +17,7 @@ import org.example.modules.product.entity.vo.SkuStockVo;
 import org.example.modules.product.mapper.SkuStockMapper;
 import org.example.modules.product.serveice.ProductService;
 import org.example.modules.product.service.SkuStockService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -93,7 +94,7 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
     }
 
     @Override
-    public Boolean releaseSkuStockLock(List<OrderItemVo> orderItemVoList) {
+    public Boolean releaseSkuStockLock(@NotNull List<OrderItemVo> orderItemVoList) {
         Set<Long> productIds = orderItemVoList.stream().map(OrderItemVo::getProductId).collect(Collectors.toSet());
         return releaseSkuStockLock(productIds);
     }

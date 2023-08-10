@@ -44,8 +44,8 @@ public class OrderVo {
     /**
      * 用户帐号
      */
-    @Schema(name = "memberUsername", description = "用户帐号")
-    private String memberUsername;
+    @Schema(name = "memberNickname", description = "用户帐号")
+    private String memberNickname;
     /**
      * 订单总金额
      */
@@ -62,9 +62,9 @@ public class OrderVo {
     @Schema(name = "freightAmount", description = "运费金额")
     private BigDecimal freightAmount;
     /**
-     * 支付方式：0->未支付；1->支付宝；2->微信
+     * 0->未支付；1->支付宝；2->微信；3->本地钱包支付
      */
-    @Schema(name = "payType", description = "支付方式：0->未支付；1->支付宝；2->微信")
+    @Schema(name = "payType", description = "0->未支付；1->支付宝；2->微信；3->本地钱包支付")
     private Integer payType;
     /**
      * 订单来源：0->PC订单；1->app订单

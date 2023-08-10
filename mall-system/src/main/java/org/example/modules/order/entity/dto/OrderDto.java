@@ -52,7 +52,7 @@ public class OrderDto {
      */
     private BigDecimal freightAmount;
     /**
-     * 支付方式：0->未支付；1->支付宝；2->微信
+     * 0->未支付；1->支付宝；2->微信；3->本地钱包支付
      */
     private Integer payType;
     /**

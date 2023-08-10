@@ -1,5 +1,7 @@
 package org.example.modules.order.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -9,7 +11,9 @@ import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-08-05 17:04:10
@@ -53,15 +57,15 @@ public class OrderReturnApplyEntity extends CommonEntity<OrderReturnApplyEntity>
     @Schema(name = "createTime", description = "申请时间")
     private Date createTime;
     /**
-     * 会员用户名
+     * 会员昵称
      */
-    @Schema(name = "memberUsername", description = "会员用户名")
-    private String memberUsername;
+    @Schema(name = "memberNickname", description = "会员昵称")
+    private String memberNickname;
     /**
      * 退款金额
      */
     @Schema(name = "returnAmount", description = "退款金额")
-    private Double returnAmount;
+    private BigDecimal returnAmount;
     /**
      * 退货人姓名
      */
@@ -93,11 +97,6 @@ public class OrderReturnApplyEntity extends CommonEntity<OrderReturnApplyEntity>
     @Schema(name = "productName", description = "商品名称")
     private String productName;
     /**
-     * 商品品牌
-     */
-    @Schema(name = "productBrand", description = "商品品牌")
-    private String productBrand;
-    /**
      * 商品销售属性：颜色：红色；尺码：xl;
      */
     @Schema(name = "productAttr", description = "商品销售属性：颜色：红色；尺码：xl;")
@@ -111,12 +110,12 @@ public class OrderReturnApplyEntity extends CommonEntity<OrderReturnApplyEntity>
      * 商品单价
      */
     @Schema(name = "productPrice", description = "商品单价")
-    private Double productPrice;
+    private BigDecimal productPrice;
     /**
      * 商品实际支付单价
      */
     @Schema(name = "productRealPrice", description = "商品实际支付单价")
-    private Double productRealPrice;
+    private BigDecimal productRealPrice;
     /**
      * 原因
      */
@@ -131,7 +130,7 @@ public class OrderReturnApplyEntity extends CommonEntity<OrderReturnApplyEntity>
      * 凭证图片，以逗号隔开
      */
     @Schema(name = "proofPics", description = "凭证图片，以逗号隔开")
-    private String proofPics;
+    private Set<String> proofPics;
     /**
      * 处理备注
      */
@@ -158,6 +157,23 @@ public class OrderReturnApplyEntity extends CommonEntity<OrderReturnApplyEntity>
     @Schema(name = "receiveNote", description = "收货备注")
     private String receiveNote;
 
-
+    /**
+     * 创建人
+     * 创建
+     */
+    @TableField(exist = false)
+    private String createBy;
+    /**
+     * 更新人
+     * 创建、更新
+     */
+    @TableField(exist = false)
+    private String updateBy;
+    /**
+     * 更新时间
+     * 创建、更新
+     */
+    @TableField(exist = false)
+    private Date updateTime;
 }
 

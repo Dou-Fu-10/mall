@@ -23,6 +23,8 @@ import org.example.modules.order.service.OrderItemService;
 import org.example.modules.order.service.OrderService;
 import org.example.modules.order.service.OrderSettingService;
 import org.example.modules.product.entity.SkuStockEntity;
+import org.example.modules.product.entity.vo.ProductVo;
+import org.example.modules.product.entity.vo.SkuStockVo;
 import org.example.modules.product.service.SkuStockService;
 import org.example.security.utils.SecurityUtils;
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +33,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
@@ -56,19 +59,37 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     @Resource
     private OrderItemService orderItemService;
 
-    @org.jetbrains.annotations.NotNull
+
+    @NotNull
     private static List<OrderItemEntity> getOrderItemEntities(@NotNull List<CartItemVo> cartItemVoList) {
         List<OrderItemEntity> orderItemEntityList = new ArrayList<>();
         for (CartItemVo cartItemVo : cartItemVoList) {
+            // 获取 sku
+            SkuStockVo skuStock = cartItemVo.getSkuStock();
+            // 获取商品
+            ProductVo product = cartItemVo.getProduct();
             // 生成下单商品信息
             OrderItemEntity orderItem = new OrderItemEntity();
+            // 商品id
             orderItem.setProductId(cartItemVo.getProductId());
+            // 商品sku编号
+            orderItem.setProductSkuId(cartItemVo.getProductSkuId());
+            // 商品分类id
+            orderItem.setProductCategoryId(cartItemVo.getProductCategoryId());
+            // 商品图片
+            orderItem.setProductPic(skuStock.getPic());
+            // 商品名字
+            orderItem.setProductName(product.getName());
+            // 商品编号
             orderItem.setProductSn(cartItemVo.getProductSn());
             // 使用下单时商品的实时价格
-            orderItem.setProductPrice(cartItemVo.getProduct().getPrice());
+            orderItem.setProductPrice(skuStock.getPrice());
+            // 购买数量
             orderItem.setProductQuantity(cartItemVo.getQuantity());
-            orderItem.setProductSkuId(cartItemVo.getProductSkuId());
-            orderItem.setProductCategoryId(cartItemVo.getProductCategoryId());
+            // 商品sku条码
+            orderItem.setProductSkuCode(skuStock.getSkuCode());
+            // 商品销售属性:[{"key":"颜色","value":"颜色"},{"key":"容量","value":"4G"}]
+            orderItem.setProductAttr(skuStock.getSpData());
             orderItemEntityList.add(orderItem);
         }
         return orderItemEntityList;
@@ -99,7 +120,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         // 对订单进行转换
         IPage<OrderVo> orderEntityPageVoIpage = orderEntityPage.convert(order -> BeanCopy.convert(order, OrderVo.class));
         List<OrderVo> orderVoList = orderEntityPageVoIpage.getRecords();
-        List<Long> orderIds = orderVoList.stream().map(OrderVo::getId).collect(Collectors.toList());
+        Set<Long> orderIds = orderVoList.stream().map(OrderVo::getId).collect(Collectors.toSet());
         // 订单中所包含的商品
         List<OrderItemVo> orderItemVo = orderItemService.getByOrderIds(orderIds);
         // 将订单中所包含的商品 商品的id为key 以map 的形式进行存储
@@ -147,7 +168,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    public Map<String, Object> generateOrder(@NotNull GenerateOrderDto generateOrderDto) {
+    public Boolean generateOrder(@NotNull GenerateOrderDto generateOrderDto) {
         // 获取下单用户
         Long memberId = SecurityUtils.getCurrentUserId();
         Long memberReceiveAddressId = generateOrderDto.getMemberReceiveAddressId();
@@ -183,7 +204,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         orderEntity.setPayAmount(calculateAmountVo.getPayAmount());
         // 运费金额
         orderEntity.setFreightAmount(calculateAmountVo.getFreightAmount());
-        // 支付方式：0->未支付；1->支付宝；2->微信
+        // 0->未支付；1->支付宝；2->微信；3->本地钱包支付
         orderEntity.setPayType(generateOrderDto.getPayType());
         // 订单来源：0->PC订单；1->app订单
         orderEntity.setSourceType(1);
@@ -221,17 +242,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         if (!deleteCartItemList(cartItemVoList, memberId)) {
             throw new BaseRequestException("下单失败");
         }
-        Map<String, Object> result = new HashMap<>();
-        result.put("order", orderEntity);
-        result.put("orderItemList", orderItemEntityList);
-        return result;
+        return true;
     }
 
     @Override
     public Boolean confirmReceiveOrder(Long orderId) {
         Long memberId = SecurityUtils.getCurrentUserId();
+        // 订单
         OrderEntity orderEntity = getById(orderId);
-        if (!memberId.equals(orderEntity.getMemberId())) {
+
+        if (Objects.isNull(orderEntity) || !memberId.equals(orderEntity.getMemberId())) {
             throw new BaseRequestException("不能确认他人订单！");
         }
         if (orderEntity.getStatus() != 2) {
@@ -247,8 +267,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     public Boolean deleteOrder(Long orderId) {
         Long memberId = SecurityUtils.getCurrentUserId();
         OrderEntity orderEntity = getById(orderId);
-        if (!memberId.equals(orderEntity.getMemberId())) {
-            throw new BaseRequestException("不能删除他人订单！！");
+        if (Objects.isNull(orderEntity) || !memberId.equals(orderEntity.getMemberId())) {
+            return false;
         }
         if (orderEntity.getStatus() == 3 || orderEntity.getStatus() == 4) {
             return removeById(orderEntity);
@@ -259,24 +279,67 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
 
     @Override
     public Boolean cancelOrder(Long orderId) {
-        //查询未付款的取消订单
-        LambdaQueryWrapper<OrderEntity> orderEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        orderEntityLambdaQueryWrapper.eq(OrderEntity::getId, orderId);
-        orderEntityLambdaQueryWrapper.eq(OrderEntity::getStatus, 0);
-        OrderEntity orderEntity = getOne(orderEntityLambdaQueryWrapper);
-
-        if (Objects.isNull(orderEntity)) {
+        // 查询未付款的取消订单
+        Long memberId = SecurityUtils.getCurrentUserId();
+        OrderEntity orderEntity = getById(orderId);
+        if (Objects.isNull(orderEntity) || !memberId.equals(orderEntity.getMemberId())) {
             return false;
+        }
+        if (orderEntity.getStatus() != 0) {
+            throw new BaseRequestException("只能取消未付款的订单！");
         }
         //修改订单状态为取消
         orderEntity.setStatus(4);
-        updateById(orderEntity);
-        List<OrderItemVo> orderItemVoList = orderItemService.getByOrderIds(List.of(orderEntity.getId()));
+        if (!updateById(orderEntity)) {
+            return false;
+        }
+        List<OrderItemVo> orderItemVoList = orderItemService.getByOrderIds(Set.of(orderEntity.getId()));
         if (CollectionUtils.isNotEmpty(orderItemVoList)) {
             return skuStockService.releaseSkuStockLock(orderItemVoList);
         }
         return false;
 
+    }
+
+    @Override
+    public Boolean paySuccess(Long orderId, Integer payType) {
+        // 修改订单支付状态
+        OrderEntity order = getById(orderId);
+        if (Objects.isNull(order)) {
+            return false;
+        }
+        if (order.getStatus() != 0) {
+            throw new BaseRequestException("只能支付未付款订单");
+        }
+
+        order.setStatus(1);
+        order.setPaymentTime(new Date());
+        order.setPayType(payType);
+        // TODO 恢复所有下单商品的锁定库存，扣减真实库存
+        return updateById(order);
+    }
+
+    @Override
+    public OrderVo getByOrderIdAndMemberId(Serializable id, Long memberId) {
+        OrderEntity orderEntity = getById(id);
+        if (Objects.isNull(orderEntity)) {
+            return null;
+        }
+        if (!orderEntity.getMemberId().equals(memberId)) {
+            throw new BaseRequestException("获取订单失败");
+        }
+
+        OrderVo orderVo = BeanCopy.convert(orderEntity, OrderVo.class);
+
+        // 订单中所包含的商品
+        List<OrderItemVo> orderItemVo = orderItemService.getByOrderIds(Set.of(orderEntity.getId()));
+        // 将订单中所包含的商品 商品的id为key 以map 的形式进行存储
+        Map<Long, List<OrderItemVo>> longOrderItemVoMap = longOrderItemVoMap(orderItemVo);
+        if (longOrderItemVoMap.containsKey(orderVo.getId())) {
+            // 将订单中所包含的商品 存储到 orderVo里面
+            orderVo.setOrderItemList(longOrderItemVoMap.get(orderVo.getId()));
+        }
+        return orderVo;
     }
 
     /**

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -50,15 +51,15 @@ public class OrderReturnApplyVo {
     @Schema(name = "createTime", description = "申请时间")
     private Date createTime;
     /**
-     * 会员用户名
+     * 会员昵称
      */
-    @Schema(name = "memberUsername", description = "会员用户名")
-    private String memberUsername;
+    @Schema(name = "memberNickname", description = "会员昵称")
+    private String memberNickname;
     /**
      * 退款金额
      */
     @Schema(name = "returnAmount", description = "退款金额")
-    private Double returnAmount;
+    private BigDecimal returnAmount;
     /**
      * 退货人姓名
      */
@@ -90,11 +91,6 @@ public class OrderReturnApplyVo {
     @Schema(name = "productName", description = "商品名称")
     private String productName;
     /**
-     * 商品品牌
-     */
-    @Schema(name = "productBrand", description = "商品品牌")
-    private String productBrand;
-    /**
      * 商品销售属性：颜色：红色；尺码：xl;
      */
     @Schema(name = "productAttr", description = "商品销售属性：颜色：红色；尺码：xl;")
@@ -108,12 +104,12 @@ public class OrderReturnApplyVo {
      * 商品单价
      */
     @Schema(name = "productPrice", description = "商品单价")
-    private Double productPrice;
+    private BigDecimal productPrice;
     /**
      * 商品实际支付单价
      */
     @Schema(name = "productRealPrice", description = "商品实际支付单价")
-    private Double productRealPrice;
+    private BigDecimal productRealPrice;
     /**
      * 原因
      */

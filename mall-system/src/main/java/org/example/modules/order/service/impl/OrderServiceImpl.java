@@ -8,8 +8,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
+import org.example.common.core.utils.StringUtils;
 import org.example.modules.order.entity.OrderEntity;
+import org.example.modules.order.entity.dto.OrderDeliveryDto;
 import org.example.modules.order.entity.dto.OrderDto;
 import org.example.modules.order.entity.vo.OrderItemVo;
 import org.example.modules.order.entity.vo.OrderOperateHistoryVo;
@@ -18,12 +21,17 @@ import org.example.modules.order.mapper.OrderMapper;
 import org.example.modules.order.service.OrderItemService;
 import org.example.modules.order.service.OrderOperateHistoryService;
 import org.example.modules.order.service.OrderService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:34:29
@@ -174,6 +182,41 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         orderEntity.setDeliveryCompany(deliveryCompany);
         orderEntity.setDeliverySn(deliverySn);
         return orderEntity.updateById();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
+    public Boolean delivery(@NotNull OrderDeliveryDto orderDeliveryDto) {
+
+        Long orderId = orderDeliveryDto.getOrderId();
+        String deliveryCompany = orderDeliveryDto.getDeliveryCompany();
+        String deliverySn = orderDeliveryDto.getDeliverySn();
+        OrderVo orderVo = getOrderById(orderId);
+        if (Objects.isNull(orderVo) || StringUtils.isBlank(deliveryCompany) || StringUtils.isBlank(deliverySn)) {
+            throw new BaseRequestException("正确的填写商品");
+        }
+
+        if (orderVo.getStatus() != 1) {
+            throw new BaseRequestException("只能发送未发货的商品");
+        }
+
+        OrderEntity orderEntity = new OrderEntity();
+        // 操作订单
+        orderEntity.setId(orderVo.getId());
+        // 订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单
+        orderEntity.setStatus(2);
+        // 发货公司
+        orderEntity.setDeliveryCompany(deliveryCompany);
+        // 发货单号
+        orderEntity.setDeliverySn(deliverySn);
+
+
+        if (!updateById(orderEntity)) {
+            return false;
+        }
+        // 添加操作记录
+        orderOperateHistoryService.addOperationRecord(Set.of(orderEntity.getId()));
+        return true;
     }
 }
 

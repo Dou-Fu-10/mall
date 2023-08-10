@@ -4,11 +4,13 @@ import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.order.entity.OrderEntity;
+import org.example.modules.order.entity.dto.OrderDeliveryDto;
 import org.example.modules.order.entity.dto.OrderDto;
 import org.example.modules.order.entity.vo.OrderVo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:34:28
@@ -77,4 +79,12 @@ public interface OrderService extends IService<OrderEntity> {
      * @return String
      */
     Boolean updateStatus(Long id, Integer status, String deliveryCompany, String deliverySn);
+    /**
+     * 修改订单状态
+     *
+     * @param orderDeliveryDto 订单发货
+     * @return String
+     */
+    Boolean delivery(OrderDeliveryDto orderDeliveryDto);
+
 }

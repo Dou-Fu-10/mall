@@ -10,10 +10,11 @@ import org.example.modules.order.entity.dto.GenerateOrderDto;
 import org.example.modules.order.entity.dto.OrderDto;
 import org.example.modules.order.entity.vo.ConfirmOrderVo;
 import org.example.modules.order.service.OrderService;
+import org.example.security.utils.SecurityUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -52,11 +53,11 @@ public class OrderController {
      * @param id 主键
      * @return 单条数据
      */
-//    @Operation(summary = "通过主键查询单条数据")
-//    @GetMapping("detail/{id}")
-//    public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-//        return ResponseEntity.ok(this.orderService.getById(id));
-//    }
+    @Operation(summary = "通过主键查询单条数据")
+    @GetMapping("detail/{id}")
+    public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
+        return ResponseEntity.ok(this.orderService.getByOrderIdAndMemberId(id, SecurityUtils.getCurrentUserId()));
+    }
 
 
     /**
@@ -79,7 +80,7 @@ public class OrderController {
      */
     @Operation(summary = "生成订单", description = "生成订单")
     @PostMapping(value = "/generateOrder")
-    public ResponseEntity<Map<String, Object>> generateOrder(@RequestBody GenerateOrderDto generateOrderDto) {
+    public ResponseEntity<Boolean> generateOrder(@RequestBody GenerateOrderDto generateOrderDto) {
         return ResponseEntity.ok(this.orderService.generateOrder(generateOrderDto));
     }
 
@@ -131,29 +132,14 @@ public class OrderController {
 
 
     @Operation(summary = "用户支付成功的回调")
-//    @PostMapping(value = "/paySuccess")
+    @PostMapping(value = "/paySuccess")
     @ResponseBody
     public ResponseEntity<String> paySuccess(@RequestParam Long orderId, @RequestParam Integer payType) {
-//        if (this.orderService.paySuccess(orderId, payType)) {
-        return ResponseEntity.ok("支付成功");
-//        }
-        // 修改成自定义的 错误类型
-//        throw new RuntimeException("支付失败");
-    }
-
-    /**
-     * 修改数据
-     *
-     * @param orderDto 实体对象
-     * @return 修改结果
-     */
-//    @PutMapping
-    public ResponseEntity<Object> update(@RequestBody OrderDto orderDto) {
-        if (this.orderService.updateById(orderDto)) {
-            return ResponseEntity.ok("修改成功");
+        if (this.orderService.paySuccess(orderId, payType)) {
+            return ResponseEntity.ok("支付成功");
         }
         // 修改成自定义的 错误类型
-        throw new RuntimeException("修改失败");
+        throw new RuntimeException("支付失败");
     }
 }
 

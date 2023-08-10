@@ -2,6 +2,7 @@ package org.example.config;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.example.common.core.validation.PhoneValid;
 
 /**
  * Created by Dou-Fu-10 2023/8/1
@@ -16,7 +17,7 @@ public class AuthMember {
      * 用户
      */
     @Schema(name = "phone", description = "用户")
-//    @PhoneValid
+    @PhoneValid
     private String phone;
     /**
      * 密码
@@ -30,6 +31,11 @@ public class AuthMember {
     @Schema(name = "SMSVerificationCode", description = "短信验证码")
     private Integer SMSVerificationCode;
     /**
+     * 校验图片验证码
+     */
+    @Schema(name = "CaptchaUuid", description = "校验图片验证码")
+    private String SMSUuid;
+    /**
      * 验证码
      */
     @Schema(name = "imageCaptcha", description = "图片验证码")
@@ -37,8 +43,8 @@ public class AuthMember {
     /**
      * 校验图片验证码
      */
-    @Schema(name = "uuid", description = "校验图片验证码")
-    private String uuid;
+    @Schema(name = "CaptchaUuid", description = "校验图片验证码")
+    private String CaptchaUuid;
     /**
      * 验证码
      */

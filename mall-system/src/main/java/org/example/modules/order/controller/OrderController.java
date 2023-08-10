@@ -9,6 +9,7 @@ import jakarta.annotation.Resource;
 import org.example.common.core.base.ValidationDto;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.order.entity.OrderEntity;
+import org.example.modules.order.entity.dto.OrderDeliveryDto;
 import org.example.modules.order.entity.dto.OrderDto;
 import org.example.modules.order.service.OrderService;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:34:28
@@ -66,18 +68,14 @@ public class OrderController {
     /**
      * 修改订单状态
      *
-     * @param id     用户id
-     * @param status 状态
+     * @param orderDeliveryDto 订单发货
      * @return String
      */
-    @Operation(summary = "修改订单状态", description = "order::updateStatus")
-    @PutMapping(value = "/updateStatus/{id}")
-    @PreAuthorize("@hasPermission.check('order::updateStatus')")
-    public ResponseEntity<String> updateStatus(@PathVariable Long id,
-                                               @RequestParam(value = "status") Integer status,
-                                               @RequestParam(value = "deliveryCompany") String deliveryCompany,
-                                               @RequestParam(value = "deliverySn") String deliverySn) {
-        if (this.orderService.updateStatus(id, status, deliveryCompany, deliverySn)) {
+    @Operation(summary = "修改订单状态", description = "order::delivery")
+    @PutMapping(value = "/delivery")
+    @PreAuthorize("@hasPermission.check('order::delivery')")
+    public ResponseEntity<String> delivery(@RequestBody OrderDeliveryDto orderDeliveryDto) {
+        if (this.orderService.delivery(orderDeliveryDto)) {
             return ResponseEntity.ok("修改成功");
         }
         throw new BaseRequestException("修改失败");
