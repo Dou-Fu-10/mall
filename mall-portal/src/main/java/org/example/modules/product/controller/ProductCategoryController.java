@@ -1,6 +1,7 @@
 package org.example.modules.product.controller;
 
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.product.serveice.ProductCategoryService;
@@ -31,6 +32,7 @@ public class ProductCategoryController {
      *
      * @return 所有数据
      */
+    @Operation(summary = "分页查询所有数据")
     @AnonymousGetMapping
     public ResponseEntity<Object> select() {
         return ResponseEntity.ok(this.productCategoryService.selectProductCategory());

@@ -1,6 +1,7 @@
 package org.example.modules.comment.controller;
 
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.modules.comment.entity.dto.CommentReplayDto;
@@ -34,6 +35,7 @@ public class CommentReplayController {
      * @param commentReplayDto 实体对象
      * @return 新增结果
      */
+    @Operation(summary = "新增数据")
     @PostMapping
     public ResponseEntity<String> insert(@RequestBody CommentReplayDto commentReplayDto) {
         if (this.commentReplayService.save(commentReplayDto)) {

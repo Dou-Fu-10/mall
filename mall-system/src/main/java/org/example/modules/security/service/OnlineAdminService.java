@@ -29,47 +29,6 @@ public interface OnlineAdminService {
     Boolean save(JwtAdmin jwtAdmin, String token, HttpServletRequest request);
 
     /**
-     * 查询全部数据
-     *
-     * @param username /
-     * @param onlineUserDto /
-     * @return /
-     */
-//     Page<OnlineUserVo> getAll(String username, OnlineUserDto onlineUserDto);
-
-    /**
-     * 查询全部数据，不分页
-     *
-     * @param username /
-     * @return /
-     */
-    List<OnlineUserVo> getAll(String username);
-
-    /**
-     * 退出登录
-     *
-     * @param token /
-     */
-    void logout(String token);
-
-    /**
-     * 导出
-     *
-     * @param all      /
-     * @param response /
-     * @throws IOException /
-     */
-    void download(List<OnlineAdminDto> all, HttpServletResponse response) throws IOException;
-
-    /**
-     * 查询用户
-     *
-     * @param key /
-     * @return /
-     */
-    OnlineUserVo getOne(String key);
-
-    /**
      * 根据用户名强退用户
      *
      * @param username /

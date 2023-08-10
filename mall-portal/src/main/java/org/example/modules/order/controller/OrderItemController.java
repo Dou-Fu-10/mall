@@ -3,6 +3,7 @@ package org.example.modules.order.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
@@ -41,6 +42,7 @@ public class OrderItemController {
      * @param orderItemDto 查询实体
      * @return 所有数据
      */
+    @Operation(summary = "分页查询所有数据")
     @AnonymousGetMapping
     public ResponseEntity<Object> select(Page<OrderItemEntity> page, OrderItemDto orderItemDto) {
         return ResponseEntity.ok(this.orderItemService.page(page, orderItemDto));
@@ -52,6 +54,7 @@ public class OrderItemController {
      * @param id 主键
      * @return 单条数据
      */
+    @Operation(summary = "通过主键查询单条数据")
     @AnonymousGetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return ResponseEntity.ok(this.orderItemService.getById(id));
@@ -63,6 +66,7 @@ public class OrderItemController {
      * @param orderItemDto 实体对象
      * @return 新增结果
      */
+    @Operation(summary = "新增数据")
     @PostMapping
     public ResponseEntity<Object> insert(@RequestBody OrderItemDto orderItemDto) {
         if (this.orderItemService.save(orderItemDto)) {
@@ -78,6 +82,7 @@ public class OrderItemController {
      * @param orderItemDto 实体对象
      * @return 修改结果
      */
+    @Operation(summary = "修改数据")
     @PutMapping
     public ResponseEntity<Object> update(@RequestBody OrderItemDto orderItemDto) {
         if (this.orderItemService.updateById(orderItemDto)) {
@@ -93,6 +98,7 @@ public class OrderItemController {
      * @param idList 主键结合
      * @return 删除结果
      */
+    @Operation(summary = "删除数据")
     @DeleteMapping
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {

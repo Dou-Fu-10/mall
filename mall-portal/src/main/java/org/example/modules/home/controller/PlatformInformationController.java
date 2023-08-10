@@ -3,6 +3,7 @@ package org.example.modules.home.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
@@ -47,6 +48,7 @@ public class PlatformInformationController {
      * @param platformInformationDto 查询实体
      * @return 所有数据
      */
+    @Operation(summary = "分页查询所有数据")
     @AnonymousGetMapping
     public ResponseEntity<Object> select(Page<PlatformInformationEntity> page, PlatformInformationDto platformInformationDto) {
         return ResponseEntity.ok(this.platformInformationService.page(page, platformInformationDto));
@@ -58,6 +60,7 @@ public class PlatformInformationController {
      * @param id 主键
      * @return 单条数据
      */
+    @Operation(summary = "通过主键查询单条数据")
     @AnonymousGetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return ResponseEntity.ok(this.platformInformationService.getById(id));
@@ -69,6 +72,7 @@ public class PlatformInformationController {
      * @param platformInformationDto 实体对象
      * @return 新增结果
      */
+    @Operation(summary = "新增数据")
     @AnonymousPostMapping
     public ResponseEntity<Object> insert(@RequestBody PlatformInformationDto platformInformationDto) {
         if (this.platformInformationService.save(platformInformationDto)) {
@@ -84,6 +88,7 @@ public class PlatformInformationController {
      * @param platformInformationDto 实体对象
      * @return 修改结果
      */
+    @Operation(summary = "修改数据")
     @AnonymousPutMapping
     public ResponseEntity<Object> update(@RequestBody PlatformInformationDto platformInformationDto) {
         if (this.platformInformationService.updateById(platformInformationDto)) {
@@ -99,6 +104,7 @@ public class PlatformInformationController {
      * @param idList 主键结合
      * @return 删除结果
      */
+    @Operation(summary = "删除数据")
     @AnonymousDeleteMapping
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {

@@ -20,7 +20,6 @@ import java.util.List;
 @NoArgsConstructor
 public class RoleVo {
     private Long id;
-
     /**
      * 名称
      */
@@ -32,6 +31,7 @@ public class RoleVo {
     /**
      * 后台用户数量
      */
+    @JsonIgnore
     private Integer adminCount;
     /**
      * 排序

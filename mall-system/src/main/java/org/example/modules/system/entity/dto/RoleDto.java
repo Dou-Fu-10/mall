@@ -1,5 +1,6 @@
 package org.example.modules.system.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,10 +27,12 @@ public class RoleDto {
     /**
      * 描述
      */
+    @JsonIgnore
     private String description;
     /**
      * 后台用户数量
      */
+    @JsonIgnore
     private Integer adminCount;
     /**
      * 排序
@@ -38,26 +41,32 @@ public class RoleDto {
     /**
      * 启用状态；1->正常：0->禁用
      */
+    @JsonIgnore
     private Boolean enabled;
     /**
      * 更新时间
      */
+    @JsonIgnore
     private Date updateTime;
     /**
      * 创建者
      */
+    @JsonIgnore
     private String createBy;
     /**
      * 更新者
      */
+    @JsonIgnore
     private String updateBy;
     /**
      * 创建时间
      */
+    @JsonIgnore
     private Date createTime;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
+    @JsonIgnore
     private Integer deleteFlag;
 
 

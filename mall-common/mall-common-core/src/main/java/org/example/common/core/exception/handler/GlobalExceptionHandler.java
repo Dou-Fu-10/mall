@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
     public ResponseEntity<?> methodArgumentNotValidExceptionHandler(@NotNull MethodArgumentNotValidException e) {
         log.error("------->MethodArgumentNotValidException参数异常-------- " + Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage());
-        return buildResponseEntity(BaseError.error(Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage()));
+        return buildResponseEntity(BaseError.error("参数异常"));
     }
 
     /**

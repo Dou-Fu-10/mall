@@ -4,21 +4,16 @@ package org.example.modules.comment.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.comment.entity.CommentReplayEntity;
 import org.example.modules.comment.service.CommentReplayService;
-import org.example.security.annotaion.rest.AnonymousDeleteMapping;
-import org.example.security.annotaion.rest.AnonymousGetMapping;
-import org.example.security.annotaion.rest.AnonymousPostMapping;
-import org.example.security.annotaion.rest.AnonymousPutMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -48,7 +43,9 @@ public class CommentReplayController {
      * @param commentReplay 查询实体
      * @return 所有数据
      */
-    @AnonymousGetMapping
+    @Operation(summary = "分页查询所有数据")
+    @GetMapping
+    @PreAuthorize("@hasPermission.check('order::select')")
     public ResponseEntity<Object> select(Page<CommentReplayEntity> page, CommentReplayEntity commentReplay) {
         return new ResponseEntity<>(this.commentReplayService.page(page, new QueryWrapper<>(commentReplay)), HttpStatus.OK);
     }
@@ -59,7 +56,9 @@ public class CommentReplayController {
      * @param id 主键
      * @return 单条数据
      */
-    @AnonymousGetMapping("{id}")
+    @Operation(summary = "分页查询所有数据")
+    @GetMapping("{id}")
+    @PreAuthorize("@hasPermission.check('order::select')")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return new ResponseEntity<>(this.commentReplayService.getById(id), HttpStatus.OK);
     }
@@ -70,7 +69,9 @@ public class CommentReplayController {
      * @param commentReplay 实体对象
      * @return 新增结果
      */
-    @AnonymousPostMapping
+    @Operation(summary = "分页查询所有数据")
+    @PostMapping
+    @PreAuthorize("@hasPermission.check('order::select')")
     public ResponseEntity<Object> insert(@RequestBody CommentReplayEntity commentReplay) {
         return new ResponseEntity<>(this.commentReplayService.save(commentReplay), HttpStatus.OK);
     }
@@ -81,7 +82,9 @@ public class CommentReplayController {
      * @param commentReplay 实体对象
      * @return 修改结果
      */
-    @AnonymousPutMapping
+    @Operation(summary = "分页查询所有数据")
+    @PutMapping
+    @PreAuthorize("@hasPermission.check('order::select')")
     public ResponseEntity<Object> update(@RequestBody CommentReplayEntity commentReplay) {
         return new ResponseEntity<>(this.commentReplayService.updateById(commentReplay), HttpStatus.OK);
     }
@@ -92,7 +95,9 @@ public class CommentReplayController {
      * @param idList 主键结合
      * @return 删除结果
      */
-    @AnonymousDeleteMapping
+    @Operation(summary = "分页查询所有数据")
+    @DeleteMapping
+    @PreAuthorize("@hasPermission.check('order::select')")
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");

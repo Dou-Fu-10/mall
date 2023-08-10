@@ -3,6 +3,7 @@ package org.example.modules.comment.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.swagger.v3.oas.annotations.Operation;
 import org.example.modules.comment.entity.CommentReplayEntity;
 import org.example.modules.comment.entity.dto.CommentReplayDto;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,7 @@ public class CommentController {
      * @param productId 商品id
      * @return 所有数据
      */
+    @Operation(summary = "分页查询所有数据")
     @GetMapping
     public ResponseEntity<Object> select(Page<CommentEntity> page, Long productId) {
         CommentDto commentDto = new CommentDto();
@@ -57,6 +59,7 @@ public class CommentController {
      * @param commentDto 实体对象
      * @return 新增结果
      */
+    @Operation(summary = "新增数据")
     @PostMapping
     public ResponseEntity<String> insert(@RequestBody CommentDto commentDto) {
         if (this.commentService.save(commentDto)) {

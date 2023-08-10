@@ -18,7 +18,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -52,19 +51,6 @@ public class RoleController {
     @PreAuthorize("@hasPermission.check('role::select')")
     public ResponseEntity<Object> select(Page<RoleEntity> page, @Validated(ValidationDto.SelectPage.class) RoleDto roleDto) {
         return new ResponseEntity<>(this.roleService.page(page, roleDto), HttpStatus.OK);
-    }
-
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-//    @Operation(summary = "通过主键查询单条数据", description = "role::selectOne")
-//    @GetMapping("{id}")
-//    @PreAuthorize("@hasPermission.check('role::selectOne')")
-    public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return new ResponseEntity<>(this.roleService.getById(id), HttpStatus.OK);
     }
 
     /**

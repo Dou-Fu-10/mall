@@ -2,6 +2,7 @@ package org.example.modules.order.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,6 +39,7 @@ public class OrderReturnApplyController {
      * @param orderReturnApplyDto 查询实体
      * @return 所有数据
      */
+    @Operation(summary = "分页查询所有数据")
     @GetMapping
     public ResponseEntity<Object> select(Page<OrderReturnApplyEntity> page, OrderReturnApplyDto orderReturnApplyDto) {
         return ResponseEntity.ok(this.orderReturnApplyService.page(page, orderReturnApplyDto));
@@ -49,6 +51,7 @@ public class OrderReturnApplyController {
      * @param orderReturnApplyDto 实体对象
      * @return 新增结果
      */
+    @Operation(summary = "新增数据")
     @PostMapping
     public ResponseEntity<String> insert(@RequestBody OrderReturnApplyDto orderReturnApplyDto, HttpServletRequest request) {
         if (this.orderReturnApplyService.save(orderReturnApplyDto)) {

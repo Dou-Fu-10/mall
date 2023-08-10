@@ -2,6 +2,7 @@ package org.example.modules.product.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.base.ValidationDto;
@@ -41,6 +42,7 @@ public class ProductController {
      * @param productDto 查询实体
      * @return 所有数据
      */
+    @Operation(summary = "分页查询所有数据")
     @AnonymousGetMapping
     public ResponseEntity<Object> select(Page<ProductEntity> page, @Validated(ValidationDto.SelectPage.class) ProductDto productDto) {
         return ResponseEntity.ok(productService.page(page, productDto));
@@ -52,6 +54,7 @@ public class ProductController {
      * @param id 主键
      * @return 单条数据
      */
+    @Operation(summary = "通过主键查询单条数据")
     @AnonymousGetMapping("detail/{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return ResponseEntity.ok(productService.detail(id));
