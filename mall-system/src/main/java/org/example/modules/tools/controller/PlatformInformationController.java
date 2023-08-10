@@ -3,6 +3,7 @@ package org.example.modules.tools.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
@@ -10,6 +11,7 @@ import org.example.modules.tools.entity.PlatformInformationEntity;
 import org.example.modules.tools.entity.dto.PlatformInformationDto;
 import org.example.modules.tools.service.PlatformInformationService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -42,6 +44,8 @@ public class PlatformInformationController {
      * @return 所有数据
      */
     @GetMapping
+    @Operation(summary = "分页查询所有数据", description = "platformInformation::select")
+    @PreAuthorize("@hasPermission.check('platformInformation::select')")
     public ResponseEntity<Object> select(Page<PlatformInformationEntity> page, PlatformInformationDto platformInformationDto) {
         return ResponseEntity.ok(this.platformInformationService.page(page, platformInformationDto));
     }
@@ -53,6 +57,8 @@ public class PlatformInformationController {
      * @return 单条数据
      */
     @GetMapping("{id}")
+    @Operation(summary = "通过主键查询单条数据", description = "platformInformation::selectOne")
+    @PreAuthorize("@hasPermission.check('platformInformation::selectOne')")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return ResponseEntity.ok(this.platformInformationService.getById(id));
     }
@@ -64,6 +70,8 @@ public class PlatformInformationController {
      * @return 新增结果
      */
     @PostMapping
+    @Operation(summary = "新增数据", description = "platformInformation::insert")
+    @PreAuthorize("@hasPermission.check('platformInformation::insert')")
     public ResponseEntity<String> insert(@RequestBody PlatformInformationDto platformInformationDto) {
         if (this.platformInformationService.save(platformInformationDto)) {
             return ResponseEntity.ok("添加成功");
@@ -79,6 +87,8 @@ public class PlatformInformationController {
      * @return 修改结果
      */
     @PutMapping
+    @Operation(summary = "修改数据", description = "platformInformation::update")
+    @PreAuthorize("@hasPermission.check('platformInformation::update')")
     public ResponseEntity<String> update(@RequestBody PlatformInformationDto platformInformationDto) {
         if (this.platformInformationService.updateById(platformInformationDto)) {
             return ResponseEntity.ok("修改成功");
@@ -94,6 +104,8 @@ public class PlatformInformationController {
      * @return 删除结果
      */
     @DeleteMapping
+    @Operation(summary = "删除数据", description = "platformInformation::remove")
+    @PreAuthorize("@hasPermission.check('platformInformation::remove')")
     public ResponseEntity<String> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");

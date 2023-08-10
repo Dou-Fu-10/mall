@@ -95,7 +95,8 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group("工具")
                 .pathsToMatch(groupedApi("companyAddress"), groupedApi("feightTemplate"),
-                        groupedApi("homeAdvertise"), groupedApi("PlatformInformationController"))
+                        groupedApi("homeAdvertise"), groupedApi("PlatformInformationController"),
+                        groupedApi("platformInformation"))
                 .build();
     }
 
