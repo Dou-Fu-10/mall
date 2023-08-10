@@ -35,6 +35,14 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public GroupedOpenApi security() {
+        return GroupedOpenApi.builder()
+                .group("安全")
+                .pathsToMatch("/auth/**")
+                .build();
+    }
+
+    @Bean
     public GroupedOpenApi comment() {
         return GroupedOpenApi.builder()
                 .group("商品评论")
@@ -74,14 +82,20 @@ public class SwaggerConfig {
     }
 
     @Bean
-    public GroupedOpenApi admin() {
+    public GroupedOpenApi system() {
         return GroupedOpenApi.builder()
                 .group("管理员")
                 .pathsToMatch(groupedApi("admin"), groupedApi("adminLoginLog"),
-                        groupedApi("adminRole"), groupedApi("menu"),
-                        groupedApi("role"), groupedApi("rolesMenus"),
-                        groupedApi("companyAddress"), groupedApi("feightTemplate"),
-                        groupedApi("homeAdvertise"), "/auth/**")
+                        groupedApi("menu"), groupedApi("role"))
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi tools() {
+        return GroupedOpenApi.builder()
+                .group("工具")
+                .pathsToMatch(groupedApi("companyAddress"), groupedApi("feightTemplate"),
+                        groupedApi("homeAdvertise"), groupedApi("PlatformInformationController"))
                 .build();
     }
 

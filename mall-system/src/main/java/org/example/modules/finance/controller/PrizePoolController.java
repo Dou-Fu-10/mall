@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
+ * 奖金池 PrizePoolController
  * Created by Dou-Fu-10 2023-07-29 15:47:03
  *
  * @author Dou-Fu-10

@@ -1,17 +1,12 @@
 package org.example.modules.comment.entity.dto;
 
-import java.util.Date;
-
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
-import org.example.common.core.utils.BeanCopy;
+
+import java.util.Date;
 
 /**
  * Created by Dou-Fu-10 2023-08-10 15:24:17

@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 登录注册 AuthorizationController
  * Created by Dou-Fu-10 2023/7/14
  *
  * @author Dou-Fu-10

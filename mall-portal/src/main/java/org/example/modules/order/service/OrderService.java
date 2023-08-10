@@ -97,10 +97,11 @@ public interface OrderService extends IService<OrderEntity> {
      * @return 订单信息
      */
     OrderVo getByOrderIdAndMemberId(Serializable id, Long memberId);
+
     /**
      * 通过订单id 获取已完成订单信息
      *
-     * @param memberId       订单id
+     * @param memberId 订单id
      * @param memberId 会员id
      * @return 订单信息
      */

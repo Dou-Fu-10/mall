@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 /**
+ * 登录注册 AuthorizationController
  * Created by Dou-Fu-10 2023/7/14
  *
  * @author Dou-Fu-10
@@ -57,6 +58,7 @@ public class AuthorizationController {
 
     /**
      * 获取验证码
+     *
      * @return /
      */
     @Operation(summary = "获取验证码")
@@ -67,6 +69,7 @@ public class AuthorizationController {
 
     /**
      * 获取短信验证码
+     *
      * @param phone 手机号码
      * @return /
      */

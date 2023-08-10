@@ -23,6 +23,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * 会员收藏 MemberCollectionController
  * Created by Dou-Fu-10 2023-08-05 13:27:10
  *
  * @author Dou-Fu-10

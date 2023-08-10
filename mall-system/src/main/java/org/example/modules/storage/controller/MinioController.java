@@ -23,6 +23,8 @@ import java.io.InputStream;
 import java.util.Base64;
 
 /**
+ * 微服务存储 MinioController
+ *
  * @author Dou-Fu-10
  * @date 2023-07-07
  * @Description 微服务存储

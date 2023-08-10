@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.Serializable;
 
 /**
+ * 会员收货地址表 MemberReceiveAddressController
  * Created by Dou-Fu-10 2023-07-31 15:49:05
  *
  * @author Dou-Fu-10

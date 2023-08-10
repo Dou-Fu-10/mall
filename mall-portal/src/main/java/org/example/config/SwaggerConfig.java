@@ -59,7 +59,7 @@ public class SwaggerConfig {
                 .group("会员")
                 .pathsToMatch(groupedApp("member"), groupedApp("memberReceiveAddress"),
                         groupedApp("memberReadHistory"), groupedApp("memberCollection"),
-                        grouped("auth"), groupedApp("memberReferralCode"),groupedApp("comment"),groupedApp("commentReplay"))
+                        grouped("auth"), groupedApp("memberReferralCode"), groupedApp("comment"), groupedApp("commentReplay"))
                 .build();
     }
 
@@ -67,7 +67,7 @@ public class SwaggerConfig {
     public GroupedOpenApi order() {
         return GroupedOpenApi.builder()
                 .group("订单")
-                .pathsToMatch(groupedApp("order"), groupedApp("orderItem"),groupedApp("orderReturnApply"))
+                .pathsToMatch(groupedApp("order"), groupedApp("orderItem"), groupedApp("orderReturnApply"))
                 .build();
     }
 

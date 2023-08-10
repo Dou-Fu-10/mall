@@ -1,8 +1,8 @@
 package org.example.modules.comment.service;
 
-import org.example.modules.comment.entity.CommentReplayEntity;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.modules.comment.entity.CommentReplayEntity;
 import org.example.modules.comment.entity.dto.CommentReplayDto;
 import org.example.modules.comment.entity.vo.CommentReplayVo;
 
@@ -44,6 +44,7 @@ public interface CommentReplayService extends IService<CommentReplayEntity> {
 
     /**
      * 通过评价ids 获取追评
+     *
      * @param commentIds 通过评价ids
      * @return 获取追评
      */

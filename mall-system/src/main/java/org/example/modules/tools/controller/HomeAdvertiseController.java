@@ -1,40 +1,32 @@
-package org.example.modules.home.controller;
+package org.example.modules.tools.controller;
 
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
-import org.example.modules.home.entity.HomeAdvertiseEntity;
-import org.example.modules.home.entity.dto.HomeAdvertiseDto;
-import org.example.modules.home.service.HomeAdvertiseService;
-import org.example.security.annotaion.rest.AnonymousDeleteMapping;
-import org.example.security.annotaion.rest.AnonymousGetMapping;
-import org.example.security.annotaion.rest.AnonymousPostMapping;
-import org.example.security.annotaion.rest.AnonymousPutMapping;
+import org.example.modules.tools.entity.HomeAdvertiseEntity;
+import org.example.modules.tools.entity.dto.HomeAdvertiseDto;
+import org.example.modules.tools.service.HomeAdvertiseService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 首页轮播广告 HomeAdvertiseController
- * Created by Dou-Fu-10 2023-07-31 16:16:51
+ * 首页轮播广告表 HomeAdvertiseController
+ * Created by Dou-Fu-10 2023-08-10 22:21:00
  *
  * @author Dou-Fu-10
- * @date 2023-07-31 16:16:51
+ * @date 2023-08-10 22:21:00
  * @Description 首页轮播广告表(HomeAdvertise)表控制层
  */
 @RestController
-@RequestMapping("/homeAdvertise")
-@Tag(name = "HomeAdvertiseController", description = "页轮播广告表(HomeAdvertise)表控制层")
+@RequestMapping("/api/homeAdvertise")
+@Tag(name = "HomeAdvertiseController", description = "")
 public class HomeAdvertiseController {
     /**
      * 服务对象
@@ -49,8 +41,7 @@ public class HomeAdvertiseController {
      * @param homeAdvertiseDto 查询实体
      * @return 所有数据
      */
-    @Operation(summary = "分页查询所有数据")
-    @AnonymousGetMapping
+    @GetMapping
     public ResponseEntity<Object> select(Page<HomeAdvertiseEntity> page, HomeAdvertiseDto homeAdvertiseDto) {
         return ResponseEntity.ok(this.homeAdvertiseService.page(page, homeAdvertiseDto));
     }
@@ -61,8 +52,7 @@ public class HomeAdvertiseController {
      * @param id 主键
      * @return 单条数据
      */
-    @Operation(summary = "通过主键查询单条数据")
-    @AnonymousGetMapping("{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
         return ResponseEntity.ok(this.homeAdvertiseService.getById(id));
     }
@@ -73,9 +63,8 @@ public class HomeAdvertiseController {
      * @param homeAdvertiseDto 实体对象
      * @return 新增结果
      */
-    @Operation(summary = "新增数据")
-    @AnonymousPostMapping
-    public ResponseEntity<Object> insert(@RequestBody HomeAdvertiseDto homeAdvertiseDto) {
+    @PostMapping
+    public ResponseEntity<String> insert(@RequestBody HomeAdvertiseDto homeAdvertiseDto) {
         if (this.homeAdvertiseService.save(homeAdvertiseDto)) {
             return ResponseEntity.ok("添加成功");
         }
@@ -89,9 +78,8 @@ public class HomeAdvertiseController {
      * @param homeAdvertiseDto 实体对象
      * @return 修改结果
      */
-    @Operation(summary = "修改数据")
-    @AnonymousPutMapping
-    public ResponseEntity<Object> update(@RequestBody HomeAdvertiseDto homeAdvertiseDto) {
+    @PutMapping
+    public ResponseEntity<String> update(@RequestBody HomeAdvertiseDto homeAdvertiseDto) {
         if (this.homeAdvertiseService.updateById(homeAdvertiseDto)) {
             return ResponseEntity.ok("修改成功");
         }
@@ -105,9 +93,8 @@ public class HomeAdvertiseController {
      * @param idList 主键结合
      * @return 删除结果
      */
-    @Operation(summary = "删除数据")
-    @AnonymousDeleteMapping
-    public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
+    @DeleteMapping
+    public ResponseEntity<String> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");
         }

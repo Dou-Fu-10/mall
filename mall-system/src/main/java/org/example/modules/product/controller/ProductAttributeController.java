@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * 商品属性参数 productAttribute
  * Created by Dou-Fu-10 2023-07-14 12:49:51
  *
  * @author Dou-Fu-10

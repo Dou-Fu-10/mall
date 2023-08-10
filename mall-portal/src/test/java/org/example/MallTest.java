@@ -16,9 +16,9 @@ public class MallTest {
     private MemberService memberService;
 
     @Test
-    public void testUser(){
+    public void testUser() {
         LambdaQueryWrapper<MemberEntity> memberEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        memberEntityLambdaQueryWrapper.eq(MemberEntity::getInvitationCode,"1");
+        memberEntityLambdaQueryWrapper.eq(MemberEntity::getInvitationCode, "1");
         List<MemberEntity> list = memberService.list(memberEntityLambdaQueryWrapper);
         list.forEach(memberEntity -> memberEntity.setInvitationCode(RandomUtil.randomString(6)));
         memberService.updateBatchById(list);

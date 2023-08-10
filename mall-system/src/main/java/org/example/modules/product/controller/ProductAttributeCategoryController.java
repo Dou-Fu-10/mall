@@ -23,6 +23,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * 产品属性分类表 ProductAttributeCategoryController
  * Created by Dou-Fu-10 2023-07-14 11:03:41
  *
  * @author Dou-Fu-10

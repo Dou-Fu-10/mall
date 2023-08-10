@@ -18,6 +18,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * 会员详细说明 MemberDescriptionController
  * Created by Dou-Fu-10 2023-07-31 15:40:17
  *
  * @author Dou-Fu-10

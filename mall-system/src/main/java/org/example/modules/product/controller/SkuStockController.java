@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Set;
 
 /**
+ * sku的库存 SkuStockController
  * Created by Dou-Fu-10 2023-07-15 11:35:49
  *
  * @author Dou-Fu-10
@@ -85,6 +86,7 @@ public class SkuStockController {
 //        throw new RuntimeException("修改失败");
 //    }
 //
+
     /**
      * 修改数据
      *

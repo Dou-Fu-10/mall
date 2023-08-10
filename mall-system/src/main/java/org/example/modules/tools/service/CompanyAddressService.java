@@ -28,6 +28,7 @@ public interface CompanyAddressService extends IService<CompanyAddressEntity> {
      * @return 修改结果
      */
     boolean updateById(CompanyAddressDto companyAddress);
+
     /**
      * 通过主键查询单条数据
      *

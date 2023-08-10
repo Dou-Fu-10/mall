@@ -2,26 +2,20 @@ package org.example.modules.security.service.impl;
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.common.core.utils.BeanCopy;
-import org.example.common.core.utils.FileUtil;
 import org.example.common.core.utils.StringUtils;
 import org.example.common.redis.service.RedisService;
 import org.example.modules.security.service.OnlineAdminService;
-import org.example.modules.system.entity.vo.OnlineUserVo;
 import org.example.security.config.SecurityProperties;
 import org.example.security.entity.JwtAdmin;
 import org.example.security.entity.OnlineAdminDto;
-import org.example.security.utils.JwtTokenUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**

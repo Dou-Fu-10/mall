@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.Serializable;
 
 /**
+ * 商品信息 ProductController
  * Created by Dou-Fu-10 2023-07-14 13:05:47
  *
  * @author Dou-Fu-10

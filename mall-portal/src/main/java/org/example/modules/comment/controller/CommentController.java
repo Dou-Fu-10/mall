@@ -1,27 +1,18 @@
 package org.example.modules.comment.controller;
 
 
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import io.swagger.v3.oas.annotations.Operation;
-import org.example.modules.comment.entity.CommentReplayEntity;
-import org.example.modules.comment.entity.dto.CommentReplayDto;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.example.common.core.exception.BaseRequestException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.example.modules.comment.entity.dto.CommentDto;
-import org.example.modules.comment.entity.CommentEntity;
-import org.example.modules.comment.service.CommentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.modules.comment.entity.CommentEntity;
+import org.example.modules.comment.entity.dto.CommentDto;
+import org.example.modules.comment.service.CommentService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Serializable;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 /**
+ * 商品评价表 CommentController
  * Created by Dou-Fu-10 2023-08-10 15:24:16
  *
  * @author Dou-Fu-10
@@ -37,10 +28,11 @@ public class CommentController {
      */
     @Resource
     private CommentService commentService;
+
     /**
      * 分页查询所有数据
      *
-     * @param page             分页对象
+     * @param page      分页对象
      * @param productId 商品id
      * @return 所有数据
      */

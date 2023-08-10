@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * 会员阅读历史记录 memberReadHistory
  * Created by Dou-Fu-10 2023-08-05 13:27:09
  *
  * @author Dou-Fu-10
