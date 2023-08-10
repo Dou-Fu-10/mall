@@ -116,6 +116,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         orderEntity.setMemberId(currentUserId);
         // 获取 会员订单订单
         LambdaQueryWrapper<OrderEntity> orderEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(orderEntity);
+        orderEntityLambdaQueryWrapper.orderByDesc(OrderEntity::getId);
         Page<OrderEntity> orderEntityPage = page(page, orderEntityLambdaQueryWrapper);
         // 对订单进行转换
         IPage<OrderVo> orderEntityPageVoIpage = orderEntityPage.convert(order -> BeanCopy.convert(order, OrderVo.class));

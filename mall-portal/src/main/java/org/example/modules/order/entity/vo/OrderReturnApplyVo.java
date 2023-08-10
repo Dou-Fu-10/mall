@@ -1,18 +1,22 @@
 package org.example.modules.order.entity.vo;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
+import java.io.Serializable;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
- * Created by Dou-Fu-10 2023-08-05 17:04:10
+ * Created by Dou-Fu-10 2023-08-10 13:31:15
  *
  * @author Dou-Fu-10
- * @date 2023-08-05 17:04:10
+ * @date 2023-08-10 13:31:15
  * @Description 订单退货申请(OrderReturnApply)表实体类
  */
 @Data
@@ -29,17 +33,12 @@ public class OrderReturnApplyVo {
      */
     @Schema(name = "orderId", description = "订单id")
     private Long orderId;
-    /**
-     * 收货地址表id
-     */
-    @Schema(name = "companyAddressId", description = "收货地址表id")
-    private Long companyAddressId;
-    /**
-     * 退货商品id
-     */
-    @Schema(name = "productId", description = "退货商品id")
-    private Long productId;
 
+    /**
+     * 公司收货地址id
+     */
+    @Schema(name = "companyAddressId", description = "公司收货地址id")
+    private Long companyAddressId;
     /**
      * 订单编号
      */
@@ -56,9 +55,9 @@ public class OrderReturnApplyVo {
     @Schema(name = "memberNickname", description = "会员昵称")
     private String memberNickname;
     /**
-     * 退款金额
+     * 公司给客户的退款金额
      */
-    @Schema(name = "returnAmount", description = "退款金额")
+    @Schema(name = "returnAmount", description = "公司给客户的退款金额")
     private BigDecimal returnAmount;
     /**
      * 退货人姓名
@@ -80,36 +79,6 @@ public class OrderReturnApplyVo {
      */
     @Schema(name = "handleTime", description = "处理时间")
     private Date handleTime;
-    /**
-     * 商品图片
-     */
-    @Schema(name = "productPic", description = "商品图片")
-    private String productPic;
-    /**
-     * 商品名称
-     */
-    @Schema(name = "productName", description = "商品名称")
-    private String productName;
-    /**
-     * 商品销售属性：颜色：红色；尺码：xl;
-     */
-    @Schema(name = "productAttr", description = "商品销售属性：颜色：红色；尺码：xl;")
-    private String productAttr;
-    /**
-     * 退货数量
-     */
-    @Schema(name = "productCount", description = "退货数量")
-    private Integer productCount;
-    /**
-     * 商品单价
-     */
-    @Schema(name = "productPrice", description = "商品单价")
-    private BigDecimal productPrice;
-    /**
-     * 商品实际支付单价
-     */
-    @Schema(name = "productRealPrice", description = "商品实际支付单价")
-    private BigDecimal productRealPrice;
     /**
      * 原因
      */

@@ -1,6 +1,7 @@
 package org.example.modules.member.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -16,11 +17,9 @@ import org.example.common.core.utils.StringUtils;
 import org.example.common.redis.service.RedisService;
 import org.example.config.AuthMember;
 import org.example.modules.member.entity.dto.MemberDto;
-import org.example.modules.member.entity.vo.MemberReferralCodeVo;
 import org.example.modules.member.entity.vo.MemberVo;
 import org.example.modules.member.mapper.MemberMapper;
 import org.example.modules.member.service.MemberLoginLogService;
-import org.example.modules.member.service.MemberReferralCodeService;
 import org.example.modules.member.service.MemberService;
 import org.example.modules.security.service.OnlineMemberService;
 import org.example.security.config.SecurityProperties;
@@ -35,10 +34,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * Created by Dou-Fu-10 2023-07-31 15:49:05
@@ -63,8 +61,6 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
     private RedisService redisService;
     @Resource
     private CaptchaCodeConfig captchaCodeConfig;
-    @Resource
-    private MemberReferralCodeService memberReferralCodeService;
     @Resource
     private PasswordEncoder passwordEncoder;
 
@@ -155,6 +151,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
         // 头像
         data.put("icon", memberEntity.getIcon());
         data.put("data", memberEntity);
+        data.put("invitationCode", memberEntity.getInvitationCode());
         return data;
     }
 
@@ -164,6 +161,13 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
         String token = jwtTokenUtil.resolveToken(request);
         // 续约token
         return jwtTokenUtil.refreshHeadToken(token);
+    }
+
+    private MemberEntity getByInvitationCode(String invitationCode) {
+        if (Objects.isNull(invitationCode)) {
+            throw new BaseRequestException("参数有误");
+        }
+        return lambdaQuery().eq(MemberEntity::getInvitationCode, invitationCode).one();
     }
 
     @Override
@@ -183,16 +187,12 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
         String referralCode = authMember.getReferralCode();
         // 当填写了推荐码在校验
         if (Objects.nonNull(referralCode)) {
-            MemberReferralCodeVo memberReferralCodeVo = memberReferralCodeService.getByCode(referralCode);
-            if (Objects.isNull(memberReferralCodeVo)) {
-                throw new BaseRequestException("推荐码错误");
-            }
-            MemberEntity parentMember = getById(memberReferralCodeVo.getMemberId());
-            if (Objects.isNull(parentMember)) {
+            MemberEntity byInvitationCode = getByInvitationCode(referralCode);
+            if (Objects.isNull(byInvitationCode)) {
                 throw new BaseRequestException("推荐码错误");
             }
             // 设置上级id
-            memberEntity.setParentId(memberReferralCodeVo.getMemberId());
+            memberEntity.setParentId(byInvitationCode.getId());
         }
 
         // 设置手机号
@@ -200,7 +200,37 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
         String encode = passwordEncoder.encode(authMember.getPassword());
         // 密码
         memberEntity.setPassword(encode);
+        String invitationCode = null;
+        // 设置邀请码
+        while (Objects.isNull(invitationCode)) {
+            // TODO 此方法需要重构 无法抵御高并发
+            // 获取生成的邀请码
+            Set<String> invitationCodes = generateInvitationCode();
+            // 获取已存在数据库的邀请码
+            List<MemberEntity> invitationCodeExists = lambdaQuery().eq(MemberEntity::getInvitationCode, invitationCodes).list();
+            // 获取已存在数据库的邀请码
+            Set<String> collect = invitationCodeExists.stream().map(MemberEntity::getInvitationCode).collect(Collectors.toSet());
+            // 从获取生成的邀请码中删除已存在的邀请码
+            invitationCodes.removeAll(collect);
+            // 当获取的邀请 不为空时
+            if (!invitationCodes.isEmpty()) {
+                // 获取第一个邀请码
+                Iterator<String> iterator = invitationCodes.iterator();
+                invitationCode = iterator.next();
+            }
+        }
+        memberEntity.setInvitationCode(invitationCode);
         return memberEntity.insert();
+    }
+
+    @NotNull
+    private Set<String> generateInvitationCode() {
+        Set<String> invitationCodes = new HashSet<>();
+        while (invitationCodes.size() < 10) {
+            String code = RandomUtil.randomString(6);
+            invitationCodes.add(code);
+        }
+        return invitationCodes;
     }
 
     @Override

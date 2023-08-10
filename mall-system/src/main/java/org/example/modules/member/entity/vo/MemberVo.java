@@ -67,6 +67,10 @@ public class MemberVo {
      */
     private String city;
     /**
+     * 邀请码
+     */
+    private String invitationCode;
+    /**
      * 职业
      */
     private String job;

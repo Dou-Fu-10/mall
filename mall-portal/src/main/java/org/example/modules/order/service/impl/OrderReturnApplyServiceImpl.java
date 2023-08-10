@@ -10,7 +10,6 @@ import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.order.entity.OrderReturnApplyEntity;
 import org.example.modules.order.entity.dto.OrderReturnApplyDto;
-import org.example.modules.order.entity.vo.OrderItemVo;
 import org.example.modules.order.entity.vo.OrderReturnApplyVo;
 import org.example.modules.order.entity.vo.OrderVo;
 import org.example.modules.order.mapper.OrderReturnApplyMapper;
@@ -21,7 +20,6 @@ import org.example.security.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -39,45 +37,37 @@ public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMap
     @Override
     public Boolean save(OrderReturnApplyDto orderReturnApplyDto) {
         OrderReturnApplyEntity orderReturnApplyEntity = new OrderReturnApplyEntity();
+        // 获取 退货者信息
         JwtMember jwtMember = (JwtMember) SecurityUtils.getCurrentUser();
         MemberEntity memberEntity = jwtMember.getUser();
+        // 获取退货订单
         Long orderId = orderReturnApplyDto.getOrderId();
         // 获取订单
         OrderVo orderVo = orderService.getByOrderIdAndMemberId(orderId, memberEntity.getId());
-
+        // 校验订单不能为空
         if (Objects.isNull(orderVo)) {
             throw new BaseRequestException("退单失败");
         }
-        List<OrderItemVo> orderItemList = orderVo.getOrderItemList();
-
-        orderReturnApplyEntity.setOrderId(orderId);
-        orderReturnApplyEntity.setProductId(orderItemList.get(0).getProductId());
+        // 只能退已完成的订单
+        if (orderVo.getStatus() != 3) {
+            throw new BaseRequestException("只能退已完成的订单");
+        }
+        // 退货订单id
+        orderReturnApplyEntity.setOrderId(orderVo.getId());
         // 订单编号
         orderReturnApplyEntity.setOrderSn(orderVo.getOrderSn());
         // 申请时间
         orderReturnApplyEntity.setCreateTime(new Date());
         // 会员昵称
         orderReturnApplyEntity.setMemberNickname(memberEntity.getNickname());
-        // 退货人姓名
-        orderReturnApplyEntity.setReturnName("张伟");
-        // 退货人电话
-        orderReturnApplyEntity.setReturnPhone("911");
-        // 退款金额
-        orderReturnApplyEntity.setReturnAmount(orderVo.getPayAmount());
+        // 退货人姓名  等申请退货通过了在填写信息
+        orderReturnApplyEntity.setReturnName(null);
+        // 退货人电话  等申请退货通过了在填写信息
+        orderReturnApplyEntity.setReturnPhone(null);
+        // 公司给客户的退款金额
+        orderReturnApplyEntity.setReturnAmount(null);
         // 申请状态：0->待处理；1->退货中；2->已完成；3->已拒绝
         orderReturnApplyEntity.setStatus(0);
-        // 商品图片
-//        orderReturnApplyEntity.setProductPic(orderVo.ge);
-        // 商品名称
-//        orderReturnApplyEntity.setProductName(o);
-        // 商品销售属性：颜色：红色；尺码：xl
-//        orderReturnApplyEntity.setProductAttr(o);
-        // 退货数量
-//        orderReturnApplyEntity.setProductCount();
-        // 商品单价
-//        orderReturnApplyEntity.setProductPrice();
-        // 商品实际支付单价
-        orderReturnApplyEntity.setProductPrice(orderVo.getPayAmount());
         // 原因
         orderReturnApplyEntity.setReason(orderReturnApplyDto.getReason());
         // 描述

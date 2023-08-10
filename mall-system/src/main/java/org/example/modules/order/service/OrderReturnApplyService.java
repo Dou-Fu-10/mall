@@ -6,6 +6,8 @@ import org.example.modules.order.entity.OrderReturnApplyEntity;
 import org.example.modules.order.entity.dto.OrderReturnApplyDto;
 import org.example.modules.order.entity.vo.OrderReturnApplyVo;
 
+import java.io.Serializable;
+
 /**
  * Created by Dou-Fu-10 2023-07-14 14:34:30
  *
@@ -38,4 +40,12 @@ public interface OrderReturnApplyService extends IService<OrderReturnApplyEntity
      * @return 所有数据
      */
     Page<OrderReturnApplyVo> page(Page<OrderReturnApplyEntity> page, OrderReturnApplyDto orderReturnApply);
+    /**
+     * 通过主键查询单条数据
+     *
+     * @param id 主键
+     * @return 单条数据
+     */
+    OrderReturnApplyVo getByOrderReturnApplyId(Serializable id);
+
 }

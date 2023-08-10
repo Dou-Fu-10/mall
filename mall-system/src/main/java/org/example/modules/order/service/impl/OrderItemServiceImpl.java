@@ -1,5 +1,6 @@
 package org.example.modules.order.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.order.entity.OrderItemEntity;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:34:29
@@ -41,6 +43,18 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
         }
         List<OrderItemEntity> list = lambdaQuery().eq(OrderItemEntity::getOrderId, orderId).list();
         return BeanCopy.copytList(list, OrderItemVo.class);
+    }
+
+    @Override
+    public List<OrderItemVo> getByOrderIds(Set<Long> orderIds) {
+        if (CollectionUtils.isEmpty(orderIds)) {
+            return new ArrayList<>();
+        }
+        List<OrderItemEntity> orderItemEntityList = lambdaQuery().in(OrderItemEntity::getOrderId, orderIds).list();
+        if (CollectionUtils.isEmpty(orderItemEntityList)) {
+            return new ArrayList<>();
+        }
+        return BeanCopy.copytList(orderItemEntityList, OrderItemVo.class);
     }
 }
 

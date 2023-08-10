@@ -68,7 +68,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     @Override
     public OrderVo getOrderById(Serializable id) {
         if (Objects.isNull(id)) {
-            return null;
+            throw new BaseRequestException("参数有误");
         }
         OrderEntity orderEntity = getById(id);
         OrderVo orderVo = BeanCopy.convert(orderEntity, OrderVo.class);

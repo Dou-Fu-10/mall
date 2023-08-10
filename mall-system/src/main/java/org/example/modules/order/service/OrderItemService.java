@@ -6,6 +6,7 @@ import org.example.modules.order.entity.dto.OrderItemDto;
 import org.example.modules.order.entity.vo.OrderItemVo;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:34:29
@@ -38,4 +39,11 @@ public interface OrderItemService extends IService<OrderItemEntity> {
      * @return 订单中所包含的商品
      */
     List<OrderItemVo> getOrderItemByOrderId(Long orderId);
+    /**
+     * 通过订单 id列表 查询 订单中所包含的商品
+     *
+     * @param orderIds 订单id列表
+     * @return 订单中所包含的商品
+     */
+    List<OrderItemVo> getByOrderIds(Set<Long> orderIds);
 }

@@ -1,11 +1,16 @@
 package org.example.modules.tools.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.example.common.core.exception.BaseRequestException;
+import org.example.common.core.utils.BeanCopy;
 import org.example.modules.tools.entity.CompanyAddressEntity;
 import org.example.modules.tools.entity.dto.CompanyAddressDto;
+import org.example.modules.tools.entity.vo.CompanyAddressVo;
 import org.example.modules.tools.mapper.CompanyAddressMapper;
 import org.example.modules.tools.service.CompanyAddressService;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:36:02
@@ -24,6 +29,14 @@ public class CompanyAddressServiceImpl extends ServiceImpl<CompanyAddressMapper,
     @Override
     public boolean updateById(CompanyAddressDto companyAddress) {
         return false;
+    }
+
+    @Override
+    public CompanyAddressVo getByCompanyAddressIdId(Long companyAddressId) {
+        if (Objects.isNull(companyAddressId)) {
+            throw new BaseRequestException("参数错误");
+        }
+        return BeanCopy.convert(getById(companyAddressId), CompanyAddressVo.class);
     }
 }
 

@@ -80,6 +80,10 @@ public class MemberEntity extends CommonEntity<MemberEntity> implements Serializ
      */
     private String city;
     /**
+     * 邀请码
+     */
+    private String invitationCode;
+    /**
      * 职业
      */
     private String job;

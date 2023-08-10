@@ -37,10 +37,10 @@ public class OrderReturnApplyController {
     @PostMapping
     public ResponseEntity<String> insert(@RequestBody OrderReturnApplyDto orderReturnApplyDto) {
         if (this.orderReturnApplyService.save(orderReturnApplyDto)) {
-            return ResponseEntity.ok("退货成功");
+            return ResponseEntity.ok("退货申请提交成功");
         }
         // 修改成自定义的 错误类型
-        throw new RuntimeException("退货失败");
+        throw new RuntimeException("退货申请提交失败");
     }
 }
 

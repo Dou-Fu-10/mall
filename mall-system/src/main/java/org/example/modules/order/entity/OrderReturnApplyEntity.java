@@ -3,10 +3,10 @@ package org.example.modules.order.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
 
@@ -15,12 +15,13 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * Created by Dou-Fu-10 2023-07-14 14:34:30
+ * Created by Dou-Fu-10 2023-08-10 13:31:15
  *
  * @author Dou-Fu-10
- * @date 2023-07-14 14:34:30
+ * @date 2023-08-10 13:31:15
  * @Description 订单退货申请(OrderReturnApply)表实体类
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,15 +37,12 @@ public class OrderReturnApplyEntity extends CommonEntity<OrderReturnApplyEntity>
      * 订单id
      */
     private Long orderId;
-    /**
-     * 收货地址表id
-     */
-    private Long companyAddressId;
-    /**
-     * 退货商品id
-     */
-    private Long productId;
 
+    /**
+     * 公司收货地址id
+     */
+    @Schema(name = "companyAddressId", description = "公司收货地址id")
+    private Long companyAddressId;
     /**
      * 订单编号
      */
@@ -61,9 +59,9 @@ public class OrderReturnApplyEntity extends CommonEntity<OrderReturnApplyEntity>
     @Schema(name = "memberNickname", description = "会员昵称")
     private String memberNickname;
     /**
-     * 退款金额
+     * 公司给客户的退款金额
      */
-    @Schema(name = "returnAmount", description = "退款金额")
+    @Schema(name = "returnAmount", description = "公司给客户的退款金额")
     private BigDecimal returnAmount;
     /**
      * 退货人姓名
@@ -85,36 +83,6 @@ public class OrderReturnApplyEntity extends CommonEntity<OrderReturnApplyEntity>
      */
     @Schema(name = "handleTime", description = "处理时间")
     private Date handleTime;
-    /**
-     * 商品图片
-     */
-    @Schema(name = "productPic", description = "商品图片")
-    private String productPic;
-    /**
-     * 商品名称
-     */
-    @Schema(name = "productName", description = "商品名称")
-    private String productName;
-    /**
-     * 商品销售属性：颜色：红色；尺码：xl;
-     */
-    @Schema(name = "productAttr", description = "商品销售属性：颜色：红色；尺码：xl;")
-    private String productAttr;
-    /**
-     * 退货数量
-     */
-    @Schema(name = "productCount", description = "退货数量")
-    private Integer productCount;
-    /**
-     * 商品单价
-     */
-    @Schema(name = "productPrice", description = "商品单价")
-    private BigDecimal productPrice;
-    /**
-     * 商品实际支付单价
-     */
-    @Schema(name = "productRealPrice", description = "商品实际支付单价")
-    private BigDecimal productRealPrice;
     /**
      * 原因
      */
@@ -159,24 +127,20 @@ public class OrderReturnApplyEntity extends CommonEntity<OrderReturnApplyEntity>
      * 创建人
      * 创建
      */
-    @JsonIgnore
     @TableField(exist = false)
     private String createBy;
     /**
      * 更新人
      * 创建、更新
      */
-    @JsonIgnore
     @TableField(exist = false)
     private String updateBy;
-
     /**
      * 更新时间
      * 创建、更新
      */
-    @JsonIgnore
     @TableField(exist = false)
     private Date updateTime;
 
-}
 
+}
