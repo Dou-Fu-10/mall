@@ -56,14 +56,14 @@ public class RoleController {
     /**
      * 新增数据
      *
-     * @param role 实体对象
+     * @param roleDto 实体对象
      * @return 新增结果
      */
     @Operation(summary = "新增数据", description = "role::insert")
     @PostMapping
     @PreAuthorize("@hasPermission.check('role::insert')")
-    public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class) RoleDto role) {
-        if (this.roleService.save(role)) {
+    public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class) RoleDto roleDto) {
+            if (this.roleService.save(roleDto)) {
             return new ResponseEntity<>("新增成功", HttpStatus.OK);
         }
         throw new BaseRequestException("新增失败");
@@ -72,14 +72,14 @@ public class RoleController {
     /**
      * 修改数据
      *
-     * @param role 实体对象
+     * @param roleDto 实体对象
      * @return 修改结果
      */
     @Operation(summary = "修改数据", description = "role::update")
     @PutMapping
     @PreAuthorize("@hasPermission.check('role::update')")
-    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class) RoleDto role) {
-        if (this.roleService.updateById(role)) {
+    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class) RoleDto roleDto) {
+        if (this.roleService.updateById(roleDto)) {
             return new ResponseEntity<>("修改成功", HttpStatus.OK);
         }
         throw new BaseRequestException("修改失败");

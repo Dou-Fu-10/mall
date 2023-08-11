@@ -56,6 +56,7 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean save(ProductCategoryDto productCategory) {
         ProductCategoryEntity convert = BeanCopy.convert(productCategory, ProductCategoryEntity.class);
 
@@ -75,13 +76,12 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
                 throw new BaseRequestException("请上传正确的文件");
             }
         }
-
-        // TODO 其他验证规则需要在加
         if (!convert.insert()) {
             throw new BaseRequestException("添加失败");
         }
 
         assert productCategory != null;
+        // 商品属性参数表
         if (CollectionUtils.isNotEmpty(productCategory.getProductAttributeIdList())) {
             if (!productCategoryAttributeRelationService.save(convert.getId(), productCategory.getProductAttributeIdList())) {
                 throw new BaseRequestException("绑定属性失败");
@@ -113,7 +113,6 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
             }
         }
 
-        // TODO 其他验证规则需要在加
         if (!convert.updateById()) {
             throw new BaseRequestException("修改属性失败");
         }
@@ -150,7 +149,7 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
     public Boolean updateNavStatus(Set<Long> idList, Boolean navStatus) {
         // 数据校验
         if (CollectionUtils.isEmpty(idList) || Objects.isNull(navStatus)) {
-            return false;
+            throw new BaseRequestException("参数错误");
         }
         Set<ProductCategoryEntity> collect = idList.stream().map(id -> new ProductCategoryEntity(id, navStatus, null)).collect(Collectors.toSet());
         // 当其中一个更新失败后数据回滚
@@ -162,7 +161,7 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
     public Boolean updateShowStatus(Set<Long> idList, Boolean showStatus) {
         // 数据校验
         if (CollectionUtils.isEmpty(idList) || Objects.isNull(showStatus)) {
-            return false;
+            throw new BaseRequestException("参数错误");
         }
         Set<ProductCategoryEntity> collect = idList.stream().map(id -> new ProductCategoryEntity(id, null, showStatus)).collect(Collectors.toSet());
         // 当其中一个更新失败后数据回滚

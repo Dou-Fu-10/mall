@@ -34,13 +34,13 @@ public class RoleEntity extends CommonEntity<RoleEntity> implements Serializable
     @TableId
     private Long id;
 
-    @TableField(exist = false)
-    @Schema(name = "users", description = "用户", hidden = true)
-    private Set<AdminEntity> users;
-
-    @TableField(exist = false)
-    @Schema(name = "menus", description = "菜单", hidden = true)
-    private Set<MenuEntity> menus;
+//    @TableField(exist = false)
+//    @Schema(name = "users", description = "用户", hidden = true)
+//    private Set<AdminEntity> users;
+//
+//    @TableField(exist = false)
+//    @Schema(name = "menus", description = "菜单", hidden = true)
+//    private Set<MenuEntity> menus;
 
     /**
      * 名称

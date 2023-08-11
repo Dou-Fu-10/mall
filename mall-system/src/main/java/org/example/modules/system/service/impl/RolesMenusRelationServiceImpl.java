@@ -3,6 +3,7 @@ package org.example.modules.system.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.system.entity.RolesMenusRelationEntity;
 import org.example.modules.system.entity.vo.MenuVo;
 import org.example.modules.system.mapper.RolesMenusRelationMapper;
@@ -62,7 +63,7 @@ public class RolesMenusRelationServiceImpl extends ServiceImpl<RolesMenusRelatio
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean saveBatch(Long roleId, List<Long> menuIds) {
         if (Objects.isNull(roleId) || CollectionUtils.isEmpty(menuIds)) {
-            return false;
+            throw new BaseRequestException("参数错误");
         }
         Set<RolesMenusRelationEntity> rolesMenusRelationEntitySet = menuIds.stream().map(id -> new RolesMenusRelationEntity(roleId, id)).collect(Collectors.toSet());
         return saveBatch(rolesMenusRelationEntitySet);

@@ -84,11 +84,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
             return false;
         }
         // 删除角色对应的 菜单 删除成功才能绑定
-        if (rolesMenusRelationService.removeByRoleId(roleId)) {
-            return rolesMenusRelationService.saveBatch(roleId, menuIds);
-        } else {
-            return false;
-        }
+        rolesMenusRelationService.removeByRoleId(roleId);
+        return rolesMenusRelationService.saveBatch(roleId, menuIds);
     }
 
     @Override

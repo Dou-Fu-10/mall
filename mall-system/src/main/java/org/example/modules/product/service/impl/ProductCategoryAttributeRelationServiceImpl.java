@@ -9,6 +9,9 @@ import org.example.modules.product.mapper.ProductCategoryAttributeRelationMapper
 import org.example.modules.product.service.ProductAttributeService;
 import org.example.modules.product.service.ProductCategoryAttributeRelationService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -37,6 +40,7 @@ public class ProductCategoryAttributeRelationServiceImpl extends ServiceImpl<Pro
 
     @Override
     @SuppressWarnings("all")
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean save(Long id, Set<Long> productAttributeIdList) {
         // 获取有效的商品属性id列表
         productAttributeIdList = productAttributeService.getBaseMapper().selectBatchIds(productAttributeIdList).stream().map(ProductAttributeEntity::getId).collect(Collectors.toSet());

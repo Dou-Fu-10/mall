@@ -117,18 +117,17 @@ public class ProductCategoryController {
             throw new BaseRequestException("填写正确的id");
         }
 
-        // 获取上级是 将要被删除的 id列表
         List<ProductCategoryEntity> productCategoryEntityList = productCategoryService.lambdaQuery().in(ProductCategoryEntity::getParentId, ids).list();
+        // 校验是否是 其他分类的上级
         if (CollectionUtils.isEmpty(productCategoryEntityList)) {
             this.productCategoryService.removeByIds(ids);
         }
-        // 判断 是否有下级分类
+
         Set<Long> subordinateClassification = productCategoryEntityList.stream().map(ProductCategoryEntity::getParentId).collect(Collectors.toSet());
-        if (CollectionUtils.isNotEmpty(subordinateClassification)) {
-            if (ids.size() == subordinateClassification.size()) {
-                throw new BaseRequestException("拥有下级分类不可删除");
-            }
+        if (ids.size() == subordinateClassification.size()) {
+            throw new BaseRequestException("拥有下级分类不可删除");
         }
+
         ids.removeAll(subordinateClassification);
         if (this.productCategoryService.removeByIds(ids)) {
             return ResponseEntity.ok("删除成功");
