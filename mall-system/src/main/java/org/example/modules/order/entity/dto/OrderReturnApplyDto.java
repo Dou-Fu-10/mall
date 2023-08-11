@@ -31,13 +31,13 @@ public class OrderReturnApplyDto {
     /**
      * 订单id
      */
-    @JsonIgnore
+    @Null(groups = ValidationDto.Update.class)
     @Schema(name = "orderId", description = "订单id")
     private Long orderId;
     /**
      * 会员id
      */
-    @JsonIgnore
+    @Null(groups = ValidationDto.Update.class)
     @Schema(name = "memberId", description = "会员id")
     private Long memberId;
     /**
@@ -71,13 +71,13 @@ public class OrderReturnApplyDto {
     /**
      * 退货人（会员）姓名
      */
-    @JsonIgnore
+    @Null(groups = ValidationDto.Update.class)
     @Schema(name = "returnName", description = "退货人（会员）姓名")
     private String returnName;
     /**
      * 退货人（会员）电话
      */
-    @JsonIgnore
+    @Null(groups = ValidationDto.Update.class)
     @Schema(name = "returnPhone", description = "退货人（会员）电话")
     private String returnPhone;
     /**
@@ -137,7 +137,12 @@ public class OrderReturnApplyDto {
     @Null(groups = ValidationDto.SelectPage.class)
     @Schema(name = "receiveNote", description = "公司收货备注")
     private String receiveNote;
-
+    /**
+     * 公司备注
+     */
+    @Null(groups = ValidationDto.SelectPage.class)
+    @Schema(name = "remark", description = "公司备注")
+    private String remark;
 
 }
 

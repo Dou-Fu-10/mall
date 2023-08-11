@@ -1,9 +1,11 @@
 package org.example.modules.order.entity.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.common.core.base.ValidationDto;
 import org.example.modules.tools.entity.vo.CompanyAddressVo;
 
 import java.math.BigDecimal;
@@ -127,6 +129,11 @@ public class OrderReturnApplyVo {
      */
     @Schema(name = "companyAddress", description = "公司退货地址")
     private CompanyAddressVo companyAddress;
+    /**
+     * 公司备注
+     */
+    @Schema(name = "remark", description = "公司备注")
+    private String remark;
 
     /**
      * 订单中所包含的商品

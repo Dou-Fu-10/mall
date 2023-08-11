@@ -119,7 +119,11 @@ public class OrderReturnApplyVo {
      */
     @Schema(name = "receiveNote", description = "公司收货备注")
     private String receiveNote;
-
+    /**
+     * 公司备注
+     */
+    @Schema(name = "remark", description = "公司备注")
+    private String remark;
 
 }
 
