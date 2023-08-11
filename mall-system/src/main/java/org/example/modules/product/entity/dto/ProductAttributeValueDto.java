@@ -1,9 +1,13 @@
 package org.example.modules.product.entity.dto;
 
 
+import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.common.core.base.ValidationDto;
+
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 13:54:16
@@ -32,7 +36,8 @@ public class ProductAttributeValueDto {
     /**
      * 手动添加规格或参数的值，参数单值，规格有多个时以逗号隔开
      */
-    private String value;
+    @Null(groups = ValidationDto.SelectPage.class)
+    private Set<String> value;
 
 
 }

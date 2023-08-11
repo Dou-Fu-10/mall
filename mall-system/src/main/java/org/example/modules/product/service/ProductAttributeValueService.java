@@ -1,5 +1,6 @@
 package org.example.modules.product.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.product.entity.ProductAttributeValueEntity;
 import org.example.modules.product.entity.dto.ProductAttributeValueDto;
@@ -17,6 +18,15 @@ import java.util.Set;
  * @Description 存储产品参数信息的表(ProductAttributeValue)表服务接口
  */
 public interface ProductAttributeValueService extends IService<ProductAttributeValueEntity> {
+    /**
+     * 分页查询所有数据
+     *
+     * @param page                     分页对象
+     * @param productAttributeValueDto 查询实体
+     * @return 所有数据
+     */
+    Page<ProductAttributeValueVo> page(Page<ProductAttributeValueEntity> page, ProductAttributeValueDto productAttributeValueDto);
+
     /**
      * 新增数据
      *

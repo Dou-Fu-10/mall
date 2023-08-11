@@ -1,5 +1,8 @@
 package org.example.modules.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
@@ -17,6 +20,7 @@ import org.example.modules.product.mapper.ProductAttributeValueMapper;
 import org.example.modules.product.service.ProductAttributeService;
 import org.example.modules.product.service.ProductAttributeValueService;
 import org.example.modules.product.service.ProductService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -44,7 +48,15 @@ public class ProductAttributeValueServiceImpl extends ServiceImpl<ProductAttribu
     private ProductService productService;
 
     @Override
-    public Boolean save(ProductAttributeValueDto productAttributeValue) {
+    public Page<ProductAttributeValueVo> page(Page<ProductAttributeValueEntity> page, ProductAttributeValueDto productAttributeValueDto) {
+        ProductAttributeValueEntity productAttributeValueEntity = BeanCopy.convert(productAttributeValueDto, ProductAttributeValueEntity.class);
+        Page<ProductAttributeValueEntity> productAttributeValueEntityPage = page(page, new QueryWrapper<>(productAttributeValueEntity));
+        IPage<ProductAttributeValueVo> productAttributeValueVoIPage = productAttributeValueEntityPage.convert(productAttributeValue -> BeanCopy.convert(productAttributeValue, ProductAttributeValueVo.class));
+        return (Page<ProductAttributeValueVo>) productAttributeValueVoIPage;
+    }
+
+    @Override
+    public Boolean save(@NotNull ProductAttributeValueDto productAttributeValue) {
         Long productId = productAttributeValue.getProductId();
         Long productAttributeId = productAttributeValue.getProductAttributeId();
         // 校验 商品属性是否存在
@@ -59,6 +71,23 @@ public class ProductAttributeValueServiceImpl extends ServiceImpl<ProductAttribu
         }
         ProductAttributeValueEntity productAttributeValueEntity = BeanCopy.convert(productAttributeValue, ProductAttributeValueEntity.class);
         return productAttributeValueEntity.insert();
+    }
+    @Override
+    public Boolean updateById(@NotNull ProductAttributeValueDto productAttributeValue) {
+        Long productId = productAttributeValue.getProductId();
+        Long productAttributeId = productAttributeValue.getProductAttributeId();
+        // 校验 商品属性是否存在
+        ProductAttributeEntity productAttributeEntity = productAttributeService.getById(productAttributeId);
+        if (Objects.isNull(productAttributeEntity)) {
+            throw new BaseRequestException("参数输入有误");
+        }
+        // 校验商品是否存在
+        ProductEntity productEntity = productService.getById(productId);
+        if (Objects.isNull(productEntity)) {
+            throw new BaseRequestException("参数输入有误");
+        }
+        ProductAttributeValueEntity productAttributeValueEntity = BeanCopy.convert(productAttributeValue, ProductAttributeValueEntity.class);
+        return productAttributeValueEntity.updateById();
     }
 
     @Override
@@ -92,23 +121,6 @@ public class ProductAttributeValueServiceImpl extends ServiceImpl<ProductAttribu
         return saveBatch(productAttributeValueEntityList);
     }
 
-    @Override
-    public Boolean updateById(ProductAttributeValueDto productAttributeValue) {
-        Long productId = productAttributeValue.getProductId();
-        Long productAttributeId = productAttributeValue.getProductAttributeId();
-        // 校验 商品属性是否存在
-        ProductAttributeEntity productAttributeEntity = productAttributeService.getById(productAttributeId);
-        if (Objects.isNull(productAttributeEntity)) {
-            throw new BaseRequestException("参数输入有误");
-        }
-        // 校验商品是否存在
-        ProductEntity productEntity = productService.getById(productId);
-        if (Objects.isNull(productEntity)) {
-            throw new BaseRequestException("参数输入有误");
-        }
-        ProductAttributeValueEntity productAttributeValueEntity = BeanCopy.convert(productAttributeValue, ProductAttributeValueEntity.class);
-        return productAttributeValueEntity.updateById();
-    }
 
     @Override
     public List<ProductAttributeValueVo> getProductAttributeValueByProductId(Long productId) {

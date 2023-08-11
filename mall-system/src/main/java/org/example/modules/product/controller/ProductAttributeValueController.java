@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.base.ValidationDto;
 import org.example.common.core.exception.BaseRequestException;
+import org.example.common.core.utils.BeanCopy;
 import org.example.modules.product.entity.ProductAttributeValueEntity;
 import org.example.modules.product.entity.dto.ProductAttributeValueDto;
 import org.example.modules.product.service.ProductAttributeValueService;
@@ -43,14 +44,14 @@ public class ProductAttributeValueController {
      * 分页查询所有数据
      *
      * @param page                  分页对象
-     * @param productAttributeValue 查询实体
+     * @param productAttributeValueDto 查询实体
      * @return 所有数据
      */
     @GetMapping
     @Operation(summary = "分页查询所有数据", description = "productAttributeValue::select")
     @PreAuthorize("@hasPermission.check('productAttributeValue::select')")
-    public ResponseEntity<Object> select(Page<ProductAttributeValueEntity> page, @Validated(ValidationDto.SelectPage.class) ProductAttributeValueEntity productAttributeValue) {
-        return ResponseEntity.ok(this.productAttributeValueService.page(page, new QueryWrapper<>(productAttributeValue)));
+    public ResponseEntity<Object> select(Page<ProductAttributeValueEntity> page, @Validated(ValidationDto.SelectPage.class) ProductAttributeValueDto productAttributeValueDto) {
+        return ResponseEntity.ok(this.productAttributeValueService.page(page, productAttributeValueDto));
     }
 
     /**
