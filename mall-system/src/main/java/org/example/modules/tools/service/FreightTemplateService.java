@@ -1,8 +1,10 @@
 package org.example.modules.tools.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.tools.entity.FreightTemplateEntity;
 import org.example.modules.tools.entity.dto.FreightTemplateDto;
+import org.example.modules.tools.entity.vo.FreightTemplateVo;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:36:26
@@ -27,4 +29,11 @@ public interface FreightTemplateService extends IService<FreightTemplateEntity> 
      * @return 修改结果
      */
     boolean updateById(FreightTemplateDto FreightTemplate);
+    /**
+     * 分页查询所有数据
+     *
+     * @param page 分页对象
+     * @return 所有数据
+     */
+    Page<FreightTemplateVo> page(Page<FreightTemplateEntity> page, FreightTemplateDto freightTemplateDto);
 }

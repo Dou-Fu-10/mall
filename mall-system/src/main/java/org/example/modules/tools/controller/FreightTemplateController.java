@@ -1,7 +1,6 @@
 package org.example.modules.tools.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,28 +39,14 @@ public class FreightTemplateController {
     /**
      * 分页查询所有数据
      *
-     * @param page            分页对象
-     * @param FreightTemplate 查询实体
+     * @param page 分页对象
      * @return 所有数据
      */
     @GetMapping
     @Operation(summary = "分页查询所有数据", description = "freightTemplate::select")
     @PreAuthorize("@hasPermission.check('freightTemplate::select')")
-    public ResponseEntity<Object> select(Page<FreightTemplateEntity> page, FreightTemplateEntity FreightTemplate) {
-        return ResponseEntity.ok(this.freightTemplateService.page(page, new QueryWrapper<>(FreightTemplate)));
-    }
-
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-    @GetMapping("{id}")
-    @Operation(summary = "通过主键查询单条数据", description = "freightTemplate::selectOne")
-    @PreAuthorize("@hasPermission.check('freightTemplate::selectOne')")
-    public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return ResponseEntity.ok(this.freightTemplateService.getById(id));
+    public ResponseEntity<Object> select(Page<FreightTemplateEntity> page) {
+        return ResponseEntity.ok(this.freightTemplateService.page(page, new FreightTemplateDto()));
     }
 
     /**
