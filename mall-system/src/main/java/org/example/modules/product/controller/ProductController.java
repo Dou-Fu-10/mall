@@ -11,13 +11,13 @@ import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.product.entity.ProductEntity;
 import org.example.modules.product.entity.dto.ProductDto;
 import org.example.modules.product.entity.dto.ProductDtoParam;
+import org.example.modules.product.entity.vo.ProductVo;
 import org.example.modules.product.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Serializable;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -65,7 +65,8 @@ public class ProductController {
     public ResponseEntity<Object> selectOne(@PathVariable Long id) {
         ProductDto productDto = new ProductDto();
         productDto.setId(id);
-        return ResponseEntity.ok(this.productService.page(new Page<>(), productDto));
+        Page<ProductVo> page = this.productService.page(new Page<>(), productDto);
+        return ResponseEntity.ok(page.getRecords());
     }
 
     /**

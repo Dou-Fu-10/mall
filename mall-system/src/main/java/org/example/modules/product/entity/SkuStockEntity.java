@@ -72,7 +72,11 @@ public class SkuStockEntity extends CommonEntity<SkuStockEntity> implements Seri
      */
     @Schema(name = "spData", description = "商品销售属性，json格式")
     private String spData;
-
+    /**
+     * 逻辑删除（1 代表已删除），（0 代表未删除）
+     */
+    @Schema(name = "deleteFlag", description = "逻辑删除（1 代表已删除），（0 代表未删除）")
+    private Integer deleteFlag;
 
 }
 
