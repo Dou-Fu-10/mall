@@ -1,8 +1,10 @@
 package org.example.modules.member.entity.dto;
 
+import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.common.core.base.ValidationDto;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -29,10 +31,12 @@ public class MemberDto {
     /**
      * 密码
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private String password;
     /**
      * 钱包
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private BigDecimal money;
     /**
      * 昵称
@@ -53,48 +57,38 @@ public class MemberDto {
     /**
      * 头像
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private String icon;
     /**
      * 性别：0->未知；1->男；2->女
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private Integer gender;
     /**
      * 生日
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private Date birthday;
     /**
      * 所做城市
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private String city;
     /**
      * 邀请码
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private String invitationCode;
     /**
      * 职业
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private String job;
     /**
      * 个性签名
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private String personalizedSignature;
-    /**
-     * 用户来源
-     */
-    private Integer sourceType;
-    /**
-     * 注册时间
-     */
-    private Date createTime;
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-    /**
-     * 逻辑删除（1 代表已删除），（0 代表未删除）
-     */
-    private Integer deleteFlag;
-
 
 }
 

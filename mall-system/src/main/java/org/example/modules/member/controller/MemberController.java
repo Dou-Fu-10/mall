@@ -66,23 +66,6 @@ public class MemberController {
     }
 
     /**
-     * 修改数据
-     *
-     * @param memberDto 实体对象
-     * @return 修改结果
-     */
-//    @PutMapping
-//    @Operation(summary = "修改数据", description = "member::update")
-//    @PreAuthorize("@hasPermission.check('member::update')")
-//    public ResponseEntity<Object> update(@RequestBody MemberDto memberDto) {
-//        if (this.memberService.updateById(memberDto)) {
-//            return ResponseEntity.ok("修改成功");
-//        }
-//        // 修改成自定义的 错误类型
-//        throw new RuntimeException("修改失败");
-//    }
-
-    /**
      * 删除数据
      *
      * @param idList 主键结合

@@ -85,10 +85,6 @@ public class MemberVo {
      */
     private String personalizedSignature;
     /**
-     * 用户来源
-     */
-    private Integer sourceType;
-    /**
      * 注册时间
      */
     @JsonIgnore

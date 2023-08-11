@@ -92,10 +92,6 @@ public class MemberEntity extends CommonEntity<MemberEntity> implements Serializ
      */
     private String personalizedSignature;
     /**
-     * 用户来源
-     */
-    private Integer sourceType;
-    /**
      * 注册时间
      */
     private Date createTime;

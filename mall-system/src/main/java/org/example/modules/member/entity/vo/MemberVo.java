@@ -1,5 +1,6 @@
 package org.example.modules.member.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class MemberVo {
     /**
      * 密码
      */
+    @JsonIgnore
     private String password;
     /**
      * 钱包
@@ -79,20 +81,18 @@ public class MemberVo {
      */
     private String personalizedSignature;
     /**
-     * 用户来源
-     */
-    private Integer sourceType;
-    /**
      * 注册时间
      */
     private Date createTime;
     /**
      * 更新时间
      */
+    @JsonIgnore
     private Date updateTime;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
+    @JsonIgnore
     private Integer deleteFlag;
 
 
