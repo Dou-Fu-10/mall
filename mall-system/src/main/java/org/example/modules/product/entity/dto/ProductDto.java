@@ -1,5 +1,6 @@
 package org.example.modules.product.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -144,26 +145,6 @@ public class ProductDto {
      * 促销类型：0->没有促销使用原价;1->使用促销价；2->使用会员价；3->使用阶梯价格；4->使用满减价格；5->限时购
      */
     private Integer promotionType;
-    /**
-     * 创建者
-     */
-    private String createBy;
-    /**
-     * 更新者
-     */
-    private String updateBy;
-    /**
-     * 创建日期
-     */
-    private Date createTime;
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-    /**
-     * 逻辑删除（1 代表已删除），（0 代表未删除）
-     */
-    private Integer deleteFlag;
 
 
 }
