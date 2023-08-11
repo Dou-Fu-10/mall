@@ -52,14 +52,14 @@ public class ProductAttributeController {
     }
 
     /**
-     * 通过商品属性分类id 查询商品属性 分页后所有数据
+     * 通过商品属性分类id和属性的类型 查询商品属性 分页后所有数据
      *
      * @param page             分页对象
      * @param productAttribute 查询实体
      * @return 所有数据
      */
     @GetMapping("/getProductAttributeByProductAttributeCategoryId")
-    @Operation(summary = "通过商品属性分类id 查询商品属性 分页后所有数据", description = "productAttribute::update")
+    @Operation(summary = "通过商品属性分类id 查询商品属性 分页后所有数据", description = "productAttribute::select")
     @PreAuthorize("@hasPermission.check('productAttribute::update')")
     public ResponseEntity<Object> getProductAttributeByProductAttributeCategoryId(Page<ProductAttributeEntity> page, @Validated(ValidationDto.SelectList.class) ProductAttributeDto productAttribute) {
         return ResponseEntity.ok(this.productAttributeService.getProductAttributeByProductAttributeCategoryId(page, productAttribute));

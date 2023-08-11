@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 /**
  * Created by Dou-Fu-10 2023-07-14 12:49:52
  *
@@ -40,27 +42,11 @@ public class ProductAttributeVo {
     /**
      * 可选值列表，以逗号隔开
      */
-    private String inputList;
+    private Set<String> inputList;
     /**
-     * 排序字段：最高的可以单独上传图片
+     * 排序字段
      */
     private Integer sort;
-    /**
-     * 分类筛选样式：1->普通；1->颜色
-     */
-    private Integer filterType;
-    /**
-     * 检索类型；0->不需要进行检索；1->关键字检索；2->范围检索
-     */
-    private Integer searchType;
-    /**
-     * 相同属性产品是否关联；0->不关联；1->关联
-     */
-    private Integer relatedStatus;
-    /**
-     * 是否支持手动新增；0->不支持；1->支持
-     */
-    private Integer handAddStatus;
     /**
      * 属性的类型；0->规格；1->参数
      */

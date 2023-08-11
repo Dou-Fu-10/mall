@@ -38,31 +38,21 @@ public class ProductAttributeServiceImpl extends ServiceImpl<ProductAttributeMap
 
     @Override
     public Boolean save(ProductAttributeDto productAttribute) {
-        Long productAttributeCategoryId = productAttribute.getProductAttributeCategoryId();
-        if (Objects.isNull(productAttributeCategoryService)) {
-            throw new BaseRequestException("请输入商品属性分类");
-        }
-        ProductAttributeCategoryEntity productAttributeCategoryEntity = productAttributeCategoryService.getByProductAttributeCategoryId(productAttributeCategoryId);
+        ProductAttributeCategoryEntity productAttributeCategoryEntity = productAttributeCategoryService.getByProductAttributeCategoryId(productAttribute.getProductAttributeCategoryId());
         if (Objects.isNull(productAttributeCategoryEntity)) {
             throw new BaseRequestException("商品属性分类错误");
         }
         ProductAttributeEntity convert = BeanCopy.convert(productAttribute, ProductAttributeEntity.class);
-        // TODO 校验数据
         return save(convert);
     }
 
     @Override
     public Boolean updateById(ProductAttributeDto productAttribute) {
-        Long productAttributeCategoryId = productAttribute.getProductAttributeCategoryId();
-        if (Objects.isNull(productAttributeCategoryService)) {
-            throw new BaseRequestException("请输入商品属性分类");
-        }
-        ProductAttributeCategoryEntity productAttributeCategoryEntity = productAttributeCategoryService.getByProductAttributeCategoryId(productAttributeCategoryId);
+        ProductAttributeCategoryEntity productAttributeCategoryEntity = productAttributeCategoryService.getByProductAttributeCategoryId(productAttribute.getProductAttributeCategoryId());
         if (Objects.isNull(productAttributeCategoryEntity)) {
             throw new BaseRequestException("商品属性分类错误");
         }
         ProductAttributeEntity convert = BeanCopy.convert(productAttribute, ProductAttributeEntity.class);
-        // TODO 校验数据
         return updateById(convert);
     }
 

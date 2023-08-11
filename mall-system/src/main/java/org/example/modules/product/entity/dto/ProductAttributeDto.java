@@ -1,9 +1,13 @@
 package org.example.modules.product.entity.dto;
 
 
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 12:49:52
@@ -32,38 +36,29 @@ public class ProductAttributeDto {
     /**
      * 属性选择类型：0->唯一；1->单选；2->多选
      */
+    @DecimalMin(value = "0", message = "输入必须大于等于 0")
+    @DecimalMax(value = "2", message = "输入必须小于等于 2")
     private Integer selectType;
     /**
      * 属性录入方式：0->手工录入；1->从列表中选取
      */
+    @DecimalMin(value = "0", message = "输入必须大于等于 0")
+    @DecimalMax(value = "1", message = "输入必须小于等于 1")
     private Integer inputType;
     /**
      * 可选值列表，以逗号隔开
      */
-    private String inputList;
+
+    private Set<String> inputList;
     /**
-     * 排序字段：最高的可以单独上传图片
+     * 排序字段
      */
     private Integer sort;
     /**
-     * 分类筛选样式：1->普通；1->颜色
-     */
-    private Integer filterType;
-    /**
-     * 检索类型；0->不需要进行检索；1->关键字检索；2->范围检索
-     */
-    private Integer searchType;
-    /**
-     * 相同属性产品是否关联；0->不关联；1->关联
-     */
-    private Integer relatedStatus;
-    /**
-     * 是否支持手动新增；0->不支持；1->支持
-     */
-    private Integer handAddStatus;
-    /**
      * 属性的类型；0->规格；1->参数
      */
+    @DecimalMin(value = "0", message = "输入必须大于等于 0")
+    @DecimalMax(value = "1", message = "输入必须小于等于 1")
     private Integer type;
 
 
