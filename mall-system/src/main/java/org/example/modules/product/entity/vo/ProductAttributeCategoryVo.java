@@ -1,6 +1,7 @@
 package org.example.modules.product.entity.vo;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,10 +34,12 @@ public class ProductAttributeCategoryVo {
     /**
      * 属性数量
      */
+    @JsonIgnore
     private Integer attributeCount;
     /**
      * 参数数量
      */
+    @JsonIgnore
     private Integer paramCount;
 
 }

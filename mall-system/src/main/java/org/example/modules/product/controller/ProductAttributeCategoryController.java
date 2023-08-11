@@ -120,6 +120,7 @@ public class ProductAttributeCategoryController {
 
     /***
      * 获取所有商品属性分类及其下属性
+     *
      * @return 属性
      */
     @GetMapping(value = "/list/withAttr")

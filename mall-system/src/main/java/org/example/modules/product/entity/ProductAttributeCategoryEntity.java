@@ -45,7 +45,10 @@ public class ProductAttributeCategoryEntity extends CommonEntity<ProductAttribut
      */
     @Schema(name = "paramCount", description = "参数数量")
     private Integer paramCount;
-
-
+    /**
+     * 逻辑删除（1 代表已删除），（0 代表未删除）
+     */
+    @Schema(name = "deleteFlag", description = "逻辑删除（1 代表已删除），（0 代表未删除）")
+    private Integer deleteFlag;
 }
 

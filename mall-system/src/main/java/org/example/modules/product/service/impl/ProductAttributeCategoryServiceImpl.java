@@ -3,6 +3,7 @@ package org.example.modules.product.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
@@ -10,6 +11,7 @@ import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.common.core.utils.StringUtils;
 import org.example.modules.product.entity.ProductAttributeCategoryEntity;
+import org.example.modules.product.entity.ProductAttributeEntity;
 import org.example.modules.product.entity.dto.ProductAttributeCategoryDto;
 import org.example.modules.product.entity.vo.ProductAttributeCategoryVo;
 import org.example.modules.product.entity.vo.ProductAttributeVo;
@@ -63,7 +65,7 @@ public class ProductAttributeCategoryServiceImpl extends ServiceImpl<ProductAttr
     @Override
     public ProductAttributeCategoryVo getByProductAttributeCategoryId(Serializable id) {
         if (Objects.isNull(id)) {
-            throw new BaseRequestException("参数有误");
+
         }
         ProductAttributeCategoryEntity productAttributeCategoryEntity = getById(id);
         return BeanCopy.convert(productAttributeCategoryEntity, ProductAttributeCategoryVo.class);
@@ -117,6 +119,13 @@ public class ProductAttributeCategoryServiceImpl extends ServiceImpl<ProductAttr
 
     @Override
     public Boolean updateById(ProductAttributeCategoryDto productAttributeCategory) {
+        String name = productAttributeCategory.getName();
+        ProductAttributeCategoryEntity productAttributeCategoryEntity = lambdaQuery()
+                .eq(ProductAttributeCategoryEntity::getName, name)
+                .ne(ProductAttributeCategoryEntity::getId, productAttributeCategory.getId()).one();
+        if (Objects.nonNull(productAttributeCategoryEntity)){
+            throw new BaseRequestException("属性分类名不唯一");
+        }
         ProductAttributeCategoryEntity convert = BeanCopy.convert(productAttributeCategory, ProductAttributeCategoryEntity.class);
         return convert.updateById();
     }
