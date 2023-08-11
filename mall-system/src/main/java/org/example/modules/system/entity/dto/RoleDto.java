@@ -27,7 +27,6 @@ public class RoleDto {
     /**
      * 描述
      */
-    @JsonIgnore
     private String description;
     /**
      * 后台用户数量
@@ -39,9 +38,8 @@ public class RoleDto {
      */
     private Integer sort;
     /**
-     * 启用状态；1->正常：0->禁用
+     * 启用状态；true=1->正常：false=0->禁用
      */
-    @JsonIgnore
     private Boolean enabled;
     /**
      * 更新时间

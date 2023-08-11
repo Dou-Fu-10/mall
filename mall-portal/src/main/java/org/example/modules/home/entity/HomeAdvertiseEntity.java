@@ -42,9 +42,9 @@ public class HomeAdvertiseEntity extends CommonEntity<HomeAdvertiseEntity> imple
     @Schema(name = "name", description = "轮播图名称")
     private String name;
     /**
-     * 轮播位置：true->PC首页轮播；false->app首页轮播
+     * 轮播位置：true=1->PC首页轮播；false=0->app首页轮播
      */
-    @Schema(name = "isPc", description = "轮播位置：true->PC首页轮播；false->app首页轮播")
+    @Schema(name = "isPc", description = "轮播位置：true=1->PC首页轮播；false=0->app首页轮播")
     private Boolean isPc;
     /**
      * 图片路径
@@ -53,9 +53,9 @@ public class HomeAdvertiseEntity extends CommonEntity<HomeAdvertiseEntity> imple
     private String pic;
 
     /**
-     * 上下线状态：false->下线；true->上线
+     * 上下线状态：false=0->下线；true=1->上线
      */
-    @Schema(name = "isShow", description = "上下线状态：false->下线；true->上线")
+    @Schema(name = "isShow", description = "上下线状态：false=0->下线；true=1->上线")
     private Boolean isShow;
     /**
      * 点击数

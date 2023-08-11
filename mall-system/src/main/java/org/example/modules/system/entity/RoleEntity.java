@@ -63,9 +63,9 @@ public class RoleEntity extends CommonEntity<RoleEntity> implements Serializable
     @Schema(name = "sort", description = "排序")
     private Integer sort;
     /**
-     * 启用状态；1->正常：0->禁用
+     * 启用状态；true=1->正常：false=0->禁用
      */
-    @Schema(name = "enabled", description = "启用状态；1->正常：0->禁用")
+    @Schema(name = "enabled", description = "启用状态；true=1->正常：false=0->禁用")
     private Boolean enabled;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）

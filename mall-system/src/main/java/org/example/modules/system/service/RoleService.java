@@ -79,4 +79,18 @@ public interface RoleService extends IService<RoleEntity> {
      * @return 角色
      */
     List<RoleVo> getExistingRoles(Set<Long> roleIds);
+    /**
+     * 新增数据
+     *
+     * @param role 实体对象
+     * @return 新增结果
+     */
+    Boolean save(RoleDto role);
+    /**
+     * 修改数据
+     *
+     * @param role 实体对象
+     * @return 修改结果
+     */
+    Boolean updateById(RoleDto role);
 }

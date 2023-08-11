@@ -43,15 +43,14 @@ public class RoleController {
     /**
      * 分页查询所有数据
      *
-     * @param page    分页对象
-     * @param roleDto 查询实体
+     * @param page 分页对象
      * @return 所有数据
      */
     @Operation(summary = "分页查询所有数据", description = "role::select")
     @GetMapping
     @PreAuthorize("@hasPermission.check('role::select')")
-    public ResponseEntity<Object> select(Page<RoleEntity> page, @Validated(ValidationDto.SelectPage.class) RoleDto roleDto) {
-        return new ResponseEntity<>(this.roleService.page(page, roleDto), HttpStatus.OK);
+    public ResponseEntity<Object> select(Page<RoleEntity> page) {
+        return new ResponseEntity<>(this.roleService.page(page, new RoleDto()), HttpStatus.OK);
     }
 
     /**
@@ -63,8 +62,11 @@ public class RoleController {
     @Operation(summary = "新增数据", description = "role::insert")
     @PostMapping
     @PreAuthorize("@hasPermission.check('role::insert')")
-    public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class) RoleEntity role) {
-        return new ResponseEntity<>(this.roleService.save(role), HttpStatus.OK);
+    public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class) RoleDto role) {
+        if (this.roleService.save(role)) {
+            return new ResponseEntity<>("新增成功", HttpStatus.OK);
+        }
+        throw new BaseRequestException("新增失败");
     }
 
     /**
@@ -76,8 +78,11 @@ public class RoleController {
     @Operation(summary = "修改数据", description = "role::update")
     @PutMapping
     @PreAuthorize("@hasPermission.check('role::update')")
-    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class) RoleEntity role) {
-        return new ResponseEntity<>(this.roleService.updateById(role), HttpStatus.OK);
+    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class) RoleDto role) {
+        if (this.roleService.updateById(role)) {
+            return new ResponseEntity<>("修改成功", HttpStatus.OK);
+        }
+        throw new BaseRequestException("修改失败");
     }
 
     /**

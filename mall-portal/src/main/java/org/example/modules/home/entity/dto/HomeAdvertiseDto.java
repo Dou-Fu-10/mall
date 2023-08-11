@@ -31,7 +31,7 @@ public class HomeAdvertiseDto {
      */
     private String name;
     /**
-     * 轮播位置：true->PC首页轮播；false->app首页轮播
+     * 轮播位置：true=1->PC首页轮播；false=0->app首页轮播
      */
     private Boolean isPc;
     /**
@@ -40,7 +40,7 @@ public class HomeAdvertiseDto {
     private String pic;
 
     /**
-     * 上下线状态：false->下线；true->上线
+     * 上下线状态：false=0->下线；true=1->上线
      */
     private Boolean isShow;
     /**

@@ -51,7 +51,7 @@ public class MemberVo {
     @JsonIgnore
     private Boolean isVip;
     /**
-     * 帐号启用状态；1->正常：0->禁用
+     * 帐号启用状态；true=1->正常：false=0->禁用
      */
     @JsonIgnore
     private Boolean enabled;

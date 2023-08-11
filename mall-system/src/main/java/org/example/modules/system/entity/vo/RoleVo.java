@@ -38,12 +38,13 @@ public class RoleVo {
      */
     private Integer sort;
     /**
-     * 启用状态；1->正常：0->禁用
+     * 启用状态；true=1->正常：false=0->禁用
      */
     private Boolean enabled;
     /**
      * 更新时间
      */
+    @JsonIgnore
     private Date updateTime;
     /**
      * 创建者
@@ -58,7 +59,6 @@ public class RoleVo {
     /**
      * 创建时间
      */
-    @JsonIgnore
     private Date createTime;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）

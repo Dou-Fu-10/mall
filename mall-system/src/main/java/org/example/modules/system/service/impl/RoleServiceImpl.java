@@ -137,5 +137,17 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         List<RoleEntity> roleEntityList = lambdaQuery().in(RoleEntity::getId, roleIds).list();
         return BeanCopy.copytList(roleEntityList, RoleVo.class);
     }
+
+    @Override
+    public Boolean save(RoleDto role) {
+        RoleEntity roleEntity = BeanCopy.convert(role, RoleEntity.class);
+        return roleEntity.insert();
+    }
+
+    @Override
+    public Boolean updateById(RoleDto role) {
+        RoleEntity roleEntity = BeanCopy.convert(role, RoleEntity.class);
+        return roleEntity.updateById();
+    }
 }
 
