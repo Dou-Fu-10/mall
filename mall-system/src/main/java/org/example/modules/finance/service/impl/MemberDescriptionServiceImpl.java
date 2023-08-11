@@ -11,6 +11,7 @@ import org.example.modules.finance.entity.dto.MemberDescriptionDto;
 import org.example.modules.finance.entity.vo.MemberDescriptionVo;
 import org.example.modules.finance.mapper.MemberDescriptionMapper;
 import org.example.modules.finance.service.MemberDescriptionService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -33,19 +34,13 @@ public class MemberDescriptionServiceImpl extends ServiceImpl<MemberDescriptionM
     }
 
     @Override
-    public Boolean save(MemberDescriptionDto memberDescriptionDto) {
-        if (Objects.nonNull(getByTitle(memberDescriptionDto.getTitle()))) {
+    public Boolean insert(@NotNull MemberDescriptionEntity memberDescriptionEntity) {
+        if (Objects.nonNull(getByTitle(memberDescriptionEntity.getTitle()))) {
             throw new BaseRequestException("标题输入有误或者标题被占用");
         }
-        MemberDescriptionEntity memberDescriptionEntity = BeanCopy.convert(memberDescriptionDto, MemberDescriptionEntity.class);
         return save(memberDescriptionEntity);
     }
 
-    @Override
-    public Boolean updateById(MemberDescriptionDto memberDescriptionDto) {
-        MemberDescriptionEntity memberDescriptionEntity = BeanCopy.convert(memberDescriptionDto, MemberDescriptionEntity.class);
-        return updateById(memberDescriptionEntity);
-    }
 
     @Override
     public Page<MemberDescriptionVo> page(Page<MemberDescriptionEntity> page, MemberDescriptionDto memberDescriptionDto) {
@@ -56,6 +51,18 @@ public class MemberDescriptionServiceImpl extends ServiceImpl<MemberDescriptionM
         Page<MemberDescriptionEntity> memberDescriptionEntityPage = page(page, memberDescriptionEntityLambdaQueryWrapper);
         IPage<MemberDescriptionVo> memberDescriptionEntityPageVoIpage = memberDescriptionEntityPage.convert(memberDescription -> BeanCopy.convert(memberDescription, MemberDescriptionVo.class));
         return (Page<MemberDescriptionVo>) memberDescriptionEntityPageVoIpage;
+    }
+
+    @Override
+    public Boolean updateByMemberDescriptionId(MemberDescriptionEntity memberDescriptionEntity) {
+        String title = memberDescriptionEntity.getTitle();
+        MemberDescriptionEntity memberDescription = lambdaQuery()
+                .eq(MemberDescriptionEntity::getTitle, title)
+                .ne(MemberDescriptionEntity::getId, memberDescriptionEntity.getId()).one();
+        if (Objects.nonNull(memberDescription)) {
+            throw new BaseRequestException("标题输入有误或者标题被占用");
+        }
+        return memberDescriptionEntity.updateById();
     }
 }
 

@@ -56,7 +56,7 @@ public class UserNameValidator implements ConstraintValidator<UserNameValid, Str
             return false;
         }
         // 长度校验
-        if (value.length() < min && value.length() > max) {
+        if (value.length() < min || value.length() > max) {
             return false;
         }
         // 是否需要包含数字，默认需要    用于判断字符串中是否包含数字。

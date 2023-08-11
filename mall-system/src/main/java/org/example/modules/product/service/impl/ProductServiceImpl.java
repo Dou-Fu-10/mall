@@ -114,16 +114,12 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean save(ProductDtoParam productDtoParam) {
-        // TODO 数据校验
-        ProductEntity productEntity = BeanCopy.convert(productDtoParam, ProductEntity.class);
         // 校验 画册图片，连产品图片限制为5张，以逗号分割
         Set<String> albumPics = productDtoParam.getAlbumPics();
-        String albumPicStr = checkAlbumPics(albumPics);
+        productDtoParam.setAlbumPics(checkAlbumPics(albumPics));
+        // TODO 数据校验
+        ProductEntity productEntity = BeanCopy.convert(productDtoParam, ProductEntity.class);
 
-        if (Objects.nonNull(albumPicStr)) {
-            // 设置 画册
-            productEntity.setAlbumPics(albumPicStr);
-        }
         // 设置  以逗号分割的产品服务：1->无忧退货；2->快速退款；3->免费包邮
         String checkServiceIds = checkServiceIds(productDtoParam.getServiceIds());
         if (Objects.nonNull(checkServiceIds)) {
@@ -157,15 +153,15 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean updateById(ProductDtoParam productDtoParam) {
-        // TODO 数据校验
-        ProductEntity productEntity = BeanCopy.convert(productDtoParam, ProductEntity.class);
+
         Set<String> albumPics = productDtoParam.getAlbumPics();
         // 校验 画册图片，连产品图片限制为5张，以逗号分割
-        String albumPicStr = checkAlbumPics(albumPics);
-        if (StringUtils.isNoneBlank(albumPicStr)) {
-            // 设置 画册
-            productEntity.setAlbumPics(albumPicStr);
-        }
+        Set<String> strings = checkAlbumPics(albumPics);
+        productDtoParam.setAlbumPics(strings);
+
+        // TODO 数据校验
+        ProductEntity productEntity = BeanCopy.convert(productDtoParam, ProductEntity.class);
+
         // 设置  以逗号分割的产品服务：1->无忧退货；2->快速退款；3->免费包邮
         String checkServiceIds = checkServiceIds(productDtoParam.getServiceIds());
         if (StringUtils.isNoneBlank(checkServiceIds)) {
@@ -204,7 +200,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
         return true;
     }
 
-    private String checkAlbumPics(Set<String> albumPics) {
+    private Set<String> checkAlbumPics(Set<String> albumPics) {
         if (Objects.nonNull(albumPics) && CollectionUtils.isNotEmpty(albumPics)) {
             Set<String> existObject = minioServer.checkObjectIsExist(albumPics);
             if (!existObject.isEmpty()) {
@@ -213,7 +209,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
                 // 截取前五个元素
                 // 确保 只有五张图片
                 List<String> sublist = list.subList(0, Math.min(list.size(), 5));
-                return String.join(",", sublist);
+                return new HashSet<>(sublist);
             }
         }
         return null;

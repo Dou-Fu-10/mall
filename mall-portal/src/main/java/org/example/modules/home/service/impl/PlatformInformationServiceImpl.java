@@ -32,23 +32,20 @@ public class PlatformInformationServiceImpl extends ServiceImpl<PlatformInformat
 
     @Override
     public Boolean save(PlatformInformationDto platformInformationDto) {
-        PlatformInformationEntity platformInformationEntity = BeanCopy.convert(platformInformationDto, PlatformInformationEntity.class);
         Set<String> startupDiagram = platformInformationDto.getStartupDiagram();
-        String albumPicStr = checkStartupDiagram(startupDiagram);
-        if (Objects.nonNull(albumPicStr)) {
-            platformInformationEntity.setStartupDiagram(albumPicStr);
-        }
+        platformInformationDto.setStartupDiagram(checkStartupDiagram(startupDiagram));
+        PlatformInformationEntity platformInformationEntity = BeanCopy.convert(platformInformationDto, PlatformInformationEntity.class);
+
         return save(platformInformationEntity);
     }
 
     @Override
     public Boolean updateById(PlatformInformationDto platformInformationDto) {
-        PlatformInformationEntity platformInformationEntity = BeanCopy.convert(platformInformationDto, PlatformInformationEntity.class);
+
         Set<String> startupDiagram = platformInformationDto.getStartupDiagram();
-        String albumPicStr = checkStartupDiagram(startupDiagram);
-        if (Objects.nonNull(albumPicStr)) {
-            platformInformationEntity.setStartupDiagram(albumPicStr);
-        }
+        Set<String> strings = checkStartupDiagram(startupDiagram);
+        platformInformationDto.setStartupDiagram(strings);
+        PlatformInformationEntity platformInformationEntity = BeanCopy.convert(platformInformationDto, PlatformInformationEntity.class);
         return updateById(platformInformationEntity);
     }
 
@@ -61,12 +58,9 @@ public class PlatformInformationServiceImpl extends ServiceImpl<PlatformInformat
         return (Page<PlatformInformationVo>) platformInformationEntityPageVoIpage;
     }
 
-    private String checkStartupDiagram(Set<String> startupDiagram) {
+    private Set<String> checkStartupDiagram(Set<String> startupDiagram) {
         if (Objects.nonNull(startupDiagram) && CollectionUtils.isNotEmpty(startupDiagram)) {
-            Set<String> existObject = minioServer.checkObjectIsExist(startupDiagram);
-            if (!existObject.isEmpty()) {
-                return String.join(",", existObject);
-            }
+            return minioServer.checkObjectIsExist(startupDiagram);
         }
         return null;
     }

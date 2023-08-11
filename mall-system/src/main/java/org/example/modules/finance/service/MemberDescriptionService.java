@@ -25,18 +25,11 @@ public interface MemberDescriptionService extends IService<MemberDescriptionEnti
     /**
      * 新增数据
      *
-     * @param memberDescriptionDto 实体对象
+     * @param memberDescriptionEntity 实体对象
      * @return 新增结果
      */
-    Boolean save(MemberDescriptionDto memberDescriptionDto);
+    Boolean insert(MemberDescriptionEntity memberDescriptionEntity);
 
-    /**
-     * 修改数据
-     *
-     * @param memberDescriptionDto 实体对象
-     * @return 修改结果
-     */
-    Boolean updateById(MemberDescriptionDto memberDescriptionDto);
 
     /**
      * 分页查询所有数据
@@ -46,4 +39,12 @@ public interface MemberDescriptionService extends IService<MemberDescriptionEnti
      * @return 所有数据
      */
     Page<MemberDescriptionVo> page(Page<MemberDescriptionEntity> page, MemberDescriptionDto memberDescriptionDto);
+
+    /**
+     * 修改数据
+     *
+     * @param memberDescriptionEntity 实体对象
+     * @return 修改结果
+     */
+    Boolean updateByMemberDescriptionId(MemberDescriptionEntity memberDescriptionEntity);
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,8 +37,9 @@ public class AdminDto {
     /**
      * 用户
      */
-    @UserNameValid(allowNull = true, groups = {ValidationDto.SelectPage.class, ValidationDto.Update.class})
+    @UserNameValid(allowNull = true, groups = {ValidationDto.SelectPage.class})
     @UserNameValid(groups = ValidationDto.Insert.class)
+    @Null
     private String username;
     /**
      * 密码

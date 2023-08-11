@@ -1,12 +1,15 @@
 package org.example.modules.product.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
+import org.example.common.core.server.MinioServer;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.product.entity.SkuStockEntity;
 import org.example.modules.product.entity.dto.SkuStockDto;
 import org.example.modules.product.entity.vo.SkuStockVo;
 import org.example.modules.product.mapper.SkuStockMapper;
 import org.example.modules.product.service.SkuStockService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -26,6 +29,9 @@ import java.util.Set;
  */
 @Service("skuStockService")
 public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEntity> implements SkuStockService {
+    @Resource
+    private MinioServer minioServer;
+
     @Override
     public Boolean save(SkuStockDto skuStock) {
         return false;
@@ -69,7 +75,14 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    public Boolean updateBatchById(Set<SkuStockDto> skuStock) {
+    public Boolean updateBatchById(@NotNull Set<SkuStockDto> skuStock) {
+        // 校验图片是否存在
+        for (SkuStockDto skuStockDto : skuStock) {
+            String pic = skuStockDto.getPic();
+            if (minioServer.checkObjectIsExist(pic)) {
+                skuStockDto.setPic(pic);
+            }
+        }
         Set<SkuStockEntity> skuStockEntities = BeanCopy.copySet(skuStock, SkuStockEntity.class);
         return updateBatchById(skuStockEntities);
     }

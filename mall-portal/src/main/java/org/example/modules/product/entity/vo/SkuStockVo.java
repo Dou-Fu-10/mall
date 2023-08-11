@@ -66,12 +66,6 @@ public class SkuStockVo {
     @Schema(name = "sale", description = "销量")
     private Integer sale;
     /**
-     * 单品促销价格
-     */
-    @JsonIgnore
-    @Schema(name = "promotionPrice", description = "单品促销价格")
-    private BigDecimal promotionPrice;
-    /**
      * 锁定库存
      */
     @JsonIgnore

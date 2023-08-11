@@ -61,11 +61,6 @@ public class SkuStockDto {
     @Schema(name = "sale", description = "销量")
     private Integer sale;
     /**
-     * 单品促销价格
-     */
-    @Schema(name = "promotionPrice", description = "单品促销价格")
-    private BigDecimal promotionPrice;
-    /**
      * 锁定库存
      */
     @Schema(name = "lockStock", description = "锁定库存")

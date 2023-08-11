@@ -9,6 +9,7 @@ import org.example.modules.system.entity.AdminRolesRelationEntity;
 import org.example.modules.system.entity.vo.RoleVo;
 import org.example.modules.system.mapper.AdminRolesRelationMapper;
 import org.example.modules.system.service.AdminRolesRelationService;
+import org.example.modules.system.service.AdminService;
 import org.example.modules.system.service.RoleService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -35,14 +36,24 @@ public class AdminRolesRelationServiceImpl extends ServiceImpl<AdminRolesRelatio
     @Resource
     @Lazy
     private RoleService roleService;
+    @Resource
+    @Lazy
+    private AdminService adminService;
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean updateRole(Long adminId, Set<Long> roleIds) {
         // 校验 管理员 id 和 角色id不为空
-        if (Objects.isNull(getById(adminId)) || CollectionUtils.isEmpty(roleIds)) {
-            return false;
+        if (Objects.isNull(adminService.getById(adminId)) || CollectionUtils.isEmpty(roleIds)) {
+            throw new BaseRequestException("参数错误");
         }
+
+        List<RoleVo> roleVoList = roleService.getExistingRoles(roleIds);
+        roleIds = roleVoList.stream().map(RoleVo::getId).collect(Collectors.toSet());
+        if (CollectionUtils.isEmpty(roleIds)) {
+            throw new BaseRequestException("参数错误");
+        }
+
         // 先删除  管理员 对应的角色
         remove(lambdaQuery().eq(AdminRolesRelationEntity::getAdminId, adminId).getWrapper());
         // 在 修改 管理员对应的角色
@@ -63,7 +74,7 @@ public class AdminRolesRelationServiceImpl extends ServiceImpl<AdminRolesRelatio
         }
         // 通过对应的角色信息查找 对应的角色
         Set<Long> roleIdList = adminRolesRelationEntityList.stream().map(AdminRolesRelationEntity::getRoleId).collect(Collectors.toSet());
-        return BeanCopy.copytList(roleService.listByIds(roleIdList), RoleVo.class);
+        return BeanCopy.copytList(roleService.getExistingRoles(roleIdList), RoleVo.class);
     }
 }
 

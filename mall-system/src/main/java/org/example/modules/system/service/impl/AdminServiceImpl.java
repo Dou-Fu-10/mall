@@ -274,7 +274,9 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         if (adminEntity.insert()) {
             // 当 设置了角色信息的时候 添加角色信息
             if (CollectionUtils.isNotEmpty(resources.getRoleIds())) {
-                return adminRolesRelationService.updateRole(adminEntity.getId(), resources.getRoleIds());
+                if (!adminRolesRelationService.updateRole(adminEntity.getId(), resources.getRoleIds())) {
+                    throw new BaseRequestException("添加角色失败");
+                }
             }
             return true;
         }

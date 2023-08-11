@@ -10,6 +10,7 @@ import org.example.modules.system.entity.vo.RoleVo;
 import org.example.security.entity.Authority;
 
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -71,4 +72,11 @@ public interface RoleService extends IService<RoleEntity> {
      * @return 所有数据
      */
     Page<RoleVo> page(Page<RoleEntity> page, RoleDto roleDto);
+
+    /**
+     * 获取存在的角色
+     * @param roleIds 角色id
+     * @return 角色
+     */
+    List<RoleVo> getExistingRoles(Set<Long> roleIds);
 }

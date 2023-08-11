@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintDefinitionException;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.InvalidPropertyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -57,7 +58,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 参数不匹配异常
+     * 数据校验失败
      */
     @ExceptionHandler(value = {ConstraintDefinitionException.class})
     public ResponseEntity<?> constraintDefinitionExceptionExceptionHandler(@NotNull ConstraintDefinitionException e) {
@@ -66,12 +67,20 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 参数不匹配异常
+     * 非法参数
      */
     @ExceptionHandler(value = {IllegalArgumentException.class})
     public ResponseEntity<?> IllegalArgumentExceptionExceptionHandler(@NotNull IllegalArgumentException e) {
         log.error("------->非法参数-------- " + e.getMessage());
-        return buildResponseEntity(BaseError.error("非法参数"));
+        return buildResponseEntity(BaseError.error("参数异常"));
+    }
+    /**
+     * 参数异常
+     */
+    @ExceptionHandler(value = {InvalidPropertyException.class})
+    public ResponseEntity<?> InvalidPropertyExceptionHandler(@NotNull InvalidPropertyException e) {
+        log.error("------->参数异常-------- " + e.getMessage());
+        return buildResponseEntity(BaseError.error("参数异常"));
     }
 
 

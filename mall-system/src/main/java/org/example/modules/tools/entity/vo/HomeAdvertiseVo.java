@@ -38,7 +38,7 @@ public class HomeAdvertiseVo {
      * 轮播位置：0->PC首页轮播；1->app首页轮播
      */
     @Schema(name = "ispc", description = "轮播位置：0->PC首页轮播；1->app首页轮播")
-    private Integer ispc;
+    private Boolean ispc;
     /**
      * 图片路径
      */

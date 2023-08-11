@@ -62,9 +62,9 @@ public class ProductController {
     @GetMapping("{id}")
     @Operation(summary = "通过主键查询单条数据", description = "product::selectOne")
     @PreAuthorize("@hasPermission.check('product::selectOne')")
-    public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
+    public ResponseEntity<Object> selectOne(@PathVariable Long id) {
         ProductDto productDto = new ProductDto();
-        productDto.setId((Long) id);
+        productDto.setId(id);
         return ResponseEntity.ok(this.productService.page(new Page<>(), productDto));
     }
 

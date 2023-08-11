@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,11 +42,13 @@ public class MemberDescriptionEntity extends CommonEntity<MemberDescriptionEntit
      * 标题
      */
     @Schema(name = "title", description = "标题")
+    @NotEmpty
     private String title;
     /**
      * 详情
      */
     @Schema(name = "description", description = "详情")
+    @NotEmpty
     private String description;
 
     /**

@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 /**
  * Created by Dou-Fu-10 2023-08-10 22:21:34
  *
@@ -42,7 +44,7 @@ public class PlatformInformationDto {
      * 启动图3张，以逗号分割
      */
     @Schema(name = "startupDiagram", description = "启动图3张，以逗号分割")
-    private String startupDiagram;
+    private Set<String> startupDiagram;
 
 }
 

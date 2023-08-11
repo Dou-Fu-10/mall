@@ -131,5 +131,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         });
         return (Page<RoleVo>) roleVoIPage;
     }
+
+    @Override
+    public List<RoleVo> getExistingRoles(Set<Long> roleIds) {
+        List<RoleEntity> roleEntityList = lambdaQuery().in(RoleEntity::getId, roleIds).list();
+        return BeanCopy.copytList(roleEntityList, RoleVo.class);
+    }
 }
 

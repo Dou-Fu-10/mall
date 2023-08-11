@@ -12,6 +12,7 @@ import org.example.modules.finance.entity.dto.MemberDescriptionDto;
 import org.example.modules.finance.service.MemberDescriptionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -49,27 +50,16 @@ public class MemberDescriptionController {
     }
 
     /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-//    @GetMapping("{id}")
-//    public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-//        return ResponseEntity.ok(this.memberDescriptionService.getById(id));
-//    }
-
-    /**
      * 新增数据
      *
-     * @param memberDescriptionDto 实体对象
+     * @param memberDescriptionEntity 实体对象
      * @return 新增结果
      */
     @Operation(summary = "新增数据", description = "memberDescription::insert")
     @PostMapping
     @PreAuthorize("@hasPermission.check('memberDescription::insert')")
-    public ResponseEntity<Object> insert(@RequestBody MemberDescriptionDto memberDescriptionDto) {
-        if (this.memberDescriptionService.save(memberDescriptionDto)) {
+    public ResponseEntity<Object> insert(@RequestBody @Validated MemberDescriptionEntity memberDescriptionEntity) {
+        if (this.memberDescriptionService.insert(memberDescriptionEntity)) {
             return ResponseEntity.ok("添加成功");
         }
         // 修改成自定义的 错误类型
@@ -79,14 +69,14 @@ public class MemberDescriptionController {
     /**
      * 修改数据
      *
-     * @param memberDescriptionDto 实体对象
+     * @param memberDescriptionEntity 实体对象
      * @return 修改结果
      */
     @Operation(summary = "修改数据", description = "memberDescription::update")
     @PutMapping
     @PreAuthorize("@hasPermission.check('memberDescription::update')")
-    public ResponseEntity<Object> update(@RequestBody MemberDescriptionDto memberDescriptionDto) {
-        if (this.memberDescriptionService.updateById(memberDescriptionDto)) {
+    public ResponseEntity<Object> update(@RequestBody @Validated MemberDescriptionEntity memberDescriptionEntity) {
+        if (this.memberDescriptionService.updateByMemberDescriptionId(memberDescriptionEntity)) {
             return ResponseEntity.ok("修改成功");
         }
         // 修改成自定义的 错误类型
@@ -107,7 +97,10 @@ public class MemberDescriptionController {
             throw new BaseRequestException("请正确的填写id");
         }
         Set<Long> ids = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
-        return ResponseEntity.ok(this.memberDescriptionService.removeByIds(ids) ? "删除成功" : "删除失败");
+        if (this.memberDescriptionService.removeByIds(ids)) {
+            return ResponseEntity.ok("删除成功");
+        }
+        throw new BaseRequestException("删除失败");
     }
 }
 
