@@ -6,6 +6,8 @@ import org.example.modules.tools.entity.HomeAdvertiseEntity;
 import org.example.modules.tools.entity.dto.HomeAdvertiseDto;
 import org.example.modules.tools.entity.vo.HomeAdvertiseVo;
 
+import java.io.Serializable;
+
 /**
  * Created by Dou-Fu-10 2023-08-10 22:21:00
  *
@@ -38,4 +40,11 @@ public interface HomeAdvertiseService extends IService<HomeAdvertiseEntity> {
      * @return 所有数据
      */
     Page<HomeAdvertiseVo> page(Page<HomeAdvertiseEntity> page, HomeAdvertiseDto homeAdvertiseDto);
+    /**
+     * 通过主键查询单条数据
+     *
+     * @param id 主键
+     * @return 单条数据
+     */
+    HomeAdvertiseVo getByHomeAdvertiseId(Serializable id);
 }

@@ -6,12 +6,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.example.common.core.base.ValidationDto;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.tools.entity.HomeAdvertiseEntity;
 import org.example.modules.tools.entity.dto.HomeAdvertiseDto;
 import org.example.modules.tools.service.HomeAdvertiseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -46,7 +48,7 @@ public class HomeAdvertiseController {
     @GetMapping
     @Operation(summary = "分页查询所有数据", description = "homeAdvertise::select")
     @PreAuthorize("@hasPermission.check('homeAdvertise::select')")
-    public ResponseEntity<Object> select(Page<HomeAdvertiseEntity> page, HomeAdvertiseDto homeAdvertiseDto) {
+    public ResponseEntity<Object> select(Page<HomeAdvertiseEntity> page, @Validated(ValidationDto.SelectPage.class) HomeAdvertiseDto homeAdvertiseDto) {
         return ResponseEntity.ok(this.homeAdvertiseService.page(page, homeAdvertiseDto));
     }
 
@@ -60,7 +62,7 @@ public class HomeAdvertiseController {
     @Operation(summary = "通过主键查询单条数据", description = "homeAdvertise::selectOne")
     @PreAuthorize("@hasPermission.check('homeAdvertise::selectOne')")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return ResponseEntity.ok(this.homeAdvertiseService.getById(id));
+        return ResponseEntity.ok(this.homeAdvertiseService.getByHomeAdvertiseId(id));
     }
 
     /**
@@ -72,7 +74,7 @@ public class HomeAdvertiseController {
     @PostMapping
     @Operation(summary = "新增数据", description = "homeAdvertise::insert")
     @PreAuthorize("@hasPermission.check('homeAdvertise::insert')")
-    public ResponseEntity<String> insert(@RequestBody HomeAdvertiseDto homeAdvertiseDto) {
+    public ResponseEntity<String> insert(@RequestBody @Validated(ValidationDto.Insert.class) HomeAdvertiseDto homeAdvertiseDto) {
         if (this.homeAdvertiseService.save(homeAdvertiseDto)) {
             return ResponseEntity.ok("添加成功");
         }

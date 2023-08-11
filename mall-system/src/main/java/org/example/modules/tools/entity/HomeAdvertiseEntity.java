@@ -41,40 +41,25 @@ public class HomeAdvertiseEntity extends CommonEntity<HomeAdvertiseEntity> imple
     @Schema(name = "name", description = "轮播图名称")
     private String name;
     /**
-     * 轮播位置：0->PC首页轮播；1->app首页轮播
+     * 轮播位置：true->PC首页轮播；false->app首页轮播
      */
-    @Schema(name = "ispc", description = "轮播位置：0->PC首页轮播；1->app首页轮播")
-    private Boolean ispc;
+    @Schema(name = "isPc", description = "轮播位置：true->PC首页轮播；false->app首页轮播")
+    private Boolean isPc;
     /**
      * 图片路径
      */
     @Schema(name = "pic", description = "图片路径")
     private String pic;
     /**
-     * 开始时间
+     * 上下线状态：false->下线；true->上线
      */
-    @Schema(name = "startTime", description = "开始时间")
-    private Date startTime;
-    /**
-     * 结束时间
-     */
-    @Schema(name = "endTime", description = "结束时间")
-    private Date endTime;
-    /**
-     * 上下线状态：0->下线；1->上线
-     */
-    @Schema(name = "isShow", description = "上下线状态：0->下线；1->上线")
-    private Integer isShow;
+    @Schema(name = "isShow", description = "上下线状态：false->下线；true->上线")
+    private Boolean isShow;
     /**
      * 点击数
      */
     @Schema(name = "clickCount", description = "点击数")
     private Integer clickCount;
-    /**
-     * 链接地址
-     */
-    @Schema(name = "url", description = "链接地址")
-    private String url;
     /**
      * 备注
      */

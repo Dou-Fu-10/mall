@@ -31,33 +31,21 @@ public class HomeAdvertiseVo {
      */
     private String name;
     /**
-     * 轮播位置：0->PC首页轮播；1->app首页轮播
+     * 轮播位置：true->PC首页轮播；false->app首页轮播
      */
-    private Boolean ispc;
+    private Boolean isPc;
     /**
      * 图片路径
      */
     private String pic;
     /**
-     * 开始时间
+     * 上下线状态：false->下线；true->上线
      */
-    private Date startTime;
-    /**
-     * 结束时间
-     */
-    private Date endTime;
-    /**
-     * 上下线状态：0->下线；1->上线
-     */
-    private Integer isShow;
+    private Boolean isShow;
     /**
      * 点击数
      */
     private Integer clickCount;
-    /**
-     * 链接地址
-     */
-    private String url;
     /**
      * 备注
      */
