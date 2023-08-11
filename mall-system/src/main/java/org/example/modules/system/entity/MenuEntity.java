@@ -50,16 +50,6 @@ public class MenuEntity extends CommonEntity<MenuEntity> implements Serializable
     @Schema(name = "title", description = "菜单标题")
     private String title;
     /**
-     * 更新时间
-     */
-    @Schema(name = "updateTime", description = "更新时间")
-    private Date updateTime;
-    /**
-     * 创建者
-     */
-    @Schema(name = "createBy", description = "创建者")
-    private String createBy;
-    /**
      * 链接地址
      */
     @Schema(name = "path", description = "链接地址")
@@ -99,16 +89,6 @@ public class MenuEntity extends CommonEntity<MenuEntity> implements Serializable
      */
     @Schema(name = "permission", description = "访问权限标识符")
     private String permission;
-    /**
-     * 创建时间
-     */
-    @Schema(name = "createTime", description = "创建时间")
-    private Date createTime;
-    /**
-     * 更新者
-     */
-    @Schema(name = "updateBy", description = "更新者")
-    private String updateBy;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */

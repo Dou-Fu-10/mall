@@ -96,7 +96,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
     @Override
     public MenuVo getByMenuId(Serializable id) {
         if (Objects.isNull(id)) {
-            return null;
+            throw new BaseRequestException("参数错误");
         }
         MenuEntity menuEntity = getById(id);
         return BeanCopy.convert(menuEntity, MenuVo.class);

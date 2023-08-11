@@ -98,6 +98,7 @@ public class MenuVo {
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
+    @JsonIgnore
     private Integer deleteFlag;
 
 

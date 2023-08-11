@@ -47,14 +47,13 @@ public class MenuController {
      * 分页查询所有数据
      *
      * @param page    分页对象
-     * @param menuDto 查询实体
      * @return 所有数据
      */
     @Operation(summary = "分页查询所有数据", description = "menu::select")
     @GetMapping
     @PreAuthorize("@hasPermission.check('menu::select')")
-    public ResponseEntity<Object> select(Page<MenuEntity> page, @Validated(ValidationDto.SelectPage.class) MenuDto menuDto) {
-        return new ResponseEntity<>(this.menuService.page(page, menuDto), HttpStatus.OK);
+    public ResponseEntity<Object> select(Page<MenuEntity> page) {
+        return new ResponseEntity<>(this.menuService.page(page, new MenuDto()), HttpStatus.OK);
     }
 
     /**
