@@ -17,14 +17,14 @@ import java.math.BigDecimal;
  *
  * @author Dou-Fu-10
  * @date 2023-07-14 14:36:26
- * @Description 运费模版(FeightTemplate)表实体类
+ * @Description 运费模版(FreightTemplate)表实体类
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("pms_feight_template")
-@Schema(name = "pms_feight_template", description = "运费模版(FeightTemplate)表实体类")
-public class FeightTemplateEntity extends CommonEntity<FeightTemplateEntity> implements Serializable {
+@TableName("pms_freight_template")
+@Schema(name = "pms_freight_template", description = "运费模版(FreightTemplate)表实体类")
+public class FreightTemplateEntity extends CommonEntity<FreightTemplateEntity> implements Serializable {
     /**
      * ID
      */

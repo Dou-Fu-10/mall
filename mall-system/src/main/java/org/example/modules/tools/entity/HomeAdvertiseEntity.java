@@ -71,26 +71,6 @@ public class HomeAdvertiseEntity extends CommonEntity<HomeAdvertiseEntity> imple
     @Schema(name = "sort", description = "排序")
     private Integer sort;
     /**
-     * 创建者
-     */
-    @Schema(name = "createBy", description = "创建者")
-    private String createBy;
-    /**
-     * 更新者
-     */
-    @Schema(name = "updateBy", description = "更新者")
-    private String updateBy;
-    /**
-     * 创建日期
-     */
-    @Schema(name = "createTime", description = "创建日期")
-    private Date createTime;
-    /**
-     * 更新时间
-     */
-    @Schema(name = "updateTime", description = "更新时间")
-    private Date updateTime;
-    /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
     @Schema(name = "deleteFlag", description = "逻辑删除（1 代表已删除），（0 代表未删除）")

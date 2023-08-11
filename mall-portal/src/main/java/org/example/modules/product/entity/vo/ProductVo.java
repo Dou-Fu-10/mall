@@ -35,7 +35,7 @@ public class ProductVo {
      * 运费模板id
      */
     @JsonIgnore
-    private Long feightTemplateId;
+    private Long freightTemplateId;
 
     /**
      * 商品分类名称

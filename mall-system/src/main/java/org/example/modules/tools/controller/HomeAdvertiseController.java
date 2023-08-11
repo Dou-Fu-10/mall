@@ -91,7 +91,7 @@ public class HomeAdvertiseController {
     @PutMapping
     @Operation(summary = "修改数据", description = "homeAdvertise::update")
     @PreAuthorize("@hasPermission.check('homeAdvertise::update')")
-    public ResponseEntity<String> update(@RequestBody HomeAdvertiseDto homeAdvertiseDto) {
+    public ResponseEntity<String> update(@RequestBody @Validated(ValidationDto.Update.class) HomeAdvertiseDto homeAdvertiseDto) {
         if (this.homeAdvertiseService.updateById(homeAdvertiseDto)) {
             return ResponseEntity.ok("修改成功");
         }

@@ -34,6 +34,11 @@ public class HomeAdvertiseServiceImpl extends ServiceImpl<HomeAdvertiseMapper, H
     private MinioServer minioServer;
     @Resource
     private ProductService productService;
+
+    private HomeAdvertiseEntity getByHomeAdvertiseName(String name) {
+        return lambdaQuery().eq(HomeAdvertiseEntity::getName, name).one();
+    }
+
     @Override
     public Boolean save(@NotNull HomeAdvertiseDto homeAdvertiseDto) {
         String url = homeAdvertiseDto.getPic();
@@ -41,7 +46,7 @@ public class HomeAdvertiseServiceImpl extends ServiceImpl<HomeAdvertiseMapper, H
             throw new BaseRequestException("请输入正确的图片地址");
         }
         ProductVo productVo = productService.getByProductId(homeAdvertiseDto.getProductId());
-        if (Objects.isNull(productVo)){
+        if (Objects.isNull(productVo)) {
             throw new BaseRequestException("请输入正确商品地址");
         }
         HomeAdvertiseEntity homeAdvertiseEntity = BeanCopy.convert(homeAdvertiseDto, HomeAdvertiseEntity.class);

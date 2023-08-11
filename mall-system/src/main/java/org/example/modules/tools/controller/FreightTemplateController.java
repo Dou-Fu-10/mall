@@ -8,9 +8,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
-import org.example.modules.tools.entity.FeightTemplateEntity;
-import org.example.modules.tools.entity.dto.FeightTemplateDto;
-import org.example.modules.tools.service.FeightTemplateService;
+import org.example.modules.tools.entity.FreightTemplateEntity;
+import org.example.modules.tools.entity.dto.FreightTemplateDto;
+import org.example.modules.tools.service.FreightTemplateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -20,35 +20,35 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 运费模版 FeightTemplateController
+ * 运费模版 FreightTemplateController
  * Created by Dou-Fu-10 2023-07-14 14:36:26
  *
  * @author Dou-Fu-10
  * @date 2023-07-14 14:36:26
- * @Description 运费模版(FeightTemplate)表控制层
+ * @Description 运费模版(FreightTemplate)表控制层
  */
 @RestController
-@RequestMapping("/api/feightTemplate")
-@Tag(name = "FeightTemplateController", description = "运费模版(FeightTemplate)表控制层")
-public class FeightTemplateController {
+@RequestMapping("/api/freightTemplate")
+@Tag(name = "FreightTemplateController", description = "运费模版(FreightTemplate)表控制层")
+public class FreightTemplateController {
     /**
      * 服务对象
      */
     @Resource
-    private FeightTemplateService feightTemplateService;
+    private FreightTemplateService freightTemplateService;
 
     /**
      * 分页查询所有数据
      *
-     * @param page           分页对象
-     * @param feightTemplate 查询实体
+     * @param page            分页对象
+     * @param FreightTemplate 查询实体
      * @return 所有数据
      */
     @GetMapping
-    @Operation(summary = "分页查询所有数据", description = "feightTemplate::select")
-    @PreAuthorize("@hasPermission.check('feightTemplate::select')")
-    public ResponseEntity<Object> select(Page<FeightTemplateEntity> page, FeightTemplateEntity feightTemplate) {
-        return ResponseEntity.ok(this.feightTemplateService.page(page, new QueryWrapper<>(feightTemplate)));
+    @Operation(summary = "分页查询所有数据", description = "freightTemplate::select")
+    @PreAuthorize("@hasPermission.check('freightTemplate::select')")
+    public ResponseEntity<Object> select(Page<FreightTemplateEntity> page, FreightTemplateEntity FreightTemplate) {
+        return ResponseEntity.ok(this.freightTemplateService.page(page, new QueryWrapper<>(FreightTemplate)));
     }
 
     /**
@@ -58,23 +58,23 @@ public class FeightTemplateController {
      * @return 单条数据
      */
     @GetMapping("{id}")
-    @Operation(summary = "通过主键查询单条数据", description = "feightTemplate::selectOne")
-    @PreAuthorize("@hasPermission.check('feightTemplate::selectOne')")
+    @Operation(summary = "通过主键查询单条数据", description = "freightTemplate::selectOne")
+    @PreAuthorize("@hasPermission.check('freightTemplate::selectOne')")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return ResponseEntity.ok(this.feightTemplateService.getById(id));
+        return ResponseEntity.ok(this.freightTemplateService.getById(id));
     }
 
     /**
      * 新增数据
      *
-     * @param feightTemplate 实体对象
+     * @param FreightTemplate 实体对象
      * @return 新增结果
      */
     @PostMapping
-    @Operation(summary = "新增数据", description = "feightTemplate::insert")
-    @PreAuthorize("@hasPermission.check('feightTemplate::insert')")
-    public ResponseEntity<Object> insert(@RequestBody FeightTemplateDto feightTemplate) {
-        if (this.feightTemplateService.save(feightTemplate)) {
+    @Operation(summary = "新增数据", description = "freightTemplate::insert")
+    @PreAuthorize("@hasPermission.check('freightTemplate::insert')")
+    public ResponseEntity<Object> insert(@RequestBody FreightTemplateDto FreightTemplate) {
+        if (this.freightTemplateService.save(FreightTemplate)) {
             return ResponseEntity.ok("添加成功");
         }
         // 修改成自定义的 错误类型
@@ -84,14 +84,14 @@ public class FeightTemplateController {
     /**
      * 修改数据
      *
-     * @param feightTemplate 实体对象
+     * @param FreightTemplate 实体对象
      * @return 修改结果
      */
     @PutMapping
-    @Operation(summary = "修改数据", description = "feightTemplate::update")
-    @PreAuthorize("@hasPermission.check('feightTemplate::update')")
-    public ResponseEntity<Object> update(@RequestBody FeightTemplateDto feightTemplate) {
-        if (this.feightTemplateService.updateById(feightTemplate)) {
+    @Operation(summary = "修改数据", description = "freightTemplate::update")
+    @PreAuthorize("@hasPermission.check('freightTemplate::update')")
+    public ResponseEntity<Object> update(@RequestBody FreightTemplateDto FreightTemplate) {
+        if (this.freightTemplateService.updateById(FreightTemplate)) {
             return ResponseEntity.ok("修改成功");
         }
         // 修改成自定义的 错误类型
@@ -105,14 +105,14 @@ public class FeightTemplateController {
      * @return 删除结果
      */
     @DeleteMapping
-    @Operation(summary = "删除数据", description = "feightTemplate::remove")
-    @PreAuthorize("@hasPermission.check('feightTemplate::remove')")
+    @Operation(summary = "删除数据", description = "freightTemplate::remove")
+    @PreAuthorize("@hasPermission.check('freightTemplate::remove')")
     public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");
         }
         Set<Long> ids = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
-        if (this.feightTemplateService.removeByIds(ids)) {
+        if (this.freightTemplateService.removeByIds(ids)) {
             return ResponseEntity.ok("删除成功");
         }
         throw new BaseRequestException("删除失败");

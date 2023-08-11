@@ -1,6 +1,5 @@
 package org.example.modules.tools.entity.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Null;
@@ -8,8 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.common.core.base.ValidationDto;
-
-import java.util.Date;
 
 /**
  * Created by Dou-Fu-10 2023-08-10 22:21:00
@@ -49,7 +46,7 @@ public class HomeAdvertiseDto {
      */
     @Null(groups = {ValidationDto.SelectPage.class})
     @Schema(name = "pic", description = "图片路径")
-    @NotEmpty(groups = {ValidationDto.Insert.class})
+    @NotEmpty(groups = {ValidationDto.Insert.class, ValidationDto.Update.class})
     private String pic;
     /**
      * 上下线状态：false->下线；true->上线

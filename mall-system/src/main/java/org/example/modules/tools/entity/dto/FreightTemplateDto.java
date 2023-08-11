@@ -1,4 +1,4 @@
-package org.example.modules.tools.entity.vo;
+package org.example.modules.tools.entity.dto;
 
 
 import lombok.AllArgsConstructor;
@@ -12,12 +12,12 @@ import java.math.BigDecimal;
  *
  * @author Dou-Fu-10
  * @date 2023-07-14 14:36:26
- * @Description 运费模版(FeightTemplate)表实体类
+ * @Description 运费模版(FreightTemplate)表实体类
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FeightTemplateVo {
+public class FreightTemplateDto {
     /**
      * ID
      */
