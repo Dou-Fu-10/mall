@@ -35,8 +35,8 @@ public class FreightTemplateServiceImpl extends ServiceImpl<FreightTemplateMappe
     public Page<FreightTemplateVo> page(Page<FreightTemplateEntity> page, FreightTemplateDto freightTemplateDto) {
         FreightTemplateEntity freightTemplateEntity = BeanCopy.convert(freightTemplateDto, FreightTemplateEntity.class);
         Page<FreightTemplateEntity> freightTemplateEntityPage = page(page, new QueryWrapper<>(freightTemplateEntity));
-        IPage<FreightTemplateVo> freightTemplateVoIpage = freightTemplateEntityPage.convert(freightTemplate -> BeanCopy.convert(freightTemplate, FreightTemplateVo.class));
-        return (Page<FreightTemplateVo>) freightTemplateVoIpage;
+        IPage<FreightTemplateVo> freightTemplateVoIPage = freightTemplateEntityPage.convert(freightTemplate -> BeanCopy.convert(freightTemplate, FreightTemplateVo.class));
+        return (Page<FreightTemplateVo>) freightTemplateVoIPage;
     }
 }
 

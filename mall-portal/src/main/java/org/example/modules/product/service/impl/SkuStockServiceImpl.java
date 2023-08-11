@@ -56,8 +56,8 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
         SkuStockEntity skuStockEntity = BeanCopy.convert(skuStockDto, SkuStockEntity.class);
         LambdaQueryWrapper<SkuStockEntity> skuStockEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(skuStockEntity);
         Page<SkuStockEntity> skuStockEntityPage = page(page, skuStockEntityLambdaQueryWrapper);
-        IPage<SkuStockVo> skuStockEntityPageVoIpage = skuStockEntityPage.convert(skuStock -> BeanCopy.convert(skuStock, SkuStockVo.class));
-        return (Page<SkuStockVo>) skuStockEntityPageVoIpage;
+        IPage<SkuStockVo> skuStockEntityPageVoIPage = skuStockEntityPage.convert(skuStock -> BeanCopy.convert(skuStock, SkuStockVo.class));
+        return (Page<SkuStockVo>) skuStockEntityPageVoIPage;
     }
 
     @Override

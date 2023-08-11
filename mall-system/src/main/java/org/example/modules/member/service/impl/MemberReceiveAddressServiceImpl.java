@@ -32,8 +32,8 @@ public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAd
         MemberReceiveAddressEntity memberReceiveAddressEntity = BeanCopy.convert(memberReceiveAddressDto, MemberReceiveAddressEntity.class);
         LambdaQueryWrapper<MemberReceiveAddressEntity> memberReceiveAddressEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(memberReceiveAddressEntity);
         Page<MemberReceiveAddressEntity> memberReceiveAddressEntityPage = page(page, memberReceiveAddressEntityLambdaQueryWrapper);
-        IPage<MemberReceiveAddressVo> memberReceiveAddressEntityPageVoIpage = memberReceiveAddressEntityPage.convert(memberReceiveAddress -> BeanCopy.convert(memberReceiveAddress, MemberReceiveAddressVo.class));
-        return (Page<MemberReceiveAddressVo>) memberReceiveAddressEntityPageVoIpage;
+        IPage<MemberReceiveAddressVo> memberReceiveAddressEntityPageVoIPage = memberReceiveAddressEntityPage.convert(memberReceiveAddress -> BeanCopy.convert(memberReceiveAddress, MemberReceiveAddressVo.class));
+        return (Page<MemberReceiveAddressVo>) memberReceiveAddressEntityPageVoIPage;
     }
 
     @Override

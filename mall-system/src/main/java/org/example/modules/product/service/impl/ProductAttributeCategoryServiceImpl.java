@@ -1,6 +1,7 @@
 package org.example.modules.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -35,11 +36,12 @@ public class ProductAttributeCategoryServiceImpl extends ServiceImpl<ProductAttr
     ProductAttributeService productAttributeService;
 
     @Override
-    public Page<List<ProductAttributeCategoryVo>> page(Page<ProductAttributeCategoryEntity> page, ProductAttributeCategoryDto productAttributeCategory) {
+    public Page<ProductAttributeCategoryVo> page(Page<ProductAttributeCategoryEntity> page, ProductAttributeCategoryDto productAttributeCategory) {
         ProductAttributeCategoryEntity convert = BeanCopy.convert(productAttributeCategory, ProductAttributeCategoryEntity.class);
         // 获取全部的属性分类
         Page<ProductAttributeCategoryEntity> productAttributeCategoryEntityPage = page(page, new QueryWrapper<>(convert));
-        return (Page) productAttributeCategoryEntityPage.convert(productAttributeCategoryEntity -> BeanCopy.convert(productAttributeCategoryEntity, ProductAttributeCategoryVo.class));
+        IPage<ProductAttributeCategoryVo> productAttributeCategoryVoIPage = productAttributeCategoryEntityPage.convert(productAttributeCategoryEntity -> BeanCopy.convert(productAttributeCategoryEntity, ProductAttributeCategoryVo.class));
+        return (Page<ProductAttributeCategoryVo>) productAttributeCategoryVoIPage;
     }
 
     @Override

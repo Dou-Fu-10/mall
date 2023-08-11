@@ -1,5 +1,6 @@
 package org.example.modules.order.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,6 +38,7 @@ public class OrderReturnReasonDto {
     /**
      * 添加时间
      */
+    @JsonIgnore
     private Date createTime;
 
 

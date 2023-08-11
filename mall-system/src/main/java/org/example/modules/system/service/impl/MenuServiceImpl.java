@@ -139,13 +139,13 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
         menuEntityLambdaQueryWrapper.orderByAsc(MenuEntity::getSort);
         Page<MenuEntity> menuEntityPage = page(page, menuEntityLambdaQueryWrapper);
         // 转换
-        IPage<MenuVo> menuVoIpage = menuEntityPage.convert(menu -> BeanCopy.convert(menu, MenuVo.class));
+        IPage<MenuVo> menuVoIPage = menuEntityPage.convert(menu -> BeanCopy.convert(menu, MenuVo.class));
         // 当菜单不为空是 对菜单进行 上下级排序
-        if (CollectionUtils.isNotEmpty(menuVoIpage.getRecords())) {
-            List<MenuVo> menuVoListTree = getMenuVoListTree(menuVoIpage.getRecords());
-            menuVoIpage.setRecords(menuVoListTree);
+        if (CollectionUtils.isNotEmpty(menuVoIPage.getRecords())) {
+            List<MenuVo> menuVoListTree = getMenuVoListTree(menuVoIPage.getRecords());
+            menuVoIPage.setRecords(menuVoListTree);
         }
-        return (Page<MenuVo>) menuVoIpage;
+        return (Page<MenuVo>) menuVoIPage;
     }
 
 

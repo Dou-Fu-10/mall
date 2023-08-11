@@ -64,12 +64,12 @@ public class MemberCollectionServiceImpl extends ServiceImpl<MemberCollectionMap
         // 获取到 收藏历史
         Page<MemberCollectionEntity> memberCollectionEntityPage = page(page, queryWrapper);
         // 获取到 收藏历史
-        IPage<MemberCollectionVo> memberCollectionEntityPageVoIpage = memberCollectionEntityPage.convert(memberCollection -> BeanCopy.convert(memberCollection, MemberCollectionVo.class));
+        IPage<MemberCollectionVo> memberCollectionEntityPageVoIPage = memberCollectionEntityPage.convert(memberCollection -> BeanCopy.convert(memberCollection, MemberCollectionVo.class));
         // 获取到 收藏历史
-        List<MemberCollectionVo> memberCollectionVoList = memberCollectionEntityPageVoIpage.getRecords();
+        List<MemberCollectionVo> memberCollectionVoList = memberCollectionEntityPageVoIPage.getRecords();
         // 校验是否为空
         if (CollectionUtils.isEmpty(memberCollectionVoList)) {
-            return (Page<MemberCollectionVo>) memberCollectionEntityPageVoIpage;
+            return (Page<MemberCollectionVo>) memberCollectionEntityPageVoIPage;
         }
         // 获取收藏的商品 id列表
         Set<Long> productIds = memberCollectionVoList.stream().map(MemberCollectionVo::getProductId).collect(Collectors.toSet());
@@ -77,16 +77,16 @@ public class MemberCollectionServiceImpl extends ServiceImpl<MemberCollectionMap
         List<ProductVo> productVoList = productService.getByIdsInVerifyStatusAndPublishStatus(productIds);
 
         if (CollectionUtils.isEmpty(productVoList)) {
-            return (Page<MemberCollectionVo>) memberCollectionEntityPageVoIpage;
+            return (Page<MemberCollectionVo>) memberCollectionEntityPageVoIPage;
         }
         MemberCollectionVo memberCollectionVo = new MemberCollectionVo();
         memberCollectionVo.setProductList(productVoList);
         memberCollectionVo.setMemberId(memberId);
 
-        memberCollectionEntityPageVoIpage.setRecords(List.of(memberCollectionVo));
+        memberCollectionEntityPageVoIPage.setRecords(List.of(memberCollectionVo));
 
 
-        return (Page<MemberCollectionVo>) memberCollectionEntityPageVoIpage;
+        return (Page<MemberCollectionVo>) memberCollectionEntityPageVoIPage;
     }
 
     @Override

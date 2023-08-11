@@ -1,7 +1,6 @@
 package org.example.modules.comment.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.comment.entity.CommentEntity;
+import org.example.modules.comment.entity.dto.CommentDto;
 import org.example.modules.comment.service.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,14 +39,14 @@ public class CommentController {
     /**
      * 分页查询所有数据
      *
-     * @param page    分页对象
-     * @param comment 查询实体
+     * @param page       分页对象
+     * @param commentDto 查询实体
      * @return 所有数据
      */
     @Operation(summary = "分页查询所有数据")
     @GetMapping
-    public ResponseEntity<Object> select(Page<CommentEntity> page, CommentEntity comment) {
-        return new ResponseEntity<>(this.commentService.page(page, new QueryWrapper<>(comment)), HttpStatus.OK);
+    public ResponseEntity<Object> select(Page<CommentEntity> page, CommentDto commentDto) {
+        return new ResponseEntity<>(this.commentService.page(page, commentDto), HttpStatus.OK);
     }
 
     /**
@@ -58,31 +58,7 @@ public class CommentController {
     @Operation(summary = "分页查询所有数据")
     @GetMapping("{id}")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return new ResponseEntity<>(this.commentService.getById(id), HttpStatus.OK);
-    }
-
-    /**
-     * 新增数据
-     *
-     * @param comment 实体对象
-     * @return 新增结果
-     */
-    @Operation(summary = "分页查询所有数据")
-    @PostMapping
-    public ResponseEntity<Object> insert(@RequestBody CommentEntity comment) {
-        return new ResponseEntity<>(this.commentService.save(comment), HttpStatus.OK);
-    }
-
-    /**
-     * 修改数据
-     *
-     * @param comment 实体对象
-     * @return 修改结果
-     */
-    @Operation(summary = "分页查询所有数据")
-    @PutMapping
-    public ResponseEntity<Object> update(@RequestBody CommentEntity comment) {
-        return new ResponseEntity<>(this.commentService.updateById(comment), HttpStatus.OK);
+        return new ResponseEntity<>(this.commentService.getByCommentId(id), HttpStatus.OK);
     }
 
     /**
@@ -97,7 +73,15 @@ public class CommentController {
         if (CollectionUtils.isEmpty(idList)) {
             throw new BaseRequestException("请正确的填写id");
         }
-        return new ResponseEntity<>(this.commentService.removeByIds(idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet())) ? "删除成功" : "删除失败", HttpStatus.OK);
+        Set<Long> ids = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
+        if (CollectionUtils.isEmpty(ids)) {
+            throw new BaseRequestException("请正确的填写id");
+        }
+        Set<CommentEntity> collect = ids.stream().map(id -> new CommentEntity(id, false)).collect(Collectors.toSet());
+        if (this.commentService.updateBatchById(collect)) {
+            return new ResponseEntity<>("删除成功", HttpStatus.OK);
+        }
+        throw new BaseRequestException("删除失败");
     }
 }
 

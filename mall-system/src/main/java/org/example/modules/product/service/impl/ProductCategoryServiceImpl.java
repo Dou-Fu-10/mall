@@ -130,17 +130,17 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
         // 排序
         productCategoryEntityLambdaQueryWrapper.orderByAsc(ProductCategoryEntity::getSort);
         Page<ProductCategoryEntity> productCategoryEntityPage = page(page, productCategoryEntityLambdaQueryWrapper);
-        IPage<ProductCategoryVo> productCategoryVoIpage = productCategoryEntityPage.convert(productCategoryEntity -> BeanCopy.convert(productCategoryEntity, ProductCategoryVo.class));
-        List<ProductCategoryVo> productCategoryVoList = productCategoryVoIpage.getRecords();
+        IPage<ProductCategoryVo> productCategoryVoIPage = productCategoryEntityPage.convert(productCategoryEntity -> BeanCopy.convert(productCategoryEntity, ProductCategoryVo.class));
+        List<ProductCategoryVo> productCategoryVoList = productCategoryVoIPage.getRecords();
         // 当分类为空时 直接返回
         if (CollectionUtils.isEmpty(productCategoryVoList)) {
-            return (Page<ProductCategoryVo>) productCategoryVoIpage;
+            return (Page<ProductCategoryVo>) productCategoryVoIPage;
         }
         // 对商品分类进行上下级的排序
         List<ProductCategoryVo> productCategoryVoListTree = getProductCategoryVoListTree(productCategoryVoList);
         // 返回排序好的信息
-        productCategoryVoIpage.setRecords(productCategoryVoListTree);
-        return (Page<ProductCategoryVo>) productCategoryVoIpage;
+        productCategoryVoIPage.setRecords(productCategoryVoListTree);
+        return (Page<ProductCategoryVo>) productCategoryVoIPage;
     }
 
 

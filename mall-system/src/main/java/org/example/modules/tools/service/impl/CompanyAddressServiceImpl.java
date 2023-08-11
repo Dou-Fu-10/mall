@@ -47,8 +47,8 @@ public class CompanyAddressServiceImpl extends ServiceImpl<CompanyAddressMapper,
     public Page<CompanyAddressVo> page(Page<CompanyAddressEntity> page, CompanyAddressDto companyAddressDto) {
         CompanyAddressEntity companyAddressEntity = BeanCopy.convert(companyAddressDto, CompanyAddressEntity.class);
         Page<CompanyAddressEntity> companyAddressEntityPage = page(page, new QueryWrapper<>(companyAddressEntity));
-        IPage<CompanyAddressVo> companyAddressVoIpage = companyAddressEntityPage.convert(companyAddress -> BeanCopy.convert(companyAddress, CompanyAddressVo.class));
-        return (Page<CompanyAddressVo>) companyAddressVoIpage;
+        IPage<CompanyAddressVo> companyAddressVoIPage = companyAddressEntityPage.convert(companyAddress -> BeanCopy.convert(companyAddress, CompanyAddressVo.class));
+        return (Page<CompanyAddressVo>) companyAddressVoIPage;
     }
 
     @Override

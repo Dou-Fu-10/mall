@@ -162,8 +162,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, AdminEntity> impl
         LambdaQueryWrapper<AdminEntity> adminEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(adminEntity);
         // 分页查找
         Page<AdminEntity> adminEntityPage = page(page, adminEntityLambdaQueryWrapper);
-        IPage<AdminVo> adminVoIpage = adminEntityPage.convert(admin -> BeanCopy.convert(admin, AdminVo.class));
-        return (Page<AdminVo>) adminVoIpage;
+        IPage<AdminVo> adminVoIPage = adminEntityPage.convert(admin -> BeanCopy.convert(admin, AdminVo.class));
+        return (Page<AdminVo>) adminVoIPage;
     }
 
     @Override

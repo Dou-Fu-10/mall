@@ -92,8 +92,8 @@ public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMap
         OrderReturnApplyEntity orderReturnApplyEntity = BeanCopy.convert(orderReturnApplyDto, OrderReturnApplyEntity.class);
         LambdaQueryWrapper<OrderReturnApplyEntity> orderReturnApplyEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(orderReturnApplyEntity);
         Page<OrderReturnApplyEntity> orderReturnApplyEntityPage = page(page, orderReturnApplyEntityLambdaQueryWrapper);
-        IPage<OrderReturnApplyVo> orderReturnApplyEntityPageVoIpage = orderReturnApplyEntityPage.convert(orderReturnApply -> BeanCopy.convert(orderReturnApply, OrderReturnApplyVo.class));
-        return (Page<OrderReturnApplyVo>) orderReturnApplyEntityPageVoIpage;
+        IPage<OrderReturnApplyVo> orderReturnApplyEntityPageVoIPage = orderReturnApplyEntityPage.convert(orderReturnApply -> BeanCopy.convert(orderReturnApply, OrderReturnApplyVo.class));
+        return (Page<OrderReturnApplyVo>) orderReturnApplyEntityPageVoIPage;
     }
 }
 

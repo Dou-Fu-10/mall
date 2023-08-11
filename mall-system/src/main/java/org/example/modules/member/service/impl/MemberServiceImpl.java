@@ -42,8 +42,8 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
         MemberEntity memberEntity = BeanCopy.convert(memberDto, MemberEntity.class);
         LambdaQueryWrapper<MemberEntity> memberEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(memberEntity);
         Page<MemberEntity> memberEntityPage = page(page, memberEntityLambdaQueryWrapper);
-        IPage<MemberVo> memberEntityPageVoIpage = memberEntityPage.convert(member -> BeanCopy.convert(member, MemberVo.class));
-        return (Page<MemberVo>) memberEntityPageVoIpage;
+        IPage<MemberVo> memberEntityPageVoIPage = memberEntityPage.convert(member -> BeanCopy.convert(member, MemberVo.class));
+        return (Page<MemberVo>) memberEntityPageVoIPage;
     }
 
     @Override

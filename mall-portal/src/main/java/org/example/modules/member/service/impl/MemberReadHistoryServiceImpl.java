@@ -62,12 +62,12 @@ public class MemberReadHistoryServiceImpl extends ServiceImpl<MemberReadHistoryM
         // 获取浏览历史
         Page<MemberReadHistoryEntity> memberReadHistoryEntityPage = page(page, memberReadHistoryEntityLambdaQueryWrapper);
         // 获取浏览历史
-        IPage<MemberReadHistoryVo> memberReadHistoryEntityPageVoIpage = memberReadHistoryEntityPage.convert(memberReadHistory -> BeanCopy.convert(memberReadHistory, MemberReadHistoryVo.class));
+        IPage<MemberReadHistoryVo> memberReadHistoryEntityPageVoIPage = memberReadHistoryEntityPage.convert(memberReadHistory -> BeanCopy.convert(memberReadHistory, MemberReadHistoryVo.class));
         // 获取浏览历史
-        List<MemberReadHistoryVo> memberReadHistoryVoList = memberReadHistoryEntityPageVoIpage.getRecords();
+        List<MemberReadHistoryVo> memberReadHistoryVoList = memberReadHistoryEntityPageVoIPage.getRecords();
         // 校验是否为空
         if (CollectionUtils.isEmpty(memberReadHistoryVoList)) {
-            return (Page<MemberReadHistoryVo>) memberReadHistoryEntityPageVoIpage;
+            return (Page<MemberReadHistoryVo>) memberReadHistoryEntityPageVoIPage;
         }
         // 获取到浏览的商品ids
         Set<Long> productIdList = memberReadHistoryVoList.stream().map(MemberReadHistoryVo::getProductId).collect(Collectors.toSet());
@@ -75,8 +75,8 @@ public class MemberReadHistoryServiceImpl extends ServiceImpl<MemberReadHistoryM
         List<ProductVo> productVoList = productService.getByIdsInVerifyStatusAndPublishStatus(productIdList);
         // 校验是否为空
         if (CollectionUtils.isEmpty(productVoList)) {
-            memberReadHistoryEntityPageVoIpage.setRecords(new ArrayList<>());
-            return (Page<MemberReadHistoryVo>) memberReadHistoryEntityPageVoIpage;
+            memberReadHistoryEntityPageVoIPage.setRecords(new ArrayList<>());
+            return (Page<MemberReadHistoryVo>) memberReadHistoryEntityPageVoIPage;
         }
         // 对 商品进行排序
         Map<Long, ProductVo> longProductVoMap = longProductVoMap(productVoList);
@@ -99,9 +99,9 @@ public class MemberReadHistoryServiceImpl extends ServiceImpl<MemberReadHistoryM
                 )
                 .peek(memberReadHistoryVo -> memberReadHistoryVo.setProduct(longProductVoMap.get(memberReadHistoryVo.getProductId())))
                 .collect(Collectors.toList());
-        memberReadHistoryEntityPageVoIpage.setRecords(memberReadHistoryVos);
+        memberReadHistoryEntityPageVoIPage.setRecords(memberReadHistoryVos);
 
-        return (Page<MemberReadHistoryVo>) memberReadHistoryEntityPageVoIpage;
+        return (Page<MemberReadHistoryVo>) memberReadHistoryEntityPageVoIPage;
     }
 
     private Map<Long, ProductVo> longProductVoMap(List<ProductVo> productVoList) {

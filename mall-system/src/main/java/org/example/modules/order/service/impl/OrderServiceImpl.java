@@ -92,8 +92,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         orderEntityLambdaQueryWrapper.orderByAsc(OrderEntity::getCreateTime);
         Page<OrderEntity> orderEntityPage = page(page, orderEntityLambdaQueryWrapper);
         // 分页展示
-        IPage<OrderVo> orderVoIpage = orderEntityPage.convert(order -> BeanCopy.convert(order, OrderVo.class));
-        return (Page<OrderVo>) orderVoIpage;
+        IPage<OrderVo> orderVoIPage = orderEntityPage.convert(order -> BeanCopy.convert(order, OrderVo.class));
+        return (Page<OrderVo>) orderVoIPage;
     }
 
     @Override
@@ -126,8 +126,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         // 查询时间范围
         orderEntityLambdaQueryWrapper.between(OrderEntity::getPaymentTime, firstDayOfMonth, lastDayOfMonth);
         Page<OrderEntity> orderEntityPage = page(page, orderEntityLambdaQueryWrapper);
-        IPage<OrderVo> orderVoIpage = orderEntityPage.convert(order -> BeanCopy.convert(order, OrderVo.class));
-        return (Page<OrderVo>) orderVoIpage;
+        IPage<OrderVo> orderVoIPage = orderEntityPage.convert(order -> BeanCopy.convert(order, OrderVo.class));
+        return (Page<OrderVo>) orderVoIPage;
     }
 
     @Override

@@ -112,17 +112,17 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, CommentEntity
         CommentEntity commentEntity = BeanCopy.convert(commentDto, CommentEntity.class);
         LambdaQueryWrapper<CommentEntity> commentEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(commentEntity);
         Page<CommentEntity> commentEntityPage = page(page, commentEntityLambdaQueryWrapper);
-        IPage<CommentVo> commentEntityPageVoIpage = commentEntityPage.convert(comment -> BeanCopy.convert(comment, CommentVo.class));
+        IPage<CommentVo> commentEntityPageVoIPage = commentEntityPage.convert(comment -> BeanCopy.convert(comment, CommentVo.class));
         // 获取评价列表
-        List<CommentVo> commentVoList = commentEntityPageVoIpage.getRecords();
+        List<CommentVo> commentVoList = commentEntityPageVoIPage.getRecords();
         if (CollectionUtils.isEmpty(commentVoList)) {
-            return (Page<CommentVo>) commentEntityPageVoIpage;
+            return (Page<CommentVo>) commentEntityPageVoIPage;
         }
         Set<Long> commentVoIds = commentVoList.stream().map(CommentVo::getId).collect(Collectors.toSet());
         List<CommentReplayVo> commentReplayVos = commentReplayService.getByCommentIds(commentVoIds);
         Map<Long, List<CommentReplayVo>> longListMap = longListMap(commentReplayVos);
         commentVoList.forEach(commentVo -> commentVo.setCommentReplayList(longListMap.get(commentVo.getId())));
-        return (Page<CommentVo>) commentEntityPageVoIpage;
+        return (Page<CommentVo>) commentEntityPageVoIPage;
     }
 
     @NotNull

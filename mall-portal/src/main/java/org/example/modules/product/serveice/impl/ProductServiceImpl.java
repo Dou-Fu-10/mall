@@ -125,8 +125,8 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
         // 确保商品以上架
         productEntity.setPublishStatus(true);
         Page<ProductEntity> productEntityPage = this.page(page, new QueryWrapper<>(productEntity));
-        IPage<ProductVo> productVoIpage = productEntityPage.convert(product -> BeanCopy.convert(product, ProductVo.class));
-        List<ProductVo> productVoList = productVoIpage.getRecords();
+        IPage<ProductVo> productVoIPage = productEntityPage.convert(product -> BeanCopy.convert(product, ProductVo.class));
+        List<ProductVo> productVoList = productVoIPage.getRecords();
         // 获取商品id
         Set<Long> productIds = productVoList.stream().map(ProductVo::getId).collect(Collectors.toSet());
         // 获取商品 sku
@@ -150,7 +150,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
 
         });
 
-        return (Page<ProductVo>) productVoIpage;
+        return (Page<ProductVo>) productVoIPage;
     }
 
     private Map<Long, List<SkuStockVo>> longListMapSkuStockVo(List<SkuStockVo> skuStockVos) {

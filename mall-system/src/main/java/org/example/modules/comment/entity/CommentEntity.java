@@ -1,7 +1,10 @@
 package org.example.modules.comment.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +27,11 @@ import java.util.Date;
 @TableName("pms_comment")
 @Schema(name = "pms_comment", description = "商品评价表(Comment)表实体类")
 public class CommentEntity extends CommonEntity<CommentEntity> implements Serializable {
+    public CommentEntity(Long id, Boolean showStatus) {
+        this.id = id;
+        this.showStatus = showStatus;
+    }
+
     /**
      * ID
      */
@@ -62,39 +70,63 @@ public class CommentEntity extends CommonEntity<CommentEntity> implements Serial
     /**
      * 购买时的商品属性
      */
+    
     @Schema(name = "productAttribute", description = "购买时的商品属性")
     private String productAttribute;
     /**
      * 收藏次数
      */
+    
     @Schema(name = "collectCount", description = "收藏次数")
     private Integer collectCount;
     /**
      * 浏览次数
      */
+    
     @Schema(name = "readCount", description = "浏览次数")
     private Integer readCount;
     /**
      * 评论
      */
+    
     @Schema(name = "content", description = "评论")
     private String content;
     /**
      * 上传图片地址，以逗号隔开
      */
+    
     @Schema(name = "pics", description = "上传图片地址，以逗号隔开")
     private String pics;
     /**
      * 评论用户头像
      */
+    
     @Schema(name = "memberIcon", description = "评论用户头像")
     private String memberIcon;
     /**
      * 创建时间
      */
+    
     @Schema(name = "createTime", description = "创建时间")
     private Date createTime;
 
-
+    /**
+     * 创建人
+     * 创建
+     */
+    @TableField(exist = false)
+    private String createBy;
+    /**
+     * 更新人
+     * 创建、更新
+     */
+    @TableField(exist = false)
+    private String updateBy;
+    /**
+     * 更新时间
+     * 创建、更新
+     */
+    @TableField(exist = false)
+    private Date updateTime;
 }
 

@@ -54,8 +54,8 @@ public class PlatformInformationServiceImpl extends ServiceImpl<PlatformInformat
         PlatformInformationEntity platformInformationEntity = BeanCopy.convert(platformInformationDto, PlatformInformationEntity.class);
         LambdaQueryWrapper<PlatformInformationEntity> platformInformationEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(platformInformationEntity);
         Page<PlatformInformationEntity> platformInformationEntityPage = page(page, platformInformationEntityLambdaQueryWrapper);
-        IPage<PlatformInformationVo> platformInformationEntityPageVoIpage = platformInformationEntityPage.convert(platformInformation -> BeanCopy.convert(platformInformation, PlatformInformationVo.class));
-        return (Page<PlatformInformationVo>) platformInformationEntityPageVoIpage;
+        IPage<PlatformInformationVo> platformInformationEntityPageVoIPage = platformInformationEntityPage.convert(platformInformation -> BeanCopy.convert(platformInformation, PlatformInformationVo.class));
+        return (Page<PlatformInformationVo>) platformInformationEntityPageVoIPage;
     }
 
     private Set<String> checkStartupDiagram(Set<String> startupDiagram) {

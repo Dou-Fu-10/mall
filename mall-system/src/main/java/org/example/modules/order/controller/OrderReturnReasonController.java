@@ -52,20 +52,9 @@ public class OrderReturnReasonController {
     @PreAuthorize("@hasPermission.check('orderReturnReason::update')")
     public ResponseEntity<Object> select(Page<OrderReturnReasonEntity> page) {
         Page<OrderReturnReasonEntity> orderReturnReasonEntityPage = this.orderReturnReasonService.page(page, new QueryWrapper<>());
-        IPage<OrderReturnReasonVo> orderReturnReasonVoIpage = orderReturnReasonEntityPage.convert(orderReturnReasonEntity -> BeanCopy.convert(orderReturnReasonEntity, OrderReturnReasonVo.class));
-        return ResponseEntity.ok(orderReturnReasonVoIpage);
+        IPage<OrderReturnReasonVo> orderReturnReasonVoIPage = orderReturnReasonEntityPage.convert(orderReturnReasonEntity -> BeanCopy.convert(orderReturnReasonEntity, OrderReturnReasonVo.class));
+        return ResponseEntity.ok(orderReturnReasonVoIPage);
     }
-
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-//    @GetMapping("{id}")
-//    public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-//        return ResponseEntity.ok(this.orderReturnReasonService.getById(id));
-//    }
 
     /**
      * 新增数据

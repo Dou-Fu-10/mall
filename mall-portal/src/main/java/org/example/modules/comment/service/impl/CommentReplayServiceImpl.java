@@ -68,8 +68,8 @@ public class CommentReplayServiceImpl extends ServiceImpl<CommentReplayMapper, C
         CommentReplayEntity commentReplayEntity = BeanCopy.convert(commentReplayDto, CommentReplayEntity.class);
         LambdaQueryWrapper<CommentReplayEntity> commentReplayEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(commentReplayEntity);
         Page<CommentReplayEntity> commentReplayEntityPage = page(page, commentReplayEntityLambdaQueryWrapper);
-        IPage<CommentReplayVo> commentReplayEntityPageVoIpage = commentReplayEntityPage.convert(commentReplay -> BeanCopy.convert(commentReplay, CommentReplayVo.class));
-        return (Page<CommentReplayVo>) commentReplayEntityPageVoIpage;
+        IPage<CommentReplayVo> commentReplayEntityPageVoIPage = commentReplayEntityPage.convert(commentReplay -> BeanCopy.convert(commentReplay, CommentReplayVo.class));
+        return (Page<CommentReplayVo>) commentReplayEntityPageVoIPage;
     }
 
     @Override

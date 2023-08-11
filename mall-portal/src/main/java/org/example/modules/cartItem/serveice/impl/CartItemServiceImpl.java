@@ -180,10 +180,10 @@ public class CartItemServiceImpl extends ServiceImpl<CartItemMapper, CartItemEnt
         cartItemEntity.setMemberId(SecurityUtils.getCurrentUserId());
         Page<CartItemEntity> cartItemEntityPage = page(page, new QueryWrapper<>(cartItemEntity));
         // 获取购物车列表
-        IPage<CartItemVo> cartItemVoIpage = cartItemEntityPage.convert(cartItem -> BeanCopy.convert(cartItem, CartItemVo.class));
-        List<CartItemVo> cartItemVoList = cartItemVoIpage.getRecords();
+        IPage<CartItemVo> cartItemVoIPage = cartItemEntityPage.convert(cartItem -> BeanCopy.convert(cartItem, CartItemVo.class));
+        List<CartItemVo> cartItemVoList = cartItemVoIPage.getRecords();
         if (CollectionUtils.isEmpty(cartItemVoList)) {
-            return (Page<CartItemVo>) cartItemVoIpage;
+            return (Page<CartItemVo>) cartItemVoIPage;
         }
         // 获取商品id
         Set<Long> productIds = cartItemVoList.stream().map(CartItemVo::getProductId).collect(Collectors.toSet());
@@ -207,9 +207,9 @@ public class CartItemServiceImpl extends ServiceImpl<CartItemMapper, CartItemEnt
                 cartItemVo.setSkuStock(longSkuStockVoMap.get(productSkuId));
             }
         });
-        cartItemVoIpage.setRecords(cartItemVoList);
+        cartItemVoIPage.setRecords(cartItemVoList);
 
-        return (Page<CartItemVo>) cartItemVoIpage;
+        return (Page<CartItemVo>) cartItemVoIPage;
     }
 
 

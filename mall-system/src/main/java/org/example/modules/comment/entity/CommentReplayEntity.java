@@ -1,5 +1,7 @@
 package org.example.modules.comment.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -50,16 +52,28 @@ public class CommentReplayEntity extends CommonEntity<CommentReplayEntity> imple
     @Schema(name = "content", description = "评论内容")
     private String content;
     /**
-     * 创建时间
-     */
-    @Schema(name = "createTime", description = "创建时间")
-    private Date createTime;
-    /**
      * 评论人员类型；0->管理员；1->会员
      */
     @Schema(name = "isMember", description = "评论人员类型；0->管理员；1->会员")
     private Boolean isMember;
-
+    /**
+     * 创建人
+     * 创建
+     */
+    @TableField(exist = false)
+    private String createBy;
+    /**
+     * 更新人
+     * 创建、更新
+     */
+    @TableField(exist = false)
+    private String updateBy;
+    /**
+     * 更新时间
+     * 创建、更新
+     */
+    @TableField(exist = false)
+    private Date updateTime;
 
 }
 

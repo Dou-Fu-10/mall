@@ -43,8 +43,8 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
         OrderItemEntity orderItemEntity = BeanCopy.convert(orderItemDto, OrderItemEntity.class);
         LambdaQueryWrapper<OrderItemEntity> orderItemEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(orderItemEntity);
         Page<OrderItemEntity> orderItemEntityPage = page(page, orderItemEntityLambdaQueryWrapper);
-        IPage<OrderItemVo> orderItemEntityPageVoIpage = orderItemEntityPage.convert(orderItem -> BeanCopy.convert(orderItem, OrderItemVo.class));
-        return (Page<OrderItemVo>) orderItemEntityPageVoIpage;
+        IPage<OrderItemVo> orderItemEntityPageVoIPage = orderItemEntityPage.convert(orderItem -> BeanCopy.convert(orderItem, OrderItemVo.class));
+        return (Page<OrderItemVo>) orderItemEntityPageVoIPage;
     }
 
     @Override

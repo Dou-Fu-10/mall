@@ -81,8 +81,8 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
         MemberEntity memberEntity = BeanCopy.convert(memberDto, MemberEntity.class);
         LambdaQueryWrapper<MemberEntity> memberEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(memberEntity);
         Page<MemberEntity> memberEntityPage = page(page, memberEntityLambdaQueryWrapper);
-        IPage<MemberVo> memberEntityPageVoIpage = memberEntityPage.convert(member -> BeanCopy.convert(member, MemberVo.class));
-        return (Page<MemberVo>) memberEntityPageVoIpage;
+        IPage<MemberVo> memberEntityPageVoIPage = memberEntityPage.convert(member -> BeanCopy.convert(member, MemberVo.class));
+        return (Page<MemberVo>) memberEntityPageVoIPage;
     }
 
     @Override
@@ -244,9 +244,9 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
         // 谁登录获取谁的下级
         memberEntityLambdaQueryWrapper.eq(MemberEntity::getParentId, SecurityUtils.getCurrentUserId());
         Page<MemberEntity> memberEntityPage = page(page, memberEntityLambdaQueryWrapper);
-        IPage<MemberVo> memberVoIpage = memberEntityPage.convert(memberEntity -> BeanCopy.convert(memberEntity, MemberVo.class));
+        IPage<MemberVo> memberVoIPage = memberEntityPage.convert(memberEntity -> BeanCopy.convert(memberEntity, MemberVo.class));
         // TODO 过滤信息
-        return (Page<MemberVo>) memberVoIpage;
+        return (Page<MemberVo>) memberVoIPage;
     }
 
     @Override

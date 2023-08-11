@@ -37,13 +37,13 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
         // 排序
         productCategoryEntityLambdaQueryWrapper.orderByAsc(ProductCategoryEntity::getSort);
         Page<ProductCategoryEntity> productCategoryEntityPage = page(page, productCategoryEntityLambdaQueryWrapper);
-        IPage<ProductCategoryVo> productCategoryVoIpage = productCategoryEntityPage.convert(productCategoryEntity -> BeanCopy.convert(productCategoryEntity, ProductCategoryVo.class));
-        if (CollectionUtils.isEmpty(productCategoryVoIpage.getRecords())) {
-            return (Page<ProductCategoryVo>) productCategoryVoIpage;
+        IPage<ProductCategoryVo> productCategoryVoIPage = productCategoryEntityPage.convert(productCategoryEntity -> BeanCopy.convert(productCategoryEntity, ProductCategoryVo.class));
+        if (CollectionUtils.isEmpty(productCategoryVoIPage.getRecords())) {
+            return (Page<ProductCategoryVo>) productCategoryVoIPage;
         }
-        List<ProductCategoryVo> productCategoryVoList = productCategoryVoIpage.getRecords();
-        productCategoryVoIpage.setRecords(getProductCategoryVoListTree(productCategoryVoList));
-        return (Page<ProductCategoryVo>) productCategoryVoIpage;
+        List<ProductCategoryVo> productCategoryVoList = productCategoryVoIPage.getRecords();
+        productCategoryVoIPage.setRecords(getProductCategoryVoListTree(productCategoryVoList));
+        return (Page<ProductCategoryVo>) productCategoryVoIPage;
     }
 
     @org.jetbrains.annotations.NotNull

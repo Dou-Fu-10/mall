@@ -64,8 +64,8 @@ public class HomeAdvertiseServiceImpl extends ServiceImpl<HomeAdvertiseMapper, H
         HomeAdvertiseEntity homeAdvertiseEntity = BeanCopy.convert(homeAdvertiseDto, HomeAdvertiseEntity.class);
         LambdaQueryWrapper<HomeAdvertiseEntity> homeAdvertiseEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(homeAdvertiseEntity);
         Page<HomeAdvertiseEntity> homeAdvertiseEntityPage = page(page, homeAdvertiseEntityLambdaQueryWrapper);
-        IPage<HomeAdvertiseVo> homeAdvertiseEntityPageVoIpage = homeAdvertiseEntityPage.convert(homeAdvertise -> BeanCopy.convert(homeAdvertise, HomeAdvertiseVo.class));
-        return (Page<HomeAdvertiseVo>) homeAdvertiseEntityPageVoIpage;
+        IPage<HomeAdvertiseVo> homeAdvertiseEntityPageVoIPage = homeAdvertiseEntityPage.convert(homeAdvertise -> BeanCopy.convert(homeAdvertise, HomeAdvertiseVo.class));
+        return (Page<HomeAdvertiseVo>) homeAdvertiseEntityPageVoIPage;
     }
 
     @Override

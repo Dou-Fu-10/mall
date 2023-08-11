@@ -59,8 +59,8 @@ public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMap
         // 以创建时间进行排序
         orderEntityLambdaQueryWrapper.orderByAsc(OrderReturnApplyEntity::getCreateTime);
         Page<OrderReturnApplyEntity> orderReturnApplyEntityPage = page(page, orderEntityLambdaQueryWrapper);
-        IPage<OrderReturnApplyVo> orderReturnApplyVoIpage = orderReturnApplyEntityPage.convert(order -> BeanCopy.convert(order, OrderReturnApplyVo.class));
-        return (Page<OrderReturnApplyVo>) orderReturnApplyVoIpage;
+        IPage<OrderReturnApplyVo> orderReturnApplyVoIPage = orderReturnApplyEntityPage.convert(order -> BeanCopy.convert(order, OrderReturnApplyVo.class));
+        return (Page<OrderReturnApplyVo>) orderReturnApplyVoIPage;
     }
 
     @Override

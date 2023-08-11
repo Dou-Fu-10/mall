@@ -42,8 +42,8 @@ public class MemberLoginLogServiceImpl extends ServiceImpl<MemberLoginLogMapper,
         MemberLoginLogEntity memberLoginLogEntity = BeanCopy.convert(memberLoginLogDto, MemberLoginLogEntity.class);
         LambdaQueryWrapper<MemberLoginLogEntity> memberLoginLogEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(memberLoginLogEntity);
         Page<MemberLoginLogEntity> memberLoginLogEntityPage = page(page, memberLoginLogEntityLambdaQueryWrapper);
-        IPage<MemberLoginLogVo> memberLoginLogEntityPageVoIpage = memberLoginLogEntityPage.convert(memberLoginLog -> BeanCopy.convert(memberLoginLog, MemberLoginLogVo.class));
-        return (Page<MemberLoginLogVo>) memberLoginLogEntityPageVoIpage;
+        IPage<MemberLoginLogVo> memberLoginLogEntityPageVoIPage = memberLoginLogEntityPage.convert(memberLoginLog -> BeanCopy.convert(memberLoginLog, MemberLoginLogVo.class));
+        return (Page<MemberLoginLogVo>) memberLoginLogEntityPageVoIPage;
     }
 
     @Override

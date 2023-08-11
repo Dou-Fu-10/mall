@@ -119,8 +119,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         orderEntityLambdaQueryWrapper.orderByDesc(OrderEntity::getId);
         Page<OrderEntity> orderEntityPage = page(page, orderEntityLambdaQueryWrapper);
         // 对订单进行转换
-        IPage<OrderVo> orderEntityPageVoIpage = orderEntityPage.convert(order -> BeanCopy.convert(order, OrderVo.class));
-        List<OrderVo> orderVoList = orderEntityPageVoIpage.getRecords();
+        IPage<OrderVo> orderEntityPageVoIPage = orderEntityPage.convert(order -> BeanCopy.convert(order, OrderVo.class));
+        List<OrderVo> orderVoList = orderEntityPageVoIPage.getRecords();
         Set<Long> orderIds = orderVoList.stream().map(OrderVo::getId).collect(Collectors.toSet());
         // 订单中所包含的商品
         List<OrderItemVo> orderItemVo = orderItemService.getByOrderIds(orderIds);
@@ -134,7 +134,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
                 orderVo.setOrderItemList(longOrderItemVoMap.get(id));
             }
         });
-        return (Page<OrderVo>) orderEntityPageVoIpage;
+        return (Page<OrderVo>) orderEntityPageVoIPage;
     }
 
 

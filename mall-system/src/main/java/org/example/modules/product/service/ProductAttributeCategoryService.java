@@ -25,7 +25,7 @@ public interface ProductAttributeCategoryService extends IService<ProductAttribu
      * @param productAttributeCategory 查询实体
      * @return 所有数据
      */
-    Page<List<ProductAttributeCategoryVo>> page(Page<ProductAttributeCategoryEntity> page, ProductAttributeCategoryDto productAttributeCategory);
+    Page<ProductAttributeCategoryVo> page(Page<ProductAttributeCategoryEntity> page, ProductAttributeCategoryDto productAttributeCategory);
 
     /**
      * 通过分类名字查询分类信息

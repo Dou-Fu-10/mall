@@ -1,5 +1,6 @@
 package org.example.modules.comment.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,10 +30,12 @@ public class CommentReplayDto {
     /**
      * 会员昵称
      */
+    @JsonIgnore
     private String memberNickName;
     /**
      * 会员头像
      */
+    @JsonIgnore
     private String memberIcon;
     /**
      * 评论内容
@@ -41,10 +44,12 @@ public class CommentReplayDto {
     /**
      * 创建时间
      */
+    @JsonIgnore
     private Date createTime;
     /**
      * 评论人员类型；0->管理员；1->会员
      */
+    @JsonIgnore
     private Boolean isMember;
 
 
