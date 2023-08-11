@@ -107,7 +107,12 @@ public class PrizePoolServiceImpl extends ServiceImpl<PrizePoolMapper, PrizePool
 
     @Override
     public BigDecimal getMemberFees() {
-        PrizePoolEntity memberFees = lambdaQuery().select(PrizePoolEntity::getMemberFees).one();
+        LambdaQueryWrapper<PrizePoolEntity> prizePoolEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        prizePoolEntityLambdaQueryWrapper.select(PrizePoolEntity::getMemberFees);
+        prizePoolEntityLambdaQueryWrapper.last("limit 1");
+        prizePoolEntityLambdaQueryWrapper.orderByDesc(PrizePoolEntity::getCreateTime);
+
+        PrizePoolEntity memberFees = this.getOne(prizePoolEntityLambdaQueryWrapper);
         return memberFees.getMemberFees();
     }
 }

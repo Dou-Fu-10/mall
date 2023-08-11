@@ -57,23 +57,6 @@ public class PrizePoolController {
     }
 
     /**
-     * 新增数据
-     *
-     * @param prizePool 实体对象
-     * @return 新增结果
-     */
-//    @Operation(summary = "新增数据", description = "prizePool::insert")
-//    @PostMapping
-//    @PreAuthorize("@hasPermission.check('prizePool::insert')")
-//    public ResponseEntity<Object> insert(@RequestBody @Validated PrizePoolDto prizePool) {
-//        if (this.prizePoolService.save(prizePool)) {
-//            return ResponseEntity.ok("添加成功");
-//        }
-//        // 修改成自定义的 错误类型
-//        throw new RuntimeException("添加失败");
-//    }
-
-    /**
      * 修改数据
      *
      * @param prizePool 实体对象

@@ -53,11 +53,6 @@ public class PrizePoolEntity extends CommonEntity<PrizePoolEntity> implements Se
     @Schema(name = "memberFees", description = "会员费用")
     private BigDecimal memberFees;
     /**
-     * 创建日期
-     */
-    @Schema(name = "createTime", description = "创建日期")
-    private Date createTime;
-    /**
      * 修改时间
      */
     @TableField(exist = false)
