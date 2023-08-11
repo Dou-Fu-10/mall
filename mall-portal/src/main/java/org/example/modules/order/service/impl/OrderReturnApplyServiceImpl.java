@@ -62,9 +62,9 @@ public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMap
         orderReturnApplyEntity.setCreateTime(new Date());
         // 会员昵称
         orderReturnApplyEntity.setMemberNickname(memberEntity.getNickname());
-        // 退货人姓名  等申请退货通过了在填写信息
+        // 退货人（会员）姓名  等申请退货通过了在填写信息
         orderReturnApplyEntity.setReturnName(null);
-        // 退货人电话  等申请退货通过了在填写信息
+        // 退货人（会员）电话  等申请退货通过了在填写信息
         orderReturnApplyEntity.setReturnPhone(null);
         // 公司给客户的退款金额
         orderReturnApplyEntity.setReturnAmount(null);
@@ -72,9 +72,9 @@ public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMap
         orderReturnApplyEntity.setStatus(0);
         // 原因
         orderReturnApplyEntity.setReason(orderReturnApplyDto.getReason());
-        // 描述
+        // 用户退货问题描述
         orderReturnApplyEntity.setDescription(orderReturnApplyDto.getDescription());
-        // 收货备注
+        // 公司收货备注
         orderReturnApplyEntity.setHandleNote(orderReturnApplyDto.getHandleNote());
 
         return save(orderReturnApplyEntity);

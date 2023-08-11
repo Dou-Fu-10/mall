@@ -9,6 +9,7 @@ import org.example.modules.tools.entity.vo.CompanyAddressVo;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-08-10 13:31:15
@@ -47,9 +48,9 @@ public class OrderReturnApplyVo {
     @Schema(name = "orderSn", description = "订单编号")
     private String orderSn;
     /**
-     * 申请时间
+     * 申请退货时间
      */
-    @Schema(name = "createTime", description = "申请时间")
+    @Schema(name = "createTime", description = "申请退货时间")
     private Date createTime;
     /**
      * 会员昵称
@@ -62,14 +63,14 @@ public class OrderReturnApplyVo {
     @Schema(name = "returnAmount", description = "公司给客户的退款金额")
     private BigDecimal returnAmount;
     /**
-     * 退货人姓名
+     * 退货人（会员）姓名
      */
-    @Schema(name = "returnName", description = "退货人姓名")
+    @Schema(name = "returnName", description = "退货人（会员）姓名")
     private String returnName;
     /**
-     * 退货人电话
+     * 退货人（会员）电话
      */
-    @Schema(name = "returnPhone", description = "退货人电话")
+    @Schema(name = "returnPhone", description = "退货人（会员）电话")
     private String returnPhone;
     /**
      * 申请状态：0->待处理；1->退货中；2->已完成；3->已拒绝
@@ -77,49 +78,49 @@ public class OrderReturnApplyVo {
     @Schema(name = "status", description = "申请状态：0->待处理；1->退货中；2->已完成；3->已拒绝")
     private Integer status;
     /**
-     * 处理时间
+     * 公司处理时间
      */
-    @Schema(name = "handleTime", description = "处理时间")
+    @Schema(name = "handleTime", description = "公司处理时间")
     private Date handleTime;
     /**
-     * 原因
+     * 用户退货原因
      */
-    @Schema(name = "reason", description = "原因")
+    @Schema(name = "reason", description = "用户退货原因")
     private String reason;
     /**
-     * 描述
+     * 用户退货问题描述
      */
-    @Schema(name = "description", description = "描述")
+    @Schema(name = "description", description = "用户退货问题描述")
     private String description;
     /**
      * 凭证图片，以逗号隔开
      */
     @Schema(name = "proofPics", description = "凭证图片，以逗号隔开")
-    private String proofPics;
+    private Set<String> proofPics;
     /**
-     * 处理备注
+     * 公司处理备注
      */
-    @Schema(name = "handleNote", description = "处理备注")
+    @Schema(name = "handleNote", description = "公司处理备注")
     private String handleNote;
     /**
-     * 处理人员
+     * 公司处理人员
      */
-    @Schema(name = "handleMan", description = "处理人员")
+    @Schema(name = "handleMan", description = "公司处理人员")
     private String handleMan;
     /**
-     * 收货人
+     * 公司收货人
      */
-    @Schema(name = "receiveMan", description = "收货人")
+    @Schema(name = "receiveMan", description = "公司收货人")
     private String receiveMan;
     /**
-     * 收货时间
+     * 公司收货时间
      */
-    @Schema(name = "receiveTime", description = "收货时间")
+    @Schema(name = "receiveTime", description = "公司收货时间")
     private Date receiveTime;
     /**
-     * 收货备注
+     * 公司收货备注
      */
-    @Schema(name = "receiveNote", description = "收货备注")
+    @Schema(name = "receiveNote", description = "公司收货备注")
     private String receiveNote;
     /**
      * 公司退货地址
