@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
+import org.example.common.core.validation.PhoneValid;
 
 import java.io.Serializable;
 
@@ -39,12 +40,12 @@ public class CompanyAddressEntity extends CommonEntity<CompanyAddressEntity> imp
      * 默认发货地址：0->否；1->是
      */
     @Schema(name = "sendStatus", description = "默认发货地址：0->否；1->是")
-    private Integer sendStatus;
+    private Boolean sendStatus;
     /**
      * 是否默认收货地址：0->否；1->是
      */
     @Schema(name = "receiveStatus", description = "是否默认收货地址：0->否；1->是")
-    private Integer receiveStatus;
+    private Boolean receiveStatus;
     /**
      * 收发货人姓名
      */
@@ -53,6 +54,7 @@ public class CompanyAddressEntity extends CommonEntity<CompanyAddressEntity> imp
     /**
      * 收货人电话
      */
+    @PhoneValid
     @Schema(name = "phone", description = "收货人电话")
     private String phone;
     /**

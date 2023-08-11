@@ -37,19 +37,6 @@ public class MemberReceiveAddressController {
     @Resource
     private MemberReceiveAddressService memberReceiveAddressService;
 
-    /**
-     * 分页查询所有数据
-     *
-     * @param page                    分页对象
-     * @param memberReceiveAddressDto 查询实体
-     * @return 所有数据
-     */
-    @GetMapping
-    @Operation(summary = "分页查询所有数据", description = "memberReceiveAddress::select")
-    @PreAuthorize("@hasPermission.check('memberReceiveAddress::select')")
-    public ResponseEntity<Object> select(Page<MemberReceiveAddressEntity> page, @Validated(ValidationDto.SelectPage.class) MemberReceiveAddressDto memberReceiveAddressDto) {
-        return ResponseEntity.ok(this.memberReceiveAddressService.page(page, memberReceiveAddressDto));
-    }
 
     /**
      * 通过主键查询单条数据
@@ -76,55 +63,5 @@ public class MemberReceiveAddressController {
     public ResponseEntity<Object> selectByMemberId(@PathVariable Serializable id) {
         return ResponseEntity.ok(this.memberReceiveAddressService.getByMemberId(id));
     }
-    /**
-     * 新增数据
-     *
-     * @param memberReceiveAddressDto 实体对象
-     * @return 新增结果
-     */
-//    @PostMapping
-//        @Operation(summary = "分页查询所有数据", description = "member::select")
-//    @PreAuthorize("@hasPermission.check('member::select')")
-//    public ResponseEntity<Object> insert(@RequestBody MemberReceiveAddressDto memberReceiveAddressDto) {
-//        if (this.memberReceiveAddressService.save(memberReceiveAddressDto)) {
-//            return ResponseEntity.ok("添加成功");
-//        }
-//        // 修改成自定义的 错误类型
-//        throw new RuntimeException("添加失败");
-//    }
-
-    /**
-     * 修改数据
-     *
-     * @param memberReceiveAddressDto 实体对象
-     * @return 修改结果
-     */
-//    @PutMapping
-//        @Operation(summary = "分页查询所有数据", description = "member::select")
-//        @PreAuthorize("@hasPermission.check('member::select')")
-//        public ResponseEntity<Object> update (@RequestBody MemberReceiveAddressDto memberReceiveAddressDto){
-//        if (this.memberReceiveAddressService.updateById(memberReceiveAddressDto)) {
-//            return ResponseEntity.ok("修改成功");
-//        }
-//        // 修改成自定义的 错误类型
-//        throw new RuntimeException("修改失败");
-//    }
-
-    /**
-     * 删除数据
-     *
-     * @param idList 主键结合
-     * @return 删除结果
-     */
-//    @DeleteMapping
-//        @Operation(summary = "分页查询所有数据", description = "member::select")
-//            @PreAuthorize("@hasPermission.check('member::select')")
-//            public ResponseEntity<Object> remove (@RequestBody Set < Long > idList) {
-//        if (CollectionUtils.isEmpty(idList)) {
-//            throw new BaseRequestException("请正确的填写id");
-//        }
-//        Set<Long> ids = idListt.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
-//        return ResponseEntity.ok(this.memberReceiveAddressService.removeByIds(ids) ? "删除成功" : "删除失败");
-//    }
 }
 

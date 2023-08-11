@@ -28,11 +28,11 @@ public class CompanyAddressDto {
     /**
      * 默认发货地址：0->否；1->是
      */
-    private Integer sendStatus;
+    private Boolean sendStatus;
     /**
      * 是否默认收货地址：0->否；1->是
      */
-    private Integer receiveStatus;
+    private Boolean receiveStatus;
     /**
      * 收发货人姓名
      */

@@ -32,7 +32,7 @@ public class MemberReceiveAddressVo {
     /**
      * 手机号码
      */
-    private String phoneNumber;
+    private String phone;
     /**
      * 是否为默认
      */

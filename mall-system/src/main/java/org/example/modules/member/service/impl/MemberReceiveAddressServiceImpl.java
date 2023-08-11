@@ -26,17 +26,6 @@ import java.util.Objects;
  */
 @Service("memberReceiveAddressService")
 public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAddressMapper, MemberReceiveAddressEntity> implements MemberReceiveAddressService {
-    @Override
-    public Boolean save(MemberReceiveAddressDto memberReceiveAddressDto) {
-        MemberReceiveAddressEntity memberReceiveAddressEntity = BeanCopy.convert(memberReceiveAddressDto, MemberReceiveAddressEntity.class);
-        return save(memberReceiveAddressEntity);
-    }
-
-    @Override
-    public Boolean updateById(MemberReceiveAddressDto memberReceiveAddressDto) {
-        MemberReceiveAddressEntity memberReceiveAddressEntity = BeanCopy.convert(memberReceiveAddressDto, MemberReceiveAddressEntity.class);
-        return updateById(memberReceiveAddressEntity);
-    }
 
     @Override
     public Page<MemberReceiveAddressVo> page(Page<MemberReceiveAddressEntity> page, MemberReceiveAddressDto memberReceiveAddressDto) {

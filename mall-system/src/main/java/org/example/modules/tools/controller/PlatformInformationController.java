@@ -39,28 +39,14 @@ public class PlatformInformationController {
     /**
      * 分页查询所有数据
      *
-     * @param page                   分页对象
-     * @param platformInformationDto 查询实体
+     * @param page 分页对象
      * @return 所有数据
      */
     @GetMapping
     @Operation(summary = "分页查询所有数据", description = "platformInformation::select")
     @PreAuthorize("@hasPermission.check('platformInformation::select')")
-    public ResponseEntity<Object> select(Page<PlatformInformationEntity> page, PlatformInformationDto platformInformationDto) {
-        return ResponseEntity.ok(this.platformInformationService.page(page, platformInformationDto));
-    }
-
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-    @GetMapping("{id}")
-    @Operation(summary = "通过主键查询单条数据", description = "platformInformation::selectOne")
-    @PreAuthorize("@hasPermission.check('platformInformation::selectOne')")
-    public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return ResponseEntity.ok(this.platformInformationService.getById(id));
+    public ResponseEntity<Object> select(Page<PlatformInformationEntity> page) {
+        return ResponseEntity.ok(this.platformInformationService.page(page, new PlatformInformationDto()));
     }
 
     /**

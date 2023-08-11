@@ -1,7 +1,6 @@
 package org.example.modules.tools.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,6 +12,7 @@ import org.example.modules.tools.entity.dto.CompanyAddressDto;
 import org.example.modules.tools.service.CompanyAddressService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -40,15 +40,14 @@ public class CompanyAddressController {
     /**
      * 分页查询所有数据
      *
-     * @param page           分页对象
-     * @param companyAddress 查询实体
+     * @param page 分页对象
      * @return 所有数据
      */
     @GetMapping
     @Operation(summary = "分页查询所有数据", description = "companyAddress::select")
     @PreAuthorize("@hasPermission.check('companyAddress::select')")
-    public ResponseEntity<Object> select(Page<CompanyAddressEntity> page, CompanyAddressEntity companyAddress) {
-        return ResponseEntity.ok(this.companyAddressService.page(page, new QueryWrapper<>(companyAddress)));
+    public ResponseEntity<Object> select(Page<CompanyAddressEntity> page) {
+        return ResponseEntity.ok(this.companyAddressService.page(page, new CompanyAddressDto()));
     }
 
     /**
@@ -61,20 +60,20 @@ public class CompanyAddressController {
     @Operation(summary = "通过主键查询单条数据", description = "companyAddress::selectOne")
     @PreAuthorize("@hasPermission.check('companyAddress::selectOne')")
     public ResponseEntity<Object> selectOne(@PathVariable Serializable id) {
-        return ResponseEntity.ok(this.companyAddressService.getById(id));
+        return ResponseEntity.ok(this.companyAddressService.getByCompanyAddressId(id));
     }
 
     /**
      * 新增数据
      *
-     * @param companyAddress 实体对象
+     * @param companyAddressEntity 实体对象
      * @return 新增结果
      */
     @PostMapping
     @Operation(summary = "新增数据", description = "companyAddress::insert")
     @PreAuthorize("@hasPermission.check('companyAddress::insert')")
-    public ResponseEntity<Object> insert(@RequestBody CompanyAddressDto companyAddress) {
-        if (this.companyAddressService.save(companyAddress)) {
+    public ResponseEntity<Object> insert(@RequestBody @Validated CompanyAddressEntity companyAddressEntity) {
+        if (this.companyAddressService.save(companyAddressEntity)) {
             return ResponseEntity.ok("添加成功");
         }
         // 修改成自定义的 错误类型
@@ -84,14 +83,14 @@ public class CompanyAddressController {
     /**
      * 修改数据
      *
-     * @param companyAddress 实体对象
+     * @param companyAddressEntity 实体对象
      * @return 修改结果
      */
     @PutMapping
     @Operation(summary = "修改数据", description = "companyAddress::update")
     @PreAuthorize("@hasPermission.check('companyAddress::update')")
-    public ResponseEntity<Object> update(@RequestBody CompanyAddressDto companyAddress) {
-        if (this.companyAddressService.updateById(companyAddress)) {
+    public ResponseEntity<Object> update(@RequestBody @Validated CompanyAddressEntity companyAddressEntity) {
+        if (this.companyAddressService.updateById(companyAddressEntity)) {
             return ResponseEntity.ok("修改成功");
         }
         // 修改成自定义的 错误类型

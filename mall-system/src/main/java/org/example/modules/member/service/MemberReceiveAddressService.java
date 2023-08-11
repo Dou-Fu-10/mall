@@ -17,21 +17,6 @@ import java.util.List;
  * @Description 会员收货地址表(MemberReceiveAddress)表服务接口
  */
 public interface MemberReceiveAddressService extends IService<MemberReceiveAddressEntity> {
-    /**
-     * 新增数据
-     *
-     * @param memberReceiveAddressDto 实体对象
-     * @return 新增结果
-     */
-    Boolean save(MemberReceiveAddressDto memberReceiveAddressDto);
-
-    /**
-     * 修改数据
-     *
-     * @param memberReceiveAddressDto 实体对象
-     * @return 修改结果
-     */
-    Boolean updateById(MemberReceiveAddressDto memberReceiveAddressDto);
 
     /**
      * 分页查询所有数据

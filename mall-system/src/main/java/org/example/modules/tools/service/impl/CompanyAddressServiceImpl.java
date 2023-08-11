@@ -1,5 +1,8 @@
 package org.example.modules.tools.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
@@ -10,6 +13,7 @@ import org.example.modules.tools.mapper.CompanyAddressMapper;
 import org.example.modules.tools.service.CompanyAddressService;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -37,6 +41,20 @@ public class CompanyAddressServiceImpl extends ServiceImpl<CompanyAddressMapper,
             throw new BaseRequestException("参数错误");
         }
         return BeanCopy.convert(getById(companyAddressId), CompanyAddressVo.class);
+    }
+
+    @Override
+    public Page<CompanyAddressVo> page(Page<CompanyAddressEntity> page, CompanyAddressDto companyAddressDto) {
+        CompanyAddressEntity companyAddressEntity = BeanCopy.convert(companyAddressDto, CompanyAddressEntity.class);
+        Page<CompanyAddressEntity> companyAddressEntityPage = page(page, new QueryWrapper<>(companyAddressEntity));
+        IPage<CompanyAddressVo> companyAddressVoIpage = companyAddressEntityPage.convert(companyAddress -> BeanCopy.convert(companyAddress, CompanyAddressVo.class));
+        return (Page<CompanyAddressVo>) companyAddressVoIpage;
+    }
+
+    @Override
+    public CompanyAddressVo getByCompanyAddressId(Serializable id) {
+        CompanyAddressEntity companyAddressEntity = getById(id);
+        return BeanCopy.convert(companyAddressEntity, CompanyAddressVo.class);
     }
 }
 
