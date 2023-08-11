@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-07-13 21:35:11
@@ -65,7 +66,7 @@ public class CommentVo {
     /**
      * 上传图片地址，以逗号隔开
      */
-    private String pics;
+    private Set<String> pics;
     /**
      * 评论用户头像
      */

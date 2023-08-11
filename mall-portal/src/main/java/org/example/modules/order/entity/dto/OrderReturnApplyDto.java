@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-08-10 13:31:15
@@ -103,7 +104,7 @@ public class OrderReturnApplyDto {
      * 凭证图片，以逗号隔开
      */
     @Schema(name = "proofPics", description = "凭证图片，以逗号隔开")
-    private String proofPics;
+    private Set<String> proofPics;
     /**
      * 公司处理备注
      */

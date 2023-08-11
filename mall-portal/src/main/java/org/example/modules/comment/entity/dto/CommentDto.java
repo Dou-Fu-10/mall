@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-08-10 15:24:16
@@ -102,7 +103,7 @@ public class CommentDto {
      * 上传图片地址，以逗号隔开
      */
     @Schema(name = "pics", description = "上传图片地址，以逗号隔开")
-    private String pics;
+    private Set<String> pics;
     /**
      * 评论用户头像
      */
