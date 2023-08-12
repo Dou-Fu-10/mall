@@ -61,7 +61,7 @@ public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMap
         // 获取退货状态  只能拒绝或者同意
         // 申请状态：0->待处理；1->退货中；2->已完成；3->已拒绝
         Integer status = orderReturnApplyDto.getStatus();
-        if (status.equals(1) || status.equals(3)) {
+        if (!(status.equals(1) || status.equals(3))) {
             throw new BaseRequestException("只能拒绝或者同意");
         }
         // 获取退货申请
