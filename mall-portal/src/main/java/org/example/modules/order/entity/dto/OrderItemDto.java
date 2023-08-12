@@ -51,9 +51,9 @@ public class OrderItemDto {
     @Schema(name = "orderSn", description = "订单编号")
     private String orderSn;
     /**
-     * 商品图片
+     * 商品主图
      */
-    @Schema(name = "productPic", description = "商品图片")
+    @Schema(name = "productPic", description = "商品主图")
     private String productPic;
     /**
      * 商品名字

@@ -44,7 +44,7 @@ public class OrderItemVo {
      */
     private String orderSn;
     /**
-     * 商品图片
+     * 商品主图
      */
     private String productPic;
     /**

@@ -1,12 +1,12 @@
 package org.example.modules.product.entity.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.common.core.base.ValidationDto;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.Set;
 
 /**
@@ -31,27 +31,26 @@ public class ProductDto {
     /**
      * 运费模板id
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private Long freightTemplateId;
-
     /**
-     * 商品分类名称
+     * 商品属性分类ID
      */
-    private String productCategoryName;
-    /**
-     * 商品属性参数ID
-     */
+    @Null(groups = ValidationDto.SelectPage.class)
     private Long productAttributeCategoryId;
     /**
      * 商品名称
      */
     private String name;
     /**
-     * 商品图片
+     * 商品主图
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private String pic;
     /**
      * 货号
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private String productSn;
     /**
      * 上架状态：0->下架；1->上架 (0=false，1=true)
@@ -64,7 +63,7 @@ public class ProductDto {
     /**
      * 推荐状态；0->不推荐；1->推荐 (0=false，1=true)
      */
-    private Boolean recommandStatus;
+    private Boolean recommendedStatus;
     /**
      * 审核状态：0->未审核；1->审核通过 (0=false，1=true)
      */
@@ -72,10 +71,12 @@ public class ProductDto {
     /**
      * 排序
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private Integer sort;
     /**
      * 销量
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private Integer sale;
     /**
      * 价格
@@ -84,68 +85,67 @@ public class ProductDto {
     /**
      * 副标题
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private String subTitle;
     /**
      * 商品描述
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private String description;
-    /**
-     * 市场价
-     */
-    private BigDecimal originalPrice;
     /**
      * 库存
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private Integer stock;
     /**
      * 库存预警值
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private Integer lowStock;
     /**
      * 单位
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private String unit;
     /**
-     * 商品重量，默认为克
-     */
-    private BigDecimal weight;
-    /**
-     * 以逗号分割的产品服务：1->无忧退货；2->快速退款；3->免费包邮
+     * 产品服务：1->无忧退货；2->快速退款；3->免费包邮
      */
     private Set<String> serviceIds;
     /**
      * 关键字
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private String keywords;
     /**
      * 注意事项
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private String note;
     /**
      * 画册图片，连产品图片限制为5张，以逗号分割
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private Set<String> albumPics;
     /**
      * 详细标题
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private String detailTitle;
     /**
      * 详细描述
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private String detailDesc;
     /**
      * 产品详情网页内容
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private String detailHtml;
     /**
      * 移动端网页详情
      */
+    @Null(groups = ValidationDto.SelectPage.class)
     private String detailMobileHtml;
-    /**
-     * 促销类型：0->没有促销使用原价;1->使用促销价；2->使用会员价；3->使用阶梯价格；4->使用满减价格；5->限时购
-     */
-    private Integer promotionType;
-
 
 }
 

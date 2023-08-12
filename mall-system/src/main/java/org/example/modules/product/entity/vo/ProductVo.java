@@ -33,13 +33,8 @@ public class ProductVo {
      * 运费模板id
      */
     private Long freightTemplateId;
-
     /**
-     * 商品分类名称
-     */
-    private String productCategoryName;
-    /**
-     * 商品属性参数ID
+     * 商品属性分类ID
      */
     private Long productAttributeCategoryId;
     /**
@@ -47,7 +42,7 @@ public class ProductVo {
      */
     private String name;
     /**
-     * 商品图片
+     * 商品主图
      */
     private String pic;
     /**
@@ -65,7 +60,7 @@ public class ProductVo {
     /**
      * 推荐状态；0->不推荐；1->推荐 (0=false，1=true)
      */
-    private Boolean recommandStatus;
+    private Boolean recommendedStatus;
     /**
      * 审核状态：0->未审核；1->审核通过 (0=false，1=true)
      */
@@ -91,10 +86,6 @@ public class ProductVo {
      */
     private String description;
     /**
-     * 市场价
-     */
-    private BigDecimal originalPrice;
-    /**
      * 库存
      */
     private Integer stock;
@@ -107,11 +98,7 @@ public class ProductVo {
      */
     private String unit;
     /**
-     * 商品重量，默认为克
-     */
-    private BigDecimal weight;
-    /**
-     * 以逗号分割的产品服务：1->无忧退货；2->快速退款；3->免费包邮
+     * 产品服务：1->无忧退货；2->快速退款；3->免费包邮
      */
     private Set<String> serviceIds;
     /**
@@ -142,30 +129,6 @@ public class ProductVo {
      * 移动端网页详情
      */
     private String detailMobileHtml;
-    /**
-     * 促销类型：0->没有促销使用原价;1->使用促销价；2->使用会员价；3->使用阶梯价格；4->使用满减价格；5->限时购
-     */
-    private Integer promotionType;
-    /**
-     * 创建者
-     */
-    private String createBy;
-    /**
-     * 更新者
-     */
-    private String updateBy;
-    /**
-     * 创建日期
-     */
-    private Date createTime;
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-    /**
-     * 逻辑删除（1 代表已删除），（0 代表未删除）
-     */
-    private Integer deleteFlag;
     @Schema(name = "skuStockList", description = "商品的sku库存信息")
     private List<SkuStockVo> skuStockList;
     @Schema(name = "productAttributeValueList", description = "商品参数及自定义规格属性")

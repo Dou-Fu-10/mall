@@ -36,14 +36,8 @@ public class ProductVo {
      */
     @JsonIgnore
     private Long freightTemplateId;
-
     /**
-     * 商品分类名称
-     */
-    @JsonIgnore
-    private String productCategoryName;
-    /**
-     * 商品属性参数ID
+     * 商品属性分类ID
      */
     @JsonIgnore
     private Long productAttributeCategoryId;
@@ -52,7 +46,7 @@ public class ProductVo {
      */
     private String name;
     /**
-     * 商品图片
+     * 商品主图
      */
     private String pic;
     /**
@@ -72,7 +66,7 @@ public class ProductVo {
     /**
      * 推荐状态；0->不推荐；1->推荐 (0=false，1=true)
      */
-    private Boolean recommandStatus;
+    private Boolean recommendedStatus;
     /**
      * 审核状态：0->未审核；1->审核通过 (0=false，1=true)
      */
@@ -99,11 +93,6 @@ public class ProductVo {
      */
     private String description;
     /**
-     * 市场价
-     */
-    @JsonIgnore
-    private BigDecimal originalPrice;
-    /**
      * 库存
      */
     @JsonIgnore
@@ -119,12 +108,7 @@ public class ProductVo {
     @JsonIgnore
     private String unit;
     /**
-     * 商品重量，默认为克
-     */
-    @JsonIgnore
-    private BigDecimal weight;
-    /**
-     * 以逗号分割的产品服务：1->无忧退货；2->快速退款；3->免费包邮
+     * 产品服务：1->无忧退货；2->快速退款；3->免费包邮
      */
     private Set<String> serviceIds;
     /**
@@ -157,11 +141,6 @@ public class ProductVo {
      * 移动端网页详情
      */
     private String detailMobileHtml;
-    /**
-     * 促销类型：0->没有促销使用原价;1->使用促销价；2->使用会员价；3->使用阶梯价格；4->使用满减价格；5->限时购
-     */
-    @JsonIgnore
-    private Integer promotionType;
     /**
      * 创建者
      */

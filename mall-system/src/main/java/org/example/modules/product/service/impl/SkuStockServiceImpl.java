@@ -2,14 +2,19 @@ package org.example.modules.product.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import org.apache.commons.collections4.SetUtils;
+import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.server.MinioServer;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.product.entity.SkuStockEntity;
 import org.example.modules.product.entity.dto.SkuStockDto;
+import org.example.modules.product.entity.vo.ProductVo;
 import org.example.modules.product.entity.vo.SkuStockVo;
 import org.example.modules.product.mapper.SkuStockMapper;
+import org.example.modules.product.service.ProductService;
 import org.example.modules.product.service.SkuStockService;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -19,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by Dou-Fu-10 2023-07-15 11:35:50
@@ -31,6 +37,9 @@ import java.util.Set;
 public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEntity> implements SkuStockService {
     @Resource
     private MinioServer minioServer;
+    @Resource
+    @Lazy
+    private ProductService productService;
 
     @Override
     public Boolean save(SkuStockDto skuStock) {
@@ -41,7 +50,16 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean save(List<SkuStockDto> skuStock) {
         List<SkuStockEntity> skuStockEntityList = BeanCopy.copytList(skuStock, SkuStockEntity.class);
-        // TODO 数据校验
+        Set<String> picList = skuStockEntityList.stream().map(SkuStockEntity::getPic).collect(Collectors.toSet());
+        Set<String> pics = minioServer.checkObjectIsExist(picList);
+        if (!SetUtils.isEqualSet(picList, pics)) {
+            throw new BaseRequestException("sku图添加失败");
+        }
+        Set<Long> productIdList = skuStockEntityList.stream().map(SkuStockEntity::getProductId).collect(Collectors.toSet());
+        Set<Long> productIds = productService.getByIds(productIdList).stream().map(ProductVo::getId).collect(Collectors.toSet());
+        if (!SetUtils.isEqualSet(productIds, productIdList)) {
+            throw new BaseRequestException("请填写正确的商品id");
+        }
         return saveBatch(skuStockEntityList);
     }
 
@@ -69,7 +87,16 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean saveOrUpdate(List<SkuStockDto> skuStock) {
         List<SkuStockEntity> skuStockEntityList = BeanCopy.copytList(skuStock, SkuStockEntity.class);
-        // TODO 数据校验
+        Set<String> picList = skuStockEntityList.stream().map(SkuStockEntity::getPic).collect(Collectors.toSet());
+        Set<String> pics = minioServer.checkObjectIsExist(picList);
+        if (!SetUtils.isEqualSet(picList, pics)) {
+            throw new BaseRequestException("sku图添加失败");
+        }
+        Set<Long> productIdList = skuStockEntityList.stream().map(SkuStockEntity::getProductId).collect(Collectors.toSet());
+        Set<Long> productIds = productService.getByIds(productIdList).stream().map(ProductVo::getId).collect(Collectors.toSet());
+        if (!SetUtils.isEqualSet(productIds, productIdList)) {
+            throw new BaseRequestException("请填写正确的商品id");
+        }
         return saveOrUpdateBatch(skuStockEntityList);
     }
 

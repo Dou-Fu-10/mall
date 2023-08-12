@@ -19,9 +19,8 @@ import org.example.modules.product.entity.vo.ProductAttributeValueVo;
 import org.example.modules.product.entity.vo.ProductVo;
 import org.example.modules.product.entity.vo.SkuStockVo;
 import org.example.modules.product.mapper.ProductMapper;
-import org.example.modules.product.service.ProductAttributeValueService;
-import org.example.modules.product.service.ProductService;
-import org.example.modules.product.service.SkuStockService;
+import org.example.modules.product.service.*;
+import org.example.modules.tools.service.FreightTemplateService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -49,6 +48,12 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     @Resource
     @Lazy
     private ProductAttributeValueService productAttributeValueService;
+    @Resource
+    private ProductCategoryService productCategoryService;
+    @Resource
+    private FreightTemplateService freightTemplateService;
+    @Resource
+    private ProductAttributeCategoryService productAttributeCategoryService;
 
     @Override
     public Page<ProductVo> page(Page<ProductEntity> page, ProductDto productDto) {
@@ -117,13 +122,31 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
         // 校验 画册图片，连产品图片限制为5张，以逗号分割
         Set<String> albumPics = productDtoParam.getAlbumPics();
         productDtoParam.setAlbumPics(checkAlbumPics(albumPics));
-        // TODO 数据校验
         ProductEntity productEntity = BeanCopy.convert(productDtoParam, ProductEntity.class);
 
-        // 设置  以逗号分割的产品服务：1->无忧退货；2->快速退款；3->免费包邮
+        // 商品分类id
+        Long productCategoryId = productEntity.getProductCategoryId();
+        if (Objects.isNull(productCategoryService.getByCategoryId(productCategoryId))) {
+            throw new BaseRequestException("请正确的填写商品分类");
+        }
+//        Long freightTemplateId = productEntity.getFreightTemplateId();
+//        if (Objects.isNull(freightTemplateService.getById(freightTemplateId))) {
+//            throw new BaseRequestException("请正确的填写运费模板");
+//        }
+        Long productAttributeCategoryId = productEntity.getProductAttributeCategoryId();
+        if (Objects.isNull(productAttributeCategoryService.getById(productAttributeCategoryId))) {
+            throw new BaseRequestException("请正确的填写商品属性分类");
+        }
+        String pic = productEntity.getPic();
+        if (!minioServer.checkObjectIsExist(pic)) {
+            throw new BaseRequestException("请正确的填写商品主图");
+        }
+        // 设置  产品服务：1->无忧退货；2->快速退款；3->免费包邮
         String checkServiceIds = checkServiceIds(productDtoParam.getServiceIds());
         if (Objects.nonNull(checkServiceIds)) {
             productEntity.setServiceIds(checkServiceIds);
+        } else {
+            throw new BaseRequestException("请填写产品服务");
         }
         if (!productEntity.insert()) {
             throw new BaseRequestException("添加失败");
@@ -158,11 +181,26 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
         // 校验 画册图片，连产品图片限制为5张，以逗号分割
         Set<String> strings = checkAlbumPics(albumPics);
         productDtoParam.setAlbumPics(strings);
-
-        // TODO 数据校验
         ProductEntity productEntity = BeanCopy.convert(productDtoParam, ProductEntity.class);
 
-        // 设置  以逗号分割的产品服务：1->无忧退货；2->快速退款；3->免费包邮
+        // 商品分类id
+        Long productCategoryId = productEntity.getProductCategoryId();
+        if (Objects.isNull(productCategoryService.getByCategoryId(productCategoryId))) {
+            throw new BaseRequestException("请正确的填写商品分类");
+        }
+//        Long freightTemplateId = productEntity.getFreightTemplateId();
+//        if (Objects.isNull(freightTemplateService.getById(freightTemplateId))) {
+//            throw new BaseRequestException("请正确的填写运费模板");
+//        }
+        Long productAttributeCategoryId = productEntity.getProductAttributeCategoryId();
+        if (Objects.isNull(productAttributeCategoryService.getById(productAttributeCategoryId))) {
+            throw new BaseRequestException("请正确的填写商品属性分类");
+        }
+        String pic = productEntity.getPic();
+        if (!minioServer.checkObjectIsExist(pic)) {
+            throw new BaseRequestException("请正确的填写商品主图");
+        }
+        // 设置  产品服务：1->无忧退货；2->快速退款；3->免费包邮
         String checkServiceIds = checkServiceIds(productDtoParam.getServiceIds());
         if (StringUtils.isNoneBlank(checkServiceIds)) {
             productEntity.setServiceIds(checkServiceIds);
@@ -173,7 +211,10 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
         }
         List<SkuStockDto> skuStockList = productDtoParam.getSkuStockList();
         if (CollectionUtils.isNotEmpty(skuStockList)) {
-            skuStockList.forEach(skuStockDto -> skuStockDto.setProductId(productEntity.getId()));
+            skuStockList.forEach(skuStockDto -> {
+                skuStockDto.setProductId(productEntity.getId());
+                skuStockDto.setId(null);
+            });
             // 删除 商品的 skuStock 重新对其进行添加
             if (!skuStockService.removeByProductId(productEntity.getId())) {
                 throw new BaseRequestException("修改失败");
@@ -190,7 +231,10 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
             if (!productAttributeValueService.removeByProductId(productEntity.getId())) {
                 throw new BaseRequestException("修改失败");
             }
-            productAttributeValueList.forEach(productAttributeValueDto -> productAttributeValueDto.setProductId(productEntity.getId()));
+            productAttributeValueList.forEach(productAttributeValueDto -> {
+                productAttributeValueDto.setProductId(productEntity.getId());
+                productAttributeValueDto.setId(null);
+            });
             // 在 productAttributeValueService.save 进行数据校验当数据校验为通过即回滚保存 的商品
             if (!productAttributeValueService.save(productAttributeValueList)) {
                 throw new BaseRequestException("修改失败");

@@ -106,7 +106,7 @@ public class ProductController {
     /**
      * 修改商品状态
      *
-     * @param id     用户id
+     * @param id     商品id
      * @param status 状态
      * @return String
      */
@@ -123,7 +123,7 @@ public class ProductController {
     /**
      * 修改商品状态
      *
-     * @param id    用户id
+     * @param id    商品id
      * @param audit 状态
      * @return String
      */

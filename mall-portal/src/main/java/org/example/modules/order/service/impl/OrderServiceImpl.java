@@ -76,7 +76,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
             orderItem.setProductSkuId(cartItemVo.getProductSkuId());
             // 商品分类id
             orderItem.setProductCategoryId(cartItemVo.getProductCategoryId());
-            // 商品图片
+            // 商品主图
             orderItem.setProductPic(skuStock.getPic());
             // 商品名字
             orderItem.setProductName(product.getName());
