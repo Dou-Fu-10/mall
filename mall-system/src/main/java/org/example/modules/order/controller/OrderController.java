@@ -11,6 +11,7 @@ import org.example.common.core.exception.BaseRequestException;
 import org.example.modules.order.entity.OrderEntity;
 import org.example.modules.order.entity.dto.OrderDeliveryDto;
 import org.example.modules.order.entity.dto.OrderDto;
+import org.example.modules.order.entity.dto.ReceiverInfoDto;
 import org.example.modules.order.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -48,7 +49,6 @@ public class OrderController {
     @GetMapping
     @PreAuthorize("@hasPermission.check('order::select')")
     public ResponseEntity<Object> select(Page<OrderEntity> page, @Validated(ValidationDto.SelectPage.class) OrderDto orderDto) {
-        // TODO 对orderDto 进行数据校验
         return ResponseEntity.ok(this.orderService.page(page, orderDto));
     }
 
@@ -66,7 +66,7 @@ public class OrderController {
     }
 
     /**
-     * 修改订单状态
+     * 订单发货
      *
      * @param orderDeliveryDto 订单发货
      * @return String
@@ -96,54 +96,49 @@ public class OrderController {
     }
 
     /**
-     * 新增数据
+     * 取消订单
      *
-     * @param order 实体对象
-     * @return 新增结果
+     * @param id   订单id
+     * @param note 备注
+     * @return /
      */
-//    @Operation(summary = "新增数据", description = "order::insert")
-//    @AnonymousPostMapping
-//    @PreAuthorize("@hasPermission.check('order::insert')")
-//    public ResponseEntity<Object> insert(@RequestBody OrderDto order) {
-//        if (this.orderService.save(order)) {
-//            return ResponseEntity.ok("添加成功");
-//        }
-//        // 修改成自定义的 错误类型
-//        throw new BaseRequestException("添加失败");
-//    }
+    @Operation(summary = "取消订单")
+    @PostMapping(value = "/update/close/{id}")
+    public ResponseEntity<Object> close(@PathVariable("id") Long id, @RequestParam String note) {
+        if (orderService.close(id, note)) {
+            return ResponseEntity.ok("取消成功");
+        }
+        throw new BaseRequestException("取消失败");
+    }
 
     /**
-     * 修改数据
+     * 修改收货人信息
      *
-     * @param order 实体对象
-     * @return 修改结果
+     * @param receiverInfoDto 收货人
+     * @return /
      */
-    @Operation(summary = "修改数据", description = "order::update")
-    @PutMapping
-    @PreAuthorize("@hasPermission.check('order::update')")
-    public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class) OrderDto order) {
-        if (this.orderService.updateById(order)) {
+    @Operation(summary = "修改收货人信息")
+    @PostMapping(value = "/update/receiverInfo")
+    public ResponseEntity<Object> updateReceiverInfo(@RequestBody ReceiverInfoDto receiverInfoDto) {
+        if (orderService.updateReceiverInfo(receiverInfoDto)) {
             return ResponseEntity.ok("修改成功");
         }
-        // 修改成自定义的 错误类型
         throw new BaseRequestException("修改失败");
     }
 
     /**
-     * 删除数据
-     *
-     * @param idList 主键结合
-     * @return 删除结果
+     * 订单备注
+     * @param id 订单id
+     * @param note 订单备注
+     * @return /
      */
-//    @Operation(summary = "删除数据", description = "order::remove")
-//    @DeleteMapping
-//    @PreAuthorize("@hasPermission.check('order::remove')")
-//    public ResponseEntity<Object> remove(@RequestBody Set<Long> idList) {
-//        if (CollectionUtils.isEmpty(idList)) {
-//            throw new BaseRequestException("请正确的填写id");
-//        }
-//        Set<Long> ids = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
-//        return ResponseEntity.ok(this.orderService.removeByIds(ids) ? "删除成功" : "删除失败");
-//    }
+    @Operation(summary = "备注订单")
+    @PostMapping(value = "/update/note")
+    public ResponseEntity<Object> updateNote(@RequestParam("id") Long id, @RequestParam("note") String note) {
+        if (orderService.updateNote(id, note)) {
+            return ResponseEntity.ok("备注订单成功");
+        }
+        throw new BaseRequestException("备注订单失败");
+    }
 }
 

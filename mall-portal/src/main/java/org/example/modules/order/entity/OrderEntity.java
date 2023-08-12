@@ -100,11 +100,6 @@ public class OrderEntity extends CommonEntity<OrderEntity> implements Serializab
     @Schema(name = "autoConfirmDay", description = "自动确认时间（天）")
     private Integer autoConfirmDay;
     /**
-     * 活动信息
-     */
-    @Schema(name = "promotionInfo", description = "活动信息")
-    private String promotionInfo;
-    /**
      * 发票类型：0->不开发票；1->电子发票；2->纸质发票
      */
     @Schema(name = "billType", description = "发票类型：0->不开发票；1->电子发票；2->纸质发票")
@@ -170,9 +165,9 @@ public class OrderEntity extends CommonEntity<OrderEntity> implements Serializab
     @Schema(name = "note", description = "订单备注")
     private String note;
     /**
-     * 确认收货状态：0->已确认：1->未确认
+     * 确认收货状态：1=true->已确认：0=false->未确认
      */
-    @Schema(name = "confirmStatus", description = "确认收货状态：0->已确认：1->未确认")
+    @Schema(name = "confirmStatus", description = "确认收货状态：1=true->已确认：0=false->未确认")
     private Boolean confirmStatus;
     /**
      * 支付时间

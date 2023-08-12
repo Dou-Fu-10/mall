@@ -227,7 +227,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         orderEntity.setReceiverRegion(address.getRegion());
         // 详细地址
         orderEntity.setReceiverDetailAddress(address.getDetailAddress());
-        // 确认收货状态：0->已确认：1->未确认
+        // 确认收货状态：1=true->已确认：0=false->未确认
         orderEntity.setConfirmStatus(false);
         if (!orderEntity.insert()) {
             throw new BaseRequestException("下单失败");

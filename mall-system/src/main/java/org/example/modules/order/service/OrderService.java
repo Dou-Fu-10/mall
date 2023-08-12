@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.modules.order.entity.OrderEntity;
 import org.example.modules.order.entity.dto.OrderDeliveryDto;
 import org.example.modules.order.entity.dto.OrderDto;
+import org.example.modules.order.entity.dto.ReceiverInfoDto;
 import org.example.modules.order.entity.vo.OrderVo;
 
 import java.io.Serializable;
@@ -86,5 +87,26 @@ public interface OrderService extends IService<OrderEntity> {
      * @return String
      */
     Boolean delivery(OrderDeliveryDto orderDeliveryDto);
+    /**
+     * 取消订单
+     * @param id 订单id
+     * @param note 备注
+     * @return /
+     */
+    Boolean close(Long id, String note);
+    /**
+     * 修改收货人信息
+     *
+     * @param receiverInfoDto 收货人
+     * @return /
+     */
+    Boolean updateReceiverInfo(ReceiverInfoDto receiverInfoDto);
 
+    /**
+     * 订单备注
+     * @param id 订单id
+     * @param note 订单备注
+     * @return /
+     */
+    Boolean updateNote(Long id, String note);
 }

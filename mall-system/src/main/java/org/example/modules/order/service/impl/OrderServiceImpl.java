@@ -14,6 +14,7 @@ import org.example.common.core.utils.StringUtils;
 import org.example.modules.order.entity.OrderEntity;
 import org.example.modules.order.entity.dto.OrderDeliveryDto;
 import org.example.modules.order.entity.dto.OrderDto;
+import org.example.modules.order.entity.dto.ReceiverInfoDto;
 import org.example.modules.order.entity.vo.OrderItemVo;
 import org.example.modules.order.entity.vo.OrderOperateHistoryVo;
 import org.example.modules.order.entity.vo.OrderVo;
@@ -97,7 +98,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     }
 
     @Override
-    public Page<OrderVo> findCompletedOrdersByMonth(Page<OrderEntity> page, OrderDto orderDto, DateTime date) {
+    public Page<OrderVo> findCompletedOrdersByMonth(Page<OrderEntity> page, OrderDto orderDto, DateTime dateTime) {
         OrderEntity orderEntity = BeanCopy.convert(orderDto, OrderEntity.class);
         // 获取当前日期时间
         DateTime currentTime = DateUtil.date();
@@ -115,10 +116,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
 //            throw new BaseRequestException("请传入正确的时间");
 //        }
         // 获取月份的第一天
-        DateTime firstDayOfMonth = DateUtil.beginOfMonth(DateUtil.date());
+        DateTime firstDayOfMonth = DateUtil.beginOfMonth(dateTime);
         log.info("第一天：" + firstDayOfMonth);
         // 获取月份的最后一天
-        DateTime lastDayOfMonth = DateUtil.endOfMonth(DateUtil.date());
+        DateTime lastDayOfMonth = DateUtil.endOfMonth(dateTime);
         log.info("最后一天：" + lastDayOfMonth);
         LambdaQueryWrapper<OrderEntity> orderEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(orderEntity);
         // 已完成的订单
@@ -148,10 +149,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
 //            throw new BaseRequestException("请传入正确的时间");
 //        }
         // 获取月份的第一天
-        DateTime firstDayOfMonth = DateUtil.beginOfMonth(DateUtil.date());
+        DateTime firstDayOfMonth = DateUtil.beginOfMonth(dateTime);
         log.info("第一天：" + firstDayOfMonth);
         // 获取月份的最后一天
-        DateTime lastDayOfMonth = DateUtil.endOfMonth(DateUtil.date());
+        DateTime lastDayOfMonth = DateUtil.endOfMonth(dateTime);
         log.info("最后一天：" + lastDayOfMonth);
         LambdaQueryWrapper<OrderEntity> orderEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
         // 已完成的订单
@@ -217,6 +218,43 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         // 添加操作记录
         orderOperateHistoryService.addOperationRecord(Set.of(orderEntity.getId()));
         return true;
+    }
+
+    @Override
+    public Boolean close(Long id, String note) {
+
+        if (Objects.isNull(note)) {
+            throw new BaseRequestException("请填写备注");
+        }
+        OrderEntity order = getById(id);
+        // 订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单
+        if (order.getStatus() == 0 || order.getStatus() == 1) {
+            OrderEntity orderEntity = new OrderEntity();
+            orderEntity.setId(id);
+            orderEntity.setNote(note);
+            orderEntity.setStatus(4);
+            return orderEntity.updateById();
+        }
+        throw new BaseRequestException("只能取消待付款或者待发货的订单");
+    }
+
+    @Override
+    public Boolean updateReceiverInfo(@NotNull ReceiverInfoDto receiverInfoDto) {
+        Long orderId = receiverInfoDto.getOrderId();
+        OrderEntity orderEntity = getById(orderId);
+        if (orderEntity.getStatus() != 1) {
+            throw new BaseRequestException("只能修改带待发货的订单");
+        }
+        OrderEntity order = BeanCopy.convert(receiverInfoDto, OrderEntity.class);
+        return order.updateById();
+    }
+
+    @Override
+    public Boolean updateNote(Long id, String note) {
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setId(id);
+        orderEntity.setNote(note);
+        return orderEntity.updateById();
     }
 }
 
