@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.example.common.core.entity.MemberEntity;
 import org.example.common.core.exception.BaseRequestException;
+import org.example.common.core.server.MinioServer;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.comment.entity.CommentEntity;
 import org.example.modules.comment.entity.dto.CommentDto;
@@ -44,18 +45,21 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, CommentEntity
     @Resource
     private OrderService orderService;
     @Resource
+    private MinioServer minioServer;
+    @Resource
     @Lazy
     private CommentReplayService commentReplayService;
 
     @Override
     public Boolean save(CommentDto commentDto) {
+        Set<String> pics = commentDto.getPics();
+        commentDto.setPics(minioServer.checkObjectIsExist(pics));
         CommentEntity commentEntity = BeanCopy.convert(commentDto, CommentEntity.class);
         Long productId = commentEntity.getProductId();
         ProductVo productVo = productService.getByProductId(productId);
         if (Objects.isNull(productVo)) {
             throw new BaseRequestException("商品不存在或已下架");
         }
-
 
         JwtMember jwtMember = (JwtMember) SecurityUtils.getCurrentUser();
         MemberEntity memberEntity = jwtMember.getUser();

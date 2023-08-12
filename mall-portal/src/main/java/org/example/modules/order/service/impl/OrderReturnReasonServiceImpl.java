@@ -38,9 +38,18 @@ public class OrderReturnReasonServiceImpl extends ServiceImpl<OrderReturnReasonM
     public Page<OrderReturnReasonVo> page(Page<OrderReturnReasonEntity> page, OrderReturnReasonDto orderReturnReasonDto) {
         OrderReturnReasonEntity orderReturnReasonEntity = BeanCopy.convert(orderReturnReasonDto, OrderReturnReasonEntity.class);
         LambdaQueryWrapper<OrderReturnReasonEntity> orderReturnReasonEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(orderReturnReasonEntity);
+        orderReturnReasonEntityLambdaQueryWrapper.eq(OrderReturnReasonEntity::getStatus, true);
         Page<OrderReturnReasonEntity> orderReturnReasonEntityPage = page(page, orderReturnReasonEntityLambdaQueryWrapper);
         IPage<OrderReturnReasonVo> orderReturnReasonEntityPageVoIPage = orderReturnReasonEntityPage.convert(orderReturnReason -> BeanCopy.convert(orderReturnReason, OrderReturnReasonVo.class));
-        return (Page) orderReturnReasonEntityPageVoIPage;
+        return (Page<OrderReturnReasonVo>) orderReturnReasonEntityPageVoIPage;
+    }
+
+    @Override
+    public OrderReturnReasonVo getByOrderReturnApplyId(Long orderReturnReasonId) {
+        LambdaQueryWrapper<OrderReturnReasonEntity> orderReturnReasonEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        orderReturnReasonEntityLambdaQueryWrapper.eq(OrderReturnReasonEntity::getStatus, true);
+        orderReturnReasonEntityLambdaQueryWrapper.eq(OrderReturnReasonEntity::getId, orderReturnReasonId);
+        return BeanCopy.convert(getOne(orderReturnReasonEntityLambdaQueryWrapper), OrderReturnReasonVo.class);
     }
 }
 

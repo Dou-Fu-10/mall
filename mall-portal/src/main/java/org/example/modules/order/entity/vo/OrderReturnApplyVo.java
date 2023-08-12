@@ -1,5 +1,6 @@
 package org.example.modules.order.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,16 +28,19 @@ public class OrderReturnApplyVo {
     /**
      * 订单id
      */
+    @JsonIgnore
     @Schema(name = "orderId", description = "订单id")
     private Long orderId;
     /**
      * 会员id
      */
+    @JsonIgnore
     @Schema(name = "memberId", description = "会员id")
     private Long memberId;
     /**
      * 公司收货地址id
      */
+    @JsonIgnore
     @Schema(name = "companyAddressId", description = "公司收货地址id")
     private Long companyAddressId;
     /**
@@ -77,13 +81,20 @@ public class OrderReturnApplyVo {
     /**
      * 公司处理时间
      */
+    @JsonIgnore
     @Schema(name = "handleTime", description = "公司处理时间")
     private Date handleTime;
     /**
      * 用户退货原因
      */
+    @JsonIgnore
     @Schema(name = "reason", description = "用户退货原因")
     private String reason;
+    /**
+     * 退货原因id
+     */
+    @Schema(name = "reasonId", description = "退货原因id")
+    private Long reasonId;
     /**
      * 用户退货问题描述
      */
@@ -97,31 +108,37 @@ public class OrderReturnApplyVo {
     /**
      * 公司处理备注
      */
+    @JsonIgnore
     @Schema(name = "handleNote", description = "公司处理备注")
     private String handleNote;
     /**
      * 公司处理人员
      */
+    @JsonIgnore
     @Schema(name = "handleMan", description = "公司处理人员")
     private String handleMan;
     /**
      * 公司收货人
      */
+    @JsonIgnore
     @Schema(name = "receiveMan", description = "公司收货人")
     private String receiveMan;
     /**
      * 公司收货时间
      */
+    @JsonIgnore
     @Schema(name = "receiveTime", description = "公司收货时间")
     private Date receiveTime;
     /**
      * 公司收货备注
      */
+    @JsonIgnore
     @Schema(name = "receiveNote", description = "公司收货备注")
     private String receiveNote;
     /**
      * 公司备注
      */
+    @JsonIgnore
     @Schema(name = "remark", description = "公司备注")
     private String remark;
 

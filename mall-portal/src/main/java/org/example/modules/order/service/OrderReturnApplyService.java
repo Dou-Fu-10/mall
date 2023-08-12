@@ -2,6 +2,7 @@ package org.example.modules.order.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.modules.order.entity.OrderReturnApplyEntity;
 import org.example.modules.order.entity.dto.OrderReturnApplyDto;
 import org.example.modules.order.entity.vo.OrderReturnApplyVo;
@@ -20,7 +21,7 @@ public interface OrderReturnApplyService extends IService<OrderReturnApplyEntity
      * @param orderReturnApplyDto 实体对象
      * @return 新增结果
      */
-    Boolean save(OrderReturnApplyDto orderReturnApplyDto);
+    Boolean save(OrderReturnApplyDto orderReturnApplyDto, HttpServletRequest request);
 
     /**
      * 修改数据

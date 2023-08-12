@@ -5,22 +5,28 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.common.core.entity.MemberEntity;
 import org.example.common.core.exception.BaseRequestException;
+import org.example.common.core.server.MinioServer;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.order.entity.OrderReturnApplyEntity;
 import org.example.modules.order.entity.dto.OrderReturnApplyDto;
 import org.example.modules.order.entity.vo.OrderReturnApplyVo;
+import org.example.modules.order.entity.vo.OrderReturnReasonVo;
 import org.example.modules.order.entity.vo.OrderVo;
 import org.example.modules.order.mapper.OrderReturnApplyMapper;
 import org.example.modules.order.service.OrderReturnApplyService;
+import org.example.modules.order.service.OrderReturnReasonService;
 import org.example.modules.order.service.OrderService;
 import org.example.security.entity.JwtMember;
 import org.example.security.utils.SecurityUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-08-05 17:04:10
@@ -33,9 +39,17 @@ import java.util.Objects;
 public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMapper, OrderReturnApplyEntity> implements OrderReturnApplyService {
     @Resource
     private OrderService orderService;
+    @Resource
+    private OrderReturnReasonService orderReturnReasonService;
+    @Resource
+    private MinioServer minioServer;
 
     @Override
-    public Boolean save(OrderReturnApplyDto orderReturnApplyDto) {
+    public Boolean save(@NotNull OrderReturnApplyDto orderReturnApplyDto, HttpServletRequest request) {
+
+        Set<String> proofPics = orderReturnApplyDto.getProofPics();
+        orderReturnApplyDto.setProofPics(minioServer.checkObjectIsExist(proofPics));
+
         OrderReturnApplyEntity orderReturnApplyEntity = new OrderReturnApplyEntity();
         // 获取 退货者信息
         JwtMember jwtMember = (JwtMember) SecurityUtils.getCurrentUser();
@@ -51,6 +65,10 @@ public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMap
         // 只能退已完成的订单
         if (orderVo.getStatus() != 3) {
             throw new BaseRequestException("只能退已完成的订单");
+        }
+        OrderReturnReasonVo orderReturnReasonVo = orderReturnReasonService.getByOrderReturnApplyId(orderReturnApplyDto.getReasonId());
+        if (Objects.isNull(orderReturnReasonVo)) {
+            throw new BaseRequestException("请填写退货原因");
         }
         // 退货订单id
         orderReturnApplyEntity.setOrderId(orderVo.getId());
@@ -71,11 +89,11 @@ public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMap
         // 申请状态：0->待处理；1->退货中；2->已完成；3->已拒绝
         orderReturnApplyEntity.setStatus(0);
         // 原因
-        orderReturnApplyEntity.setReason(orderReturnApplyDto.getReason());
+        orderReturnApplyEntity.setReason(orderReturnReasonVo.getName());
+        // 退货原因id
+        orderReturnApplyEntity.setReasonId(orderReturnReasonVo.getId());
         // 用户退货问题描述
         orderReturnApplyEntity.setDescription(orderReturnApplyDto.getDescription());
-        // 公司收货备注
-        orderReturnApplyEntity.setHandleNote(orderReturnApplyDto.getHandleNote());
 
         return save(orderReturnApplyEntity);
     }

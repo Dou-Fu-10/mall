@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.common.core.validation.PhoneValid;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -71,11 +73,13 @@ public class OrderReturnApplyDto {
     /**
      * 退货人（会员）姓名
      */
+    @NotNull
     @Schema(name = "returnName", description = "退货人（会员）姓名")
     private String returnName;
     /**
      * 退货人（会员）电话
      */
+    @PhoneValid
     @Schema(name = "returnPhone", description = "退货人（会员）电话")
     private String returnPhone;
     /**
@@ -93,8 +97,14 @@ public class OrderReturnApplyDto {
     /**
      * 用户退货原因
      */
+    @JsonIgnore
     @Schema(name = "reason", description = "用户退货原因")
     private String reason;
+    /**
+     * 退货原因id
+     */
+    @Schema(name = "reasonId", description = "退货原因id")
+    private Long reasonId;
     /**
      * 用户退货问题描述
      */
@@ -138,6 +148,7 @@ public class OrderReturnApplyDto {
     /**
      * 公司备注
      */
+    @JsonIgnore
     @Schema(name = "remark", description = "公司备注")
     private String remark;
 

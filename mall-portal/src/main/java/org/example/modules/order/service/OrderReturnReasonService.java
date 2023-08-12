@@ -39,4 +39,11 @@ public interface OrderReturnReasonService extends IService<OrderReturnReasonEnti
      * @return 所有数据
      */
     Page<OrderReturnReasonVo> page(Page<OrderReturnReasonEntity> page, OrderReturnReasonDto orderReturnReasonDto);
+
+    /**
+     * 获取退货原因
+     * @param orderReturnReasonId 退货原因 ID
+     * @return /
+     */
+    OrderReturnReasonVo getByOrderReturnApplyId(Long orderReturnReasonId);
 }

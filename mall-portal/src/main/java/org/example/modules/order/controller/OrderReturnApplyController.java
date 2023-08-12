@@ -6,10 +6,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import org.example.common.core.base.ValidationDto;
 import org.example.modules.order.entity.OrderReturnApplyEntity;
 import org.example.modules.order.entity.dto.OrderReturnApplyDto;
 import org.example.modules.order.service.OrderReturnApplyService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -33,14 +35,13 @@ public class OrderReturnApplyController {
     /**
      * 分页查询所有数据
      *
-     * @param page                分页对象
-     * @param orderReturnApplyDto 查询实体
+     * @param page 分页对象
      * @return 所有数据
      */
     @Operation(summary = "分页查询所有数据")
     @GetMapping
-    public ResponseEntity<Object> select(Page<OrderReturnApplyEntity> page, OrderReturnApplyDto orderReturnApplyDto) {
-        return ResponseEntity.ok(this.orderReturnApplyService.page(page, orderReturnApplyDto));
+    public ResponseEntity<Object> select(Page<OrderReturnApplyEntity> page) {
+        return ResponseEntity.ok(this.orderReturnApplyService.page(page, new OrderReturnApplyDto()));
     }
 
     /**
@@ -51,8 +52,8 @@ public class OrderReturnApplyController {
      */
     @Operation(summary = "新增数据")
     @PostMapping
-    public ResponseEntity<String> insert(@RequestBody OrderReturnApplyDto orderReturnApplyDto, HttpServletRequest request) {
-        if (this.orderReturnApplyService.save(orderReturnApplyDto)) {
+    public ResponseEntity<String> insert(@RequestBody @Validated({ValidationDto.Insert.class}) OrderReturnApplyDto orderReturnApplyDto, HttpServletRequest request) {
+        if (this.orderReturnApplyService.save(orderReturnApplyDto,request)) {
             return ResponseEntity.ok("退货申请提交成功");
         }
         // 修改成自定义的 错误类型

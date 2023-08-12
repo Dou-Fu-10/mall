@@ -93,6 +93,11 @@ public class OrderReturnApplyEntity extends CommonEntity<OrderReturnApplyEntity>
     @Schema(name = "reason", description = "用户退货原因")
     private String reason;
     /**
+     * 退货原因id
+     */
+    @Schema(name = "reasonId", description = "退货原因id")
+    private Long reasonId;
+    /**
      * 用户退货问题描述
      */
     @Schema(name = "description", description = "用户退货问题描述")
