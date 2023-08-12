@@ -22,8 +22,8 @@ public class MallTest {
         LambdaQueryWrapper<SkuStockEntity> skuStockEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
         skuStockEntityLambdaQueryWrapper.isNotNull(SkuStockEntity::getId);
         List<SkuStockEntity> skuStockEntityList = skuStockService.list(skuStockEntityLambdaQueryWrapper);
-        skuStockEntityList.forEach(skuStockEntity -> skuStockEntity.setDeleteFlag(0));
-        skuStockService.removeBatchByIds(skuStockEntityList);
+        skuStockEntityList.forEach(skuStockEntity -> skuStockEntity.setPic("2023-07/31/72eab2ef5301448aa970e8443d52684e.png"));
+        skuStockService.updateBatchById(skuStockEntityList);
 
     }
 }
