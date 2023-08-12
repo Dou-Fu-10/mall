@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.common.core.validation.GenderValid;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -22,15 +23,18 @@ public class MemberDto {
     /**
      * ID
      */
+    @JsonIgnore
     private Long id;
     /**
      * 上级用户ID
      */
+    @JsonIgnore
     private Long parentId;
 
     /**
      * 密码
      */
+    @JsonIgnore
     private String password;
     /**
      * 钱包
@@ -44,6 +48,7 @@ public class MemberDto {
     /**
      * 手机号码
      */
+    @JsonIgnore
     private String phone;
     /**
      * 是否是vip
@@ -60,9 +65,10 @@ public class MemberDto {
      */
     private String icon;
     /**
-     * 性别：0->未知；1->男；2->女
+     * 会员性别
      */
-    private Integer gender;
+    @GenderValid
+    private String gender;
     /**
      * 生日
      */
@@ -74,6 +80,7 @@ public class MemberDto {
     /**
      * 邀请码
      */
+    @JsonIgnore
     private String invitationCode;
     /**
      * 职业

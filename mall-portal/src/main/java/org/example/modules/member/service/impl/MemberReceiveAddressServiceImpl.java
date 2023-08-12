@@ -48,7 +48,7 @@ public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAd
                 receiveAddressEntity.setDefaultStatus(false);
             }
             // 更新
-            return updateBatchById(memberReceiveAddressEntityList);
+            updateBatchById(memberReceiveAddressEntityList);
         }
         // 保证
         return save(memberReceiveAddressEntity);

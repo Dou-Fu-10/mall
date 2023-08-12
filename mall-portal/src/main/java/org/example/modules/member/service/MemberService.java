@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.common.core.entity.MemberEntity;
 import org.example.config.AuthMember;
+import org.example.config.UpdatePassword;
 import org.example.modules.member.entity.dto.MemberDto;
 import org.example.modules.member.entity.vo.MemberVo;
+import org.example.modules.member.entity.vo.ParentOrChildren;
 
 import java.security.Principal;
 import java.util.HashMap;
@@ -92,14 +94,14 @@ public interface MemberService extends IService<MemberEntity> {
      * @param page 分页数据
      * @return 获取下级
      */
-    Page<MemberVo> children(Page<MemberEntity> page);
+    Page<ParentOrChildren> children(Page<MemberEntity> page);
 
     /**
      * 获取上级
      *
      * @return 获取上级
      */
-    MemberVo parent();
+    ParentOrChildren parent();
 
     /**
      * 退出登录
@@ -117,5 +119,11 @@ public interface MemberService extends IService<MemberEntity> {
      * @return /
      */
     Object sendSMS();
-
+    /**
+     * 修改密码
+     *
+     * @param updatePassword 修改密码信息
+     * @return 成功状态
+     */
+    Boolean updatePassword(UpdatePassword updatePassword);
 }

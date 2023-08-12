@@ -1,6 +1,7 @@
 package org.example.modules.member.entity.vo;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ public class MemberReceiveAddressVo {
     /**
      * 会员id
      */
+    @JsonIgnore
     private Long memberId;
 
     /**

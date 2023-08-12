@@ -8,9 +8,12 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.common.core.base.ValidationDto;
 import org.example.common.core.entity.MemberEntity;
+import org.example.common.core.exception.BaseRequestException;
+import org.example.config.UpdatePassword;
 import org.example.modules.member.entity.dto.MemberDto;
 import org.example.modules.member.service.MemberService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +38,6 @@ public class MemberController {
      */
     @Resource
     private MemberService memberService;
-
 
     /**
      * 修改数据
@@ -107,5 +109,15 @@ public class MemberController {
         memberService.logout();
         return ResponseEntity.ok("退出登录成功");
     }
+
+    @Operation(summary = "修改指定用户密码")
+    @PostMapping(value = "/updatePassword")
+    public ResponseEntity<Object> updatePassword(@Validated @RequestBody UpdatePassword updatePassword) {
+        if (memberService.updatePassword(updatePassword)) {
+            return ResponseEntity.ok("修改成功");
+        }
+        throw new BaseRequestException("修改失败");
+    }
+
 }
 

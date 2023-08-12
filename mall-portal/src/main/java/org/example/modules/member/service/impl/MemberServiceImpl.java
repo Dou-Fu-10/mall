@@ -12,12 +12,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.example.common.core.config.CaptchaCodeConfig;
 import org.example.common.core.entity.MemberEntity;
 import org.example.common.core.exception.BaseRequestException;
+import org.example.common.core.server.MinioServer;
 import org.example.common.core.utils.BeanCopy;
 import org.example.common.core.utils.StringUtils;
 import org.example.common.redis.service.RedisService;
 import org.example.config.AuthMember;
+import org.example.config.UpdatePassword;
 import org.example.modules.member.entity.dto.MemberDto;
 import org.example.modules.member.entity.vo.MemberVo;
+import org.example.modules.member.entity.vo.ParentOrChildren;
 import org.example.modules.member.mapper.MemberMapper;
 import org.example.modules.member.service.MemberLoginLogService;
 import org.example.modules.member.service.MemberService;
@@ -63,6 +66,8 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
     private CaptchaCodeConfig captchaCodeConfig;
     @Resource
     private PasswordEncoder passwordEncoder;
+    @Resource
+    private MinioServer minioServer;
 
     @Override
     public Boolean save(MemberDto memberDto) {
@@ -70,9 +75,17 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
         return save(memberEntity);
     }
 
+
     @Override
     public Boolean updateById(MemberDto memberDto) {
         MemberEntity memberEntity = BeanCopy.convert(memberDto, MemberEntity.class);
+        String icon = memberEntity.getIcon();
+        if (Objects.nonNull(icon)) {
+            if (!minioServer.checkObjectIsExist(icon)) {
+                throw new BaseRequestException("请输入正确的头像");
+            }
+        }
+        memberEntity.setId(SecurityUtils.getCurrentUserId());
         return updateById(memberEntity);
     }
 
@@ -143,14 +156,15 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
             throw new BaseRequestException("请登录");
         }
         MemberEntity memberEntity = getByPhone(phone);
+        MemberVo memberVo = BeanCopy.convert(memberEntity, MemberVo.class);
         if (Objects.isNull(memberEntity)) {
             throw new BaseRequestException("请登录");
         }
         Map<String, Object> data = new HashMap<>(3);
-        data.put("phone", memberEntity.getPhone());
+        data.put("phone", memberVo.getPhone());
         // 头像
-        data.put("icon", memberEntity.getIcon());
-        data.put("data", memberEntity);
+        data.put("icon", memberVo.getIcon());
+        data.put("data", memberVo);
         data.put("invitationCode", memberEntity.getInvitationCode());
         return data;
     }
@@ -239,18 +253,17 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
     }
 
     @Override
-    public Page<MemberVo> children(Page<MemberEntity> page) {
+    public Page<ParentOrChildren> children(Page<MemberEntity> page) {
         LambdaQueryWrapper<MemberEntity> memberEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
         // 谁登录获取谁的下级
         memberEntityLambdaQueryWrapper.eq(MemberEntity::getParentId, SecurityUtils.getCurrentUserId());
         Page<MemberEntity> memberEntityPage = page(page, memberEntityLambdaQueryWrapper);
-        IPage<MemberVo> memberVoIPage = memberEntityPage.convert(memberEntity -> BeanCopy.convert(memberEntity, MemberVo.class));
-        // TODO 过滤信息
-        return (Page<MemberVo>) memberVoIPage;
+        IPage<ParentOrChildren> memberVoIPage = memberEntityPage.convert(memberEntity -> BeanCopy.convert(memberEntity, ParentOrChildren.class));
+        return (Page<ParentOrChildren>) memberVoIPage;
     }
 
     @Override
-    public MemberVo parent() {
+    public ParentOrChildren parent() {
         // 获取登录信息
         JwtMember jwtMember = (JwtMember) SecurityUtils.getCurrentUser();
         // 获取登陆信息
@@ -259,8 +272,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
         Long parentId = memberEntity.getParentId();
         // 获取上级信息
         MemberEntity parentMember = getById(parentId);
-        // TODO 过滤信息
-        return BeanCopy.convert(parentMember, MemberVo.class);
+        return BeanCopy.convert(parentMember, ParentOrChildren.class);
     }
 
     @Override
@@ -288,6 +300,20 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
     @Override
     public Object sendSMS() {
         return null;
+    }
+
+    @Override
+    public Boolean updatePassword(@NotNull UpdatePassword updatePassword) {
+        // 获取 用户名信息
+        MemberEntity memberEntity = lambdaQuery().eq(MemberEntity::getPhone, updatePassword.getPhone()).one();
+        // 判断密码是否正确
+        if (passwordEncoder.matches(updatePassword.getOldPassword(), memberEntity.getPassword())) {
+            // 修改密码
+            memberEntity.setPassword(passwordEncoder.encode(updatePassword.getNewPassword()));
+            // 更新
+            return memberEntity.updateById();
+        }
+        return false;
     }
 
     private void verificationCode(@NotNull AuthMember authMember) {

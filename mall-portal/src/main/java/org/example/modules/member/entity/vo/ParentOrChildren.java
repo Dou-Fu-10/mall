@@ -9,23 +9,25 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * Created by Dou-Fu-10 2023-07-31 15:49:05
+ * Created by Dou-Fu-10 2023-08-12
  *
  * @author Dou-Fu-10
- * @date 2023-07-31 15:49:05
- * @Description 会员表(Member)表实体类
+ * @date 2023-08-12
+ * @Description 展示上下级(Member)表实体类
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberVo {
+public class ParentOrChildren {
     /**
      * ID
      */
+    @JsonIgnore
     private Long id;
     /**
      * 上级用户ID
      */
+    @JsonIgnore
     private Long parentId;
     /**
      * 密码
@@ -35,6 +37,7 @@ public class MemberVo {
     /**
      * 钱包
      */
+    @JsonIgnore
     private BigDecimal money;
     /**
      * 昵称
@@ -43,6 +46,7 @@ public class MemberVo {
     /**
      * 手机号码
      */
+    @JsonIgnore
     private String phone;
     /**
      * 是否是vip
@@ -51,6 +55,7 @@ public class MemberVo {
     /**
      * 帐号启用状态；true=1->正常：false=0->禁用
      */
+    @JsonIgnore
     private Boolean enabled;
     /**
      * 头像
@@ -59,30 +64,37 @@ public class MemberVo {
     /**
      * 会员性别
      */
+    @JsonIgnore
     private String gender;
     /**
      * 生日
      */
+    @JsonIgnore
     private Date birthday;
     /**
      * 所做城市
      */
+    @JsonIgnore
     private String city;
     /**
      * 邀请码
      */
+    @JsonIgnore
     private String invitationCode;
     /**
      * 职业
      */
+    @JsonIgnore
     private String job;
     /**
      * 个性签名
      */
+    @JsonIgnore
     private String personalizedSignature;
     /**
      * 注册时间
      */
+    @JsonIgnore
     private Date createTime;
     /**
      * 更新时间

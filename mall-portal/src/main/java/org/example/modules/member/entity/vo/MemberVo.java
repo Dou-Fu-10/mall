@@ -35,7 +35,6 @@ public class MemberVo {
     /**
      * 钱包
      */
-    @JsonIgnore
     private BigDecimal money;
     /**
      * 昵称
@@ -48,7 +47,6 @@ public class MemberVo {
     /**
      * 是否是vip
      */
-    @JsonIgnore
     private Boolean isVip;
     /**
      * 帐号启用状态；true=1->正常：false=0->禁用
@@ -58,12 +56,11 @@ public class MemberVo {
     /**
      * 头像
      */
-    @JsonIgnore
     private String icon;
     /**
-     * 性别：0->未知；1->男；2->女
+     * 会员性别
      */
-    private Integer gender;
+    private String gender;
     /**
      * 生日
      */

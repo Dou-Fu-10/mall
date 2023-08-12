@@ -68,9 +68,9 @@ public class MemberEntity extends CommonEntity<MemberEntity> implements Serializ
      */
     private String icon;
     /**
-     * 性别：0->未知；1->男；2->女
+     * 会员性别
      */
-    private Integer gender;
+    private String gender;
     /**
      * 生日
      */
@@ -91,14 +91,6 @@ public class MemberEntity extends CommonEntity<MemberEntity> implements Serializ
      * 个性签名
      */
     private String personalizedSignature;
-    /**
-     * 注册时间
-     */
-    private Date createTime;
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */

@@ -60,10 +60,10 @@ public class MemberDto {
     @Null(groups = ValidationDto.SelectPage.class)
     private String icon;
     /**
-     * 性别：0->未知；1->男；2->女
+     * 会员性别
      */
     @Null(groups = ValidationDto.SelectPage.class)
-    private Integer gender;
+    private String gender;
     /**
      * 生日
      */
