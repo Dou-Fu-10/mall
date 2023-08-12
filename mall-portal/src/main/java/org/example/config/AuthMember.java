@@ -33,7 +33,7 @@ public class AuthMember {
     /**
      * 校验图片验证码
      */
-    @Schema(name = "CaptchaUuid", description = "校验图片验证码")
+    @Schema(name = "SMSUuid", description = "校验图片验证码")
     private String SMSUuid;
     /**
      * 验证码
@@ -43,8 +43,8 @@ public class AuthMember {
     /**
      * 校验图片验证码
      */
-    @Schema(name = "CaptchaUuid", description = "校验图片验证码")
-    private String CaptchaUuid;
+    @Schema(name = "captchaUuid", description = "校验图片验证码")
+    private String captchaUuid;
     /**
      * 验证码
      */

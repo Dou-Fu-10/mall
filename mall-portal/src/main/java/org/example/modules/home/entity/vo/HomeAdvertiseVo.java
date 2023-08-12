@@ -1,5 +1,6 @@
 package org.example.modules.home.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,7 @@ public class HomeAdvertiseVo {
     /**
      * 轮播位置：true=1->PC首页轮播；false=0->app首页轮播
      */
+    @JsonIgnore
     private Boolean isPc;
     /**
      * 图片路径
@@ -39,18 +41,22 @@ public class HomeAdvertiseVo {
     /**
      * 上下线状态：false=0->下线；true=1->上线
      */
+    @JsonIgnore
     private Boolean isShow;
     /**
      * 点击数
      */
+    @JsonIgnore
     private Integer clickCount;
     /**
      * 备注
      */
+    @JsonIgnore
     private String note;
     /**
      * 排序
      */
+    @JsonIgnore
     private Integer sort;
 
 

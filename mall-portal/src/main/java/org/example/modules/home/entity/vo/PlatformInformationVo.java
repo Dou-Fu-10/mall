@@ -1,6 +1,7 @@
 package org.example.modules.home.entity.vo;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class PlatformInformationVo {
     /**
      * id
      */
+    @JsonIgnore
     @Schema(name = "id", description = "id")
     private Long id;
 
