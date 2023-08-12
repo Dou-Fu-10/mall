@@ -47,15 +47,22 @@ public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMap
     @Override
     public Boolean save(@NotNull OrderReturnApplyDto orderReturnApplyDto, HttpServletRequest request) {
 
+
         Set<String> proofPics = orderReturnApplyDto.getProofPics();
+        // 校验图片
         orderReturnApplyDto.setProofPics(minioServer.checkObjectIsExist(proofPics));
 
-        OrderReturnApplyEntity orderReturnApplyEntity = new OrderReturnApplyEntity();
+        OrderReturnApplyEntity orderReturnApplyEntity = BeanCopy.convert(orderReturnApplyDto, OrderReturnApplyEntity.class);
         // 获取 退货者信息
         JwtMember jwtMember = (JwtMember) SecurityUtils.getCurrentUser();
         MemberEntity memberEntity = jwtMember.getUser();
         // 获取退货订单
         Long orderId = orderReturnApplyDto.getOrderId();
+
+        OrderReturnApplyVo orderReturnApplyVo = getByOrderId(orderId, memberEntity.getId());
+        if (Objects.nonNull(orderReturnApplyVo)) {
+            throw new BaseRequestException("不要重复提交申请");
+        }
         // 获取订单
         OrderVo orderVo = orderService.getByOrderIdAndMemberId(orderId, memberEntity.getId());
         // 校验订单不能为空
@@ -63,10 +70,10 @@ public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMap
             throw new BaseRequestException("退单失败");
         }
         // 只能退已完成的订单
-        if (orderVo.getStatus() != 3) {
-            throw new BaseRequestException("只能退已完成的订单");
+        if (orderVo.getStatus() != 3 && !orderVo.getConfirmStatus()){
+            throw new BaseRequestException("只能退已完成与已收货的订单");
         }
-        OrderReturnReasonVo orderReturnReasonVo = orderReturnReasonService.getByOrderReturnApplyId(orderReturnApplyDto.getReasonId());
+        OrderReturnReasonVo orderReturnReasonVo = orderReturnReasonService.getByOrderReturnApplyId(orderReturnApplyEntity.getReasonId());
         if (Objects.isNull(orderReturnReasonVo)) {
             throw new BaseRequestException("请填写退货原因");
         }
@@ -93,9 +100,17 @@ public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMap
         // 退货原因id
         orderReturnApplyEntity.setReasonId(orderReturnReasonVo.getId());
         // 用户退货问题描述
-        orderReturnApplyEntity.setDescription(orderReturnApplyDto.getDescription());
+//        orderReturnApplyEntity.setDescription(orderReturnApplyDto.getDescription());
 
         return save(orderReturnApplyEntity);
+    }
+
+    private OrderReturnApplyVo getByOrderId(Long orderId, Long memberId) {
+        OrderReturnApplyEntity orderReturnApplyEntity = lambdaQuery()
+                .eq(OrderReturnApplyEntity::getOrderId, orderId)
+                .eq(OrderReturnApplyEntity::getMemberId, memberId).one();
+
+        return BeanCopy.convert(orderReturnApplyEntity, OrderReturnApplyVo.class);
     }
 
     @Override

@@ -47,7 +47,7 @@ public class CompanyAddressController {
     @Operation(summary = "分页查询所有数据", description = "companyAddress::select")
     @PreAuthorize("@hasPermission.check('companyAddress::select')")
     public ResponseEntity<Object> select(Page<CompanyAddressEntity> page) {
-        return ResponseEntity.ok(this.companyAddressService.page(page, new CompanyAddressDto()));
+        return ResponseEntity.ok(this.companyAddressService.page(page, new CompanyAddressDto()).getRecords());
     }
 
     /**

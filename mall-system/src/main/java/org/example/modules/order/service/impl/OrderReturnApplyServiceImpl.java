@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
+import org.example.modules.order.entity.OrderEntity;
 import org.example.modules.order.entity.OrderReturnApplyEntity;
 import org.example.modules.order.entity.dto.OrderReturnApplyDto;
 import org.example.modules.order.entity.vo.OrderItemVo;
@@ -16,12 +17,16 @@ import org.example.modules.order.mapper.OrderReturnApplyMapper;
 import org.example.modules.order.service.OrderItemService;
 import org.example.modules.order.service.OrderReturnApplyService;
 import org.example.modules.order.service.OrderService;
+import org.example.modules.tools.entity.CompanyAddressEntity;
 import org.example.modules.tools.entity.vo.CompanyAddressVo;
 import org.example.modules.tools.service.CompanyAddressService;
 import org.example.security.entity.JwtAdmin;
 import org.example.security.utils.SecurityUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.*;
@@ -49,17 +54,63 @@ public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMap
     }
 
     @Override
-    public Boolean updateById(@NotNull OrderReturnApplyDto orderReturnApply) {
-        Long companyAddressId = orderReturnApply.getCompanyAddressId();
-        if (Objects.isNull(companyAddressService.getById(companyAddressId))) {
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
+    public Boolean updateById(@NotNull OrderReturnApplyDto orderReturnApplyDto) {
+        // 获取退货申请id
+        Long id = orderReturnApplyDto.getId();
+        // 获取退货状态  只能拒绝或者同意
+        // 申请状态：0->待处理；1->退货中；2->已完成；3->已拒绝
+        Integer status = orderReturnApplyDto.getStatus();
+        if (status.equals(1) || status.equals(3)) {
+            throw new BaseRequestException("只能拒绝或者同意");
+        }
+        // 获取退货申请
+        OrderReturnApplyEntity orderReturnApply = getById(id);
+        if (Objects.isNull(orderReturnApply)) {
+            return false;
+        }
+
+        Long orderId = orderReturnApply.getOrderId();
+        // 获取退货订单
+        OrderEntity order = orderService.getById(orderId);
+        // 只能退已完成与已收货的订单
+        if (order.getStatus() != 3 && !order.getConfirmStatus()) {
+            throw new BaseRequestException("只能退已完成与已收货的订单");
+        }
+        // 获取公司退货地址
+        Long companyAddressId = orderReturnApplyDto.getCompanyAddressId();
+        // 获取公司退货地址
+        CompanyAddressEntity companyAddressEntity = companyAddressService.getById(companyAddressId);
+        if (Objects.isNull(companyAddressEntity)) {
             throw new BaseRequestException("请输入正确的退货地址");
         }
+        // 获取当前操作人员信息
         JwtAdmin jwtAdmin = (JwtAdmin) SecurityUtils.getCurrentUser();
+        // 获取操作人员昵称
         String nickName = jwtAdmin.getUser().getNickName();
-        orderReturnApply.setHandleMan(nickName);
-        orderReturnApply.setHandleTime(new Date());
-        OrderReturnApplyEntity orderReturnApplyEntity = BeanCopy.convert(orderReturnApply, OrderReturnApplyEntity.class);
-        return orderReturnApplyEntity.updateById();
+        // 操作人员
+        orderReturnApplyDto.setHandleMan(nickName);
+        // 操作时间
+        orderReturnApplyDto.setHandleTime(new Date());
+        OrderReturnApplyEntity orderReturnApplyEntity = BeanCopy.convert(orderReturnApplyDto, OrderReturnApplyEntity.class);
+        // 更新状态
+        if (orderReturnApplyEntity.updateById()) {
+            // 判断是否是同意退货
+            if (status.equals(1)) {
+                // 如果同意退货就将订单作废
+                // 订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单
+                order.setStatus(5);
+                // 修改订单
+                if (order.updateById()) {
+                    return true;
+                } else {
+                    throw new BaseRequestException("退货失败");
+                }
+
+            }
+            return true;
+        }
+        return false;
     }
 
     @Override

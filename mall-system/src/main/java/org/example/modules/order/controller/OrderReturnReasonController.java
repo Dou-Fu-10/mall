@@ -53,7 +53,7 @@ public class OrderReturnReasonController {
     public ResponseEntity<Object> select(Page<OrderReturnReasonEntity> page) {
         Page<OrderReturnReasonEntity> orderReturnReasonEntityPage = this.orderReturnReasonService.page(page, new QueryWrapper<>());
         IPage<OrderReturnReasonVo> orderReturnReasonVoIPage = orderReturnReasonEntityPage.convert(orderReturnReasonEntity -> BeanCopy.convert(orderReturnReasonEntity, OrderReturnReasonVo.class));
-        return ResponseEntity.ok(orderReturnReasonVoIPage);
+        return ResponseEntity.ok(orderReturnReasonVoIPage.getRecords());
     }
 
     /**

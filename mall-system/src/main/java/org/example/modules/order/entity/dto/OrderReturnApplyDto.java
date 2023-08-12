@@ -2,6 +2,8 @@ package org.example.modules.order.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -83,7 +85,10 @@ public class OrderReturnApplyDto {
     /**
      * 申请状态：0->待处理；1->退货中；2->已完成；3->已拒绝
      */
+
     @Schema(name = "status", description = "申请状态：0->待处理；1->退货中；2->已完成；3->已拒绝")
+    @DecimalMin(value = "1", message = "请正确输入申请状态")
+    @DecimalMax(value = "3", message = "请正确输入申请状态")
     private Integer status;
     /**
      * 公司处理时间
@@ -100,6 +105,7 @@ public class OrderReturnApplyDto {
     /**
      * 退货原因id
      */
+    @JsonIgnore
     @Schema(name = "reasonId", description = "退货原因id")
     private Long reasonId;
     /**
