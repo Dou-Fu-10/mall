@@ -38,12 +38,6 @@ public class MemberReadHistoryEntity extends CommonEntity<MemberReadHistoryEntit
      * 商品id
      */
     private Long productId;
-
-    /**
-     * 创建时间
-     */
-    @Schema(name = "createTime", description = "创建时间")
-    private Date createTime;
     /**
      * 创建人
      * 创建

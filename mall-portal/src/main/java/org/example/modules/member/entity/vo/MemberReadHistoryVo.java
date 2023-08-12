@@ -1,5 +1,6 @@
 package org.example.modules.member.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,11 +28,13 @@ public class MemberReadHistoryVo {
     /**
      * 会员id
      */
+    @JsonIgnore
     @Schema(name = "memberId", description = "会员id")
     private Long memberId;
     /**
      * 商品id
      */
+    @JsonIgnore
     @Schema(name = "productId", description = "商品id")
     private Long productId;
 

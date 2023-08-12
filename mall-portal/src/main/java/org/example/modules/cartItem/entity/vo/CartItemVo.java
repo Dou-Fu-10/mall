@@ -79,6 +79,7 @@ public class CartItemVo {
     /**
      * 剩余库存
      */
+    @JsonIgnore
     private Integer realStock;
 
     private ProductVo product;

@@ -44,9 +44,11 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
 
     @Override
     public ProductVo getByProductId(Serializable id) {
-        ProductEntity productEntity = getById(id);
-        productEntity.setVerifyStatus(true);
-        productEntity.setPublishStatus(true);
+        LambdaQueryWrapper<ProductEntity> productEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        productEntityLambdaQueryWrapper.eq(ProductEntity::getVerifyStatus,true);
+        productEntityLambdaQueryWrapper.eq(ProductEntity::getPublishStatus,true);
+        productEntityLambdaQueryWrapper.eq(ProductEntity::getId,id);
+        ProductEntity productEntity = getOne(productEntityLambdaQueryWrapper);
         return BeanCopy.convert(productEntity, ProductVo.class);
     }
 
@@ -77,24 +79,6 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
         Page<ProductEntity> productVoPage = page(page, new QueryWrapper<>(BeanCopy.convert(product, ProductEntity.class)));
         IPage<ProductVo> publicProductVoPage = productVoPage.convert(productVo -> BeanCopy.convert(productVo, ProductVo.class));
         return (Page<ProductVo>) publicProductVoPage;
-    }
-
-    @Override
-    public List<ProductVo> getByIdsInVerifyStatusAndPublishStatus(Set<Long> productIds) {
-        if (CollectionUtils.isEmpty(productIds)) {
-            return new ArrayList<>();
-        }
-        ProductEntity productEntity = new ProductEntity();
-        // 审核状态：0->未审核；1->审核通过 (0=false，1=true)
-        // 确保商品已审核
-        productEntity.setVerifyStatus(true);
-        // 上架状态：0->下架；1->上架 (0=false，1=true)
-        // 确保商品以上架
-        productEntity.setPublishStatus(true);
-        LambdaQueryWrapper<ProductEntity> productEntityList = new LambdaQueryWrapper<>(productEntity);
-        productEntityList.in(ProductEntity::getId, productIds);
-        List<ProductEntity> productEntities = list(productEntityList);
-        return BeanCopy.copytList(productEntities, ProductVo.class);
     }
 
     @Override

@@ -39,7 +39,7 @@ public class OrderReturnReasonDto {
      * 状态：0->不启用；1->启用
      */
     @Schema(name = "status", description = "状态：0->不启用；1->启用")
-    private Integer status;
+    private Boolean status;
     /**
      * 创建者
      */

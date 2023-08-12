@@ -1,6 +1,7 @@
 package org.example.modules.member.entity.vo;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class MemberCollectionVo {
     /**
      * ID
      */
+    @JsonIgnore
     @Schema(name = "id", description = "ID")
     private Long id;
     /**
@@ -33,6 +35,7 @@ public class MemberCollectionVo {
     /**
      * 商品id
      */
+    @JsonIgnore
     @Schema(name = "productId", description = "商品id")
     private Long productId;
 

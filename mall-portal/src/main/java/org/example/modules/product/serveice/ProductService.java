@@ -48,14 +48,6 @@ public interface ProductService extends IService<ProductEntity> {
     Page<ProductVo> search(Page<ProductEntity> page, ProductDto product);
 
     /**
-     * 通过商品id 获取商品信息
-     *
-     * @param productIds 商品id列表
-     * @return 商品信息
-     */
-    List<ProductVo> getByIdsInVerifyStatusAndPublishStatus(Set<Long> productIds);
-
-    /**
      * 通过商品id 列表获取商品
      *
      * @param productIds 商品id列表

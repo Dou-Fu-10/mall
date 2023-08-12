@@ -38,7 +38,9 @@ public class OrderReturnReasonController {
      */
     @GetMapping
     public ResponseEntity<Object> select(Page<OrderReturnReasonEntity> page) {
-        return ResponseEntity.ok(this.orderReturnReasonService.page(page, new OrderReturnReasonDto()));
+        OrderReturnReasonDto orderReturnReasonDto = new OrderReturnReasonDto();
+        orderReturnReasonDto.setStatus(true);
+        return ResponseEntity.ok(this.orderReturnReasonService.page(page, orderReturnReasonDto).getRecords());
     }
 
 }

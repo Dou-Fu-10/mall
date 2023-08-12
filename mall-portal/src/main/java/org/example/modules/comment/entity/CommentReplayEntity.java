@@ -51,11 +51,6 @@ public class CommentReplayEntity extends CommonEntity<CommentReplayEntity> imple
     @Schema(name = "content", description = "评论内容")
     private String content;
     /**
-     * 创建时间
-     */
-    @Schema(name = "createTime", description = "创建时间")
-    private Date createTime;
-    /**
      * 评论人员类型；0->管理员；1->会员
      */
     @Schema(name = "isMember", description = "评论人员类型；0->管理员；1->会员")

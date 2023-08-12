@@ -13,6 +13,7 @@ import org.example.modules.order.entity.vo.OrderItemVo;
 import org.example.modules.product.entity.ProductEntity;
 import org.example.modules.product.entity.SkuStockEntity;
 import org.example.modules.product.entity.dto.SkuStockDto;
+import org.example.modules.product.entity.vo.ProductVo;
 import org.example.modules.product.entity.vo.SkuStockVo;
 import org.example.modules.product.mapper.SkuStockMapper;
 import org.example.modules.product.serveice.ProductService;
@@ -72,16 +73,16 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
     @Override
     public SkuStockVo getByIdAndProductId(Long productSkuId, Long productId) {
         // 获取商品
-        ProductEntity productEntity = productService.getById(productId);
+        ProductVo productVo = productService.getByProductId(productId);
         // 确保商品不为空
-        if (Objects.isNull(productEntity)) {
+        if (Objects.isNull(productVo)) {
             throw new BaseRequestException("请正确的填写商品数据");
         }
         SkuStockEntity skuStockEntity = new SkuStockEntity();
         // 通过 sku 码
         skuStockEntity.setId(productSkuId);
         // 通过商品id
-        skuStockEntity.setProductId(productEntity.getId());
+        skuStockEntity.setProductId(productVo.getId());
         // 获取sku
         SkuStockEntity stockEntity = getOne(new QueryWrapper<>(skuStockEntity));
         // 确保sku不为空
@@ -89,7 +90,7 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
             return null;
         }
         SkuStockVo skuStockVo = BeanCopy.convert(stockEntity, SkuStockVo.class);
-        skuStockVo.setProduct(productEntity);
+        skuStockVo.setProduct(productVo);
         return skuStockVo;
     }
 

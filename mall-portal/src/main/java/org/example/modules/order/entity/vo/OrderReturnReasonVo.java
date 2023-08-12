@@ -1,5 +1,6 @@
 package org.example.modules.order.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,31 +39,37 @@ public class OrderReturnReasonVo {
     /**
      * 状态：0->不启用；1->启用
      */
+    @JsonIgnore
     @Schema(name = "status", description = "状态：0->不启用；1->启用")
-    private Integer status;
+    private Boolean status;
     /**
      * 创建者
      */
+    @JsonIgnore
     @Schema(name = "createBy", description = "创建者")
     private String createBy;
     /**
      * 更新者
      */
+    @JsonIgnore
     @Schema(name = "updateBy", description = "更新者")
     private String updateBy;
     /**
      * 添加时间
      */
+    @JsonIgnore
     @Schema(name = "createTime", description = "添加时间")
     private Date createTime;
     /**
      * 更新时间
      */
+    @JsonIgnore
     @Schema(name = "updateTime", description = "更新时间")
     private Date updateTime;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
+    @JsonIgnore
     @Schema(name = "deleteFlag", description = "逻辑删除（1 代表已删除），（0 代表未删除）")
     private Integer deleteFlag;
 

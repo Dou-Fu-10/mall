@@ -48,7 +48,7 @@ public class CartItemServiceImpl extends ServiceImpl<CartItemMapper, CartItemEnt
     private SkuStockService skuStockService;
 
     @Override
-    public Boolean save(AddCartItemDto cartItem) {
+    public Boolean save(@NotNull AddCartItemDto cartItem) {
         // 购买数量
         Integer quantity = cartItem.getQuantity();
         if (quantity < 1) {
@@ -57,9 +57,6 @@ public class CartItemServiceImpl extends ServiceImpl<CartItemMapper, CartItemEnt
         CartItemEntity cartItemEntity = new CartItemEntity();
         // 获取用户信息
         JwtMember currentUser = (JwtMember) SecurityUtils.getCurrentUser();
-        if (Objects.isNull(currentUser)) {
-            throw new BaseRequestException("登录信息错误");
-        }
         // 获取用户下但的sku  犯法已经做判断能
         SkuStockVo skuStockVo = skuStockService.getByIdAndProductId(cartItem.getProductSkuId(), cartItem.getProductId());
         if (Objects.isNull(skuStockVo)) {
@@ -69,24 +66,24 @@ public class CartItemServiceImpl extends ServiceImpl<CartItemMapper, CartItemEnt
         if (skuStockVo.getStock() < quantity) {
             throw new BaseRequestException("请正确的填写购买数量");
         }
-        ProductEntity productEntity = skuStockVo.getProduct();
+        ProductVo productVo = skuStockVo.getProduct();
         // 设置商品id
-        cartItemEntity.setProductId(productEntity.getId());
+        cartItemEntity.setProductId(productVo.getId());
         // 商品SKUid
         cartItemEntity.setProductSkuId(skuStockVo.getId());
         // 商品分类
-        cartItemEntity.setProductCategoryId(productEntity.getProductCategoryId());
+        cartItemEntity.setProductCategoryId(productVo.getProductCategoryId());
         // 设置用户id
         cartItemEntity.setMemberId(currentUser.getUser().getId());
         // 设置用户昵称
         cartItemEntity.setMemberNickname(currentUser.getUser().getNickname());
         // 商品编码
-        cartItemEntity.setProductSn(productEntity.getProductSn());
+        cartItemEntity.setProductSn(productVo.getProductSn());
         // 购买数量
         cartItemEntity.setQuantity(quantity);
         // 单个商品的价格
         BigDecimal price = skuStockVo.getPrice();
-        // 添加到购物车的价格   数量承单价
+        // 添加到购物车的当前商品价格
         cartItemEntity.setPrice(price);
         return cartItemEntity.insert();
     }

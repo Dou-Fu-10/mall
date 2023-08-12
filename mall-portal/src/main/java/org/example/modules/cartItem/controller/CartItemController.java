@@ -1,6 +1,7 @@
 package org.example.modules.cartItem.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -99,8 +99,10 @@ public class CartItemController {
         }
         idList = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
         // 要删除的
-        List<CartItemEntity> cartItemEntityList = idList.stream().map(id -> new CartItemEntity(id, SecurityUtils.getCurrentUserId())).collect(Collectors.toList());
-        if (this.cartItemService.removeByIds(cartItemEntityList)) {
+        LambdaQueryWrapper<CartItemEntity> cartItemEntityList = new LambdaQueryWrapper<>();
+        cartItemEntityList.eq(CartItemEntity::getMemberId, SecurityUtils.getCurrentUserId());
+        cartItemEntityList.eq(CartItemEntity::getId, idList);
+        if (this.cartItemService.remove(cartItemEntityList)) {
             return ResponseEntity.ok("删除成功");
         }
         throw new BaseRequestException("删除失败");

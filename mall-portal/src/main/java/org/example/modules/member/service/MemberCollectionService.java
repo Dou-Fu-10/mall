@@ -44,7 +44,7 @@ public interface MemberCollectionService extends IService<MemberCollectionEntity
      * 商品是否已收藏
      *
      * @param productId 商品id
-     * @return
+     * @return /
      */
     Boolean collectOrNot(Serializable productId);
 }

@@ -107,6 +107,6 @@ public class SkuStockVo {
     @Schema(name = "deleteFlag", description = "逻辑删除（1 代表已删除），（0 代表未删除）")
     private Integer deleteFlag;
     @JsonIgnore
-    private ProductEntity product;
+    private ProductVo product;
 }
 

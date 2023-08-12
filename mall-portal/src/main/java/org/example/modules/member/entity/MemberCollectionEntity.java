@@ -52,12 +52,6 @@ public class MemberCollectionEntity extends CommonEntity<MemberCollectionEntity>
     @TableField(exist = false)
     private String updateBy;
     /**
-     * 创建时间
-     * 创建
-     */
-    @TableField(exist = false)
-    private Date createTime;
-    /**
      * 更新时间
      * 创建、更新
      */

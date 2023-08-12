@@ -94,11 +94,6 @@ public class CommentEntity extends CommonEntity<CommentEntity> implements Serial
     @Schema(name = "memberIcon", description = "评论用户头像")
     private String memberIcon;
     /**
-     * 创建时间
-     */
-    @Schema(name = "createTime", description = "创建时间")
-    private Date createTime;
-    /**
      * 创建人
      * 创建
      */

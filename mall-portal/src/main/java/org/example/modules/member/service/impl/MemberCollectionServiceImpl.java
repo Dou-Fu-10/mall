@@ -1,7 +1,6 @@
 package org.example.modules.member.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -17,6 +16,7 @@ import org.example.modules.member.service.MemberCollectionService;
 import org.example.modules.product.entity.vo.ProductVo;
 import org.example.modules.product.serveice.ProductService;
 import org.example.security.utils.SecurityUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -38,10 +38,15 @@ public class MemberCollectionServiceImpl extends ServiceImpl<MemberCollectionMap
     private ProductService productService;
 
     @Override
-    public Boolean save(MemberCollectionDto memberCollectionDto) {
+    public Boolean save(@NotNull MemberCollectionDto memberCollectionDto) {
         Long memberId = SecurityUtils.getCurrentUserId();
-        if (collectOrNot(memberCollectionDto.getProductId())) {
+        Long productId = memberCollectionDto.getProductId();
+        if (collectOrNot(productId)) {
             throw new BaseRequestException("重复收藏");
+        }
+        ProductVo byProductId = productService.getByProductId(productId);
+        if (Objects.isNull(byProductId)) {
+            throw new BaseRequestException("收藏失败");
         }
         memberCollectionDto.setMemberId(memberId);
         MemberCollectionEntity memberCollectionEntity = BeanCopy.convert(memberCollectionDto, MemberCollectionEntity.class);
@@ -57,12 +62,12 @@ public class MemberCollectionServiceImpl extends ServiceImpl<MemberCollectionMap
     @Override
     public Page<MemberCollectionVo> page(Page<MemberCollectionEntity> page) {
         Long memberId = SecurityUtils.getCurrentUserId();
-        QueryWrapper<MemberCollectionEntity> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<MemberCollectionEntity> memberCollectionEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
         // 以商品id 进行排序
-        queryWrapper.select("DISTINCT product_id").lambda()
+        memberCollectionEntityLambdaQueryWrapper
                 .eq(MemberCollectionEntity::getMemberId, memberId);
         // 获取到 收藏历史
-        Page<MemberCollectionEntity> memberCollectionEntityPage = page(page, queryWrapper);
+        Page<MemberCollectionEntity> memberCollectionEntityPage = page(page, memberCollectionEntityLambdaQueryWrapper);
         // 获取到 收藏历史
         IPage<MemberCollectionVo> memberCollectionEntityPageVoIPage = memberCollectionEntityPage.convert(memberCollection -> BeanCopy.convert(memberCollection, MemberCollectionVo.class));
         // 获取到 收藏历史
@@ -74,7 +79,7 @@ public class MemberCollectionServiceImpl extends ServiceImpl<MemberCollectionMap
         // 获取收藏的商品 id列表
         Set<Long> productIds = memberCollectionVoList.stream().map(MemberCollectionVo::getProductId).collect(Collectors.toSet());
         // 获取到商品
-        List<ProductVo> productVoList = productService.getByIdsInVerifyStatusAndPublishStatus(productIds);
+        List<ProductVo> productVoList = productService.getByProductIds(productIds);
 
         if (CollectionUtils.isEmpty(productVoList)) {
             return (Page<MemberCollectionVo>) memberCollectionEntityPageVoIPage;

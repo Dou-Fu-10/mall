@@ -72,7 +72,7 @@ public class MemberReadHistoryServiceImpl extends ServiceImpl<MemberReadHistoryM
         // 获取到浏览的商品ids
         Set<Long> productIdList = memberReadHistoryVoList.stream().map(MemberReadHistoryVo::getProductId).collect(Collectors.toSet());
         // 获取到浏览的商品
-        List<ProductVo> productVoList = productService.getByIdsInVerifyStatusAndPublishStatus(productIdList);
+        List<ProductVo> productVoList = productService.getByProductIds(productIdList);
         // 校验是否为空
         if (CollectionUtils.isEmpty(productVoList)) {
             memberReadHistoryEntityPageVoIPage.setRecords(new ArrayList<>());
