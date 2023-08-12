@@ -20,11 +20,12 @@ public interface CommentReplayService extends IService<CommentReplayEntity> {
     /**
      * 分页查询所有数据
      *
-     * @param page          分页对象
+     * @param page             分页对象
      * @param commentReplayDto 查询实体
      * @return 所有数据
      */
     Page<CommentReplayVo> page(Page<CommentReplayEntity> page, CommentReplayDto commentReplayDto);
+
     /**
      * 通过主键查询单条数据
      *
@@ -32,6 +33,7 @@ public interface CommentReplayService extends IService<CommentReplayEntity> {
      * @return 单条数据
      */
     CommentReplayVo getByCommentReplayId(Serializable id);
+
     /**
      * 新增数据
      *
@@ -39,6 +41,7 @@ public interface CommentReplayService extends IService<CommentReplayEntity> {
      * @return 新增结果
      */
     Boolean save(CommentReplayDto commentReplayDto);
+
     /**
      * 修改数据
      *

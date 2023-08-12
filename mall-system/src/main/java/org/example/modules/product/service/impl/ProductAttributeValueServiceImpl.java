@@ -72,6 +72,7 @@ public class ProductAttributeValueServiceImpl extends ServiceImpl<ProductAttribu
         ProductAttributeValueEntity productAttributeValueEntity = BeanCopy.convert(productAttributeValue, ProductAttributeValueEntity.class);
         return productAttributeValueEntity.insert();
     }
+
     @Override
     public Boolean updateById(@NotNull ProductAttributeValueDto productAttributeValue) {
         Long productId = productAttributeValue.getProductId();

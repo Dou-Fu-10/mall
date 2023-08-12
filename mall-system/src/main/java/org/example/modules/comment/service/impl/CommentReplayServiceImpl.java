@@ -32,6 +32,7 @@ public class CommentReplayServiceImpl extends ServiceImpl<CommentReplayMapper, C
 
     @Resource
     private CommentService service;
+
     @Override
     public Page<CommentReplayVo> page(Page<CommentReplayEntity> page, CommentReplayDto commentReplayDto) {
         CommentReplayEntity commentReplayEntity = BeanCopy.convert(commentReplayDto, CommentReplayEntity.class);
@@ -49,7 +50,7 @@ public class CommentReplayServiceImpl extends ServiceImpl<CommentReplayMapper, C
     @Override
     public Boolean save(@NotNull CommentReplayDto commentReplayDto) {
         CommentEntity commentEntity = service.getById(commentReplayDto.getCommentId());
-        if (Objects.isNull(commentEntity)){
+        if (Objects.isNull(commentEntity)) {
             throw new BaseRequestException("请正确的填写要回复的信息");
         }
         commentReplayDto.setIsMember(false);
@@ -60,7 +61,7 @@ public class CommentReplayServiceImpl extends ServiceImpl<CommentReplayMapper, C
     @Override
     public Boolean updateById(@NotNull CommentReplayDto commentReplayDto) {
         CommentEntity commentEntity = service.getById(commentReplayDto.getCommentId());
-        if (Objects.isNull(commentEntity)){
+        if (Objects.isNull(commentEntity)) {
             throw new BaseRequestException("请正确的填写要回复的信息");
         }
         commentReplayDto.setIsMember(false);

@@ -17,8 +17,8 @@ public class TomcatConfig {
     public TomcatServletWebServerFactory webServerFactory() {
         TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory();
         factory.addConnectorCustomizers((Connector connector) -> {
-                connector.setProperty("relaxedPathChars", "\"<>[\\]^`{|}");
-                connector.setProperty("relaxedQueryChars", "\"<>[\\]^`{|}");
+            connector.setProperty("relaxedPathChars", "\"<>[\\]^`{|}");
+            connector.setProperty("relaxedQueryChars", "\"<>[\\]^`{|}");
         });
         return factory;
     }

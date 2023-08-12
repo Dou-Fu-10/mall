@@ -11,7 +11,6 @@ import org.example.common.core.base.CommonEntity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 13:05:47

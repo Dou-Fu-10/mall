@@ -1,15 +1,11 @@
 package org.example.modules.order.entity.dto;
 
-import java.util.Date;
-
-import java.io.Serializable;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.util.Date;
 
 /**
  * 退货原因表(OrderReturnReason)表实体类

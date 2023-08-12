@@ -25,6 +25,7 @@ public interface CommentService extends IService<CommentEntity> {
      * @return 所有数据
      */
     Page<CommentVo> page(Page<CommentEntity> page, CommentDto commentDto);
+
     /**
      * 通过主键查询单条数据
      *

@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.example.common.core.base.CommonEntity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by Dou-Fu-10 2023-08-10 22:21:00

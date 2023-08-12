@@ -43,11 +43,12 @@ public interface CompanyAddressService extends IService<CompanyAddressEntity> {
     /**
      * 分页查询所有数据
      *
-     * @param page           分页对象
+     * @param page              分页对象
      * @param companyAddressDto 查询实体
      * @return 所有数据
      */
     Page<CompanyAddressVo> page(Page<CompanyAddressEntity> page, CompanyAddressDto companyAddressDto);
+
     /**
      * 通过主键查询单条数据
      *

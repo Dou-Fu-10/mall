@@ -46,7 +46,7 @@ public class MenuController {
     /**
      * 分页查询所有数据
      *
-     * @param page    分页对象
+     * @param page 分页对象
      * @return 所有数据
      */
     @Operation(summary = "分页查询所有数据", description = "menu::select")

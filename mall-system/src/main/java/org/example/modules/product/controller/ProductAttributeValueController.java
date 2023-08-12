@@ -1,7 +1,6 @@
 package org.example.modules.product.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,7 +8,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.example.common.core.base.ValidationDto;
 import org.example.common.core.exception.BaseRequestException;
-import org.example.common.core.utils.BeanCopy;
 import org.example.modules.product.entity.ProductAttributeValueEntity;
 import org.example.modules.product.entity.dto.ProductAttributeValueDto;
 import org.example.modules.product.service.ProductAttributeValueService;
@@ -43,7 +41,7 @@ public class ProductAttributeValueController {
     /**
      * 分页查询所有数据
      *
-     * @param page                  分页对象
+     * @param page                     分页对象
      * @param productAttributeValueDto 查询实体
      * @return 所有数据
      */

@@ -1,7 +1,6 @@
 package org.example.modules.product.entity;
 
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -42,13 +41,6 @@ public class ProductCategoryAttributeRelationEntity extends CommonEntity<Product
      * 商品属性id
      */
     private Long productAttributeId;
-
-
-    public ProductCategoryAttributeRelationEntity(Long productCategoryId, Long productAttributeId) {
-        this.productCategoryId = productCategoryId;
-        this.productAttributeId = productAttributeId;
-    }
-
     /**
      * 创建人
      * 创建
@@ -73,5 +65,9 @@ public class ProductCategoryAttributeRelationEntity extends CommonEntity<Product
      */
     @TableField(exist = false)
     private Date updateTime;
+    public ProductCategoryAttributeRelationEntity(Long productCategoryId, Long productAttributeId) {
+        this.productCategoryId = productCategoryId;
+        this.productAttributeId = productAttributeId;
+    }
 }
 

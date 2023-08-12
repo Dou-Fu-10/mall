@@ -87,13 +87,16 @@ public interface OrderService extends IService<OrderEntity> {
      * @return String
      */
     Boolean delivery(OrderDeliveryDto orderDeliveryDto);
+
     /**
      * 取消订单
-     * @param id 订单id
+     *
+     * @param id   订单id
      * @param note 备注
      * @return /
      */
     Boolean close(Long id, String note);
+
     /**
      * 修改收货人信息
      *
@@ -104,7 +107,8 @@ public interface OrderService extends IService<OrderEntity> {
 
     /**
      * 订单备注
-     * @param id 订单id
+     *
+     * @param id   订单id
      * @param note 订单备注
      * @return /
      */

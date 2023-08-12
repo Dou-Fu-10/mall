@@ -21,7 +21,6 @@ import org.example.modules.tools.service.CompanyAddressService;
 import org.example.security.entity.JwtAdmin;
 import org.example.security.utils.SecurityUtils;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -55,7 +54,7 @@ public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMap
         if (Objects.isNull(companyAddressService.getById(companyAddressId))) {
             throw new BaseRequestException("请输入正确的退货地址");
         }
-        JwtAdmin jwtAdmin = (JwtAdmin)SecurityUtils.getCurrentUser();
+        JwtAdmin jwtAdmin = (JwtAdmin) SecurityUtils.getCurrentUser();
         String nickName = jwtAdmin.getUser().getNickName();
         orderReturnApply.setHandleMan(nickName);
         orderReturnApply.setHandleTime(new Date());

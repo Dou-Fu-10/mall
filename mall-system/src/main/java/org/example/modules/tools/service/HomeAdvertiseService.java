@@ -40,6 +40,7 @@ public interface HomeAdvertiseService extends IService<HomeAdvertiseEntity> {
      * @return 所有数据
      */
     Page<HomeAdvertiseVo> page(Page<HomeAdvertiseEntity> page, HomeAdvertiseDto homeAdvertiseDto);
+
     /**
      * 通过主键查询单条数据
      *

@@ -29,6 +29,7 @@ public interface FreightTemplateService extends IService<FreightTemplateEntity> 
      * @return 修改结果
      */
     boolean updateById(FreightTemplateDto FreightTemplate);
+
     /**
      * 分页查询所有数据
      *

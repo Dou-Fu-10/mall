@@ -74,6 +74,7 @@ public class GlobalExceptionHandler {
         log.error("------->非法参数-------- " + e.getMessage());
         return buildResponseEntity(BaseError.error("参数异常"));
     }
+
     /**
      * 参数异常
      */

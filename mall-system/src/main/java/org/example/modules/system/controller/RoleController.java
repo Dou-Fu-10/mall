@@ -63,7 +63,7 @@ public class RoleController {
     @PostMapping
     @PreAuthorize("@hasPermission.check('role::insert')")
     public ResponseEntity<Object> insert(@RequestBody @Validated(ValidationDto.Insert.class) RoleDto roleDto) {
-            if (this.roleService.save(roleDto)) {
+        if (this.roleService.save(roleDto)) {
             return new ResponseEntity<>("新增成功", HttpStatus.OK);
         }
         throw new BaseRequestException("新增失败");
