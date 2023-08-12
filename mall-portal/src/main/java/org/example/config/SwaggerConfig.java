@@ -38,7 +38,7 @@ public class SwaggerConfig {
     }
 
     @Bean
-    public GroupedOpenApi comment() {
+    public GroupedOpenApi cart() {
         return GroupedOpenApi.builder()
                 .group("购物车")
                 .pathsToMatch(groupedApp("cart"))
@@ -46,7 +46,15 @@ public class SwaggerConfig {
     }
 
     @Bean
-    public GroupedOpenApi platform() {
+    public GroupedOpenApi comment() {
+        return GroupedOpenApi.builder()
+                .group("评论")
+                .pathsToMatch(groupedApp("comment"), groupedApp("commentReplay"))
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi home() {
         return GroupedOpenApi.builder()
                 .group("平台信息")
                 .pathsToMatch(grouped("homeAdvertise"), grouped("platformInformation"))
@@ -59,7 +67,15 @@ public class SwaggerConfig {
                 .group("会员")
                 .pathsToMatch(groupedApp("member"), groupedApp("memberReceiveAddress"),
                         groupedApp("memberReadHistory"), groupedApp("memberCollection"),
-                        grouped("auth"), groupedApp("memberReferralCode"), groupedApp("comment"), groupedApp("commentReplay"))
+                        groupedApp("memberReferralCode"))
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi security() {
+        return GroupedOpenApi.builder()
+                .group("security")
+                .pathsToMatch(grouped("auth"))
                 .build();
     }
 
@@ -67,7 +83,8 @@ public class SwaggerConfig {
     public GroupedOpenApi order() {
         return GroupedOpenApi.builder()
                 .group("订单")
-                .pathsToMatch(groupedApp("order"), groupedApp("orderItem"), groupedApp("orderReturnApply"),groupedApp("orderReturnReason"))
+                .pathsToMatch(groupedApp("order"), groupedApp("orderItem"),
+                        groupedApp("orderReturnApply"), groupedApp("orderReturnReason"))
                 .build();
     }
 
@@ -75,9 +92,7 @@ public class SwaggerConfig {
     public GroupedOpenApi product() {
         return GroupedOpenApi.builder()
                 .group("商品")
-                .pathsToMatch(grouped("productAttribute"), grouped("productAttributeValue"),
-                        grouped("productCategory"), grouped("product"),
-                        grouped("skuStock"))
+                .pathsToMatch(grouped("productCategory"), grouped("product"))
                 .build();
     }
 
