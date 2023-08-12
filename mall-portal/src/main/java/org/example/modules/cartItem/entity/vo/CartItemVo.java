@@ -33,6 +33,7 @@ public class CartItemVo {
     /**
      * 商品SKUid
      */
+    @JsonIgnore
     private Long productSkuId;
     /**
      * 商品分类
@@ -47,6 +48,7 @@ public class CartItemVo {
     /**
      * 商品编码
      */
+    @JsonIgnore
     private String productSn;
     /**
      * 购买数量

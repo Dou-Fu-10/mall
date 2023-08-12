@@ -1,6 +1,7 @@
 package org.example.modules.order.entity.vo;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,27 +28,32 @@ public class OrderItemVo {
     /**
      * 订单id
      */
+    @JsonIgnore
     @Schema(name = "orderId", description = "订单id")
     private Long orderId;
     /**
      * 商品id
      */
+    @JsonIgnore
     @Schema(name = "productId", description = "商品id")
     private Long productId;
     /**
      * 商品sku编号
      */
+    @JsonIgnore
     @Schema(name = "productSkuId", description = "商品sku编号")
     private Long productSkuId;
     /**
      * 商品分类id
      */
+    @JsonIgnore
     @Schema(name = "productCategoryId", description = "商品分类id")
     private Long productCategoryId;
 
     /**
      * 订单编号
      */
+    @JsonIgnore
     @Schema(name = "orderSn", description = "订单编号")
     private String orderSn;
     /**
@@ -78,6 +84,7 @@ public class OrderItemVo {
     /**
      * 商品sku条码
      */
+    @JsonIgnore
     @Schema(name = "productSkuCode", description = "商品sku条码")
     private String productSkuCode;
     /**

@@ -1,5 +1,6 @@
 package org.example.modules.order.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,12 +29,14 @@ public class OrderVo {
     /**
      * 会员id
      */
+    @JsonIgnore
     @Schema(name = "memberId", description = "会员id")
     private Long memberId;
 
     /**
      * 订单编号
      */
+    @JsonIgnore
     @Schema(name = "orderSn", description = "订单编号")
     private String orderSn;
     /**
@@ -69,6 +72,7 @@ public class OrderVo {
     /**
      * 订单来源：0->PC订单；1->app订单
      */
+    @JsonIgnore
     @Schema(name = "sourceType", description = "订单来源：0->PC订单；1->app订单")
     private Integer sourceType;
     /**
@@ -154,6 +158,7 @@ public class OrderVo {
     /**
      * 订单备注
      */
+    @JsonIgnore
     @Schema(name = "note", description = "订单备注")
     private String note;
     /**
@@ -179,16 +184,19 @@ public class OrderVo {
     /**
      * 评价时间
      */
+    @JsonIgnore
     @Schema(name = "commentTime", description = "评价时间")
     private Date commentTime;
     /**
      * 修改时间
      */
+    @JsonIgnore
     @Schema(name = "updateTime", description = "修改时间")
     private Date updateTime;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
+    @JsonIgnore
     @Schema(name = "deleteFlag", description = "逻辑删除（1 代表已删除），（0 代表未删除）")
     private Integer deleteFlag;
     private List<OrderItemVo> orderItemList;

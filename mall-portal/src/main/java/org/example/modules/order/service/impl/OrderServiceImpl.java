@@ -161,7 +161,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         confirmOrderVo.setMemberReceiveAddressList(memberReceiveAddressVoList);
         // 获取用户购物车信息
         List<CartItemVo> cartItemVoList = cartItemService.getCartItemByMemberIdAndCartIds(memberId, cartIds);
-        confirmOrderVo.setCartItemVoList(cartItemVoList);
+        confirmOrderVo.setCartItemList(cartItemVoList);
         confirmOrderVo.setCalculateAmount(calcTotalAmount(cartItemVoList));
         return confirmOrderVo;
     }
@@ -279,6 +279,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Boolean cancelOrder(Long orderId) {
         // 查询未付款的取消订单
         Long memberId = SecurityUtils.getCurrentUserId();

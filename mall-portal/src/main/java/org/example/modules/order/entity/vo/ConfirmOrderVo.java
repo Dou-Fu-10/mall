@@ -21,6 +21,6 @@ import java.util.List;
 public class ConfirmOrderVo {
     // 购物车订单信息
     private List<MemberReceiveAddressVo> memberReceiveAddressList;
-    private List<CartItemVo> cartItemVoList;
+    private List<CartItemVo> cartItemList;
     private CalculateAmountVo calculateAmount;
 }

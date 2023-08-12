@@ -103,7 +103,7 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
     @Override
     public Boolean releaseSkuStockLock(Set<Long> productIds) {
         // TODO 解除取消订单的库存锁定
-        return false;
+        return true;
     }
 
     @Override

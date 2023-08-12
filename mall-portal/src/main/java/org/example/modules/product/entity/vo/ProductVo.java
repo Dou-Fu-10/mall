@@ -29,7 +29,7 @@ public class ProductVo {
     /**
      * 商品分类ID
      */
-
+    @JsonIgnore
     private Long productCategoryId;
     /**
      * 运费模板id

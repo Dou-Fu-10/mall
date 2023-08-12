@@ -12,6 +12,7 @@ import org.example.modules.order.entity.vo.ConfirmOrderVo;
 import org.example.modules.order.service.OrderService;
 import org.example.security.utils.SecurityUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -38,13 +39,14 @@ public class OrderController {
     /**
      * 分页查询所有数据
      *
-     * @param page     分页对象
-     * @param orderDto 查询实体
+     * @param page 分页对象
      * @return 所有数据
      */
     @Operation(summary = "分页查询所有数据")
     @GetMapping
-    public ResponseEntity<Object> select(Page<OrderEntity> page, OrderDto orderDto) {
+    public ResponseEntity<Object> select(Page<OrderEntity> page, Integer status) {
+        OrderDto orderDto = new OrderDto();
+        orderDto.setStatus(status);
         return ResponseEntity.ok(this.orderService.page(page, orderDto));
     }
 
@@ -81,7 +83,7 @@ public class OrderController {
      */
     @Operation(summary = "生成订单", description = "生成订单")
     @PostMapping(value = "/generateOrder")
-    public ResponseEntity<Boolean> generateOrder(@RequestBody GenerateOrderDto generateOrderDto) {
+    public ResponseEntity<Boolean> generateOrder(@RequestBody @Validated GenerateOrderDto generateOrderDto) {
         return ResponseEntity.ok(this.orderService.generateOrder(generateOrderDto));
     }
 
