@@ -12,6 +12,7 @@ import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.common.core.utils.StringUtils;
 import org.example.modules.order.entity.OrderEntity;
+import org.example.modules.order.entity.OrderSettingEntity;
 import org.example.modules.order.entity.dto.OrderDeliveryDto;
 import org.example.modules.order.entity.dto.OrderDto;
 import org.example.modules.order.entity.dto.ReceiverInfoDto;
@@ -22,6 +23,7 @@ import org.example.modules.order.mapper.OrderMapper;
 import org.example.modules.order.service.OrderItemService;
 import org.example.modules.order.service.OrderOperateHistoryService;
 import org.example.modules.order.service.OrderService;
+import org.example.modules.order.service.OrderSettingService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -30,9 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:34:29
@@ -51,6 +51,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     private OrderItemService orderItemService;
     @Resource
     private OrderOperateHistoryService orderOperateHistoryService;
+    @Resource
+    private OrderSettingService orderSettingService;
 
     @Override
     public Boolean save(OrderDto order) {
@@ -255,6 +257,33 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         orderEntity.setId(id);
         orderEntity.setNote(note);
         return orderEntity.updateById();
+    }
+
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
+    public Boolean cancelUnpaidOrdersBulk() {
+        OrderSettingEntity orderSettingEntity = orderSettingService.getById(1);
+
+        Integer normalOrderOvertime = orderSettingEntity.getNormalOrderOvertime();
+
+        // 获取当前时间
+        Calendar calendar = Calendar.getInstance();
+        Date currentTime = calendar.getTime();
+        // 将当前时间减去10分钟
+        calendar.setTime(currentTime);
+        calendar.add(Calendar.MINUTE, -normalOrderOvertime);
+        // 获取减去10分钟后的时间
+        Date endTime = calendar.getTime();
+        // 获取今年的第一天
+        DateTime startTime = DateUtil.beginOfYear(DateUtil.date());
+
+        LambdaQueryWrapper<OrderEntity> orderEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        orderEntityLambdaQueryWrapper.eq(OrderEntity::getStatus, 0);
+        orderEntityLambdaQueryWrapper.between(OrderEntity::getCreateTime, startTime, endTime);
+        List<OrderEntity> orderEntityList = list(orderEntityLambdaQueryWrapper);
+        orderEntityList.forEach(orderEntity -> orderEntity.setStatus(4));
+        return updateBatchById(orderEntityList);
     }
 }
 

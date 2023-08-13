@@ -44,11 +44,6 @@ public class OrderEntity extends CommonEntity<OrderEntity> implements Serializab
     @Schema(name = "orderSn", description = "订单编号")
     private String orderSn;
     /**
-     * 提交时间
-     */
-    @Schema(name = "createTime", description = "提交时间")
-    private Date createTime;
-    /**
      * 用户帐号
      */
     @Schema(name = "memberNickname", description = "用户帐号")
@@ -189,11 +184,6 @@ public class OrderEntity extends CommonEntity<OrderEntity> implements Serializab
      */
     @Schema(name = "commentTime", description = "评价时间")
     private Date commentTime;
-    /**
-     * 修改时间
-     */
-    @Schema(name = "updateTime", description = "修改时间")
-    private Date updateTime;
     /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */

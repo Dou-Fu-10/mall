@@ -11,6 +11,8 @@ import org.example.modules.order.entity.vo.OrderVo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Dou-Fu-10 2023-07-14 14:34:28
@@ -113,4 +115,12 @@ public interface OrderService extends IService<OrderEntity> {
      * @return /
      */
     Boolean updateNote(Long id, String note);
+
+
+    /**
+     * 批量取消未付款订单
+     *
+     * @return /
+     */
+    Boolean cancelUnpaidOrdersBulk();
 }

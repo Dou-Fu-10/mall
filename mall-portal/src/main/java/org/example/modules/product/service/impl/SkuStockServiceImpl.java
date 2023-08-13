@@ -10,7 +10,6 @@ import jakarta.annotation.Resource;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.common.core.utils.BeanCopy;
 import org.example.modules.order.entity.vo.OrderItemVo;
-import org.example.modules.product.entity.ProductEntity;
 import org.example.modules.product.entity.SkuStockEntity;
 import org.example.modules.product.entity.dto.SkuStockDto;
 import org.example.modules.product.entity.vo.ProductVo;
@@ -72,6 +71,9 @@ public class SkuStockServiceImpl extends ServiceImpl<SkuStockMapper, SkuStockEnt
 
     @Override
     public SkuStockVo getByIdAndProductId(Long productSkuId, Long productId) {
+        if (Objects.isNull(productSkuId) || Objects.isNull(productId)) {
+            throw new BaseRequestException("参数错误");
+        }
         // 获取商品
         ProductVo productVo = productService.getByProductId(productId);
         // 确保商品不为空

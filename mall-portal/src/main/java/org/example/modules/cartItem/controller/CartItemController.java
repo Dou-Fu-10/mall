@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -59,7 +60,7 @@ public class CartItemController {
      */
     @Operation(summary = "新增数据")
     @PostMapping
-    public ResponseEntity<String> insert(@RequestBody AddCartItemDto cartItem) {
+    public ResponseEntity<String> insert(@RequestBody @Validated AddCartItemDto cartItem) {
         if (this.cartItemService.save(cartItem)) {
             return ResponseEntity.ok("添加成功");
         }
@@ -99,10 +100,10 @@ public class CartItemController {
         }
         idList = idList.stream().filter(id -> String.valueOf(id).length() < 20 && !String.valueOf(id).isEmpty()).limit(10).collect(Collectors.toSet());
         // 要删除的
-        LambdaQueryWrapper<CartItemEntity> cartItemEntityList = new LambdaQueryWrapper<>();
-        cartItemEntityList.eq(CartItemEntity::getMemberId, SecurityUtils.getCurrentUserId());
-        cartItemEntityList.eq(CartItemEntity::getId, idList);
-        if (this.cartItemService.remove(cartItemEntityList)) {
+        LambdaQueryWrapper<CartItemEntity> cartItemEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        cartItemEntityLambdaQueryWrapper.eq(CartItemEntity::getMemberId, SecurityUtils.getCurrentUserId());
+        cartItemEntityLambdaQueryWrapper.in(CartItemEntity::getId, idList);
+        if (this.cartItemService.remove(cartItemEntityLambdaQueryWrapper)) {
             return ResponseEntity.ok("删除成功");
         }
         throw new BaseRequestException("删除失败");

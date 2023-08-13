@@ -46,7 +46,6 @@ public class MemberReceiveAddressDto {
     /**
      * 邮政编码
      */
-    @NotNull
     private String postCode;
     /**
      * 省份/直辖市

@@ -1,5 +1,8 @@
 package org.example.modules.cartItem.entity.dto;
 
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,13 +21,18 @@ public class AddCartItemDto {
     /**
      * 商品ID
      */
+    @NotNull
     private Long productId;
     /**
      * 商品SKUid
      */
+    @NotNull
     private Long productSkuId;
     /**
      * 购买数量
      */
+    @DecimalMin(value = "0", message = "请输入正确的购买数量")
+    @DecimalMax(value = "100", message = "请输入正确的购买数量")
+    @NotNull
     private Integer quantity;
 }

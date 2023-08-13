@@ -68,16 +68,6 @@ public class CartItemEntity extends CommonEntity<CartItemEntity> implements Seri
     @Schema(name = "price", description = "添加到购物车的商品单价")
     private BigDecimal price;
     /**
-     * 创建时间
-     */
-    @Schema(name = "createTime", description = "创建时间")
-    private Date createTime;
-    /**
-     * 修改时间
-     */
-    @Schema(name = "updateTime", description = "修改时间")
-    private Date updateTime;
-    /**
      * 逻辑删除（1 代表已删除），（0 代表未删除）
      */
     @Schema(name = "deleteFlag", description = "逻辑删除（1 代表已删除），（0 代表未删除）")

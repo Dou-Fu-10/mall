@@ -28,12 +28,6 @@ import java.util.Date;
 public class OrderSettingEntity extends CommonEntity<OrderSettingEntity> implements Serializable {
     @TableId
     private Long id;
-
-    /**
-     * 秒杀订单超时关闭时间(分)
-     */
-    @Schema(name = "flashOrderOvertime", description = "秒杀订单超时关闭时间(分)")
-    private Integer flashOrderOvertime;
     /**
      * 正常订单超时时间(分)
      */
