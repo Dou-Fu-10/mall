@@ -55,7 +55,7 @@ login-code:
   #  验证码宽度
   height: 36
   # 内容长度
-  length: 6
+  length: 4
   # 字体名称，为空则使用默认字体
   font-name: 楷体
   # 字体大小

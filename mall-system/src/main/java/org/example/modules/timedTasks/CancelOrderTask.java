@@ -1,4 +1,4 @@
-package org.example.modules.tools.timedTasks;
+package org.example.modules.timedTasks;
 
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;

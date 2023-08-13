@@ -22,6 +22,7 @@ import org.example.modules.member.entity.dto.MemberDto;
 import org.example.modules.member.entity.vo.MemberVo;
 import org.example.modules.member.entity.vo.ParentOrChildren;
 import org.example.modules.member.mapper.MemberMapper;
+import org.example.modules.member.service.MemberBonusService;
 import org.example.modules.member.service.MemberLoginLogService;
 import org.example.modules.member.service.MemberService;
 import org.example.modules.security.service.OnlineMemberService;
@@ -68,7 +69,8 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
     private PasswordEncoder passwordEncoder;
     @Resource
     private MinioServer minioServer;
-
+    @Resource
+    private MemberBonusService memberBonusService;
     @Override
     public Boolean save(MemberDto memberDto) {
         MemberEntity memberEntity = BeanCopy.convert(memberDto, MemberEntity.class);
@@ -165,6 +167,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
         // 头像
         data.put("icon", memberVo.getIcon());
         data.put("data", memberVo);
+        data.put("memberBonus", memberBonusService.getMemberBonus());
         data.put("invitationCode", memberEntity.getInvitationCode());
         return data;
     }

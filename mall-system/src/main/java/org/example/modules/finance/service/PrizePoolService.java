@@ -53,4 +53,10 @@ public interface PrizePoolService extends IService<PrizePoolEntity> {
      */
     PrizePoolVo select();
 
+    /**
+     * 奖金池收益计算
+     *
+     * @return /
+     */
+    Boolean IncomeCalculation();
 }

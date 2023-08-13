@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.example.common.core.exception.BaseRequestException;
 import org.example.config.AuthMember;
+import org.example.modules.member.service.MemberBonusService;
 import org.example.modules.member.service.MemberService;
 import org.example.security.annotaion.rest.AnonymousGetMapping;
 import org.example.security.annotaion.rest.AnonymousPostMapping;
@@ -39,6 +40,7 @@ public class AuthorizationController {
      */
     @Resource
     private MemberService memberService;
+
 
     /**
      * 用户注册

@@ -15,6 +15,7 @@ import org.example.modules.finance.entity.vo.PrizePoolVo;
 import org.example.modules.finance.entity.vo.PrizeVo;
 import org.example.modules.finance.mapper.PrizePoolMapper;
 import org.example.modules.finance.service.PrizePoolService;
+import org.example.modules.member.service.MemberBonusService;
 import org.example.modules.order.service.OrderService;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,8 @@ public class PrizePoolServiceImpl extends ServiceImpl<PrizePoolMapper, PrizePool
 
     @Resource
     private OrderService orderService;
-
+    @Resource
+    private MemberBonusService memberBonusService;
 
     @Override
     public Boolean updateById(PrizePoolDto prizePoolDto) {
@@ -74,27 +76,25 @@ public class PrizePoolServiceImpl extends ServiceImpl<PrizePoolMapper, PrizePool
     }
 
     @Override
+    public Boolean IncomeCalculation() {
+        BigDecimal memberBonus = details().getMemberBonus();
+        return memberBonusService.save(memberBonus);
+    }
+
+    @Override
     public PrizeVo details() {
         // 按月查找 订单已完成的金额
         BigDecimal totalAmountCompletedOrder = orderService.findTotalAmountCompletedOrdersByMonth(new DateTime());
 
-        LambdaQueryWrapper<PrizePoolEntity> prizePoolEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        // 获取月份的第一天
-        DateTime firstDayOfMonth = DateUtil.beginOfMonth(DateUtil.date());
-        // 获取月份的最后一天
-        DateTime lastDayOfMonth = DateUtil.endOfMonth(DateUtil.date());
-        // 已完成的订单
-        prizePoolEntityLambdaQueryWrapper.between(PrizePoolEntity::getCreateTime, firstDayOfMonth, lastDayOfMonth);
-        // 获取 奖金池
-        PrizePoolEntity prizePoolEntity = getOne(prizePoolEntityLambdaQueryWrapper);
-        if (Objects.isNull(prizePoolEntity)) {
+        PrizePoolVo prizePoolVo = select();
+        if (Objects.isNull(prizePoolVo)) {
             throw new BaseRequestException("请联系管理员");
         }
         // 获取 商品奖金池百分比
-        BigDecimal bigDecimal = new BigDecimal(prizePoolEntity.getProductBonusesPercentage());
+        BigDecimal bigDecimal = new BigDecimal(prizePoolVo.getProductBonusesPercentage());
         BigDecimal productBonusesPercentageBigDecimal = bigDecimal.divide(new BigDecimal(100), 2, RoundingMode.DOWN);
         // 获取 会员奖金池百分比
-        BigDecimal bigDecimal1 = new BigDecimal(prizePoolEntity.getMemberBonusesPercentage());
+        BigDecimal bigDecimal1 = new BigDecimal(prizePoolVo.getMemberBonusesPercentage());
         BigDecimal memberBonusesPercentageBigDecimal = bigDecimal1.divide(new BigDecimal(100), 2, RoundingMode.DOWN);
 
 

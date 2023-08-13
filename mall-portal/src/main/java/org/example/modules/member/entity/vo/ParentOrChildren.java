@@ -46,7 +46,6 @@ public class ParentOrChildren {
     /**
      * 手机号码
      */
-    @JsonIgnore
     private String phone;
     /**
      * 是否是vip
