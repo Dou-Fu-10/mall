@@ -34,7 +34,6 @@ public class OrderItemVo {
     /**
      * 商品id
      */
-    @JsonIgnore
     @Schema(name = "productId", description = "商品id")
     private Long productId;
     /**

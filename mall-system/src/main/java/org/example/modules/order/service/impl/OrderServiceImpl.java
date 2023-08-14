@@ -92,7 +92,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         OrderEntity orderEntity = BeanCopy.convert(orderDto, OrderEntity.class);
         LambdaQueryWrapper<OrderEntity> orderEntityLambdaQueryWrapper = new LambdaQueryWrapper<>(orderEntity);
         // 以创建时间排序
-        orderEntityLambdaQueryWrapper.orderByAsc(OrderEntity::getCreateTime);
+        orderEntityLambdaQueryWrapper.orderByDesc(OrderEntity::getCreateTime);
         Page<OrderEntity> orderEntityPage = page(page, orderEntityLambdaQueryWrapper);
         // 分页展示
         IPage<OrderVo> orderVoIPage = orderEntityPage.convert(order -> BeanCopy.convert(order, OrderVo.class));

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @Description 定时取消订单
  */
 @Slf4j
-@Component
+//@Component
 public class CancelOrderTask {
 
     @Resource

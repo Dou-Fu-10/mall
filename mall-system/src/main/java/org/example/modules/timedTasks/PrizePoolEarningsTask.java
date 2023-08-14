@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @Description 定时备份数据库
  */
 @Slf4j
-@Component
+//@Component
 public class PrizePoolEarningsTask {
     @Resource
     private PrizePoolService prizePoolService;

@@ -158,6 +158,8 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
             if (!skuStockService.save(skuStockList)) {
                 throw new BaseRequestException("添加失败");
             }
+        }else {
+            throw new BaseRequestException("sku不能为空");
         }
 
         List<ProductAttributeValueDto> productAttributeValueList = productDtoParam.getProductAttributeValueList();
@@ -223,6 +225,8 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
             if (!skuStockService.save(skuStockList)) {
                 throw new BaseRequestException("修改失败");
             }
+        }else {
+            throw new BaseRequestException("sku不能为空");
         }
 
         List<ProductAttributeValueDto> productAttributeValueList = productDtoParam.getProductAttributeValueList();

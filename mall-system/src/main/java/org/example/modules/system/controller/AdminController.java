@@ -98,6 +98,7 @@ public class AdminController {
     @PutMapping
     @PreAuthorize("@hasPermission.check('admin::update')")
     public ResponseEntity<Object> update(@RequestBody @Validated(ValidationDto.Update.class) AdminDto adminDto) {
+        adminDto.setUsername(null);
         if (this.adminService.updateById(adminDto)) {
             return ResponseEntity.ok("修改成功");
         }

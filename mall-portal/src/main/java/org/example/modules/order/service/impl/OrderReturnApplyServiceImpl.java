@@ -88,9 +88,9 @@ public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyMap
         // 会员昵称
         orderReturnApplyEntity.setMemberNickname(memberEntity.getNickname());
         // 退货人（会员）姓名  等申请退货通过了在填写信息
-        orderReturnApplyEntity.setReturnName(null);
+//        orderReturnApplyEntity.setReturnName(null);
         // 退货人（会员）电话  等申请退货通过了在填写信息
-        orderReturnApplyEntity.setReturnPhone(null);
+//        orderReturnApplyEntity.setReturnPhone(null);
         // 公司给客户的退款金额
         orderReturnApplyEntity.setReturnAmount(null);
         // 申请状态：0->待处理；1->退货中；2->已完成；3->已拒绝

@@ -38,7 +38,6 @@ public class AdminDto {
      */
     @UserNameValid(allowNull = true, groups = {ValidationDto.SelectPage.class})
     @UserNameValid(groups = ValidationDto.Insert.class)
-    @Null
     private String username;
     /**
      * 密码
@@ -48,8 +47,8 @@ public class AdminDto {
     /**
      * 昵称
      */
-    @UserNameValid(allowNull = true, groups = {ValidationDto.SelectPage.class, ValidationDto.Update.class})
-    @UserNameValid(groups = ValidationDto.Insert.class)
+//    @UserNameValid(allowNull = true, groups = {ValidationDto.SelectPage.class, ValidationDto.Update.class})
+//    @UserNameValid(groups = ValidationDto.Insert.class)
     private String nickName;
     /**
      * 头像
