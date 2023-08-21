@@ -11,35 +11,3 @@ spring:
     multipart:
       enabled: true #开启文件上传
       max-file-size: 10MB #限制文件上传大小为10M
-
-mybatis-plus:
-  global-config:
-    db-config:
-      id-type: auto
-      # 1 代表已删除，不配置默认是1，也可修改配置
-      logic-delete-value: 1
-      # 0 代表未删除，不配置默认是0，也可修改配置
-      logic-not-delete-value: 0
-      # 全局逻辑删除字段值
-      logic-delete-field: deleteFlag
-  mapper-locations: classpath:mapper/*.xml
-jwt:
-  # JWT存储的请求头
-  token-header: Authorization
-  # JWT负载中拿到开头
-  token-start-with: Bearer
-  # 必须使用最少88位的Base64对该令牌进行编码
-  base64-secret: ZmQ0ZGI5NjQ0MDQwY2I4MjMxY2Y3ZmI3MjdhN2ZmMjNhODViOTg1ZGE0NTBjMGM4NDA5NzYxMjdjOWMwYWRmZTBlZjlhNGY3ZTg4Y2U3YTE1ODVkZDU5Y2Y3OGYwZWE1NzUzNWQ2YjFjZDc0NGMxZWU2MmQ3MjY1NzJmNTE0MzI=
-  # 令牌过期时间 此处单位/毫秒 ，默认4小时，可在此网站生成 https://www.convertworld.com/zh-hans/time/milliseconds.html
-  token-validity-in-seconds: 14400000
-  # 在线用户key
-  online-key: "online-admin:"
-  login-key: "login:"
-  # 验证码
-  captcha-key: "captcha-code:"
-  # token 续期检查时间范围（默认30分钟，单位毫秒），在token即将过期的一段时间内用户操作了，则给用户的token续期
-  detect: 1800000
-  # 续期时间范围，默认1小时，单位毫秒
-  renew: 3600000
-  # 是否限制单用户登录
-  single-login: false
