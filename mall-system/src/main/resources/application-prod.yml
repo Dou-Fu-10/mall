@@ -11,7 +11,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
     username: root
-    password: root
+    password: mall123456
     druid:
       db-type: com.alibaba.druid.pool.DruidDataSource
       # 初始连接数
@@ -90,7 +90,7 @@ login:
 
 mybatis-plus:
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
   global-config:
     db-config:
       id-type: auto
@@ -104,11 +104,11 @@ mybatis-plus:
 
 minio:
   # 文件地址
-  endpoint: http://localhost:9000
+  endpoint: http://localhost:9001
   # key
-  accessKey: 7ET58ISWWL78V1HBYN3W
+  accessKey: OQKO6Z7CJcAa3IP10VSO
   # 密钥
-  secretKey: toKbaAYr+Pj6FWHu61+KUe2bt8jdX6fDq+53m3Mt
+  secretKey: DexvmvcpTHRoX87r1hebbaqmECzNRJ275CjaRtCz
   # 桶名字
   bucketName: images
   # 最大上传文件
