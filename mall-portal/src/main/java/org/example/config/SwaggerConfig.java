@@ -96,4 +96,11 @@ public class SwaggerConfig {
                 .build();
     }
 
+    @Bean
+    public GroupedOpenApi storage() {
+        return GroupedOpenApi.builder()
+                .group("文件存储")
+                .pathsToMatch(grouped("storage"))
+                .build();
+    }
 }
