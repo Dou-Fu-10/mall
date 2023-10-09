@@ -104,7 +104,7 @@ mybatis-plus:
 
 minio:
   # 文件地址
-  endpoint: http://localhost:9001
+  endpoint: http://localhost:9000
   # key
   accessKey: OQKO6Z7CJcAa3IP10VSO
   # 密钥
