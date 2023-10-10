@@ -285,7 +285,7 @@ public class JwtTokenUtil implements InitializingBean {
     }
 
     /**
-     * 初步检测Token
+     * 检查前端传输的token格式是否正确
      *
      * @param request /
      * @return /

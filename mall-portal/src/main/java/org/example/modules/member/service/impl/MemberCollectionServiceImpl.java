@@ -63,9 +63,10 @@ public class MemberCollectionServiceImpl extends ServiceImpl<MemberCollectionMap
     public Page<MemberCollectionVo> page(Page<MemberCollectionEntity> page) {
         Long memberId = SecurityUtils.getCurrentUserId();
         LambdaQueryWrapper<MemberCollectionEntity> memberCollectionEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        // 以商品id 进行排序
-        memberCollectionEntityLambdaQueryWrapper
-                .eq(MemberCollectionEntity::getMemberId, memberId);
+        // 以会员id 为条件
+        memberCollectionEntityLambdaQueryWrapper.eq(MemberCollectionEntity::getMemberId, memberId);
+        // 以创建时间 来进行倒序
+        memberCollectionEntityLambdaQueryWrapper.orderByDesc(MemberCollectionEntity::getCreateTime);
         // 获取到 收藏历史
         Page<MemberCollectionEntity> memberCollectionEntityPage = page(page, memberCollectionEntityLambdaQueryWrapper);
         // 获取到 收藏历史

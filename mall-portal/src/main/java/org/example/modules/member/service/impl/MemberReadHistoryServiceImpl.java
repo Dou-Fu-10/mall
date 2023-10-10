@@ -58,7 +58,10 @@ public class MemberReadHistoryServiceImpl extends ServiceImpl<MemberReadHistoryM
     public Page<MemberReadHistoryVo> page(Page<MemberReadHistoryEntity> page) {
         Long memberId = SecurityUtils.getCurrentUserId();
         LambdaQueryWrapper<MemberReadHistoryEntity> memberReadHistoryEntityLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        // 以用户id为查询条件
         memberReadHistoryEntityLambdaQueryWrapper.eq(MemberReadHistoryEntity::getMemberId, memberId);
+        // 以创建时间 来进行倒序
+        memberReadHistoryEntityLambdaQueryWrapper.orderByDesc(MemberReadHistoryEntity::getCreateTime);
         // 获取浏览历史
         Page<MemberReadHistoryEntity> memberReadHistoryEntityPage = page(page, memberReadHistoryEntityLambdaQueryWrapper);
         // 获取浏览历史
